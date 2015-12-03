@@ -21,7 +21,7 @@ public partial class Oopes : System.Web.UI.Page
 
             if (objError.Message != null)
             {
-                lblError.Text = objError.Message;
+                //lblError.Text = objError.Message;
                 //lasterror.AppendLine("Message:");
                 //lasterror.AppendLine(objError.Message);
                 //lasterror.AppendLine();
@@ -29,7 +29,7 @@ public partial class Oopes : System.Web.UI.Page
 
             if (objError.InnerException != null)
             {
-                lblInnerException.Text = objError.InnerException.ToString();
+                //lblInnerException.Text = objError.InnerException.ToString();
                 //lasterror.AppendLine("InnerException:");
                 //lasterror.AppendLine(objError.InnerException.ToString());
                 //lasterror.AppendLine();
@@ -37,7 +37,7 @@ public partial class Oopes : System.Web.UI.Page
 
             if (objError.Source != null)
             {
-                lblSource.Text = objError.Source;
+                //lblSource.Text = objError.Source;
                 //lasterror.AppendLine("Source:");
                 //lasterror.AppendLine(objError.Source);
                 //lasterror.AppendLine();

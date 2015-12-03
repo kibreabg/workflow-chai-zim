@@ -8,18 +8,18 @@
 									<h2 class="font-xl"><strong>Oooops, Something went wrong!</strong></h2>
 									<br>
 									<p class="lead semi-bold">
-										<strong>You have experienced a technical error. We apologize.</strong><br><br>
+										<strong>You have experienced a technical error. We apologize. The error has been sent to administrators for correction!</strong><br><br>
 									
 									</p>
-									<ul class="error-search text-left font-md">
+									<%--<ul class="error-search text-left font-md">
 							    
-							            <li><a href="javascript:void(0);"><small>Please Send the Error Description to Admin  Staff <i class="fa fa-mail-forward"></i></small></a></li>
+							            <li><a href="javascript:void(0);"><small <i class="fa fa-mail-forward"></i></small></a></li>
                                        
                                        
-							        </ul>
-                                        Error Message : <asp:Label ID="lblError" runat="server" Text=""></asp:Label><br />
+							        </ul>--%>
+                                        <%--Error Message : <asp:Label ID="lblError" runat="server" Text=""></asp:Label><br />
                                         Inner Exception : <asp:Label ID="lblInnerException" runat="server" Text=""></asp:Label><br />
-                                        Source : <asp:Label ID="lblSource" runat="server" Text=""></asp:Label><br />
+                                        Source : <asp:Label ID="lblSource" runat="server" Text=""></asp:Label><br />--%>
 								</div>
 				
 							</div>
