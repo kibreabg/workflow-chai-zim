@@ -54,6 +54,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\Library\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Web" />
@@ -65,6 +68,7 @@
     <Compile Include="AppMessage.cs" />
     <Compile Include="Encryption.cs" />
     <Compile Include="Events\MessageEventArgs.cs" />
+    <Compile Include="ExceptionUtility.cs" />
     <Compile Include="FusionUtil\FusionCharts.cs" />
     <Compile Include="FusionUtil\FusionMaps.cs" />
     <Compile Include="MailSender\EmailSender.cs" />

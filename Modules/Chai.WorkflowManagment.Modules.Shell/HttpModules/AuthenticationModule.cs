@@ -11,6 +11,8 @@ using Chai.WorkflowManagment.CoreDomain.Users;
 using Chai.WorkflowManagment.CoreDomain.DataAccess;
 using Chai.WorkflowManagment.Shared;
 using Chai.WorkflowManagment.Services;
+using log4net;
+using log4net.Config;
 
 namespace Chai.WorkflowManagment.Modules.Shell
 {
@@ -20,9 +22,12 @@ namespace Chai.WorkflowManagment.Modules.Shell
     public class AuthenticationModule : IHttpModule
     {
         private const int AUTHENTICATION_TIMEOUT = 20;
+        private int _failedAttempts = 0;
+        private static readonly ILog LogInFailureLog = LogManager.GetLogger("FailedLoginLog");
         
         public AuthenticationModule()
         {
+            XmlConfigurator.Configure();
         }
 
         public void Init(HttpApplication context)
@@ -66,6 +71,14 @@ namespace Chai.WorkflowManagment.Modules.Shell
                         FormsAuthentication.SetAuthCookie(user.Name, persistLogin);
 
                         return true;
+                    }
+                    else
+                    {
+                        _failedAttempts++;
+                        if (_failedAttempts == 3)
+                        {
+                            LogInFailureLog.Warn("User with username: " + username + " has failed a log in attempt!");
+                        }
                     }
                 }
             }
