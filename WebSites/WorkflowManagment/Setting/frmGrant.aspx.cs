@@ -91,10 +91,9 @@ namespace Chai.WorkflowManagment.Modules.Setting.Views
             Chai.WorkflowManagment.CoreDomain.Setting.Grant grant = _presenter.GetGrantById(id);
             try
             {
-                //LinkButton lnkbtn = e.Item.FindControl("lnkDelete") as LinkButton;
-                //if (lnkbtn != null)
-                //    lnkbtn.Attributes.Add("OnClientClick", "javascript:return confirm('Are you sure you want to delete Grant?');");
-                _presenter.DeleteGrant(grant);
+                grant.Status = "InActive";
+                _presenter.SaveOrUpdateGrant(grant);
+                
                 BindGrant();
 
                 Master.ShowMessage(new AppMessage("Grant was Removed Successfully", Chai.WorkflowManagment.Enums.RMessageType.Info));
@@ -118,6 +117,7 @@ namespace Chai.WorkflowManagment.Modules.Setting.Views
                     grant.GrantCode = txtFGrantCode.Text;
                     TextBox txtFDonor = e.Item.FindControl("txtFDonor") as TextBox;
                     grant.Donor = txtFDonor.Text;
+                    grant.Status = "Active";
                     SaveGrant(grant);
                     dgGrant.EditItemIndex = -1;
                     BindGrant();

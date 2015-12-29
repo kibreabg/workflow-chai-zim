@@ -331,7 +331,11 @@
                                         <RowStyle CssClass="rowstyle" />
                                         <Columns>
                                             <asp:BoundField DataField="RequestNo" HeaderText="Vourcher No" SortExpression="RequestNo" />
-                                            <asp:BoundField DataField="RequestDate" HeaderText="Request Date" SortExpression="RequestDate" />
+                                            <asp:TemplateField HeaderText="Request Date">
+                                            <ItemTemplate>
+                                              <asp:Label ID="lblDate" runat="server" Text='<%# Eval("RequestDate", "{0:dd/MM/yyyy}")%>' ></asp:Label>
+                                            </ItemTemplate>
+                                            </asp:TemplateField> 
                                             <asp:BoundField DataField="Payee" HeaderText="Payee" SortExpression="Payee" />
                                             <asp:BoundField DataField="TotalAmount" HeaderText="Total Amount" SortExpression="TotalAmount" />
                                             <asp:CommandField ShowSelectButton="True" />

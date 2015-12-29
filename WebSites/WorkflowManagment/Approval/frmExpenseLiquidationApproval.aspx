@@ -71,7 +71,11 @@
             <Columns>
                 <asp:BoundField DataField="TravelAdvanceRequest.AppUser.FullName" HeaderText="Requester" SortExpression="TravelAdvanceRequest.AppUser.FullName" />
                 <asp:BoundField DataField="ExpenseType" HeaderText="Expense Type" SortExpression="ExpenseType" />
-                <asp:BoundField DataField="RequestDate" HeaderText="Request Date" SortExpression="RequestDate" />
+                 <asp:TemplateField HeaderText="Request Date">
+                                            <ItemTemplate>
+                                              <asp:Label ID="lblDate" runat="server" Text='<%# Eval("RequestDate", "{0:dd/MM/yyyy}")%>' ></asp:Label>
+                                            </ItemTemplate>
+                                            </asp:TemplateField> 
                 <asp:ButtonField ButtonType="Button" CommandName="ViewItem" Text="View Item Detail" />
                 <asp:CommandField ButtonType="Button" SelectText="Process Request" ShowSelectButton="True" />
                 <asp:TemplateField>
@@ -309,13 +313,14 @@
                     </td>
                     <td style="width: 389px">
                         <strong>
-                            <asp:Label ID="lblApprovalStatusPrint0" runat="server" Text="Retirment Type:"></asp:Label>
+                            <asp:Label ID="lblRequester" runat="server" Text="Requester:"></asp:Label>
                         </strong>
                     </td>
-                    <td style="width: 389px">
-                        <asp:Label ID="lblRetirmentTypeResult" runat="server"></asp:Label>
+                   <td style="width: 848px">
+                        <asp:Label ID="lblRequesterResult" runat="server"></asp:Label>
                     </td>
-                    <td>&nbsp;</td>
+                    <td style="width: 390px">
+                        &nbsp;</td>
                 </tr>
                 <tr>
                     <td style="width: 848px">
@@ -338,55 +343,32 @@
                 <tr>
                     <td style="width: 848px">
                         <strong>
-                            <asp:Label ID="lblRequester" runat="server" Text="Requester:"></asp:Label>
-                        </strong></td>
-                    <td style="width: 390px">
-                        <asp:Label ID="lblRequesterResult" runat="server"></asp:Label>
-                    </td>
-                    <td style="width: 389px">&nbsp;</td>
-                    <td style="width: 389px"></td>
-                    <td>&nbsp;</td>
-                </tr>
-                <tr>
-                    <td style="width: 848px; height: 18px;">
-                        <strong>
-                            <asp:Label ID="lblEmployeeNo" runat="server" Text="Employee No:"></asp:Label>
-                        </strong></td>
-                    <td style="width: 390px; height: 18px;">
-                        <asp:Label ID="lblEmpNoResult" runat="server"></asp:Label>
-                    </td>
-                    <td style="width: 389px; height: 18px;">&nbsp;</td>
-                    <td style="width: 389px; height: 18px;"></td>
-                    <td style="height: 18px">&nbsp;</td>
-                </tr>
-                <tr>
-                    <td style="width: 629px; height: 18px; padding-left: 20%;"><strong>
-                        <asp:Label ID="lblCommentPrint" runat="server" Text="Comment:"></asp:Label>
+                        <asp:Label ID="lblCommentPrint" runat="server" Text="Purpose of Advance :"></asp:Label>
                     </strong>
                     </td>
-                    <td style="width: 390px; height: 18px;">
-                        <asp:Label ID="lblCommentResult" runat="server"></asp:Label>
+                    <td style="width: 390px">
+                        <asp:Label ID="lblPurposeofAdvanceResult" runat="server"></asp:Label>
                     </td>
-                    <td style="width: 848px; height: 18px;">
+                    <td style="width: 389px">
                         <strong>
                             <asp:Label ID="lblApprovalStatusPrint" runat="server" Text="Approval Status:"></asp:Label>
                         </strong>
                     </td>
-                    <td style="width: 390px; height: 18px;">
+                    <td style="width: 389px">
                         <asp:Label ID="lblApprovalStatusResult" runat="server"></asp:Label>
                     </td>
-                    <td style="width: 389px; height: 18px;"></td>
-                    <td style="width: 389px; height: 18px;"></td>
-                    <td style="height: 18px">&nbsp;</td>
+                    <td>&nbsp;</td>
                 </tr>
-            </table>
+                </table>
             <asp:GridView ID="grvDetails"
                 runat="server" AutoGenerateColumns="False" DataKeyNames="Id"
                 CssClass="table table-striped table-bordered table-hover" OnRowDataBound="grvDetails_RowDataBound" ShowFooter="True">
                 <RowStyle CssClass="rowstyle" />
                 <Columns>
-                    <asp:BoundField DataField="ItemAccount.AccountName" HeaderText="Account Name" />
+                    <asp:BoundField DataField="RefNo" HeaderText="Ref No." />
+                    <asp:BoundField DataField="ItemAccount.AccountCode" HeaderText="Account Code" />
                     <asp:BoundField DataField="Project.ProjectCode" HeaderText="Project" />
+                    <asp:BoundField DataField="Grant.GrantCode" HeaderText="Grant" />
                     <asp:BoundField DataField="AmountAdvanced" HeaderText="Amount Advanced" />
                     <asp:TemplateField HeaderText="ActualExpenditure">
 			           <ItemTemplate>
@@ -396,7 +378,7 @@
 			          </ItemTemplate>
 			          <FooterTemplate>
 				           <div style="text-align: right;">
-                           <asp:Label ID="lblTotal" Text="Total" runat="server" />
+                           <asp:Label ID="lblTotal" Text="Total Variance" runat="server" />
 				           </div>
 			         </FooterTemplate>
                         </asp:TemplateField>
@@ -425,9 +407,14 @@
                 CssClass="table table-striped table-bordered table-hover" OnRowDataBound="grvStatuses_RowDataBound">
                 <RowStyle CssClass="rowstyle" />
                 <Columns>
-                    <asp:BoundField DataField="Date" HeaderText="Date" SortExpression="Date" />
+                     <asp:TemplateField HeaderText="Date">
+                                            <ItemTemplate>
+                                              <asp:Label ID="lblDate" runat="server" Text='<%# Eval("Date", "{0:dd/MM/yyyy}")%>' ></asp:Label>
+                                            </ItemTemplate>
+                                            </asp:TemplateField>                    
                     <asp:BoundField DataField="Approver" HeaderText="Reviewer" SortExpression="Approver" />
                     <asp:BoundField DataField="AssignedBy" HeaderText="Assignee Approver" SortExpression="AssignedBy" />
+                     <asp:BoundField HeaderText="Approval Status" DataField="ApprovalStatus"/>
                 </Columns>
                 <FooterStyle CssClass="FooterStyle" />
                 <HeaderStyle CssClass="headerstyle" />

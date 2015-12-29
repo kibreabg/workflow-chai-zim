@@ -20,7 +20,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
     public partial class frmTravelAdvanceApproval : POCBasePage, ITravelAdvanceApprovalView
     {
         private TravelAdvanceApprovalPresenter _presenter;
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog Log = LogManager.GetLogger("AuditTrailLog");
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!this.IsPostBack)

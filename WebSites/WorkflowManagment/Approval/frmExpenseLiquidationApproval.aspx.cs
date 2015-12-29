@@ -25,7 +25,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
     public partial class frmExpenseLiquidationApproval : POCBasePage, IExpenseLiquidationApprovalView
     {
         private ExpenseLiquidationApprovalPresenter _presenter;
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog Log = LogManager.GetLogger("AuditTrailLog");
         private int liqID = 0;
         decimal _totalUnitPrice = 0;
         protected void Page_Load(object sender, EventArgs e)
@@ -401,12 +401,12 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             //pnlApproval_ModalPopupExtender.Hide();
             TravelAdvanceRequest taRequest = _presenter.GetTravelAdvanceRequest(_presenter.CurrentExpenseLiquidationRequest.Id);
             lblRequestNoResult.Text = taRequest.TravelAdvanceNo;
-            lblRequestedDateResult.Text = _presenter.CurrentExpenseLiquidationRequest.RequestDate.ToString();
-            lblRequesterResult.Text = taRequest.AppUser.UserName;
+            lblRequestedDateResult.Text = _presenter.CurrentExpenseLiquidationRequest.RequestDate.Value.ToShortDateString();
+            lblRequesterResult.Text = taRequest.AppUser.FullName;
             //lblExpenseTypeResult.Text = _presenter.CurrentExpenseLiquidationRequest.ExpenseType.ToString();
-            lblCommentResult.Text = _presenter.CurrentExpenseLiquidationRequest.Comment.ToString();
+            lblPurposeofAdvanceResult.Text = _presenter.CurrentExpenseLiquidationRequest.Comment.ToString();
             lblApprovalStatusResult.Text = _presenter.CurrentExpenseLiquidationRequest.ProgressStatus.ToString();
-            lblRetirmentTypeResult.Text = _presenter.CurrentExpenseLiquidationRequest.ExpenseReimbersmentType;
+            //lblRetirmentTypeResult.Text = _presenter.CurrentExpenseLiquidationRequest.ExpenseReimbersmentType;
             lblRetirmenNoResult.Text = _presenter.CurrentExpenseLiquidationRequest.ReimbersmentNo;
             grvDetails.DataSource = _presenter.CurrentExpenseLiquidationRequest.ExpenseLiquidationRequestDetails;
             grvDetails.DataBind();

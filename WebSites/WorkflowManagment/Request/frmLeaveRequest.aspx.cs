@@ -21,7 +21,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
     public partial class frmLeaveRequest : POCBasePage, ILeaveRequestView
     {
         private LeaveRequestPresenter _presenter;
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog Log = LogManager.GetLogger("AuditTrailLog");
         private LeaveRequest _leaverequest;
         private int _leaverequestId = 0;
         protected void Page_Load(object sender, EventArgs e)

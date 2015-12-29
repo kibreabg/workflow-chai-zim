@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Shared/ModuleMaster.master" AutoEventWireup="true" CodeFile="frmLeaveRequest.aspx.cs" Inherits="Chai.WorkflowManagment.Modules.Request.Views.frmLeaveRequest" %>
 
 <%@ MasterType TypeName="Chai.WorkflowManagment.Modules.Shell.BaseMaster" %>
-
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
 <asp:Content ID="Content2" ContentPlaceHolderID="DefaultContent" runat="Server">
     <script src="../js/libs/jquery-2.0.2.min.js"></script>
     <script type="text/javascript">
@@ -117,6 +117,8 @@
                                 </label>
                                 <label class="input">
                                     <asp:TextBox ID="txtapplyfor" runat="server" Visible="true" placeholder="Days" TabIndex="6" AutoPostBack="True" OnTextChanged="txtapplyfor_TextChanged"></asp:TextBox>
+                                     <cc1:FilteredTextBoxExtender ID="txtapplyfor_FilteredTextBoxExtender" runat="server" FilterType="Custom, Numbers" TargetControlID="txtapplyfor" ValidChars=".">
+                                </cc1:FilteredTextBoxExtender>
                                     <asp:RequiredFieldValidator ID="Rfvapplyfor" runat="server" CssClass="validator" ControlToValidate="txtapplyfor" ErrorMessage="I wish to apply for Required" InitialValue="" SetFocusOnError="True" ValidationGroup="Save"></asp:RequiredFieldValidator>
                                 </label>
                             </section>
@@ -205,10 +207,22 @@
                             <RowStyle CssClass="rowstyle" />
                             <Columns>
                                 <asp:BoundField DataField="RequestNo" HeaderText="Request No" SortExpression="RequestNo" />
-                                <asp:BoundField DataField="RequestedDate" HeaderText="Request Date" SortExpression="RequestedDate" />
+                                <asp:TemplateField HeaderText="Request Date">
+                                            <ItemTemplate>
+                                              <asp:Label ID="lblDate" runat="server" Text='<%# Eval("RequestedDate", "{0:dd/MM/yyyy}")%>' ></asp:Label>
+                                            </ItemTemplate>
+                                            </asp:TemplateField>
                                 <asp:BoundField DataField="LeaveType.LeaveTypeName" HeaderText="Leave Type" SortExpression="LeaveType.LeaveTypeName" />
-                                <asp:BoundField DataField="DateFrom" HeaderText="Date From" SortExpression="DateFrom" />
-                                <asp:BoundField DataField="DateTo" HeaderText="Date To" SortExpression="DateTo" />
+                                 <asp:TemplateField HeaderText="Date From">
+                                            <ItemTemplate>
+                                              <asp:Label ID="lblDate" runat="server" Text='<%# Eval("DateFrom", "{0:dd/MM/yyyy}")%>' ></asp:Label>
+                                            </ItemTemplate>
+                                            </asp:TemplateField> 
+                                <asp:TemplateField HeaderText="Date To">
+                                            <ItemTemplate>
+                                              <asp:Label ID="lblDate" runat="server" Text='<%# Eval("DateTo", "{0:dd/MM/yyyy}")%>' ></asp:Label>
+                                            </ItemTemplate>
+                                            </asp:TemplateField>
                                 <asp:CommandField ShowSelectButton="True" />
                                 <%-- <asp:CommandField ShowDeleteButton="True" />--%>
                             </Columns>

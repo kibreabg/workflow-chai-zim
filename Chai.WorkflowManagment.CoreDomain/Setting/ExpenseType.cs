@@ -13,6 +13,7 @@ namespace Chai.WorkflowManagment.CoreDomain.Setting
         }
         public int Id { get; set; }
         public string ExpenseTypeName { get; set; }
+        public string Status { get; set; }
         
        
     }

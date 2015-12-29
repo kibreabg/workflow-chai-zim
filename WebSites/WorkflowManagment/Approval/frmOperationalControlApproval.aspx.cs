@@ -21,7 +21,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
     public partial class frmOperationalControlApproval : POCBasePage, IOperationalControlApprovalView
     {
         private OperationalControlApprovalPresenter _presenter;
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog Log = LogManager.GetLogger("AuditTrailLog");
         private int reqID = 0;
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -369,7 +369,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
 
             lblRequesterResult.Text = _presenter.CurrentOperationalControlRequest.AppUser.FullName;
-            lblRequestedDateResult.Text = _presenter.CurrentOperationalControlRequest.RequestDate.ToString();
+            lblRequestedDateResult.Text = _presenter.CurrentOperationalControlRequest.RequestDate.Value.ToShortDateString();
             lblBeneficiaryNameResult.Text = _presenter.CurrentOperationalControlRequest.Beneficiary.BeneficiaryName;
             lblBranchCodeResult.Text = _presenter.CurrentOperationalControlRequest.BranchCode.ToString();
             lblVoucherNoResult.Text = _presenter.CurrentOperationalControlRequest.VoucherNo.ToString();

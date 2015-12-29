@@ -17,6 +17,7 @@ namespace Chai.WorkflowManagment.CoreDomain.Setting
         public string SupplierContact { get; set; }
         public string Email { get; set; }
         public string ContactPhone { get; set; }
+        public string Status { get; set; }
         public virtual SupplierType SupplierType { get; set; }
        
     }

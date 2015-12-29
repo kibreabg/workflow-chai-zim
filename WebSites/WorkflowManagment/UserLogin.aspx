@@ -12,6 +12,7 @@
                  <header>Sign In</header>
 					<fieldset>
                                         <asp:Label ID="lblLoginError" runat="server" CssClass="label" EnableViewState="False"></asp:Label>
+                                        <asp:Label ID="lblForgotPassword" runat="server" CssClass="label" EnableViewState="False" ForeColor="Red"></asp:Label>
                        <section>
 										<label class="label">User Name</label>
                                         <label class="input"> <i class="icon-append fa fa-user"></i>
@@ -29,6 +30,10 @@
 										
 									    <asp:CheckBox ID="chkPersistLogin" runat="server" Text=""  Font-Size="Small" style="font-size: x-small" />
                         				Stay signed in
+					</section>
+                         <section>
+										
+                        <asp:LinkButton ID="lnkForgotPassword"  runat="server" OnClick="lnkForgotPassword_Click">Forgot Password</asp:LinkButton>
 					</section>
                    </fieldset>
 								<footer>

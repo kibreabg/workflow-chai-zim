@@ -57,8 +57,16 @@
             <Columns>
                 <asp:BoundField DataField="RequestNo" HeaderText="Request No" SortExpression="RequestNo" />
                 <asp:BoundField HeaderText="Requester" />
-                <asp:BoundField DataField="RequestedDate" HeaderText="Request Date" SortExpression="RequestedDate" />
-                <asp:BoundField DataField="Requireddateofdelivery" HeaderText="Required Date of Delivery" SortExpression="Requireddateofdelivery" />
+                <asp:TemplateField HeaderText="Request Date">
+                                            <ItemTemplate>
+                                              <asp:Label ID="lblDate" runat="server" Text='<%# Eval("RequestedDate", "{0:dd/MM/yyyy}")%>' ></asp:Label>
+                                            </ItemTemplate>
+                                            </asp:TemplateField> 
+                                 <asp:TemplateField HeaderText="Required date of delivery">
+                                            <ItemTemplate>
+                                              <asp:Label ID="lblRequireddateofdelivery" runat="server" Text='<%# Eval("Requireddateofdelivery", "{0:dd/MM/yyyy}")%>' ></asp:Label>
+                                            </ItemTemplate>
+                                            </asp:TemplateField> 
                 <asp:BoundField DataField="SuggestedSupplier" HeaderText="Suggested Supplier" SortExpression="SuggestedSupplier" />
                 <asp:BoundField DataField="Neededfor" HeaderText="Needed for" SortExpression="Neededfor" />
                 <asp:BoundField DataField="TotalPrice" HeaderText="Total Price" SortExpression="TotalPrice" />

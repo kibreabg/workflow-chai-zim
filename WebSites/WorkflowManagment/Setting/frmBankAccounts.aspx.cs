@@ -89,7 +89,8 @@ namespace Chai.WorkflowManagment.Modules.Setting.Views
             Account BankAccount = _presenter.GetBankAccountById(id);
             try
             {
-                _presenter.DeleteBankAccount(BankAccount);
+                 BankAccount.Status = "InActive";
+                _presenter.SaveOrUpdateBankAccount(BankAccount);
                 BindBankAccounts();
 
                 Master.ShowMessage(new AppMessage("Bank Account was Removed Successfully", Chai.WorkflowManagment.Enums.RMessageType.Info));
@@ -110,6 +111,7 @@ namespace Chai.WorkflowManagment.Modules.Setting.Views
                     BankAccount.Name = txtName.Text;
                     TextBox txtAccountNo = e.Item.FindControl("txtAccountNo") as TextBox;
                     BankAccount.AccountNo = txtAccountNo.Text;
+                    BankAccount.Status = "Active";
                     SaveBankAccount(BankAccount);
                     dgBankAccount.EditItemIndex = -1;
                     BindBankAccounts();

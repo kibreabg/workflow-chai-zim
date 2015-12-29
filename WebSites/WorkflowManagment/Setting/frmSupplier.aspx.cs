@@ -98,10 +98,9 @@ namespace Chai.WorkflowManagment.Modules.Setting.Views
             Chai.WorkflowManagment.CoreDomain.Setting.Supplier Supplier = _presenter.GetSupplierById(id);
             try
             {
-                //LinkButton lnkbtn = e.Item.FindControl("lnkDelete") as LinkButton;
-                //if (lnkbtn != null)
-                //    lnkbtn.Attributes.Add("OnClientClick", "javascript:return confirm('Are you sure you want to delete Supplier?');");
-                _presenter.DeleteSupplier(Supplier);
+                Supplier.Status = "InActive";
+                _presenter.SaveOrUpdateSupplier(Supplier);
+                
                 BindSupplier();
 
                 Master.ShowMessage(new AppMessage("Supplier was Removed Successfully", Chai.WorkflowManagment.Enums.RMessageType.Info));
@@ -130,6 +129,7 @@ namespace Chai.WorkflowManagment.Modules.Setting.Views
                     supplier.ContactPhone = txtFSupplierphoneContact.Text;
                     TextBox txtFSupplierEmail = e.Item.FindControl("txtFSupplierEmail") as TextBox;
                     supplier.Email = txtFSupplierEmail.Text;
+                    supplier.Status = "Active";
                     SaveSupplier(supplier);
                     dgSupplier.EditItemIndex = -1;
                     BindSupplier();

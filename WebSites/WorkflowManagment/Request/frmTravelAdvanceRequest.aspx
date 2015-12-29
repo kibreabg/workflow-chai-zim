@@ -154,7 +154,7 @@
                                 </asp:TemplateColumn>
                                 <asp:TemplateColumn HeaderText="From Date">
                                     <ItemTemplate>
-                                        <%# DataBinder.Eval(Container.DataItem, "FromDate")%>
+                                        <%# DataBinder.Eval(Container.DataItem, "FromDate", "{0:M/d/yyyy}")%>
                                     </ItemTemplate>
                                     <EditItemTemplate>
                                         <asp:TextBox ID="txtEdtFromDate" runat="server" CssClass="form-control datepicker"
@@ -163,7 +163,7 @@
                                             ID="rfvEdtFromDate" runat="server" ErrorMessage="From Date is required" Display="Dynamic"
                                             CssClass="validator" ValidationGroup="edit"
                                             SetFocusOnError="true" ControlToValidate="txtEdtFromDate"></asp:RequiredFieldValidator><br />
-                                        <asp:CompareValidator ID="cvEdtFromToDates" runat="server" ErrorMessage="From Date must be less than To Date"
+                                        <asp:CompareValidator ID="cvEdtFromToDates" runat="server" ErrorMessage="Less Date"
                                             ControlToCompare="txtEdtToDate" ControlToValidate="txtEdtFromDate" CssClass="validator"
                                             ValidationGroup="edit" Type="Date" Operator="LessThanEqual"></asp:CompareValidator>
                                     </EditItemTemplate>
@@ -174,14 +174,14 @@
                                             ID="rfvtxtFromDate" runat="server" ErrorMessage="From Date is required" Display="Dynamic"
                                             CssClass="validator" ValidationGroup="save"
                                             SetFocusOnError="true" ControlToValidate="txtFromDate"></asp:RequiredFieldValidator><br />
-                                        <asp:CompareValidator ID="cvFromToDates" runat="server" ErrorMessage="From Date must be less than To Date"
+                                        <asp:CompareValidator ID="cvFromToDates" runat="server" ErrorMessage="Less Date"
                                             ControlToCompare="txtToDate" ControlToValidate="txtFromDate" CssClass="validator"
                                             ValidationGroup="save" Type="Date" Operator="LessThanEqual"></asp:CompareValidator>
                                     </FooterTemplate>
                                 </asp:TemplateColumn>
                                 <asp:TemplateColumn HeaderText="To Date">
                                     <ItemTemplate>
-                                        <%# DataBinder.Eval(Container.DataItem, "ToDate")%>
+                                        <%# DataBinder.Eval(Container.DataItem, "ToDate", "{0:M/d/yyyy}")%>
                                     </ItemTemplate>
                                     <EditItemTemplate>
                                         <asp:TextBox ID="txtEdtToDate" runat="server" CssClass="form-control datepicker"
@@ -333,7 +333,11 @@
                                         <RowStyle CssClass="rowstyle" />
                                         <Columns>
                                             <asp:BoundField DataField="TravelAdvanceNo" HeaderText="Travel Advance No" SortExpression="TravelAdvanceNo" />
-                                            <asp:BoundField DataField="RequestDate" HeaderText="Request Date" SortExpression="RequestDate" />
+                                             <asp:TemplateField HeaderText="Request Date">
+                                            <ItemTemplate>
+                                              <asp:Label ID="lblDate" runat="server" Text='<%# Eval("RequestDate", "{0:dd/MM/yyyy}")%>' ></asp:Label>
+                                            </ItemTemplate>
+                                            </asp:TemplateField> 
                                             <asp:BoundField DataField="VisitingTeam" HeaderText="Visiting Team" SortExpression="VisitingTeam" />
                                             <asp:BoundField DataField="PurposeOfTravel" HeaderText="Purpose Of Travel" SortExpression="PurposeOfTravel" />
                                             <asp:CommandField ShowSelectButton="True" />

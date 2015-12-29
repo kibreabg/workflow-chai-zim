@@ -97,6 +97,7 @@
     <Compile Include="Views\ITabEditView.cs" />
     <Compile Include="Views\ITaskpanEditView.cs" />
     <Compile Include="Views\IUserEditView.cs" />
+    <Compile Include="Views\ILogsView.cs" />
     <Compile Include="Views\IUsersView.cs" />
     <Compile Include="Views\ModuleEditPresenter.cs" />
     <Compile Include="Views\ModulesPresenter.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="Views\TabEditPresenter.cs" />
     <Compile Include="Views\TaskpanEditPresenter.cs" />
     <Compile Include="Views\UserEditPresenter.cs" />
+    <Compile Include="Views\LogsPresenter.cs" />
     <Compile Include="Views\UsersPresenter.cs" />
   </ItemGroup>
   <ItemGroup>

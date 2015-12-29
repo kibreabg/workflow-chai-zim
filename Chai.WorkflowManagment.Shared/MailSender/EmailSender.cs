@@ -40,7 +40,30 @@ namespace Chai.WorkflowManagment.Shared.MailSender
             return false;
         }
 
+        public static bool SendEmails(string from, string to, string subject, string body)
+        {
 
+            SmtpSection section = (SmtpSection)ConfigurationManager.GetSection("system.net/mailSettings/smtp");
+
+            try
+            {
+                using (SmtpClient client = new SmtpClient(section.Network.Host, section.Network.Port))
+                {
+                    client.EnableSsl = section.Network.EnableSsl;
+                    client.Timeout = 2000000;
+                    client.Credentials = new System.Net.NetworkCredential(section.Network.UserName, section.Network.Password);
+                    client.Send(section.From, to, subject, from + body);
+                    client.Dispose();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+            return false;
+        }
 
     }
 }

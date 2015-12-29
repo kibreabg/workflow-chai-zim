@@ -19,7 +19,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
     {
         private VehicleRequestPresenter _presenter;
         private IList<VehicleRequest> _VehicleRequests;
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog Log = LogManager.GetLogger("AuditTrailLog");
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!this.IsPostBack)
@@ -137,7 +137,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         #endregion
         private void AutoNumber()
         {
-            txtRequestNo.Text = "VR-" + (_presenter.GetLastVehicleRequestId() + 1).ToString() + DateTime.Now.Second.ToString();
+            txtRequestNo.Text = "VR-" + (_presenter.GetLastVehicleRequestId() + 1).ToString();
         }
         private void CheckApprovalSettings()
         {
@@ -228,6 +228,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         protected void btnSave_Click(object sender, EventArgs e)
         {
+            try
+              {
             _presenter.SaveOrUpdateVehicleRequest();
             if (_presenter.CurrentVehicleRequest.VehicleRequestStatuses.Count != 0)
             {
@@ -239,6 +241,18 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             else
             {
                 Master.ShowMessage(new AppMessage("There was an error constructing the approval process", Chai.WorkflowManagment.Enums.RMessageType.Error));
+            }
+        }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null)
+                {
+                    if (ex.InnerException.InnerException.Message.Contains("Violation of UNIQUE KEY"))
+                    {
+                        Master.ShowMessage(new AppMessage("Please Try to Save Again,There is a duplicate Number", Chai.WorkflowManagment.Enums.RMessageType.Error));
+                        AutoNumber();
+                    }
+                }
             }
         }
         protected void btnDelete_Click(object sender, EventArgs e)

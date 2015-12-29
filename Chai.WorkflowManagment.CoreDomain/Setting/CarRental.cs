@@ -12,6 +12,7 @@ namespace Chai.WorkflowManagment.CoreDomain.Setting
         public string Name { get; set; }
         public string PhoneNo { get; set; }
         public string ContactAddress { get; set; }
+        public string Status { get; set; }
 
         //public IList<VehicleRequestStatus> VehicleRequestStatuses { get; set; }
     }

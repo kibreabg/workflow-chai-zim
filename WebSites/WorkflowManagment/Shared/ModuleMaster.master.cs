@@ -4,6 +4,7 @@ using Chai.WorkflowManagment.Services;
 using Chai.WorkflowManagment.CoreDomain;
 using System.Web.UI;
 using Chai.WorkflowManagment.CoreDomain.Users;
+using Chai.WorkflowManagment.Shared.MailSender;
 
 namespace Chai.WorkflowManagment.Modules.Shell.MasterPages
 {
@@ -74,6 +75,26 @@ namespace Chai.WorkflowManagment.Modules.Shell.MasterPages
             BaseMessageControl ctr = (BaseMessageControl)Page.LoadControl("~/Shared/Controls/RMessageBox.ascx");
             ctr.Message = e.Message;
             this.plhMessage.Controls.Add(ctr);
+        }
+        protected void btnSend_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                EmailSender.SendEmails(txtFrom.Text, txtTo.Text, txtSubject.Text, txtMessage.Text);
+                lblMessage.Visible = true;
+                ScriptManager.RegisterStartupScript(this, GetType(), "showSearch", "showSearch();", true);
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+        private void clearControls()
+        {
+            txtFrom.Text = "";
+            txtSubject.Text = "";
+            txtMessage.Text = "";
+
         }
     }
 }

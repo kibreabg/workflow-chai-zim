@@ -528,9 +528,14 @@
                 CssClass="table table-striped table-bordered table-hover" OnRowDataBound="grvStatuses_RowDataBound" >
                 <RowStyle CssClass="rowstyle"  />
                 <Columns>
-                    <asp:BoundField DataField="ApprovalDate" HeaderText="Approval Date" SortExpression="ApprovalDate" />
+                  <asp:TemplateField HeaderText="Date">
+                                            <ItemTemplate>
+                                              <asp:Label ID="lblDate" runat="server" Text='<%# Eval("ApprovalDate", "{0:dd/MM/yyyy}")%>' ></asp:Label>
+                                            </ItemTemplate>
+                                            </asp:TemplateField> 
                     <asp:BoundField HeaderText="Approver" />
                     <asp:BoundField DataField="AssignedBy" HeaderText="Assignee Approver" SortExpression="AssignedBy" />
+                     <asp:BoundField HeaderText="Approval Status" DataField="ApprovalStatus"/>
                 </Columns>
                 <FooterStyle CssClass="FooterStyle" />
                 <HeaderStyle CssClass="headerstyle" />

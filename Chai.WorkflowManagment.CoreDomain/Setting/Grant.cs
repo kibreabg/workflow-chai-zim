@@ -15,6 +15,7 @@ namespace Chai.WorkflowManagment.CoreDomain.Setting
         public string GrantName { get; set; }
         public string GrantCode { get; set; }
         public string Donor { get; set; }
+        public string Status { get; set; }
         public IList<ProGrant> ProGrants { get; set; }
        
     }

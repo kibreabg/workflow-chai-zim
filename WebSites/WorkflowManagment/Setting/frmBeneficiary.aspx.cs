@@ -89,7 +89,9 @@ namespace Chai.WorkflowManagment.Modules.Setting.Views
             Beneficiary beneficiary = _presenter.GetBeneficiaryById(id);
             try
             {
-                _presenter.DeleteBeneficiary(beneficiary);
+                beneficiary.Status = "InActive";
+                _presenter.SaveOrUpdateBeneficiary(beneficiary);
+                
                 BindBeneficiaries();
 
                 Master.ShowMessage(new AppMessage("beneficiary was Removed Successfully", Chai.WorkflowManagment.Enums.RMessageType.Info));
@@ -117,6 +119,7 @@ namespace Chai.WorkflowManagment.Modules.Setting.Views
                     beneficiary.SortCode = txtSortCode.Text;
                     TextBox txtAccountNumber = e.Item.FindControl("txtAccountNumber") as TextBox;
                     beneficiary.AccountNumber = txtAccountNumber.Text;
+                    beneficiary.Status = "Active";
                     SaveBeneficiary(beneficiary);
                     dgBeneficiary.EditItemIndex = -1;
                     BindBeneficiaries();

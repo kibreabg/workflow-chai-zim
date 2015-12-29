@@ -77,14 +77,14 @@ namespace Chai.WorkflowManagment.Modules.Shell
                         _failedAttempts++;
                         if (_failedAttempts == 3)
                         {
-                            LogInFailureLog.Warn("User with username: " + username + " has failed a log in attempt!");
+                            LogInFailureLog.Warn("User with username: " + username + " IP "+ HttpContext.Current.Request.UserHostAddress + " has failed a log in attempt!");
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception(String.Format("Unable to log in user '{0}': " + ex.Message, username), ex);
+                throw new Exception(String.Format("Unable to log in user '{0}': " + ex.Message, username), ex.InnerException);
             }
             return false;
         }

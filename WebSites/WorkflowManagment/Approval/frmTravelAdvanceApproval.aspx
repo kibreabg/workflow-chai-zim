@@ -71,7 +71,11 @@
             <Columns>
                 <asp:BoundField DataField="TravelAdvanceNo" HeaderText="Travel Advance No" SortExpression="TravelAdvanceNo" />
                 <asp:BoundField DataField="AppUser.FullName" HeaderText="Requester" SortExpression="AppUser.FullName" />
-                <asp:BoundField DataField="RequestDate" HeaderText="Request Date" SortExpression="RequestDate" />
+                 <asp:TemplateField HeaderText="Request Date">
+                                            <ItemTemplate>
+                                              <asp:Label ID="lblDate" runat="server" Text='<%# Eval("RequestDate", "{0:dd/MM/yyyy}")%>' ></asp:Label>
+                                            </ItemTemplate>
+                                            </asp:TemplateField> 
                 <asp:BoundField DataField="VisitingTeam" HeaderText="Visiting Team" SortExpression="VisitingTeam" />
                 <asp:BoundField DataField="PurposeOfTravel" HeaderText="Purpose of Travel" SortExpression="PurposeOfTravel" />
                 <asp:BoundField DataField="TotalTravelAdvance" HeaderText="Total Travel Advance" SortExpression="TotalTravelAdvance" />
@@ -193,12 +197,12 @@
                                     </asp:TemplateColumn>
                                     <asp:TemplateColumn HeaderText="From Date">
                                         <ItemTemplate>
-                                            <%# DataBinder.Eval(Container.DataItem, "FromDate")%>
+                                            <%# DataBinder.Eval(Container.DataItem, "FromDate","{0:dd/MM/yyyy}")%>
                                         </ItemTemplate>
                                     </asp:TemplateColumn>
                                     <asp:TemplateColumn HeaderText="To Date">
                                         <ItemTemplate>
-                                            <%# DataBinder.Eval(Container.DataItem, "ToDate")%>
+                                            <%# DataBinder.Eval(Container.DataItem, "ToDate","{0:dd/MM/yyyy}")%>
                                         </ItemTemplate>
                                     </asp:TemplateColumn>
                                     <asp:TemplateColumn HeaderText="Mode of Travel">
@@ -377,8 +381,17 @@
                     <asp:BoundField DataField="CityFrom" HeaderText="City From" SortExpression="CityFrom" />
                     <asp:BoundField DataField="CityTo" HeaderText="City To" SortExpression="CityTo" />
                     <asp:BoundField DataField="HotelBooked" HeaderText="Hotel Booked" SortExpression="HotelBooked" />
-                    <asp:BoundField DataField="FromDate" HeaderText="From Date" SortExpression="FromDate" />
-                    <asp:BoundField DataField="ToDate" HeaderText="To Date" SortExpression="ToDate" />
+                      <asp:TemplateField HeaderText="From Date">
+                                            <ItemTemplate>
+                                              <asp:Label ID="lblDate" runat="server" Text='<%# Eval("FromDate", "{0:dd/MM/yyyy}")%>' ></asp:Label>
+                                            </ItemTemplate>
+                                            </asp:TemplateField>
+                    <asp:TemplateField HeaderText="To Date">
+                                            <ItemTemplate>
+                                              <asp:Label ID="lblDate" runat="server" Text='<%# Eval("ToDate", "{0:dd/MM/yyyy}")%>' ></asp:Label>
+                                            </ItemTemplate>
+                                            </asp:TemplateField>
+                  
                     <asp:BoundField DataField="ModeOfTravel" HeaderText="Mode of Travel" SortExpression="ModeOfTravel" />
                 </Columns>
                 <FooterStyle CssClass="FooterStyle" />
@@ -410,9 +423,14 @@
                 CssClass="table table-striped table-bordered table-hover">
                 <RowStyle CssClass="rowstyle" />
                 <Columns>
-                    <asp:BoundField DataField="Date" HeaderText="Date" SortExpression="Date" />
+                    <asp:TemplateField HeaderText="Date">
+                                            <ItemTemplate>
+                                              <asp:Label ID="lblDate" runat="server" Text='<%# Eval("Date", "{0:dd/MM/yyyy}")%>' ></asp:Label>
+                                            </ItemTemplate>
+                                            </asp:TemplateField>
                     <asp:BoundField HeaderText="Approver" />
                     <asp:BoundField DataField="AssignedBy" HeaderText="Assignee Approver" SortExpression="AssignedBy" />
+                    <asp:BoundField HeaderText="Approval Status" DataField="ApprovalStatus"/>
                 </Columns>
                 <FooterStyle CssClass="FooterStyle" />
                 <HeaderStyle CssClass="headerstyle" />

@@ -14,7 +14,7 @@ namespace Chai.WorkflowManagment.CoreDomain.Setting
         public int Id { get; set; }
         public string AccountName { get; set; }
         public string AccountCode { get; set; }
-
+        public string Status { get; set; }
       
        
     }

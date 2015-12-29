@@ -19,7 +19,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
     public partial class frmCashPaymentRequest : POCBasePage, ICashPaymentRequestView
     {
         private CashPaymentRequestPresenter _presenter;
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog Log = LogManager.GetLogger("AuditTrailLog");
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!this.IsPostBack)

@@ -72,11 +72,24 @@
             <RowStyle CssClass="rowstyle" />
             <Columns>
                 <asp:BoundField DataField="RequestNo" HeaderText="Request No" SortExpression="RequestNo" />
-                  <asp:BoundField HeaderText="Requester" />
-                <asp:BoundField DataField="RequestedDate" HeaderText="Request Date" SortExpression="RequestedDate" />
+                <asp:BoundField HeaderText="Requester" />
+                 <asp:TemplateField HeaderText="Request Date">
+                                            <ItemTemplate>
+                                              <asp:Label ID="lblRequestedDate" runat="server" Text='<%# Eval("RequestedDate", "{0:dd/MM/yyyy}")%>' ></asp:Label>
+                                            </ItemTemplate>
+                                            </asp:TemplateField> 
                 <asp:BoundField DataField="LeaveType.LeaveTypeName" HeaderText="LeaveType" SortExpression="LeaveType.LeaveTypeName" />
-                <asp:BoundField DataField="DateFrom" HeaderText="Date From" SortExpression="DateFrom" />
-                <asp:BoundField DataField="DateTo" HeaderText="Date To" SortExpression="DateTo" />
+                <asp:TemplateField HeaderText="Date From">
+                                            <ItemTemplate>
+                                              <asp:Label ID="lblFrom" runat="server" Text='<%# Eval("DateFrom", "{0:dd/MM/yyyy}")%>' ></asp:Label>
+                                            </ItemTemplate>
+                                            </asp:TemplateField> 
+                    <asp:TemplateField HeaderText="Date To">
+                                            <ItemTemplate>
+                                              <asp:Label ID="lblDateTo" runat="server" Text='<%# Eval("DateTo", "{0:dd/MM/yyyy}")%>' ></asp:Label>
+                                            </ItemTemplate>
+                                            </asp:TemplateField>
+                
                 <asp:CommandField ShowSelectButton="True" SelectText="Process Request" ButtonType="Button" />
                 <asp:TemplateField>
                         <ItemTemplate>
@@ -332,9 +345,15 @@
             CssClass="table table-striped table-bordered table-hover">
             <RowStyle CssClass="rowstyle" />
             <Columns>
-                <asp:BoundField DataField="ApprovalDate" HeaderText="Approval Date" SortExpression="ApprovalDate" />
+                   <asp:TemplateField HeaderText="Date">
+                                            <ItemTemplate>
+                                              <asp:Label ID="lblDate" runat="server" Text='<%# Eval("ApprovalDate", "{0:dd/MM/yyyy}")%>' ></asp:Label>
+                                            </ItemTemplate>
+                                            </asp:TemplateField> 
+                
                 <asp:BoundField  HeaderText="Approver"  />
                 <asp:BoundField DataField="AssignedBy" HeaderText="Assignee Approver" SortExpression="AssignedBy" />
+                <asp:BoundField HeaderText="Approval Status" DataField="ApprovalStatus"/>
             </Columns>
             <FooterStyle CssClass="FooterStyle" />
             <HeaderStyle CssClass="headerstyle" />

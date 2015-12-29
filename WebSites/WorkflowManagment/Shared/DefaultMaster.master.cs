@@ -3,6 +3,8 @@ using Microsoft.Practices.ObjectBuilder;
 using Chai.WorkflowManagment.Modules.Admin.Views;
 using System.Web.Security;
 using Chai.WorkflowManagment.CoreDomain.Users;
+using Chai.WorkflowManagment.Shared.MailSender;
+using System.Web.UI;
 
 namespace Chai.WorkflowManagment.Modules.Shell.MasterPages
 {
@@ -65,6 +67,27 @@ namespace Chai.WorkflowManagment.Modules.Shell.MasterPages
         protected void lnkassign_Click(object sender, EventArgs e)
         {
             this.Page.Response.Redirect(string.Format("~/Admin/AssignJob.aspx?{0}=0", Chai.WorkflowManagment.Shared.AppConstants.TABID));
+        }
+        protected void btnSend_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                EmailSender.SendEmails(txtFrom.Text, txtTo.Text, txtSubject.Text, txtMessage.Text);
+                lblMessage.Visible = true;
+                ScriptManager.RegisterStartupScript(this, GetType(), "showSearch", "showSearch();", true);
+                clearControls();
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+        private void clearControls()
+        {
+            txtFrom.Text = "";
+            txtSubject.Text="";
+            txtMessage.Text="";
+
         }
 }
 }

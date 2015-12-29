@@ -12,6 +12,7 @@ namespace Chai.WorkflowManagment.CoreDomain.Requests
         public decimal AmountAdvanced { get; set; }
         public decimal ActualExpenditure { get; set; }
         public decimal Variance { get; set; }
+        public string RefNo { get; set; }
         public virtual Project Project { get; set; }
         public virtual Grant Grant { get; set; }
         public virtual ItemAccount ItemAccount { get; set; }

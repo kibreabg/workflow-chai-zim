@@ -21,7 +21,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
     public partial class frmPurchaseApproval : POCBasePage, IPurchaseApprovalView
     {
         private PurchaseApprovalPresenter _presenter;
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog Log = LogManager.GetLogger("AuditTrailLog");
         private PurchaseRequest _purchaserequest;
         private int reqid;
         private int PurchaseId;

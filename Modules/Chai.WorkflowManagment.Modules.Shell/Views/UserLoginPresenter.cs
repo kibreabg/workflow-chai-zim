@@ -92,7 +92,14 @@ namespace Chai.WorkflowManagment.Modules.Shell.Views
         {
             Controller.Navigate(Controller.GetCurrentContext().Request.RawUrl);
         }
-
+        public void SaveOrUpdateUser(AppUser user)
+        {
+            _controller.SaveOrUpdateEntity(user);
+        }
+        public AppUser SearchUser(string Username)
+        {
+            return _controller.GetUserByUserName(Username);
+        }
     }
 }
 

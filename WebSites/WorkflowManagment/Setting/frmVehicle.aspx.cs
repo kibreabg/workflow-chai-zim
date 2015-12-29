@@ -111,7 +111,7 @@ namespace Chai.WorkflowManagment.Modules.Setting.Views
                     Vehicle.PlateNo = txtPlateNo.Text;
                     DropDownList ddlFStatus = e.Item.FindControl("ddlFStatus") as DropDownList;
                     Vehicle.Status = ddlFStatus.SelectedValue;
-                
+                    Vehicle.Status = "Active";
                     SaveVehicle(Vehicle);
                     dgVehicle.EditItemIndex = -1;
                     BindVehicles();

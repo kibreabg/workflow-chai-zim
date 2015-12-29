@@ -21,7 +21,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
     public partial class frmCostSharingApproval : POCBasePage, ICostSharingApprovalView
     {
         private CostSharingApprovalPresenter _presenter;
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog Log = LogManager.GetLogger("AuditTrailLog");
         private int reqID = 0;
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -453,7 +453,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             lblAccountNameResult.Text = _presenter.CurrentCostSharingRequest.ActualTotalAmount.ToString();
             lblApprovalStatusResult.Text = _presenter.CurrentCostSharingRequest.ProgressStatus.ToString();
             lblDescResult.Text = _presenter.CurrentCostSharingRequest.Description;
-            lblAccountNameResult.Text = _presenter.CurrentCostSharingRequest.ItemAccount.AccountName;
+            lblAccountNameResult.Text = _presenter.CurrentCostSharingRequest.ItemAccount.AccountCode;
             lblActualExpendtureRes.Text = _presenter.CurrentCostSharingRequest.ActualTotalAmount != null ?_presenter.CurrentCostSharingRequest.ActualTotalAmount.ToString() : "";
             lblReimbersestatusRes.Text = _presenter.CurrentCostSharingRequest.PaymentReimbursementStatus;
             grvDetails.DataSource = _presenter.CurrentCostSharingRequest.CostSharingRequestDetails;

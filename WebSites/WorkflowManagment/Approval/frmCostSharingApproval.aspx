@@ -78,7 +78,11 @@
             <Columns>
                 <asp:BoundField DataField="RequestNo" HeaderText="Request No" SortExpression="RequestNo" />
                 <asp:BoundField DataField="AppUser.FullName" HeaderText="Requester" SortExpression="AppUser.FullName" />
-                <asp:BoundField DataField="RequestDate" HeaderText="Request Date" SortExpression="RequestDate" />
+                 <asp:TemplateField HeaderText="Request Date">
+                                            <ItemTemplate>
+                                              <asp:Label ID="lblDate" runat="server" Text='<%# Eval("RequestDate", "{0:dd/MM/yyyy}")%>' ></asp:Label>
+                                            </ItemTemplate>
+                                            </asp:TemplateField> 
                 <asp:BoundField DataField="Payee" HeaderText="Description" SortExpression="Payee" />
                 <asp:BoundField  DataField="Description" HeaderText="Payee" SortExpression="Description" />
                 <asp:BoundField DataField="ItemAccount.AccountName" HeaderText="Account Name" SortExpression="ItemAccount.AccountName" />
@@ -153,7 +157,7 @@
                                     <footer>
                                         <asp:Button ID="btnApprove" runat="server" ValidationGroup="save" Text="Save" OnClick="btnApprove_Click" Enabled="false" CssClass="btn btn-primary"></asp:Button>
                                         <asp:Button ID="btnCancelPopup" runat="server" Text="Close" CssClass="btn btn-primary"></asp:Button>
-                                        <asp:Button ID="btnPrint" runat="server" Text="Print" CssClass="btn btn-primary" OnClientClick="javascript:Clickheretoprint('divprint')" Enabled="False"></asp:Button>
+                                        <asp:Button ID="btnPrint" runat="server" Text="Print" CssClass="btn btn-primary" OnClientClick="javascript:Clickheretoprint('divprint');return false;" Enabled="False"></asp:Button>
                                         <asp:Button ID="btnBankPayment" runat="server" CssClass="btn btn-primary" OnClick="btnBankPayment_Click" Text="Bank Payment" Visible="False" />
                                     </footer>
                                 </div>
@@ -383,7 +387,19 @@
                 </div>
             </div>
         </div>
+  
     
+    
+    
+
+
+
+
+
+
+    
+    
+      
     <div id="divprint" style="display: none;">
         <fieldset>
             <table style="width: 100%;">
@@ -399,7 +415,7 @@
 
             <table style="width: 100%;">
                 <tr>
-                    <td align="right" style="">&nbsp;</td>
+                    <td align="right" style="width: 1009px" class="modal-lg">&nbsp;</td>
                     <td align="right" style="width: 244px" class="inbox-data-from">&nbsp;</td>
                     <td align="right" style="width: 271px">&nbsp;</td>
                     <td align="right" style="width: 389px">&nbsp;</td>
@@ -407,7 +423,7 @@
                 </tr>
 
                 <tr>
-                    <td style="width: 629px; height: 18px; padding-left: 20%;">
+                    <td style="width: 1009px; height: 18px; padding-left: 20%;">
                         <strong>
                             <asp:Label ID="lblVoucherNo" runat="server" Text="Voucher No:"></asp:Label>
                         </strong></td>
@@ -419,7 +435,7 @@
                     <td>&nbsp;</td>
                 </tr>
                 <tr>
-                    <td style="width: 629px; height: 18px; padding-left: 20%;">
+                    <td style="width: 1009px; height: 18px; padding-left: 20%;">
                         <strong>
                             <asp:Label ID="lblRequester" runat="server" Text="Requester:"></asp:Label>
                         </strong></td>
@@ -431,7 +447,7 @@
                     <td>&nbsp;</td>
                 </tr>
                 <tr>
-                    <td style="width: 629px; height: 18px; padding-left: 20%;">
+                    <td style="width: 1009px; height: 18px; padding-left: 20%;">
                         <strong>
                             <asp:Label ID="lblRequestedDate" runat="server" Text="Requested Date:"></asp:Label>
                         </strong></td>
@@ -447,7 +463,7 @@
                     <td style="height: 18px">&nbsp;</td>
                 </tr>
                 <tr>
-                    <td style="width: 629px; height: 18px; padding-left: 20%;">
+                    <td style="width: 1009px; height: 18px; padding-left: 20%;">
                         <strong>
                             <asp:Label ID="lblPayee" runat="server" Text="Payee:"></asp:Label>
                         </strong>
@@ -455,17 +471,11 @@
                     <td style="width: 244px; height: 18px;">
                         <asp:Label ID="lblPayeeResult" runat="server"></asp:Label>
                     </td>
-                    <td style="width: 271px; height: 18px;">
-                        <strong>
-                            <asp:Label ID="lblEmployeeNo" runat="server" Text="Employee No:"></asp:Label>
-                        </strong></td>
-                    <td style="width: 389px; height: 18px;">
-                        <asp:Label ID="lblEmpNoResult" runat="server"></asp:Label>
-                    </td>
+                 
                     <td style="height: 18px">&nbsp;</td>
                 </tr>
                 <tr>
-                    <td style="width: 629px; height: 18px; padding-left: 20%;">
+                    <td style="width: 1009px; height: 18px; padding-left: 20%;">
                         <strong>
                             <asp:Label ID="lblDescriptionP" runat="server" Text="Description :"></asp:Label>
                         </strong>
@@ -484,14 +494,14 @@
                     <td style="height: 18px">&nbsp;</td>
                 </tr>
                 <tr>
-                    <td style="width: 629px; height: 18px; padding-left: 20%;"><strong>
+                    <td style="width: 1009px; height: 18px; padding-left: 20%;"><strong>
                         <asp:Label ID="lblActualExpendture" runat="server" Text="Actual Expenditure:"></asp:Label>
                     </strong>
                     </td>
                     <td style="width: 244px; height: 18px;">
                         <asp:Label ID="lblActualExpendtureRes" runat="server"></asp:Label>
                     </td>
-                    <td style="width: 629px; height: 18px; padding-left: 20%;"><strong>
+                    <td style="width: 271px; height: 18px;"><strong>
                         <asp:Label ID="lblReimberseStatus" runat="server" Text="Retirement Status:"></asp:Label>
                     </strong>
                     </td>
@@ -501,8 +511,8 @@
                     <td style="height: 18px">&nbsp;</td>
                 </tr>
                 <tr>
-                    <td style="width: 629px; height: 18px; padding-left: 20%;"><strong>
-                        <asp:Label ID="lblAccountName" runat="server" Text="Account Name:"></asp:Label>
+                    <td style="width: 1009px; height: 18px; padding-left: 20%;"><strong>
+                        <asp:Label ID="lblAccountName" runat="server" Text="Account Code:"></asp:Label>
                     </strong>
                     </td>
                     <td style="width: 244px; height: 18px;">
@@ -518,6 +528,16 @@
                     <td style="height: 18px">&nbsp;</td>
                 </tr>
 
+                <tr>
+                    <td style="width: 1009px; height: 18px; padding-left: 20%;">&nbsp;</td>
+                    <td style="width: 244px; height: 18px;">
+                        &nbsp;</td>
+                    <td style="width: 271px; height: 18px;">&nbsp;</td>
+                    <td style="width: 389px; height: 18px;">
+                        &nbsp;</td>
+                    <td style="height: 18px">&nbsp;</td>
+                </tr>
+
             </table>
 
             <asp:GridView ID="grvDetails"
@@ -526,6 +546,7 @@
                 <RowStyle CssClass="rowstyle" />
                 <Columns>
                     <asp:BoundField DataField="Project.ProjectCode" HeaderText="Project Code" />
+                    <asp:BoundField DataField="Grant.GrantCode" HeaderText="Grant Code" />
                     <asp:BoundField DataField="SharedAmount" HeaderText="Shared Amount" SortExpression="SharedAmount" />
 
 
@@ -541,9 +562,14 @@
                 CssClass="table table-striped table-bordered table-hover" OnRowDataBound="grvStatuses_RowDataBound">
                 <RowStyle CssClass="rowstyle" />
                 <Columns>
-                    <asp:BoundField DataField="Date" HeaderText="Approval Date" SortExpression="Date" />
+                    <asp:TemplateField HeaderText="Date">
+                                            <ItemTemplate>
+                                              <asp:Label ID="lblDate" runat="server" Text='<%# Eval("Date", "{0:dd/MM/yyyy}")%>' ></asp:Label>
+                                            </ItemTemplate>
+                                            </asp:TemplateField> 
                     <asp:BoundField HeaderText="Approver" />
                      <asp:BoundField DataField="AssignedBy" HeaderText="Assignee Approver" SortExpression="AssignedBy" />
+                     <asp:BoundField HeaderText="Approval Status" DataField="ApprovalStatus"/>
                 </Columns>
                 <FooterStyle CssClass="FooterStyle" />
                 <HeaderStyle CssClass="headerstyle" />

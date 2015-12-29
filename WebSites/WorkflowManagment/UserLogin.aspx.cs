@@ -1,5 +1,8 @@
 ﻿using System;
 using Microsoft.Practices.ObjectBuilder;
+using System.Net.Mail;
+using Chai.WorkflowManagment.CoreDomain.Users;
+using Chai.WorkflowManagment.Shared;
 
 namespace Chai.WorkflowManagment.Modules.Shell.Views
 {
@@ -69,7 +72,45 @@ namespace Chai.WorkflowManagment.Modules.Shell.Views
             }
 
         }
-
+        protected void lnkForgotPassword_Click(object sender, EventArgs e)
+        {
+            if (txtUsername.Text != "")
+            {
+                try
+                {
+                    AppUser user = _presenter.SearchUser(txtUsername.Text);
+                    user.Password = Encryption.StringToMD5Hash("password");
+                    _presenter.SaveOrUpdateUser(user);
+                    MailMessage Msg = new MailMessage();
+                    // Sender e-mail address.
+                    Msg.From = new MailAddress("chaizim.wfms@gmail.com");
+                    // Recipient e-mail address.
+                    Msg.To.Add(user.Email);
+                    Msg.Subject = "Your Password Details";
+                    Msg.Body = "Hi, <br/>Please check your Login Details <br/><br/>Your Username: " + txtUsername.Text + "<br/><br/>Your Password: " + "password" + "<br/><br/>";
+                    Msg.IsBodyHtml = true;
+                    // your remote SMTP server IP.
+                    SmtpClient smtp = new SmtpClient();
+                    smtp.Host = "smtp.gmail.com";
+                    smtp.Port = 587;
+                    smtp.Credentials = new System.Net.NetworkCredential("chaizim.wfms@gmail.com", "ChaiZim@12345");
+                    smtp.EnableSsl = true;
+                    smtp.Send(Msg);
+                    //Msg = null;
+                    lblForgotPassword.Text = "Your Password Details Sent to your Email, Please change your password after you login to the system";
+                    // Clear the textbox valuess
+                    //lblForgotPassword.Text = "";
+                }
+                catch (Exception ex)
+                {
+                    lblForgotPassword.Text = ex.Message;
+                }
+            }
+            else
+            {
+                lblForgotPassword.Text = "The Username you entered does not exist.";
+            }
+        }
 
         #region IUserLoginView Members
 

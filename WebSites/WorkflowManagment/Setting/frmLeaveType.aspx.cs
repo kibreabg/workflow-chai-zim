@@ -91,10 +91,8 @@ namespace Chai.WorkflowManagment.Modules.Setting.Views
             Chai.WorkflowManagment.CoreDomain.Setting.LeaveType LeaveType = _presenter.GetLeaveTypeById(id);
             try
             {
-                //LinkButton lnkbtn = e.Item.FindControl("lnkDelete") as LinkButton;
-                //if (lnkbtn != null)
-                //    lnkbtn.Attributes.Add("OnClientClick", "javascript:return confirm('Are you sure you want to delete LeaveType?');");
-                _presenter.DeleteLeaveType(LeaveType);
+                LeaveType.Status = "InActive";
+                _presenter.SaveOrUpdateLeaveType(LeaveType);
                 BindLeaveType();
 
                 Master.ShowMessage(new AppMessage("Leave Type was Removed Successfully", Chai.WorkflowManagment.Enums.RMessageType.Info));
@@ -114,7 +112,7 @@ namespace Chai.WorkflowManagment.Modules.Setting.Views
 
                     TextBox txtFLeaveTypeName = e.Item.FindControl("txtFLeaveTypeName") as TextBox;
                     LeaveType.LeaveTypeName = txtFLeaveTypeName.Text;
-                   
+                    LeaveType.Status = "Active";
 
                     SaveLeaveType(LeaveType);
                     dgLeaveType.EditItemIndex = -1;

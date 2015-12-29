@@ -286,7 +286,7 @@
             <tr>
                 <td align="right" style="width: 576px">&nbsp;</td>
                 <td align="right" style="width: 490px" class="modal-sm">&nbsp;</td>
-                <td align="right" style="width: 389px">&nbsp;</td>
+                <td align="right" style="width: 280px" class="modal-sm">&nbsp;</td>
                 <td align="right" style="width: 389px">&nbsp;</td>
                 <td>&nbsp;</td>
             </tr>
@@ -298,8 +298,13 @@
                 <td style="width: 490px" class="modal-sm">
                     <asp:Label ID="lblRequestNoResult" runat="server"></asp:Label>
                 </td>
-                <td style="width: 389px">&nbsp;</td>
-                <td style="width: 389px"></td>
+                <td style="width: 280px" class="modal-sm"><strong>
+                    <asp:Label ID="lblPurposeTravel" runat="server" Text="Purpose Of Travel:"></asp:Label>
+                </strong>
+                </td>
+                <td style="width: 389px">
+                    <asp:Label ID="lblPurposeOfTravelResult" runat="server"></asp:Label>
+                </td>
                 <td>&nbsp;</td>
             </tr>
             <tr>
@@ -310,8 +315,14 @@
                 <td style="width: 490px" class="modal-sm">
                     <asp:Label ID="lblRequestedDateResult" runat="server"></asp:Label>
                 </td>
-                <td style="width: 389px">&nbsp;</td>
-                <td style="width: 389px"></td>
+                <td style="width: 280px" class="modal-sm">
+                    <strong>
+                        <asp:Label ID="lblApprovalStatusPrint" runat="server" Text="Progress Status:"></asp:Label>
+                    </strong>
+                </td>
+                <td style="width: 389px">
+                    <asp:Label ID="lblApprovalStatusResult" runat="server"></asp:Label>
+                </td>
                 <td>&nbsp;</td>
             </tr>
             <tr>
@@ -322,21 +333,9 @@
                 <td style="width: 490px" class="modal-sm">
                     <asp:Label ID="lblRequesterResult" runat="server"></asp:Label>
                 </td>
-                <td style="width: 389px">&nbsp;</td>
+                <td style="width: 280px" class="modal-sm">&nbsp;</td>
                 <td style="width: 389px"></td>
                 <td>&nbsp;</td>
-            </tr>
-            <tr>
-                <td style="width: 576px; height: 18px; padding-left: 20%;">
-                    <strong>
-                        <asp:Label ID="lblEmployeeNo" runat="server" Text="Employee No:"></asp:Label>
-                    </strong></td>
-                <td style="width: 490px; height: 18px;">
-                    <asp:Label ID="lblEmpNoResult" runat="server"></asp:Label>
-                </td>
-                <td style="width: 389px; height: 18px;">&nbsp;</td>
-                <td style="width: 389px; height: 18px;"></td>
-                <td style="height: 18px">&nbsp;</td>
             </tr>
             <tr>
                 <td style="width: 576px; height: 18px; padding-left: 20%;">
@@ -347,7 +346,7 @@
                 <td style="width: 490px; height: 18px;">
                     <asp:Label ID="lblDepartureDateResult" runat="server"></asp:Label>
                 </td>
-                <td style="width: 389px; height: 18px;">
+                <td style="width: 280px; height: 18px;">
                     <strong>
                         <asp:Label ID="lblReturningDate" runat="server" Text="Returning Date:"></asp:Label></strong></td>
                 <td style="width: 389px; height: 18px;">
@@ -363,38 +362,32 @@
                 <td style="width: 490px" class="modal-sm">
                     <asp:Label ID="lblDestinationResult" runat="server"></asp:Label>
                 </td>
-                <td style="width: 389px">&nbsp;</td>
-                <td style="width: 389px"></td>
-                <td>&nbsp;</td>
-            </tr>
-            <tr>
-                <td style="width: 576px; height: 18px; padding-left: 20%;"><strong>
-                    <asp:Label ID="lblPurposeTravel" runat="server" Text="Purpose Of Travel:"></asp:Label>
-                </strong>
-                </td>
-                <td style="width: 490px; height: 18px;">
-                    <asp:Label ID="lblPurposeOfTravelResult" runat="server"></asp:Label>
-                </td>
-                <td style="width: 389px; height: 18px;">
+                <td style="width: 280px" class="modal-sm">
                     <strong>
                         <asp:Label ID="lblNoOfPassengers" runat="server" Text="No of Passengers:"></asp:Label>
                     </strong>
-                </td>
-                <td style="width: 389px; height: 18px;">
+                 </td>
+                <td style="width: 389px">
                     <asp:Label ID="lblNoOfPassengersResult" runat="server"></asp:Label>
-                </td>
+                 </td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td style="width: 576px; height: 18px; padding-left: 20%;">&nbsp;</td>
+                <td style="width: 490px; height: 18px;">
+                    &nbsp;</td>
+                <td style="width: 280px; height: 18px;">
+                    &nbsp;</td>
+                <td style="width: 389px; height: 18px;">
+                    &nbsp;</td>
                 <td style="height: 18px"></td>
             </tr>
             <tr>
                 <td style="width: 576px; height: 18px; padding-left: 20%;">
-                    <strong>
-                        <asp:Label ID="lblApprovalStatusPrint" runat="server" Text="Progress Status:"></asp:Label>
-                    </strong>
-                </td>
+                    &nbsp;</td>
                 <td style="width: 490px; height: 18px;">
-                    <asp:Label ID="lblApprovalStatusResult" runat="server"></asp:Label>
-                </td>
-                <td style="height: 18px">&nbsp;</td>
+                    &nbsp;</td>
+                <td style="height: 18px; width: 280px;">&nbsp;</td>
                 <td></td>
                 <td></td>
             </tr>
@@ -420,11 +413,16 @@
             runat="server" AutoGenerateColumns="False" DataKeyNames="Id" OnRowDataBound="grvStatuses_RowDataBound"
             CssClass="table table-striped table-bordered table-hover">
             <RowStyle CssClass="rowstyle" />
-            <Columns>
-                <asp:BoundField DataField="Date" HeaderText="Date Approved" SortExpression="Date" />
-                 <asp:BoundField DataField="ApprovalStatus" HeaderText="Approval Status" SortExpression="ApprovalStatus" />
+          <Columns>
+                    <asp:TemplateField HeaderText="Date">
+                                            <ItemTemplate>
+                                              <asp:Label ID="lblDate" runat="server" Text='<%# Eval("Date", "{0:dd/MM/yyyy}")%>' ></asp:Label>
+                                            </ItemTemplate>
+                                            </asp:TemplateField>
+                
                 <asp:BoundField HeaderText="Approver" />
                 <asp:BoundField DataField="AssignedBy" HeaderText="Assignee Approver" SortExpression="AssignedBy" />
+                 <asp:BoundField DataField="ApprovalStatus" HeaderText="Approval Status" SortExpression="ApprovalStatus" />
                 <asp:BoundField DataField="Comment" HeaderText="Comment" SortExpression="Comment" />
             </Columns>
             <FooterStyle CssClass="FooterStyle" />

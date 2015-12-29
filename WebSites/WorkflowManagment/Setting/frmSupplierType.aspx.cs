@@ -92,10 +92,9 @@ namespace Chai.WorkflowManagment.Modules.Setting.Views
             Chai.WorkflowManagment.CoreDomain.Setting.SupplierType SupplierType = _presenter.GetSupplierTypeById(id);
             try
             {
-                //LinkButton lnkbtn = e.Item.FindControl("lnkDelete") as LinkButton;
-                //if (lnkbtn != null)
-                //    lnkbtn.Attributes.Add("OnClientClick", "javascript:return confirm('Are you sure you want to delete SupplierType?');");
-                _presenter.DeleteSupplierType(SupplierType);
+                SupplierType.Status = "InActive";
+                _presenter.SaveOrUpdateSupplierType(SupplierType);
+                
                 BindSupplierType();
 
                 Master.ShowMessage(new AppMessage("Supplier Type was Removed Successfully", Chai.WorkflowManagment.Enums.RMessageType.Info));
@@ -114,7 +113,7 @@ namespace Chai.WorkflowManagment.Modules.Setting.Views
                 {
                     TextBox txtSupplierTypeName = e.Item.FindControl("txtSupplierTypeName") as TextBox;
                     sType.SupplierTypeName = txtSupplierTypeName.Text;
-                    
+                    sType.Status = "Active";
 
                     SaveSupplierType(sType);
                     dgSupplierType.EditItemIndex = -1;

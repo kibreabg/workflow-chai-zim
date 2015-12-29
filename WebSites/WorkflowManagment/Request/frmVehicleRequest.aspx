@@ -134,7 +134,7 @@
                             </section>
                             <section class="col col-6">
                                 <label class="label">Comment </label>
-                                <label style="color: red;">(Please add additional info about your travel)</label>
+                                <label style="color:green;">(Please add additional info about your travel)</label>
                                 <label class="input">
                                     <asp:TextBox ID="txtComment" TextMode="MultiLine" Rows="5" Width="100%" runat="server"></asp:TextBox>
                                 </label>

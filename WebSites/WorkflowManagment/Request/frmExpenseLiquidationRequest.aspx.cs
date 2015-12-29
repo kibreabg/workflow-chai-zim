@@ -20,7 +20,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
     {
         private ExpenseLiquidationRequestPresenter _presenter;
         private IList<ExpenseLiquidationRequest> _ExpenseLiquidationRequests;
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog Log = LogManager.GetLogger("AuditTrailLog");
         int tarId;
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -195,6 +195,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 
                 if (dgi.ItemType == ListItemType.Item || dgi.ItemType == ListItemType.AlternatingItem)
                 {
+                    TextBox txtFRefNo = dgi.FindControl("txtRefNo") as TextBox;
+                    detail.RefNo = txtFRefNo.Text;
                     DropDownList ddlAccountDescription = dgi.FindControl("ddlAccountDescription") as DropDownList;
                     detail.ItemAccount = _presenter.GetItemAccount(Convert.ToInt32(ddlAccountDescription.SelectedValue));
                     DropDownList ddlProject = dgi.FindControl("ddlProject") as DropDownList;
@@ -340,6 +342,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 try
                 {
                     ExpenseLiquidationRequestDetail elrd1 = new ExpenseLiquidationRequestDetail();
+                    TextBox txtFRefNo = e.Item.FindControl("txtFRefNo") as TextBox;
+                    elrd1.RefNo = txtFRefNo.Text;
                     elrd1.ExpenseLiquidationRequest = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest;
                     DropDownList ddlFAccountDescription1 = e.Item.FindControl("ddlFAccountDescription") as DropDownList;
                     elrd1.ItemAccount = _presenter.GetItemAccount(Convert.ToInt32(ddlFAccountDescription1.SelectedValue));

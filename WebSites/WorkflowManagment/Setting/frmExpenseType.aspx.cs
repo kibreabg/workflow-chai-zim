@@ -91,10 +91,9 @@ namespace Chai.WorkflowManagment.Modules.Setting.Views
             Chai.WorkflowManagment.CoreDomain.Setting.ExpenseType ExpenseType = _presenter.GetExpenseTypeById(id);
             try
             {
-                //LinkButton lnkbtn = e.Item.FindControl("lnkDelete") as LinkButton;
-                //if (lnkbtn != null)
-                //    lnkbtn.Attributes.Add("OnClientClick", "javascript:return confirm('Are you sure you want to delete ExpenseType?');");
-                _presenter.DeleteExpenseType(ExpenseType);
+                ExpenseType.Status = "InActive";
+                _presenter.SaveOrUpdateExpenseType(ExpenseType);
+                
                 BindExpenseType();
 
                 Master.ShowMessage(new AppMessage("Expense Type was Removed Successfully", Chai.WorkflowManagment.Enums.RMessageType.Info));
@@ -114,7 +113,7 @@ namespace Chai.WorkflowManagment.Modules.Setting.Views
 
                     TextBox txtFExpenseTypeName = e.Item.FindControl("txtFExpenseTypeName") as TextBox;
                     ExpenseType.ExpenseTypeName = txtFExpenseTypeName.Text;
-                   
+                    ExpenseType.Status = "Active";
 
                     SaveExpenseType(ExpenseType);
                     dgExpenseType.EditItemIndex = -1;

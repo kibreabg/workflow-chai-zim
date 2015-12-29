@@ -13,7 +13,7 @@ namespace Chai.WorkflowManagment.CoreDomain.Setting
         }
         public int Id { get; set; }
         public string SupplierTypeName { get; set; }
-       
+        public string Status { get; set; }
         public IList<Supplier> Suppliers { get; set; }
        
     }

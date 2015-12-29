@@ -21,7 +21,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
     public partial class frmBankPaymentApproval : POCBasePage, IBankPaymentApprovalView
     {
         private BankPaymentApprovalPresenter _presenter;
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog Log = LogManager.GetLogger("AuditTrailLog");
         private int reqID = 0;
         protected void Page_Load(object sender, EventArgs e)
         {

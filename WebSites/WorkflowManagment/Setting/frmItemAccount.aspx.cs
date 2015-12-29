@@ -91,10 +91,8 @@ namespace Chai.WorkflowManagment.Modules.Setting.Views
             Chai.WorkflowManagment.CoreDomain.Setting.ItemAccount ItemAccount = _presenter.GetItemAccountById(id);
             try
             {
-                //LinkButton lnkbtn = e.Item.FindControl("lnkDelete") as LinkButton;
-                //if (lnkbtn != null)
-                //    lnkbtn.Attributes.Add("OnClientClick", "javascript:return confirm('Are you sure you want to delete ItemAccount?');");
-                _presenter.DeleteItemAccount(ItemAccount);
+                ItemAccount.Status = "InActive";
+                _presenter.SaveOrUpdateItemAccount(ItemAccount);
                 BindItemAccount();
 
                 Master.ShowMessage(new AppMessage("Item Account was Removed Successfully", Chai.WorkflowManagment.Enums.RMessageType.Info));
@@ -116,6 +114,7 @@ namespace Chai.WorkflowManagment.Modules.Setting.Views
                     ItemAccount.AccountName = txtFItemAccountName.Text;
                     TextBox txtFItemAccountCode = e.Item.FindControl("txtFItemAccountCode") as TextBox;
                     ItemAccount.AccountCode = txtFItemAccountCode.Text;
+                    ItemAccount.Status = "Active";
 
                     SaveItemAccount(ItemAccount);
                     dgItemAccount.EditItemIndex = -1;

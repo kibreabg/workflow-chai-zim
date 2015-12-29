@@ -63,7 +63,7 @@ namespace Chai.WorkflowManagment.Modules.Setting
         }
         public IList<Account> GetAccounts()
         {
-            return WorkspaceFactory.CreateReadOnly().Query<Account>(null).ToList();
+            return WorkspaceFactory.CreateReadOnly().Query<Account>(x=>x.Status =="Active").ToList();
         }
         public IList<Account> ListBankAccounts(string BankName)
         {
@@ -77,7 +77,7 @@ namespace Chai.WorkflowManagment.Modules.Setting
         #region ItemAccount
         public IList<ItemAccount> GetItemAccounts()
         {
-            return WorkspaceFactory.CreateReadOnly().Query<ItemAccount>(null).OrderBy(x=>x.AccountName).ToList();
+            return WorkspaceFactory.CreateReadOnly().Query<ItemAccount>(x => x.Status == "Active").OrderBy(x => x.AccountName).ToList();
         }
         public ItemAccount GetItemAccount(int ItemAccountId)
         {
@@ -101,7 +101,7 @@ namespace Chai.WorkflowManagment.Modules.Setting
 
         public IList<Grant> GetGrants()
         {
-            return WorkspaceFactory.CreateReadOnly().Query<Grant>(null).ToList();
+            return WorkspaceFactory.CreateReadOnly().Query<Grant>(x => x.Status == "Active").ToList();
         }
         public Grant GetGrant(int GrantId)
         {
@@ -120,11 +120,11 @@ namespace Chai.WorkflowManagment.Modules.Setting
         #region Supplier
         public IList<Supplier> GetSuppliers()
         {
-            return WorkspaceFactory.CreateReadOnly().Query<Supplier>(null).ToList();
+            return WorkspaceFactory.CreateReadOnly().Query<Supplier>(x => x.Status == "Active").ToList();
         }
         public IList<Supplier> GetSuppliers(int SupplierTypeId)
         {
-            return WorkspaceFactory.CreateReadOnly().Query<Supplier>(x => x.SupplierType.Id == SupplierTypeId).ToList();
+            return WorkspaceFactory.CreateReadOnly().Query<Supplier>(x => x.SupplierType.Id == SupplierTypeId && x.Status =="Active").ToList();
         }
         public Supplier GetSupplier(int SupplierId)
         {
@@ -157,13 +157,13 @@ namespace Chai.WorkflowManagment.Modules.Setting
 
         public IList<SupplierType> GetSupplierTypes()
         {
-            return WorkspaceFactory.CreateReadOnly().Query<SupplierType>(null).ToList();
+            return WorkspaceFactory.CreateReadOnly().Query<SupplierType>(x => x.Status == "Active").ToList();
         }
         #endregion
         #region CarRental
         public IList<CarRental> GetCarRentals()
         {
-            return WorkspaceFactory.CreateReadOnly().Query<CarRental>(null).ToList();
+            return WorkspaceFactory.CreateReadOnly().Query<CarRental>(x => x.Status == "Active").ToList();
         }
         public CarRental GetCarRental(int CarRentalId)
         {
@@ -182,7 +182,7 @@ namespace Chai.WorkflowManagment.Modules.Setting
         #region Vehicle
         public IList<Vehicle> GetVehicles()
         {
-            return WorkspaceFactory.CreateReadOnly().Query<Vehicle>(null).ToList();
+            return WorkspaceFactory.CreateReadOnly().Query<Vehicle>(x => x.Status == "Active").ToList();
         }
         public Vehicle GetVehicle(int VehicleId)
         {
@@ -202,7 +202,7 @@ namespace Chai.WorkflowManagment.Modules.Setting
 
         public IList<LeaveType> GetLeaveTypes()
         {
-            return WorkspaceFactory.CreateReadOnly().Query<LeaveType>(null).ToList();
+            return WorkspaceFactory.CreateReadOnly().Query<LeaveType>(x => x.Status == "Active").ToList();
         }
         public LeaveType GetLeaveType(int LeaveTypeId)
         {
@@ -222,7 +222,7 @@ namespace Chai.WorkflowManagment.Modules.Setting
 
         public IList<EmployeePosition> GetEmployeePositions()
         {
-            return WorkspaceFactory.CreateReadOnly().Query<EmployeePosition>(null).ToList();
+            return WorkspaceFactory.CreateReadOnly().Query<EmployeePosition>(x => x.Status == "Active").ToList();
         }
         public EmployeePosition GetEmployeePosition(int EmployeePositionId)
         {
@@ -409,7 +409,7 @@ namespace Chai.WorkflowManagment.Modules.Setting
         #region Beneficiary
         public IList<Beneficiary> GetBeneficiaries()
         {
-            return WorkspaceFactory.CreateReadOnly().Query<Beneficiary>(null).ToList();
+            return WorkspaceFactory.CreateReadOnly().Query<Beneficiary>(x => x.Status == "Active").ToList();
         }
         public Beneficiary GetBeneficiary(int BeneficiaryId)
         {
@@ -429,7 +429,7 @@ namespace Chai.WorkflowManagment.Modules.Setting
 
         public IList<ExpenseType> GetExpenseTypes()
         {
-            return WorkspaceFactory.CreateReadOnly().Query<ExpenseType>(null).ToList();
+            return WorkspaceFactory.CreateReadOnly().Query<ExpenseType>(x => x.Status == "Active").ToList();
         }
         public ExpenseType GetExpenseType(int ExpenseTypeId)
         {

@@ -77,10 +77,9 @@ namespace Chai.WorkflowManagment.Modules.Setting.Views
             Chai.WorkflowManagment.CoreDomain.Setting.EmployeePosition EmployeePosition = _presenter.GetEmployeePositionById(id);
             try
             {
-                //LinkButton lnkbtn = e.Item.FindControl("lnkDelete") as LinkButton;
-                //if (lnkbtn != null)
-                //    lnkbtn.Attributes.Add("OnClientClick", "javascript:return confirm('Are you sure you want to delete EmployeePosition?');");
-                _presenter.DeleteEmployeePosition(EmployeePosition);
+                EmployeePosition.Status = "InActive";
+                _presenter.SaveOrUpdateEmployeePosition(EmployeePosition);
+                
                 BindEmployeePosition();
 
                 Master.ShowMessage(new AppMessage("Employee Position was Removed Successfully", Chai.WorkflowManagment.Enums.RMessageType.Info));
@@ -100,7 +99,7 @@ namespace Chai.WorkflowManagment.Modules.Setting.Views
 
                     TextBox txtFEmployeePositionName = e.Item.FindControl("txtFPositionName") as TextBox;
                     EmployeePosition.PositionName = txtFEmployeePositionName.Text;
-               
+                    EmployeePosition.Status = "Active";
                     SaveEmployeePosition(EmployeePosition);
                     dgEmployeePosition.EditItemIndex = -1;
                     BindEmployeePosition();

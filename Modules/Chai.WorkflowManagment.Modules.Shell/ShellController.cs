@@ -48,6 +48,10 @@ namespace Chai.WorkflowManagment.Modules.Shell
            
 
         }
+        public AppUser GetUserByUserName(string userName)
+        {
+            return _workspace.Single<AppUser>(x => x.UserName == userName, x => x.AppUserRoles.Select(y => y.Role));
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -279,5 +283,15 @@ namespace Chai.WorkflowManagment.Modules.Shell
 
         }
         #endregion
+        public void SaveOrUpdateEntity<T>(T item) where T : class
+        {
+            IEntity entity = (IEntity)item;
+            if (entity.Id == 0)
+                _workspace.Add<T>(item);
+            else
+                _workspace.Update<T>(item);
+
+            _workspace.CommitChanges();
+        }
     }
 }

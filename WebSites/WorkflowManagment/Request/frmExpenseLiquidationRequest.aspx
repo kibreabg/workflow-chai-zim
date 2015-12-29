@@ -124,8 +124,8 @@
                                                             </asp:DropDownList><i></i>
                                                         </label>
                                                     </section>
-                                                    <section class="col col-6">
-                                                        <label class="label">Comment</label>
+                                                       <section class="col col-6">
+                                                        <label class="label">Purpose of Advance </label>
                                                         <label class="input">
                                                             <asp:TextBox ID="txtComment" runat="server"></asp:TextBox>
                                                         </label>
@@ -138,6 +138,16 @@
                                                             GridLines="None" OnItemDataBound="dgExpenseLiquidationDetail_ItemDataBound" ShowFooter="True" OnItemCommand="dgExpenseLiquidationDetail_ItemCommand">
 
                                                             <Columns>
+                                                                    <asp:TemplateColumn HeaderText="Ref No.">
+                                                                    <ItemTemplate>
+                                                                        <asp:TextBox ID="txtRefNo" runat="server" CssClass="form-control" AutoPostBack="true" Text='<%# DataBinder.Eval(Container.DataItem, "RefNo")%>'></asp:TextBox>
+                                                                        <asp:RequiredFieldValidator ID="rfvtxtRefNo" runat="server" ControlToValidate="txtRefNo" CssClass="validator" ErrorMessage="Ref No. is required" ValidationGroup="request" InitialValue=""></asp:RequiredFieldValidator>
+                                                                    </ItemTemplate>
+                                                                    <FooterTemplate>
+                                                                        <asp:TextBox ID="txtFRefNo" runat="server" CssClass="form-control" AutoPostBack="true"></asp:TextBox>
+                                                                        <asp:RequiredFieldValidator ID="rfvtxtFRefNo" runat="server" CssClass="validator" ControlToValidate="txtFRefNo" ErrorMessage="Ref No. is required" ValidationGroup="save" InitialValue=""></asp:RequiredFieldValidator>
+                                                                    </FooterTemplate>
+                                                                </asp:TemplateColumn>
                                                                 <asp:TemplateColumn HeaderText="Account Name">
                                                                     <ItemTemplate>
                                                                         <asp:DropDownList ID="ddlAccountDescription" runat="server" CssClass="form-control" AppendDataBoundItems="true" AutoPostBack="True" OnSelectedIndexChanged="ddlAccountDescription_SelectedIndexChanged">
@@ -458,18 +468,7 @@
                     <td style="width: 389px"></td>
                     <td>&nbsp;</td>
                 </tr>
-                <tr>
-                    <td style="width: 738px; height: 18px;">
-                        <strong>
-                            <asp:Label ID="lblEmployeeNo" runat="server" Text="Employee No:"></asp:Label>
-                        </strong></td>
-                    <td style="height: 18px;">
-                        <asp:Label ID="lblEmpNoResult" runat="server"></asp:Label>
-                    </td>
-                    <td style="width: 389px; height: 18px;">&nbsp;</td>
-                    <td style="width: 389px; height: 18px;"></td>
-                    <td style="height: 18px">&nbsp;</td>
-                </tr>
+                
                 <tr>
                    <%-- <td style="width: 738px; height: 18px; padding-left: 20%;">
                         <strong>
@@ -484,8 +483,8 @@
                     <td style="height: 18px">&nbsp;</td>
                 </tr>
                 <tr>
-                    <td style="width: 738px; height: 18px; padding-left: 20%;"><strong>
-                        <asp:Label ID="lblCommentPrint" runat="server" Text="Comment:"></asp:Label>
+                     <td style="width: 389px; height: 18px;"><strong>
+                        <asp:Label ID="lblCommentPrint" runat="server" Text="Purpose of Advance:"></asp:Label>
                     </strong>
                     </td>
                     <td style="height: 18px;">
@@ -509,11 +508,12 @@
                 CssClass="table table-striped table-bordered table-hover">
                 <RowStyle CssClass="rowstyle" />
                 <Columns>
-                    <asp:BoundField DataField="ItemAccount.AccountName" HeaderText="Account Name" />
+                    <asp:BoundField DataField="ItemAccount.AccountCode" HeaderText="Account Code" />
                     <asp:BoundField DataField="AmountAdvanced" HeaderText="Amount Advanced" />
                     <asp:BoundField DataField="ActualExpenditure" HeaderText="Actual Expenditure" />
                     <asp:BoundField DataField="Variance" HeaderText="Variance" />
                     <asp:BoundField DataField="Project.ProjectCode" HeaderText="Project" />
+                    <asp:BoundField DataField="Grant.GrantCode" HeaderText="Grant" />
                 </Columns>
                 <FooterStyle CssClass="FooterStyle" />
                 <HeaderStyle CssClass="headerstyle" />
@@ -526,7 +526,11 @@
                 CssClass="table table-striped table-bordered table-hover" OnRowDataBound="grvStatuses_RowDataBound">
                 <RowStyle CssClass="rowstyle" />
                 <Columns>
-                    <asp:BoundField DataField="Date" HeaderText="Approval Date" SortExpression="Date" />
+                     <asp:TemplateField HeaderText="Date">
+                                            <ItemTemplate>
+                                              <asp:Label ID="lblDate" runat="server" Text='<%# Eval("Date", "{0:dd/MM/yyyy}")%>' ></asp:Label>
+                                            </ItemTemplate>
+                                            </asp:TemplateField> 
                     <asp:BoundField DataField="Approver" HeaderText="Approver" SortExpression="Approver" />
                 </Columns>
                 <FooterStyle CssClass="FooterStyle" />

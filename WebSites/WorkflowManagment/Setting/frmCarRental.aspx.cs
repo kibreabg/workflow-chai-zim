@@ -89,7 +89,9 @@ namespace Chai.WorkflowManagment.Modules.Setting.Views
             CarRental CarRental = _presenter.GetCarRentalById(id);
             try
             {
-                _presenter.DeleteCarRental(CarRental);
+                CarRental.Status = "InActive";
+                _presenter.SaveOrUpdateCarRental(CarRental);
+                
                 BindCarRentals();
 
                 Master.ShowMessage(new AppMessage("Car Rental was Removed Successfully", Chai.WorkflowManagment.Enums.RMessageType.Info));
@@ -169,6 +171,7 @@ namespace Chai.WorkflowManagment.Modules.Setting.Views
                 CarRental.PhoneNo = txtPhone.Text;
                 TextBox txtContact = e.Item.FindControl("txtEdtContactAddress") as TextBox;
                 CarRental.ContactAddress = txtContact.Text;
+                CarRental.Status = "Active";
                 SaveCarRental(CarRental);
                 dgCarRental.EditItemIndex = -1;
                 BindCarRentals();

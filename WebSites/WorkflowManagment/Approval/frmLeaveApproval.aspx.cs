@@ -19,7 +19,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
     public partial class frmLeaveApproval : POCBasePage, ILeaveApprovalView
     {
         private LeaveApprovalPresenter _presenter;
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog Log = LogManager.GetLogger("AuditTrailLog");
         private LeaveRequest _leaverequest;
         protected void Page_Load(object sender, EventArgs e)
         {

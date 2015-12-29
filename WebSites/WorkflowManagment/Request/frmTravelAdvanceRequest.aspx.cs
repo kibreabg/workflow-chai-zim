@@ -18,7 +18,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
     public partial class frmTravelAdvanceRequest : POCBasePage, ITravelAdvanceRequestView
     {
         private TravelAdvanceRequestPresenter _presenter;
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog Log = LogManager.GetLogger("AuditTrailLog");
         TravelAdvanceRequestDetail tac;
         protected void Page_Load(object sender, EventArgs e)
         {

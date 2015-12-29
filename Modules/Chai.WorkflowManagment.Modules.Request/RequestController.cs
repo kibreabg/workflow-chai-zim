@@ -98,7 +98,7 @@ namespace Chai.WorkflowManagment.Modules.Request
             {
                 return _workspace.Last<VehicleRequest>().Id;
             }
-            else { return 1; }
+            else { return 0; }
         }
         public VehicleRequestDetail GetAssignedVehicleById(int id)
         {

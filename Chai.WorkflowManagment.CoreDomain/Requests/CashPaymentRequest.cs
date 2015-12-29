@@ -11,6 +11,7 @@ namespace Chai.WorkflowManagment.CoreDomain.Requests
     {
         public CashPaymentRequest()
         {
+            
             this.CashPaymentRequestDetails = new List<CashPaymentRequestDetail>();
             this.CashPaymentRequestStatuses = new List<CashPaymentRequestStatus>();
             this.CPRAttachments = new List<CPRAttachment>();

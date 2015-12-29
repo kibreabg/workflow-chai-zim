@@ -21,7 +21,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
     public partial class frmPurchaseRequest : POCBasePage, IPurchaseRequestView
     {
         private PurchaseRequestPresenter _presenter;
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog Log = LogManager.GetLogger("AuditTrailLog");
         private PurchaseRequest _purchaserequest;
         private int _leaverequestId = 0;
         private int _totalprice = 0;
@@ -95,10 +95,10 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             if (_presenter.CurrentPurchaseRequest.Id > 0)
             {
                 txtRequestNo.Text = _presenter.CurrentPurchaseRequest.RequestNo;
-                txtRequestDate.Text = _presenter.CurrentPurchaseRequest.RequestedDate.ToString();
+                txtRequestDate.Text = _presenter.CurrentPurchaseRequest.RequestedDate.ToShortDateString();
                 txtComment.Text = _presenter.CurrentPurchaseRequest.Comment.ToString();
                 txtDeliverto.Text = _presenter.CurrentPurchaseRequest.DeliverTo.ToString();
-                txtdeliveryDate.Text = _presenter.CurrentPurchaseRequest.Requireddateofdelivery.ToString();
+                txtdeliveryDate.Text = _presenter.CurrentPurchaseRequest.Requireddateofdelivery.ToShortDateString();
                 txtSuggestedSupplier.Text = _presenter.CurrentPurchaseRequest.SuggestedSupplier.ToString();
                 txtneededfor.Text = _presenter.CurrentPurchaseRequest.Neededfor.ToString();
                 txtneededfor.Text = _presenter.CurrentPurchaseRequest.SpecialNeed.ToString();
