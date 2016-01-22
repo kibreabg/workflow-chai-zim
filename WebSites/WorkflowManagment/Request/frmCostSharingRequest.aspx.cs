@@ -29,10 +29,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 CheckApprovalSettings();
                 BindCostSharingRequests();
                 BindAccountDescription();
-                if (_presenter.CurrentCostSharingRequest.Id <= 0)
-                {
-                    AutoNumber();
-                }
+                
             }
             txtRequestDate.Text = DateTime.Today.Date.ToShortDateString();
             this._presenter.OnViewLoaded();
@@ -79,7 +76,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         public string GetRequestNo
         {
-            get { return txtVoucherNo.Text; }
+            get { return AutoNumber(); }
         }
         public string GetPayee
         {
@@ -91,7 +88,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         public string GetVoucherNo
         {
-            get { return txtVoucherNo.Text; }
+            get { return AutoNumber(); }
         }
         public decimal EstimatedTotalAmount
         {
@@ -106,9 +103,9 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             get { return ddlAmountType.SelectedValue; }
         }
         #endregion
-        private void AutoNumber()
+        private string AutoNumber()
         {
-            txtVoucherNo.Text = "CSV-" + (_presenter.GetLastCostSharingRequestId() + 1).ToString();
+           return  "CSV-" + (_presenter.GetLastCostSharingRequestId() + 1).ToString();
         }
         private void CheckApprovalSettings()
         {
@@ -121,7 +118,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             // txtVoucherNo.Text = String.Empty;
             txtPayee.Text = String.Empty;
-            txtVoucherNo.Text = String.Empty;
+            //txtVoucherNo.Text = String.Empty;
             txtEstimatedCost.Text = String.Empty;
         }
         
@@ -138,7 +135,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 // txtRequestNo.Text = _presenter.CurrentCashPaymentRequest.RequestNo.ToString();
                 txtPayee.Text = _presenter.CurrentCostSharingRequest.Payee;
                 txtDescription.Text = _presenter.CurrentCostSharingRequest.Description;
-                txtVoucherNo.Text = _presenter.CurrentCostSharingRequest.VoucherNo.ToString();
+                //txtVoucherNo.Text = _presenter.CurrentCostSharingRequest.VoucherNo.ToString();
                 txtEstimatedCost.Text = _presenter.CurrentCostSharingRequest.EstimatedTotalAmount.ToString();
                 ddlAccountDescription.SelectedValue = _presenter.CurrentCostSharingRequest.ItemAccount.Id.ToString();
                 BindCostSharingRequests();
@@ -201,7 +198,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     {
                         _presenter.SaveOrUpdateCostSharingRequest(_presenter.CurrentCostSharingRequest);
                         BindCostSharingRequests();
-                        Master.ShowMessage(new AppMessage("Cost Sharing Successfully Requested", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                        Master.ShowMessage(new AppMessage("Successfully did a Cost Sharing Payment  Request, Reference No - <b>'" + _presenter.CurrentCostSharingRequest.VoucherNo + "'</b>", Chai.WorkflowManagment.Enums.RMessageType.Info));
                         Log.Info(_presenter.CurrentUser().FullName + " has requested a Cost Sharing Payment of Total Amount " + _presenter.CurrentCostSharingRequest.EstimatedTotalAmount.ToString());
                         btnSave.Visible = false;
                     }
@@ -221,8 +218,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 {
                     if (ex.InnerException.InnerException.Message.Contains("Violation of UNIQUE KEY"))
                     {
-                        Master.ShowMessage(new AppMessage("Please Try to Save Again,There is a duplicate Number", Chai.WorkflowManagment.Enums.RMessageType.Error));
-                        AutoNumber();
+                        Master.ShowMessage(new AppMessage("Please Click Request button Again,There is a duplicate Number", Chai.WorkflowManagment.Enums.RMessageType.Error));
+                        //AutoNumber();
                     }
                 }
             }

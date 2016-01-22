@@ -120,6 +120,9 @@
 
 
                                     <asp:TextBox ID="txtPassword1" type="password" runat="server" TextMode="Password"></asp:TextBox></label>
+                                 <asp:RegularExpressionValidator ID="Regex2" runat="server" ControlToValidate="txtPassword1"
+    ValidationExpression="^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$"
+    ErrorMessage="Minimum 8 characters atleast 1 Alphabet, 1 Number and 1 Special Character" ForeColor="Red" />
                             </section>
                         </div>
                         <div class="row">

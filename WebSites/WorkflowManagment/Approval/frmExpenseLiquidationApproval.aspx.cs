@@ -73,7 +73,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         private void ShowControls()
         {
-            if (_presenter.CurrentExpenseLiquidationRequest.ExpenseLiquidationRequestStatuses.Count == _presenter.CurrentExpenseLiquidationRequest.CurrentLevel && _presenter.CurrentUser().EmployeePosition.PositionName == "Finance Officer")
+            if (_presenter.CurrentExpenseLiquidationRequest.ExpenseLiquidationRequestStatuses.Count == _presenter.CurrentExpenseLiquidationRequest.CurrentLevel && (_presenter.CurrentUser().EmployeePosition.PositionName == "Finance Officer" || _presenter.GetUser(_presenter.CurrentExpenseLiquidationRequest.CurrentApprover).IsAssignedJob == true))
             {
                 lblReimbersmentType.Visible = true;
                 ddlType.Visible = true;

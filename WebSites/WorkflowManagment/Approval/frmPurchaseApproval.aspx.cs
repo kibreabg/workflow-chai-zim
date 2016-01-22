@@ -437,7 +437,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             if (_presenter.CurrentPurchaseRequest.TotalPrice > 500)
             {
                 //lnkbidanalysis.Visible = true;
-                if (_presenter.CurrentUser().EmployeePosition.PositionName == "Admin/HR Assisitance (Driver)" || _presenter.CurrentUser().EmployeePosition.PositionName == "Admin/HR Officer" || _presenter.CurrentUser().EmployeePosition.PositionName == "Operational Manager" || _presenter.CurrentUser().EmployeePosition.PositionName == "Country Director" || _presenter.CurrentUser().EmployeePosition.PositionName == "Finance Officer" || _presenter.CurrentUser().EmployeePosition.PositionName == "Finance Manager" || _presenter.GetUser(_presenter.CurrentPurchaseRequest.CurrentApprover).IsAssignedJob ==true)
+                if (_presenter.CurrentUser().EmployeePosition.PositionName == "Admin/HR Assisitance (Driver)" || _presenter.CurrentUser().EmployeePosition.PositionName == "Admin Officer" || _presenter.CurrentUser().EmployeePosition.PositionName == "Operational Manager" || _presenter.CurrentUser().EmployeePosition.PositionName == "Country Director" || _presenter.CurrentUser().EmployeePosition.PositionName == "Finance Officer" || _presenter.CurrentUser().EmployeePosition.PositionName == "Finance Manager" || _presenter.GetUser(_presenter.CurrentPurchaseRequest.CurrentApprover).IsAssignedJob ==true)
                 {
                     if (String.IsNullOrEmpty(_presenter.CurrentPurchaseRequest.PurchaseRequestStatuses[0].ApprovalStatus))
                     {
@@ -448,7 +448,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                         lnkbidanalysis.Visible = true;
                     }
 
-                    if (_presenter.CurrentUser().EmployeePosition.PositionName == "Admin/HR Officer" || _presenter.CurrentUser().EmployeePosition.PositionName == "Operational Manager" || _presenter.CurrentUser().EmployeePosition.PositionName == "Country Director" || _presenter.CurrentUser().EmployeePosition.PositionName == "Finance Officer" || _presenter.CurrentUser().EmployeePosition.PositionName == "Finance Manager")
+                    if (_presenter.CurrentUser().EmployeePosition.PositionName == "Admin Officer" || _presenter.CurrentUser().EmployeePosition.PositionName == "Operational Manager" || _presenter.CurrentUser().EmployeePosition.PositionName == "Country Director" || _presenter.CurrentUser().EmployeePosition.PositionName == "Finance Officer" || _presenter.CurrentUser().EmployeePosition.PositionName == "Finance Manager")
                     {
                         lnkbidanalysis.Text = "Review Bid Analysis";
 

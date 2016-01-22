@@ -24,7 +24,7 @@
                 <div class="smart-form">
                     <fieldset>
                         <div class="row">
-                            <section class="col col-6">
+                            <%--<section class="col col-6">
                                 <label class="label">Request Number</label>
                                 <label class="input">
                                     <asp:TextBox ID="txtRequestNo" runat="server" ReadOnly="true"></asp:TextBox>
@@ -32,7 +32,7 @@
                                         ID="rfvtxtRequestNo" runat="server" ErrorMessage="Request number is required" Display="Dynamic"
                                         CssClass="validator" ValidationGroup="save" SetFocusOnError="true" ControlToValidate="txtRequestNo"></asp:RequiredFieldValidator>
                                 </label>
-                            </section>
+                            </section>--%>
                             <section class="col col-6">
                                 <label class="label">Request Date</label>
                                 <label class="input">

@@ -85,16 +85,16 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 
             }
         }
-        private void AutoNumber()
+        private string AutoNumber()
         {
-            txtRequestNo.Text = "PR-" + (_presenter.GetLastPurchaseRequestId() + 1).ToString();
+            return "PR-" + (_presenter.GetLastPurchaseRequestId() + 1).ToString();
         }
         private void BindPurchaseRequest()
         {
 
             if (_presenter.CurrentPurchaseRequest.Id > 0)
             {
-                txtRequestNo.Text = _presenter.CurrentPurchaseRequest.RequestNo;
+               // txtRequestNo.Text = _presenter.CurrentPurchaseRequest.RequestNo;
                 txtRequestDate.Text = _presenter.CurrentPurchaseRequest.RequestedDate.ToShortDateString();
                 txtComment.Text = _presenter.CurrentPurchaseRequest.Comment.ToString();
                 txtDeliverto.Text = _presenter.CurrentPurchaseRequest.DeliverTo.ToString();
@@ -114,7 +114,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             {
                 _presenter.CurrentPurchaseRequest.Requester = CurrentUser.Id;
                 _presenter.CurrentPurchaseRequest.RequestedDate = Convert.ToDateTime(txtRequestDate.Text);
-                _presenter.CurrentPurchaseRequest.RequestNo = txtRequestNo.Text;
+                _presenter.CurrentPurchaseRequest.RequestNo = AutoNumber();
                 _presenter.CurrentPurchaseRequest.DeliverTo = txtDeliverto.Text;
                 _presenter.CurrentPurchaseRequest.Comment = txtComment.Text;
                 _presenter.CurrentPurchaseRequest.SuggestedSupplier = txtSuggestedSupplier.Text;
@@ -139,8 +139,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 {
                     if (ex.InnerException.InnerException.Message.Contains("Violation of UNIQUE KEY"))
                     {
-                        Master.ShowMessage(new AppMessage("Please Try to Save Again,There is a duplicate Number", Chai.WorkflowManagment.Enums.RMessageType.Error));
-                        AutoNumber();
+                        Master.ShowMessage(new AppMessage("Please Click Request button Again,There is a duplicate Number", Chai.WorkflowManagment.Enums.RMessageType.Error));
+                        //AutoNumber();
                     }
                 }
 
@@ -280,7 +280,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         private void ClearForm()
         {
-            txtRequestNo.Text = "";
+            //txtRequestNo.Text = "";
             txtRequestDate.Text = "";
             txtComment.Text = "";
             txtDeliverto.Text = "";
@@ -582,7 +582,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     _presenter.SaveOrUpdateLeavePurchase(_presenter.CurrentPurchaseRequest);
                     ClearForm();
                     BindSearchPurchaseRequestGrid();
-                    Master.ShowMessage(new AppMessage("Purchase Request Successfully Saved ", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                    Master.ShowMessage(new AppMessage("Successfully did a Purchase Request, Reference No - <b>'" + _presenter.CurrentPurchaseRequest.RequestNo + "'</b> ", Chai.WorkflowManagment.Enums.RMessageType.Info));
                     Log.Info(_presenter.CurrentUser().FullName + " has requested for a Purchase of Total Price " + _presenter.CurrentPurchaseRequest.TotalPrice);
                 }
                 else

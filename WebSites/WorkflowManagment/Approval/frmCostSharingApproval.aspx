@@ -83,8 +83,8 @@
                                               <asp:Label ID="lblDate" runat="server" Text='<%# Eval("RequestDate", "{0:dd/MM/yyyy}")%>' ></asp:Label>
                                             </ItemTemplate>
                                             </asp:TemplateField> 
-                <asp:BoundField DataField="Payee" HeaderText="Description" SortExpression="Payee" />
-                <asp:BoundField  DataField="Description" HeaderText="Payee" SortExpression="Description" />
+                <asp:BoundField DataField="Payee" HeaderText="Payee" SortExpression="Payee" />
+                <asp:BoundField  DataField="Description" HeaderText="Description" SortExpression="Description" />
                 <asp:BoundField DataField="ItemAccount.AccountName" HeaderText="Account Name" SortExpression="ItemAccount.AccountName" />
                 <asp:BoundField DataField="EstimatedTotalAmount" HeaderText="Estimated Total Amount" SortExpression="EstimatedTotalAmount" />
                 <asp:ButtonField ButtonType="Button" CommandName="ViewItem" Text="View Item Detail" />

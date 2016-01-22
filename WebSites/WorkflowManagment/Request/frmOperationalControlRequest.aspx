@@ -24,12 +24,12 @@
                 <div class="smart-form">
                     <fieldset>
                         <div class="row">
-                            <section class="col col-6">
+                           <%-- <section class="col col-6">
                                 <label class="label">Vourcher No</label>
                                 <label class="input">
                                     <asp:TextBox ID="txtVoucherNo" runat="server" ReadOnly="true"></asp:TextBox>
                                 </label>
-                            </section>
+                            </section>--%>
                             <%-- <section class="col col-6">
                                 <label class="label">Request Number</label>
                                 <label class="input">

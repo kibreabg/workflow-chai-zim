@@ -79,7 +79,7 @@ namespace Chai.WorkflowManagment.Modules.Shell.Views
                 try
                 {
                     AppUser user = _presenter.SearchUser(txtUsername.Text);
-                    user.Password = Encryption.StringToMD5Hash("password");
+                    user.Password = Encryption.StringToMD5Hash("pass@123");
                     _presenter.SaveOrUpdateUser(user);
                     MailMessage Msg = new MailMessage();
                     // Sender e-mail address.
@@ -87,7 +87,7 @@ namespace Chai.WorkflowManagment.Modules.Shell.Views
                     // Recipient e-mail address.
                     Msg.To.Add(user.Email);
                     Msg.Subject = "Your Password Details";
-                    Msg.Body = "Hi, <br/>Please check your Login Details <br/><br/>Your Username: " + txtUsername.Text + "<br/><br/>Your Password: " + "password" + "<br/><br/>";
+                    Msg.Body = "Hi, <br/>Please check your Login Details <br/><br/>Your Username: " + txtUsername.Text + "<br/><br/>Your Password: " + "pass@123" + "<br/><br/>";
                     Msg.IsBodyHtml = true;
                     // your remote SMTP server IP.
                     SmtpClient smtp = new SmtpClient();

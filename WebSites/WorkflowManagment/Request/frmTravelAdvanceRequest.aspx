@@ -38,12 +38,12 @@
                 <div class="smart-form">
                     <fieldset>
                         <div class="row">
-                            <section class="col col-6">
+                           <%-- <section class="col col-6">
                                 <label class="label">Travel Advance Number</label>
                                 <label class="input">
                                     <asp:TextBox ID="txtTravelAdvanceNo" runat="server" ReadOnly="true"></asp:TextBox>
                                 </label>
-                            </section>
+                            </section>--%>
                             <section class="col col-6">
                                 <label class="label">Request Date</label>
                                 <label class="input">
@@ -435,7 +435,7 @@
                                         <%# DataBinder.Eval(Container.DataItem, "ExpenseType.ExpenseTypeName")%>
                                     </ItemTemplate>
                                     <EditItemTemplate>
-                                          <asp:DropDownList ID="ddlEdtExpenseType" runat="server" Enabled="false" DataValueField="Id" DataTextField="ExpenseTypeName" AppendDataBoundItems="True">
+                                          <asp:DropDownList ID="ddlEdtExpenseType" runat="server" Enabled="true" DataValueField="Id" DataTextField="ExpenseTypeName" AppendDataBoundItems="True">
                                             <asp:ListItem Value="0">--Select Expense Type--</asp:ListItem>
                                         </asp:DropDownList><i></i>
                                      

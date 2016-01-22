@@ -32,28 +32,28 @@
                     <fieldset>
 
                         <div class="row">
-                            <section class="col col-3">
+                           <%-- <section class="col col-3">
                                 <label class="label">
                                     Request No.</label>
                                 <label class="input">
                                     <asp:TextBox ID="txtRequestNo" runat="server" Visible="true" ReadOnly="true"></asp:TextBox>
                                 </label>
-                            </section>
-                            <section class="col col-3">
+                            </section>--%>
+                            <section class="col col-4">
                                 <label class="label">
                                     Requester</label>
                                 <label class="input">
                                     <asp:TextBox ID="txtRequester" runat="server" Visible="true"></asp:TextBox>
                                 </label>
                             </section>
-                            <section class="col col-3">
+                            <section class="col col-4">
                                 <label class="label">
                                     Employee No.
                                 </label>
                                 <label class="input">
                                     <asp:TextBox ID="txtEmployeeNo" runat="server" Visible="true"></asp:TextBox></label>
                             </section>
-                            <section class="col col-3">
+                            <section class="col col-4">
                                 <label id="lblRequestDate" runat="server" class="label" visible="true">
                                     Request Date</label>
                                 <label class="input">

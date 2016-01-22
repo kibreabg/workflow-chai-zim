@@ -44,21 +44,21 @@
                     <fieldset>
 
                         <div class="row">
-                            <section class="col col-4">
+                            <%--<section class="col col-4">
                                 <label class="label">
                                     Request No.</label>
                                 <label class="input">
                                     <asp:TextBox ID="txtRequestNo" runat="server" Visible="true"></asp:TextBox>
                                 </label>
-                            </section>
-                            <section class="col col-4">
+                            </section>--%>
+                            <section class="col col-6">
                                 <label class="label">
                                     Requester</label>
                                 <label class="input">
                                     <asp:TextBox ID="txtRequester" runat="server" Visible="true"></asp:TextBox>
                                 </label>
                             </section>
-                            <section class="col col-4">
+                            <section class="col col-6">
                                 <label id="lblRequestDate" runat="server" class="label" visible="true">
                                     Request Date</label>
                                 <label class="input">
