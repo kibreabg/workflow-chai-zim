@@ -33,10 +33,10 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 XmlConfigurator.Configure();
                 PopLeaveType();
                 BindSearchLeaveRequestGrid();
-                 if (_presenter.CurrentLeaveRequest.Id <= 0)
-                {
-                    AutoNumber();
-                 }
+                // if (_presenter.CurrentLeaveRequest.Id <= 0)
+                //{
+                //    AutoNumber();
+                // }
             }
             this._presenter.OnViewLoaded();
             BindInitialValues();
@@ -44,9 +44,9 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 
         }
 
-        private void AutoNumber()
+        private string AutoNumber()
         {
-            txtRequestNo.Text = "LR-" + (_presenter.GetLastLeaveRequestId() + 1).ToString();
+            return "LR-" + (_presenter.GetLastLeaveRequestId() + 1).ToString();
         }
         [CreateNew]
         public LeaveRequestPresenter Presenter
@@ -105,7 +105,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 
 
 
-                txtRequestNo.Text = _presenter.CurrentLeaveRequest.RequestNo;
+                //txtRequestNo.Text = _presenter.CurrentLeaveRequest.RequestNo;
                 txtRequestDate.Text = _presenter.CurrentLeaveRequest.RequestedDate.ToString();
                 ddlLeaveType.SelectedValue = _presenter.CurrentLeaveRequest.LeaveType != null ? _presenter.CurrentLeaveRequest.LeaveType.Id.ToString() : "0";
                 txtDateFrom.Text = _presenter.CurrentLeaveRequest.DateFrom.ToString();
@@ -126,7 +126,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 _presenter.CurrentLeaveRequest.Requester = CurrentUser.Id;
                 _presenter.CurrentLeaveRequest.EmployeeNo = txtEmployeeNo.Text;
                 _presenter.CurrentLeaveRequest.RequestedDate = Convert.ToDateTime(txtRequestDate.Text);
-                _presenter.CurrentLeaveRequest.RequestNo = txtRequestNo.Text;
+                _presenter.CurrentLeaveRequest.RequestNo = AutoNumber();
                 _presenter.CurrentLeaveRequest.RequestedDate = Convert.ToDateTime(txtRequestDate.Text);
                 _presenter.CurrentLeaveRequest.LeaveType = _presenter.GetLeaveType(int.Parse(ddlLeaveType.SelectedValue));
                 _presenter.CurrentLeaveRequest.DateFrom = Convert.ToDateTime(txtDateFrom.Text);
@@ -146,8 +146,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 {
                     if (ex.InnerException.InnerException.Message.Contains("Violation of UNIQUE KEY"))
                     {
-                        Master.ShowMessage(new AppMessage("Please Try to Save Again,There is a duplicate Number", Chai.WorkflowManagment.Enums.RMessageType.Error));
-                        AutoNumber();
+                        Master.ShowMessage(new AppMessage("Please Click Request button Again,There is a duplicate Number", Chai.WorkflowManagment.Enums.RMessageType.Error));
+                        //AutoNumber();
                     }
                 }
 
@@ -264,7 +264,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     _presenter.SaveOrUpdateLeaveRequest(_presenter.CurrentLeaveRequest);
                     ClearForm();
                     BindSearchLeaveRequestGrid();
-                    Master.ShowMessage(new AppMessage("Leave Request Successfully Saved ", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                    Master.ShowMessage(new AppMessage("Successfully did a Leave  Request, Reference No - <b>'" + _presenter.CurrentLeaveRequest.RequestNo + "'</b>", Chai.WorkflowManagment.Enums.RMessageType.Info));
                     Log.Info(_presenter.CurrentUser().FullName + " has requested for a Leave Type of " + ddlLeaveType.SelectedValue);
                 }
                 else
@@ -278,7 +278,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         private void ClearForm()
         {
-            txtRequestNo.Text = "";
+            //txtRequestNo.Text = "";
             txtRequestDate.Text = "";
             ddlLeaveType.SelectedValue = "0";
             txtDateFrom.Text = "";

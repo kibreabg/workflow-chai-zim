@@ -61,7 +61,7 @@ namespace Chai.WorkflowManagment.Modules.Setting.Views
         {
             dgProject.DataSource = _presenter.ListProjects(txtProjectCode.Text);
             dgProject.DataBind();
-            _presenter.Commit();
+            //_presenter.Commit();
         }
         #region interface
 

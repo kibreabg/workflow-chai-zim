@@ -29,10 +29,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 CheckApprovalSettings();
                 BindCashPaymentRequests();
                 BindCashPaymentDetails();
-                if (_presenter.CurrentCashPaymentRequest.Id <= 0)
-                {
-                    AutoNumber();
-                }
+               
             }
             txtRequestDate.Text = DateTime.Today.Date.ToShortDateString();
             this._presenter.OnViewLoaded();
@@ -79,7 +76,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         public string GetRequestNo
         {
-            get { return txtVoucherNo.Text; }
+            get { return AutoNumber(); }
         }
         public string GetPayee
         {
@@ -91,16 +88,16 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         public string GetVoucherNo
         {
-            get { return txtVoucherNo.Text; }
+            get { return AutoNumber(); }
         }
         public string GetAmountType
         {
             get { return ddlAmountType.SelectedValue; }
         }
         #endregion
-        private void AutoNumber()
+        private string AutoNumber()
         {
-            txtVoucherNo.Text = "CPV-" + (_presenter.GetLastCashPaymentRequestId() + 1).ToString();
+            return "CPV-" + (_presenter.GetLastCashPaymentRequestId() + 1).ToString();
         }
         private void CheckApprovalSettings()
         {
@@ -113,7 +110,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             // txtVoucherNo.Text = String.Empty;
             txtPayee.Text = String.Empty;
-            txtVoucherNo.Text = String.Empty;
+           // txtVoucherNo.Text = String.Empty;
             ddlAmountType.SelectedValue = "";
         }
         private void BindCashPaymentDetails()
@@ -134,7 +131,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 // txtRequestNo.Text = _presenter.CurrentCashPaymentRequest.RequestNo.ToString();
                 txtPayee.Text = _presenter.CurrentCashPaymentRequest.Payee;
                 txtDescription.Text = _presenter.CurrentCashPaymentRequest.Description;
-                txtVoucherNo.Text = _presenter.CurrentCashPaymentRequest.VoucherNo.ToString();
+                //txtVoucherNo.Text = _presenter.CurrentCashPaymentRequest.VoucherNo.ToString();
                 ddlAmountType.SelectedValue = _presenter.CurrentCashPaymentRequest.AmountType;
                 BindCashPaymentDetails();
                 BindCashPaymentRequests();
@@ -360,7 +357,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     {
                         _presenter.SaveOrUpdateCashPaymentRequest();
                         BindCashPaymentRequests();
-                        Master.ShowMessage(new AppMessage("Payment Successfully Requested", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                        Master.ShowMessage(new AppMessage("Successfully did a Payment  Request, Reference No - <b>'" + _presenter.CurrentCashPaymentRequest.VoucherNo + "'</b>", Chai.WorkflowManagment.Enums.RMessageType.Info));
                         Log.Info(_presenter.CurrentUser().FullName + " has requested a Payment of Total Amount " + _presenter.CurrentCashPaymentRequest.TotalAmount.ToString());
                         btnSave.Visible = false;
                     }
@@ -382,8 +379,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 {
                     if (ex.InnerException.InnerException.Message.Contains("Violation of UNIQUE KEY"))
                     {
-                        Master.ShowMessage(new AppMessage("Please Try to Save Again,There is a duplicate Number", Chai.WorkflowManagment.Enums.RMessageType.Error));
-                        AutoNumber();
+                        Master.ShowMessage(new AppMessage("Please Click Request button Again,There is a duplicate Number", Chai.WorkflowManagment.Enums.RMessageType.Error));
+                        //AutoNumber();
                     }
                 }
             }

@@ -172,7 +172,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         private void BindAccounts()
         {
-            if (_presenter.CurrentCashPaymentRequest.CashPaymentRequestStatuses.Count == _presenter.CurrentCashPaymentRequest.CurrentLevel && _presenter.CurrentUser().EmployeePosition.PositionName == "Finance Officer")
+            if (_presenter.CurrentCashPaymentRequest.CashPaymentRequestStatuses.Count == _presenter.CurrentCashPaymentRequest.CurrentLevel && (_presenter.CurrentUser().EmployeePosition.PositionName == "Finance Officer" || _presenter.GetUser(_presenter.CurrentCashPaymentRequest.CurrentApprover).IsAssignedJob == true))
             {
                 lblAccount.Visible = true;
                 lblAccountdd.Visible = true;

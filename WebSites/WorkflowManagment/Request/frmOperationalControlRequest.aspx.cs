@@ -41,10 +41,10 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 BindOperationalControlDetails();
                 Bindattachments();
             }
-            if (_presenter.CurrentOperationalControlRequest.Id <= 0)
-            {
-                AutoNumber();
-            }
+            //if (_presenter.CurrentOperationalControlRequest.Id <= 0)
+            //{
+            //    AutoNumber();
+            //}
         }
 
         [CreateNew]
@@ -87,7 +87,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         public string GetRequestNo
         {
-            get { return txtVoucherNo.Text; }
+            get { return AutoNumber(); }
         }
         public int GetBankAccountId
         {
@@ -115,7 +115,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         public string GetVoucherNo
         {
-            get { return txtVoucherNo.Text; }
+            get { return AutoNumber(); }
         }
         public string GetPageType
         {
@@ -197,9 +197,9 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 }
             }
         }
-        private void AutoNumber()
+        private string AutoNumber()
         {
-            txtVoucherNo.Text = "BP-" + (_presenter.GetLastOperationalControlRequestId() + 1).ToString();
+           return "BP-" + (_presenter.GetLastOperationalControlRequestId() + 1).ToString();
         }
         private void CheckApprovalSettings()
         {
@@ -212,7 +212,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             // txtVoucherNo.Text = String.Empty;
             //txtPayee.Text = String.Empty;
-            txtVoucherNo.Text = String.Empty;
+           // txtVoucherNo.Text = String.Empty;
         }
         private void PopBankAccounts()
         {
@@ -255,7 +255,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 txtBranchCode.Text = _presenter.CurrentOperationalControlRequest.BranchCode;
                 txtBankName.Text = _presenter.CurrentOperationalControlRequest.BankName;
                 txtDescription.Text = _presenter.CurrentOperationalControlRequest.Description;
-                txtVoucherNo.Text = _presenter.CurrentOperationalControlRequest.VoucherNo.ToString();
+               // txtVoucherNo.Text = _presenter.CurrentOperationalControlRequest.VoucherNo.ToString();
                 ddlBankAccount.SelectedValue = _presenter.CurrentOperationalControlRequest.Account.Id.ToString();
                 txtBankAccountNo.Text = _presenter.GetBankAccount(_presenter.CurrentOperationalControlRequest.Account.Id).AccountNo;
                 BindOperationalControlDetails();
@@ -477,7 +477,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     {
                         _presenter.SaveOrUpdateOperationalControlRequest();
                         BindOperationalControlRequests();
-                        Master.ShowMessage(new AppMessage("Bank Payment Successfully Requested", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                        Master.ShowMessage(new AppMessage("Successfully did a Bank Payment  Request, Reference No - <b>'" + _presenter.CurrentOperationalControlRequest.VoucherNo + "'</b>", Chai.WorkflowManagment.Enums.RMessageType.Info));
                         Log.Info(_presenter.CurrentUser().FullName + " has requested a Bank Payment for a total amount of " + _presenter.CurrentOperationalControlRequest.TotalAmount.ToString());
                         btnSave.Visible = false;
                     }
@@ -499,8 +499,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 {
                     if (ex.InnerException.InnerException.Message.Contains("Violation of UNIQUE KEY"))
                     {
-                        Master.ShowMessage(new AppMessage("Please Try to Save Again,There is a duplicate Number", Chai.WorkflowManagment.Enums.RMessageType.Error));
-                        AutoNumber();
+                        Master.ShowMessage(new AppMessage("Please Click Request button Again,There is a duplicate Number", Chai.WorkflowManagment.Enums.RMessageType.Error));
+                        //AutoNumber();
                     }
                 }
             }

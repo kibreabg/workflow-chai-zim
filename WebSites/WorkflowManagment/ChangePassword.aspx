@@ -30,6 +30,9 @@
                                         <asp:RequiredFieldValidator ID="NewPasswordRequired0" runat="server" ControlToValidate="NewPassword"
                                             ErrorMessage="New Password is required." ToolTip="New Password is required."
                                             ValidationGroup="ChangePassword1">*</asp:RequiredFieldValidator>
+                              <asp:RegularExpressionValidator ID="Regex2" runat="server" ControlToValidate="NewPassword"
+    ValidationExpression="^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$"
+    ErrorMessage="Minimum 8 characters atleast 1 Alphabet, 1 Number and 1 Special Character" ForeColor="Red" />
                                   </section>
                          <section>
                                         <asp:Label ID="ConfirmNewPasswordLabel0" runat="server" AssociatedControlID="ConfirmNewPassword" CssClass="">Confirm New Password:</asp:Label>

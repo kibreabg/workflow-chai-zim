@@ -24,12 +24,12 @@
                 <div class="smart-form">
                     <fieldset>
                         <div class="row">
-                            <section class="col col-6">
+                           <%-- <section class="col col-6">
                                 <label class="label">Request No</label>
                                 <label class="input">
                                     <asp:TextBox ID="txtVoucherNo" runat="server" ReadOnly="true"></asp:TextBox>
                                 </label>
-                            </section>
+                            </section>--%>
                     
                             <section class="col col-6">
                                 <label class="label">Request Date</label>
@@ -242,8 +242,8 @@
                                               <asp:Label ID="lblDate" runat="server" Text='<%# Eval("RequestDate", "{0:dd/MM/yyyy}")%>' ></asp:Label>
                                             </ItemTemplate>
                                             </asp:TemplateField> 
-                                            <asp:BoundField DataField="Payee" HeaderText="Departure Date" SortExpression="DepartureDate" />
-                                            <asp:BoundField DataField="VoucherNo" HeaderText="Returning Date" SortExpression="ReturningDate" />
+                                            <asp:BoundField DataField="Payee" HeaderText="Payee" SortExpression="Payee" />
+                                            <asp:BoundField DataField="VoucherNo" HeaderText="VoucherNo" SortExpression="VoucherNo" />
                                             
                                             <asp:CommandField ShowSelectButton="True" />
                                         </Columns>

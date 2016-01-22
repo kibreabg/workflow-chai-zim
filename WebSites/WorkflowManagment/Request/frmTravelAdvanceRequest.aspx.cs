@@ -31,10 +31,10 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 PopProjects();
                 BindTravelAdvanceDetails();
                 BindTravelAdvanceRequests();
-                if (_presenter.CurrentTravelAdvanceRequest.Id <= 0)
-                {
-                    AutoNumber();
-                }
+                //if (_presenter.CurrentTravelAdvanceRequest.Id <= 0)
+                //{
+                //    AutoNumber();
+                //}
             }
             txtRequestDate.Text = DateTime.Today.Date.ToShortDateString();
             this._presenter.OnViewLoaded();
@@ -89,7 +89,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         public string GetRequestNo
         {
-            get { return txtTravelAdvanceNo.Text; }
+            get { return AutoNumber(); }
         }
         public DateTime GetRequestDate
         {
@@ -112,9 +112,9 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             get { return Convert.ToInt32(ddlGrant.SelectedValue); }
         }
         #endregion
-        private void AutoNumber()
+        private string AutoNumber()
         {
-            txtTravelAdvanceNo.Text = "TR-" + (_presenter.GetLastTravelAdvanceRequestId() + 1).ToString();
+           return "TR-" + (_presenter.GetLastTravelAdvanceRequestId() + 1).ToString();
         }
         private void CheckApprovalSettings()
         {
@@ -171,7 +171,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             _presenter.OnViewLoaded();
             if (_presenter.CurrentTravelAdvanceRequest != null)
             {
-                txtTravelAdvanceNo.Text = _presenter.CurrentTravelAdvanceRequest.TravelAdvanceNo.ToString();
+                //txtTravelAdvanceNo.Text = _presenter.CurrentTravelAdvanceRequest.TravelAdvanceNo.ToString();
                 txtVisitingTeam.Text = _presenter.CurrentTravelAdvanceRequest.VisitingTeam;
                 txtPurposeOfTravel.Text = _presenter.CurrentTravelAdvanceRequest.PurposeOfTravel.ToString();
                 txtTotal.Text = _presenter.CurrentTravelAdvanceRequest.TotalTravelAdvance.ToString();
@@ -232,7 +232,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 {
                     _presenter.SaveOrUpdateTARequest();
                     BindTravelAdvanceRequests();
-                    Master.ShowMessage(new AppMessage("Travel Advance Successfully Requested", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                    Master.ShowMessage(new AppMessage("Successfully did a Travel Advance Request, Reference No - <b>'" + _presenter.CurrentTravelAdvanceRequest.TravelAdvanceNo + "'</b> ", Chai.WorkflowManagment.Enums.RMessageType.Info));
                     Log.Info(_presenter.CurrentUser().FullName + " has requested a Travel Advance of Total Amount " + _presenter.CurrentTravelAdvanceRequest.TotalTravelAdvance.ToString());
                     btnSave.Visible = false;
                     PrintTransaction();
@@ -249,7 +249,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 {
                     if (ex.InnerException.InnerException.Message.Contains("Violation of UNIQUE KEY"))
                     {
-                        Master.ShowMessage(new AppMessage("Please Try to Save Again,There is a duplicate Number", Chai.WorkflowManagment.Enums.RMessageType.Error));
+                        Master.ShowMessage(new AppMessage("Please Click Request button Again,There is a duplicate Number", Chai.WorkflowManagment.Enums.RMessageType.Error));
                         AutoNumber();
                     }
                 }
@@ -609,12 +609,12 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     if (ddlEdtExpenseType != null)
                     {
                         PopExpenseTypes(ddlEdtExpenseType);
-                        //if (_presenter.CurrentTravelAdvanceRequest.GetTravelAdvanceRequestDetail(Convert.ToInt32(hfDetailId.Value)).TravelAdvanceCosts[e.Item.DataSetIndex].ItemAccount.Id != 0)
-                        //{
-                        //    ListItem liI = ddlEdtAccountDescription.Items.FindByValue(_presenter.CurrentTravelAdvanceRequest.GetTravelAdvanceRequestDetail(Convert.ToInt32(hfDetailId.Value)).TravelAdvanceCosts[e.Item.DataSetIndex].ItemAccount.Id.ToString());
-                        //    if (liI != null)
-                        //        liI.Selected = true;
-                        //}
+                        if (_presenter.CurrentTravelAdvanceRequest.GetTravelAdvanceRequestDetail(Convert.ToInt32(hfDetailId.Value)).TravelAdvanceCosts[e.Item.DataSetIndex].ExpenseType.Id != 0)
+                        {
+                            ListItem liI = ddlEdtExpenseType.Items.FindByValue(_presenter.CurrentTravelAdvanceRequest.GetTravelAdvanceRequestDetail(Convert.ToInt32(hfDetailId.Value)).TravelAdvanceCosts[e.Item.DataSetIndex].ExpenseType.Id.ToString());
+                            if (liI != null)
+                                liI.Selected = true;
+                        }
                     }
 
                 }

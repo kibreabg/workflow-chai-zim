@@ -81,7 +81,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         public string GetRequestNo
         {
-            get { return txtRequestNo.Text; }
+            get { return AutoNumber(); }
         }
         public DateTime GetDepartureDate
         {
@@ -135,9 +135,9 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             }
         }
         #endregion
-        private void AutoNumber()
+        private string AutoNumber()
         {
-            txtRequestNo.Text = "VR-" + (_presenter.GetLastVehicleRequestId() + 1).ToString();
+            return "VR-" + (_presenter.GetLastVehicleRequestId() + 1).ToString();
         }
         private void CheckApprovalSettings()
         {
@@ -164,7 +164,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         private void ClearFormFields()
         {
-            txtRequestNo.Text = String.Empty;
+            //txtRequestNo.Text = String.Empty;
             txtDepartureDate.Text = String.Empty;
             txtReturningDate.Text = String.Empty;
             txtPurposeOfTravel.Text = String.Empty;
@@ -182,7 +182,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             _presenter.OnViewLoaded();
             if (_presenter.CurrentVehicleRequest != null)
             {
-                txtRequestNo.Text = _presenter.CurrentVehicleRequest.RequestNo.ToString();
+                //txtRequestNo.Text = _presenter.CurrentVehicleRequest.RequestNo.ToString();
                 txtDepartureDate.Text = _presenter.CurrentVehicleRequest.DepartureDate.Value.ToShortDateString();
                 txtReturningDate.Text = _presenter.CurrentVehicleRequest.ReturningDate.Value.ToShortDateString();
                 timepicker.Text = _presenter.CurrentVehicleRequest.DepartureTime;
@@ -234,7 +234,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             if (_presenter.CurrentVehicleRequest.VehicleRequestStatuses.Count != 0)
             {
                 BindVehicleRequests();
-                Master.ShowMessage(new AppMessage("Successfully did a Vehicle  Request ", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                Master.ShowMessage(new AppMessage("Successfully did a Vehicle  Request, Reference No - <b>'"+_presenter.CurrentVehicleRequest.RequestNo+"'</b>", Chai.WorkflowManagment.Enums.RMessageType.Info));
                 Log.Info(_presenter.CurrentUser().FullName + " has requested a Vehicle");
                 btnSave.Visible = false;
             }
@@ -249,8 +249,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 {
                     if (ex.InnerException.InnerException.Message.Contains("Violation of UNIQUE KEY"))
                     {
-                        Master.ShowMessage(new AppMessage("Please Try to Save Again,There is a duplicate Number", Chai.WorkflowManagment.Enums.RMessageType.Error));
-                        AutoNumber();
+                        Master.ShowMessage(new AppMessage("Please Click Request button Again,There is a duplicate Number", Chai.WorkflowManagment.Enums.RMessageType.Error));
+                        //AutoNumber();
                     }
                 }
             }

@@ -80,7 +80,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         #endregion
         private void BindAccounts()
         {
-            if (_presenter.CurrentTravelAdvanceRequest.TravelAdvanceRequestStatuses.Count == _presenter.CurrentTravelAdvanceRequest.CurrentLevel && _presenter.CurrentUser().EmployeePosition.PositionName == "Finance Officer")
+            if (_presenter.CurrentTravelAdvanceRequest.TravelAdvanceRequestStatuses.Count == _presenter.CurrentTravelAdvanceRequest.CurrentLevel && (_presenter.CurrentUser().EmployeePosition.PositionName == "Finance Officer" || _presenter.GetUser(_presenter.CurrentTravelAdvanceRequest.CurrentApprover).IsAssignedJob == true))
             {
                 lblAccount.Visible = true;
                 lblAccountdd.Visible = true;
