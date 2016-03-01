@@ -25,6 +25,7 @@ namespace Chai.WorkflowManagment.Shared
             {
                 ErrorLog.Error("Inner Exception Type: " + exc.InnerException.GetType().ToString());
                 ErrorLog.Error("Inner Exception: " + exc.InnerException.Message);
+                ErrorLog.Error("Second Level Exception: " + exc.InnerException.InnerException.Message);
                 ErrorLog.Error("Inner Source: " + exc.InnerException.Source);
                 if (exc.InnerException.StackTrace != null)
                 {
@@ -33,7 +34,7 @@ namespace Chai.WorkflowManagment.Shared
             }
             ErrorLog.Error("Exception Type: " + exc.GetType().ToString());
             ErrorLog.Error("Exception: " + exc.Message);
-            ErrorLog.Error("Source: " + source);            
+            ErrorLog.Error("Source: " + source);
             if (exc.StackTrace != null)
             {
                 ErrorLog.Error("Stack Trace: ");
