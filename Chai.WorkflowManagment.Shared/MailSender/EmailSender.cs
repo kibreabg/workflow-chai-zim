@@ -14,8 +14,8 @@ namespace Chai.WorkflowManagment.Shared.MailSender
         public static bool Send(string to, string subject, string body)
         {
             string from = string.Empty;
-            string localIP = "http://10.139.1.25/ZWFM/UserLogin.aspx";
-            string publicIp = "http://197.211.216.65/ZWFM/UserLogin.aspx";
+            string localIP = "http://zimops/ZWFM/UserLogin";
+            //string publicIp = "http://197.211.216.65/ZWFM/UserLogin.aspx";
         
 
             SmtpSection section = (SmtpSection)ConfigurationManager.GetSection("system.net/mailSettings/smtp");
@@ -27,7 +27,7 @@ namespace Chai.WorkflowManagment.Shared.MailSender
                     client.EnableSsl = section.Network.EnableSsl;
                     client.Timeout = 2000000;
                     client.Credentials = new System.Net.NetworkCredential(section.Network.UserName, section.Network.Password);
-                    client.Send(section.From, to, subject, body + " Local: " + localIP + " Outside the office: " + publicIp);
+                    client.Send(section.From, to, subject, body + " Click here: " + localIP );
                     client.Dispose();
                 }
 

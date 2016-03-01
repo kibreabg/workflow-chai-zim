@@ -140,6 +140,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.RequestDate = Convert.ToDateTime(DateTime.Today.ToShortDateString());
             CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseType = View.GetExpenseType;
             CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.Comment = View.GetComment;
+            CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.AdditionalComment = View.GetAdditionalComment;
             CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ProgressStatus = ProgressStatus.InProgress.ToString();
             CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.CurrentStatus = null;
             CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.TravelAdvanceRequest = _controller.GetTravelAdvanceRequest(tarId);

@@ -76,11 +76,15 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         public string GetExpenseType
         {
-            get { return ddlExpenseType.SelectedValue; }
+            get { return ddlPExpenseType.SelectedValue; }
         }
         public string GetComment
         {
             get { return txtComment.Text; }
+        }
+        public string GetAdditionalComment
+        {
+            get { return txtAdditionalComment.Text; }
         }
         public IList<ExpenseLiquidationRequest> ExpenseLiquidationRequests
         {
@@ -116,7 +120,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             _presenter.OnViewLoaded();
             if (_presenter.CurrentTravelAdvanceRequest != null)
             {
-                ddlExpenseType.SelectedValue = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseType;
+                ddlPExpenseType.SelectedValue = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseType;
                 txtComment.Text = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.Comment;
                 BindExpenseLiquidationDetails();
                 BindExpenseLiquidationRequests();
@@ -207,7 +211,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     detail.ActualExpenditure = Convert.ToDecimal(txtActualExpenditure.Text);
                     TextBox txtVariance = dgi.FindControl("txtVariance") as TextBox;
                     detail.Variance = Convert.ToDecimal(txtVariance.Text);
-                    
+                    //_presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.TotalActualExpenditure = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.TotalActualExpenditure + detail.ActualExpenditure;
+                    //txtTotActual.Text = (_presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.TotalActualExpenditure).ToString();
                 }
 
                 index++;
@@ -359,7 +364,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     elrd1.ActualExpenditure = Convert.ToDecimal(txtFActualExpenditure1.Text);
                     TextBox txtFVariance1 = e.Item.FindControl("txtFVariance") as TextBox;
                     elrd1.Variance = Convert.ToDecimal(txtFVariance1.Text);
-
                     _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestDetails.Add(elrd1);
                     SetLiquidationDetails();
                     dgExpenseLiquidationDetail.EditItemIndex = -1;
@@ -379,6 +383,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             TextBox txtActualExpenditure = txt.FindControl("txtActualExpenditure") as TextBox;
             TextBox txtVariance = txt.FindControl("txtVariance") as TextBox;
             txtVariance.Text = ((Convert.ToDecimal(hfAmountAdvanced.Value) - Convert.ToDecimal(txtActualExpenditure.Text))).ToString();
+            
+           
         }
         protected void txtFActualExpenditure_TextChanged(object sender, EventArgs e)
         {
@@ -387,6 +393,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             TextBox txtFActualExpenditure = txt.FindControl("txtFActualExpenditure") as TextBox;
             TextBox txtFVariance = txt.FindControl("txtFVariance") as TextBox;
             txtFVariance.Text = ((Convert.ToDecimal(txtFAmount.Text) - Convert.ToDecimal(txtFActualExpenditure.Text))).ToString();
+         
         }
         protected void btnUpload_Click(object sender, EventArgs e)
         {
@@ -414,33 +421,46 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         private void UploadFile()
         {
             string fileName = Path.GetFileName(fuReciept.PostedFile.FileName);
-
-            if (fileName != String.Empty)
+            try
             {
+                if (fileName != String.Empty)
+                {
 
 
 
-                ELRAttachment attachment = new ELRAttachment();
-                attachment.FilePath = "~/ELUploads/" + fileName;
-                fuReciept.PostedFile.SaveAs(Server.MapPath("~/ELUploads/") + fileName);
-                //Response.Redirect(Request.Url.AbsoluteUri);
-                _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ELRAttachments.Add(attachment);
+                    ELRAttachment attachment = new ELRAttachment();
+                    attachment.FilePath = "~/ELUploads/" + fileName;
+                    fuReciept.PostedFile.SaveAs(Server.MapPath("~/ELUploads/") + fileName);
+                    //Response.Redirect(Request.Url.AbsoluteUri);
+                    _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ELRAttachments.Add(attachment);
 
-                grvAttachments.DataSource = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ELRAttachments;
-                grvAttachments.DataBind();
+                    grvAttachments.DataSource = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ELRAttachments;
+                    grvAttachments.DataBind();
 
 
+                }
+                else
+                {
+                    Master.ShowMessage(new AppMessage("Please select file ", Chai.WorkflowManagment.Enums.RMessageType.Error));
+                }
             }
-            else
+            catch(HttpException ex)
             {
-                Master.ShowMessage(new AppMessage("Please select file ", Chai.WorkflowManagment.Enums.RMessageType.Error));
+                Master.ShowMessage(new AppMessage("Unable to upload the file,The file is to big or The internet is too slow " + ex.InnerException.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
             }
         }
         protected void btnSave_Click(object sender, EventArgs e)
         {
             SetLiquidationDetails();
+            
             if (_presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ELRAttachments.Count != 0)
             {
+                foreach (ExpenseLiquidationRequestDetail detail in _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestDetails)
+                {
+                    _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.TotalActualExpenditure = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.TotalActualExpenditure + detail.ActualExpenditure;
+                    txtTotActual.Text = (_presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.TotalActualExpenditure).ToString();
+                }
+
                 _presenter.SaveOrUpdateExpenseLiquidationRequest(Convert.ToInt32(Session["tarId"]));
                 BindExpenseLiquidationRequests();
                 PrintTransaction();

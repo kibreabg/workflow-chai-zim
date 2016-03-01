@@ -119,7 +119,7 @@
                                                     <section class="col col-6">
                                                         <label class="label">Expense Type</label>
                                                         <label class="select">
-                                                            <asp:DropDownList ID="ddlExpenseType" runat="server">
+                                                            <asp:DropDownList ID="ddlPExpenseType" runat="server">
                                                                 <asp:ListItem Value="Advance">Advance</asp:ListItem>
                                                             </asp:DropDownList><i></i>
                                                         </label>
@@ -128,6 +128,20 @@
                                                         <label class="label">Purpose of Advance </label>
                                                         <label class="input">
                                                             <asp:TextBox ID="txtComment" runat="server"></asp:TextBox>
+                                                        </label>
+                                                    </section>
+                                                </div>
+                                                 <div class="row">
+                                                    <section class="col col-6">
+                                                        <label class="label">Total Actual Expenditure </label>
+                                                        <label class="input">
+                                                            <asp:TextBox ID="txtTotActual" runat="server" ReadOnly="true"></asp:TextBox>
+                                                        </label>
+                                                    </section>
+                                                       <section class="col col-6">
+                                                        <label class="label">Comment</label>
+                                                        <label class="input">
+                                                            <asp:TextBox ID="txtAdditionalComment" runat="server"></asp:TextBox>
                                                         </label>
                                                     </section>
                                                 </div>
@@ -226,12 +240,12 @@
                                                                     <ItemTemplate>
                                                                         <asp:TextBox ID="txtActualExpenditure" runat="server" CssClass="form-control" AutoPostBack="true" OnTextChanged="txtActualExpenditure_TextChanged" Text='<%# DataBinder.Eval(Container.DataItem, "ActualExpenditure")%>'></asp:TextBox>
                                                                         <cc1:FilteredTextBoxExtender runat="server" Enabled="True" TargetControlID="txtActualExpenditure" ID="txtActualExpenditure_FilteredTextBoxExtender" FilterType="Custom,Numbers" ValidChars="."></cc1:FilteredTextBoxExtender>
-                                                                        <asp:RequiredFieldValidator ID="rfvActualExpenditure" runat="server" ControlToValidate="txtActualExpenditure" CssClass="validator" ErrorMessage="Actual Expenditure is required" ValidationGroup="request" InitialValue="0"></asp:RequiredFieldValidator>
+                                                                        <asp:RequiredFieldValidator ID="rfvActualExpenditure" runat="server" ControlToValidate="txtActualExpenditure" CssClass="validator" ErrorMessage="Actual Expenditure is required" ValidationGroup="request" InitialValue="-1"></asp:RequiredFieldValidator>
                                                                     </ItemTemplate>
                                                                     <FooterTemplate>
                                                                         <asp:TextBox ID="txtFActualExpenditure" runat="server" CssClass="form-control" AutoPostBack="true" OnTextChanged="txtFActualExpenditure_TextChanged"></asp:TextBox>
                                                                         <cc1:FilteredTextBoxExtender runat="server" Enabled="True" TargetControlID="txtFActualExpenditure" ID="txtFActualExpenditure_FilteredTextBoxExtender" FilterType="Custom,Numbers" ValidChars="."></cc1:FilteredTextBoxExtender>
-                                                                        <asp:RequiredFieldValidator ID="rfvtxtFActualExpenditure" runat="server" CssClass="validator" ControlToValidate="txtFActualExpenditure" ErrorMessage="Actual Expenditure is required" ValidationGroup="save" InitialValue="0"></asp:RequiredFieldValidator>
+                                                                        <asp:RequiredFieldValidator ID="rfvtxtFActualExpenditure" runat="server" CssClass="validator" ControlToValidate="txtFActualExpenditure" ErrorMessage="Actual Expenditure is required" ValidationGroup="save" InitialValue="-1"></asp:RequiredFieldValidator>
                                                                     </FooterTemplate>
                                                                 </asp:TemplateColumn>
                                                                 <asp:TemplateColumn HeaderText="Variance">

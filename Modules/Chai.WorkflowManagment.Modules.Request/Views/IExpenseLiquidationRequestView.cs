@@ -10,6 +10,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         int GetTARequestId { get; }
         string GetExpenseType { get; }
         string GetComment { get; }
+        string GetAdditionalComment { get; }
      
     }
 }

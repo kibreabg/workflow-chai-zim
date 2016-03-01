@@ -609,11 +609,14 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     if (ddlEdtExpenseType != null)
                     {
                         PopExpenseTypes(ddlEdtExpenseType);
-                        if (_presenter.CurrentTravelAdvanceRequest.GetTravelAdvanceRequestDetail(Convert.ToInt32(hfDetailId.Value)).TravelAdvanceCosts[e.Item.DataSetIndex].ExpenseType.Id != 0)
+                        if (_presenter.CurrentTravelAdvanceRequest.GetTravelAdvanceRequestDetail(Convert.ToInt32(hfDetailId.Value)).TravelAdvanceCosts[e.Item.DataSetIndex].ExpenseType != null)
                         {
-                            ListItem liI = ddlEdtExpenseType.Items.FindByValue(_presenter.CurrentTravelAdvanceRequest.GetTravelAdvanceRequestDetail(Convert.ToInt32(hfDetailId.Value)).TravelAdvanceCosts[e.Item.DataSetIndex].ExpenseType.Id.ToString());
-                            if (liI != null)
-                                liI.Selected = true;
+                            if (_presenter.CurrentTravelAdvanceRequest.GetTravelAdvanceRequestDetail(Convert.ToInt32(hfDetailId.Value)).TravelAdvanceCosts[e.Item.DataSetIndex].ExpenseType.Id != 0)
+                            {
+                                ListItem liI = ddlEdtExpenseType.Items.FindByValue(_presenter.CurrentTravelAdvanceRequest.GetTravelAdvanceRequestDetail(Convert.ToInt32(hfDetailId.Value)).TravelAdvanceCosts[e.Item.DataSetIndex].ExpenseType.Id.ToString());
+                                if (liI != null)
+                                    liI.Selected = true;
+                            }
                         }
                     }
 

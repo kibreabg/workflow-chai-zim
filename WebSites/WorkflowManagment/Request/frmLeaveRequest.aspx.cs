@@ -138,7 +138,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 _presenter.CurrentLeaveRequest.Forward = txtforward.Text != "" ? int.Parse(txtforward.Text) : 0;
 
                 SaveLeaveRequestStatus();
-                GetCurrentApprover();
+               
             }
             catch (Exception ex)
             {
@@ -258,17 +258,28 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 
             if (_presenter.CurrentLeaveRequest.LeaveRequestStatuses.Count != 0)
             {
-                if (txtbalance.Text != "0")
+                if (ddlLeaveType.SelectedItem.Text != "Annual Leave")
                 {
-
+                    GetCurrentApprover();
                     _presenter.SaveOrUpdateLeaveRequest(_presenter.CurrentLeaveRequest);
+                   
                     ClearForm();
                     BindSearchLeaveRequestGrid();
                     Master.ShowMessage(new AppMessage("Successfully did a Leave  Request, Reference No - <b>'" + _presenter.CurrentLeaveRequest.RequestNo + "'</b>", Chai.WorkflowManagment.Enums.RMessageType.Info));
                     Log.Info(_presenter.CurrentUser().FullName + " has requested for a Leave Type of " + ddlLeaveType.SelectedValue);
                 }
-                else
-                { Master.ShowMessage(new AppMessage("You don't have sufficient Annual Leave days", Chai.WorkflowManagment.Enums.RMessageType.Error)); }
+                else if (ddlLeaveType.SelectedItem.Text == "Annual Leave" && Convert.ToInt32(txtapplyfor.Text) < (txtforward.Text != "" ? Convert.ToInt32(txtforward.Text) : 0))
+                    {
+                        GetCurrentApprover();
+                        _presenter.SaveOrUpdateLeaveRequest(_presenter.CurrentLeaveRequest);
+                        ClearForm();
+                        BindSearchLeaveRequestGrid();
+                        Master.ShowMessage(new AppMessage("Successfully did a Leave  Request, Reference No - <b>'" + _presenter.CurrentLeaveRequest.RequestNo + "'</b>", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                        Log.Info(_presenter.CurrentUser().FullName + " has requested for a Leave Type of " + ddlLeaveType.SelectedValue);
+                    }
+                    else
+                    { Master.ShowMessage(new AppMessage("You don't have sufficient Annual Leave days", Chai.WorkflowManagment.Enums.RMessageType.Error)); }
+                
             }
             else
             {

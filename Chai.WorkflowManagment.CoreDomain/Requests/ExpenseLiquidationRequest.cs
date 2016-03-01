@@ -25,6 +25,8 @@ namespace Chai.WorkflowManagment.CoreDomain.Requests
         public int CurrentLevel { get; set; }
         public string CurrentStatus { get; set; }
         public string ProgressStatus { get; set; }
+        public decimal TotalActualExpenditure { get; set; }
+        public string AdditionalComment { get; set; }
 
         [Required]
         public virtual TravelAdvanceRequest TravelAdvanceRequest { get; set; }

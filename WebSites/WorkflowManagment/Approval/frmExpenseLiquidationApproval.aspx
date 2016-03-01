@@ -71,6 +71,8 @@
             <Columns>
                 <asp:BoundField DataField="TravelAdvanceRequest.AppUser.FullName" HeaderText="Requester" SortExpression="TravelAdvanceRequest.AppUser.FullName" />
                 <asp:BoundField DataField="ExpenseType" HeaderText="Expense Type" SortExpression="ExpenseType" />
+                <asp:BoundField DataField="TotalActualExpenditure" HeaderText="Total Actual Expenditure" SortExpression="TotalActualExpenditure" />
+                <asp:BoundField DataField="AdditionalComment" HeaderText="Comment" SortExpression="AdditionalComment" />
                  <asp:TemplateField HeaderText="Request Date">
                                             <ItemTemplate>
                                               <asp:Label ID="lblDate" runat="server" Text='<%# Eval("RequestDate", "{0:dd/MM/yyyy}")%>' ></asp:Label>
