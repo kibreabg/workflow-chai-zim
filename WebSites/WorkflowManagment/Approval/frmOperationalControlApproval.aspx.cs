@@ -266,16 +266,19 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         protected void grvOperationalControlRequestList_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            reqID = (int)grvOperationalControlRequestList.DataKeys[Convert.ToInt32(e.CommandArgument)].Value;
-            Session["ReqID"] = reqID;
-           _presenter.CurrentOperationalControlRequest = _presenter.GetOperationalControlRequest(reqID);
-            if (e.CommandName == "ViewItem")
-            {                
-                dgOperationalControlRequestDetail.DataSource = _presenter.CurrentOperationalControlRequest.OperationalControlRequestDetails;
-                dgOperationalControlRequestDetail.DataBind();
-                grvdetailAttachments.DataSource = _presenter.CurrentOperationalControlRequest.OCRAttachments;
-                grvdetailAttachments.DataBind();
-                pnlDetail_ModalPopupExtender.Show();
+            if (e.CommandName != "Page")
+            {
+                reqID = (int)grvOperationalControlRequestList.DataKeys[Convert.ToInt32(e.CommandArgument)].Value;
+                Session["ReqID"] = reqID;
+                _presenter.CurrentOperationalControlRequest = _presenter.GetOperationalControlRequest(reqID);
+                if (e.CommandName == "ViewItem")
+                {
+                    dgOperationalControlRequestDetail.DataSource = _presenter.CurrentOperationalControlRequest.OperationalControlRequestDetails;
+                    dgOperationalControlRequestDetail.DataBind();
+                    grvdetailAttachments.DataSource = _presenter.CurrentOperationalControlRequest.OCRAttachments;
+                    grvdetailAttachments.DataBind();
+                    pnlDetail_ModalPopupExtender.Show();
+                }
             }
            
         }

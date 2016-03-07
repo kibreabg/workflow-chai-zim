@@ -270,16 +270,19 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         protected void grvTravelAdvanceRequestList_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            if (e.CommandName == "ViewItem")
+            if (e.CommandName != "Page")
             {
-                int rowIndex = Convert.ToInt32(e.CommandArgument);
-                int reqId = Convert.ToInt32(grvTravelAdvanceRequestList.DataKeys[rowIndex].Value);
-                Session["CurrentTravelAdvanceRequest"] = _presenter.GetTravelAdvanceRequest(reqId);
-                _presenter.CurrentTravelAdvanceRequest = (TravelAdvanceRequest)Session["CurrentTravelAdvanceRequest"];
-                //_presenter.OnViewLoaded();
-                pnlDetail_ModalPopupExtender.Show();
-                dgTravelAdvanceRequestDetail.DataSource = _presenter.CurrentTravelAdvanceRequest.TravelAdvanceRequestDetails;
-                dgTravelAdvanceRequestDetail.DataBind();
+                if (e.CommandName == "ViewItem")
+                {
+                    int rowIndex = Convert.ToInt32(e.CommandArgument);
+                    int reqId = Convert.ToInt32(grvTravelAdvanceRequestList.DataKeys[rowIndex].Value);
+                    Session["CurrentTravelAdvanceRequest"] = _presenter.GetTravelAdvanceRequest(reqId);
+                    _presenter.CurrentTravelAdvanceRequest = (TravelAdvanceRequest)Session["CurrentTravelAdvanceRequest"];
+                    //_presenter.OnViewLoaded();
+                    pnlDetail_ModalPopupExtender.Show();
+                    dgTravelAdvanceRequestDetail.DataSource = _presenter.CurrentTravelAdvanceRequest.TravelAdvanceRequestDetails;
+                    dgTravelAdvanceRequestDetail.DataBind();
+                }
             }
         }
         protected void grvTravelAdvanceRequestList_RowDataBound(object sender, GridViewRowEventArgs e)

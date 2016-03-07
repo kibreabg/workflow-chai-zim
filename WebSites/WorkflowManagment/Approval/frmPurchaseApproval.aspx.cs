@@ -499,15 +499,18 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         protected void grvPurchaseRequestList_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-             reqid = (int)grvPurchaseRequestList.DataKeys[Convert.ToInt32(e.CommandArgument)].Value;
-             Session["ReqID"] = reqid;
-             _presenter.CurrentPurchaseRequest = _presenter.GetPurchaseRequestById(reqid);
-            if (e.CommandName == "ViewItem")
+            if (e.CommandName != "Page")
             {
-                reqid = Convert.ToInt32(grvPurchaseRequestList.DataKeys[0].Value);
+                reqid = (int)grvPurchaseRequestList.DataKeys[Convert.ToInt32(e.CommandArgument)].Value;
+                Session["ReqID"] = reqid;
+                _presenter.CurrentPurchaseRequest = _presenter.GetPurchaseRequestById(reqid);
+                if (e.CommandName == "ViewItem")
+                {
+                    reqid = Convert.ToInt32(grvPurchaseRequestList.DataKeys[0].Value);
 
-                pnlDetail_ModalPopupExtender.Show();
-                BindItemDetal();
+                    pnlDetail_ModalPopupExtender.Show();
+                    BindItemDetal();
+                }
             }
         }
         private void BindItemDetal()

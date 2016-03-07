@@ -298,18 +298,20 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         protected void grvVehicleRequestList_RowCommand(Object sender, GridViewCommandEventArgs e)
         {
-           
-            // If multiple ButtonField column fields are used, use the
-            // CommandName property to determine which button was clicked.
-            if (e.CommandName == "TravelLog")
+            if (e.CommandName != "Page")
             {
-                // Convert the row index stored in the CommandArgument
-                // property to an Integer.
-                int index = Convert.ToInt32(e.CommandArgument);
+                // If multiple ButtonField column fields are used, use the
+                // CommandName property to determine which button was clicked.
+                if (e.CommandName == "TravelLog")
+                {
+                    // Convert the row index stored in the CommandArgument
+                    // property to an Integer.
+                    int index = Convert.ToInt32(e.CommandArgument);
 
-                int rowID = Convert.ToInt32(grvVehicleRequestList.DataKeys[index].Value);
-                string url = String.Format("~/Request/frmTravelLog.aspx?requestId={0}", rowID);
-                _presenter.navigate(url);
+                    int rowID = Convert.ToInt32(grvVehicleRequestList.DataKeys[index].Value);
+                    string url = String.Format("~/Request/frmTravelLog.aspx?requestId={0}", rowID);
+                    _presenter.navigate(url);
+                }
             }
 
         }
