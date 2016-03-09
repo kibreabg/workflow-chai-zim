@@ -284,25 +284,28 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         protected void grvCostSharingRequestList_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            reqID = (int)grvCostSharingRequestList.DataKeys[Convert.ToInt32(e.CommandArgument)].Value;
-            Session["ReqID"] = reqID;
-            _presenter.CurrentCostSharingRequest = _presenter.GetCostSharingRequest(reqID);
-            if (e.CommandName == "ViewItem")
+            if (e.CommandName != "Page")
             {
-                                               
-                dgCostSharingRequestDetail.DataSource = _presenter.CurrentCostSharingRequest.CostSharingRequestDetails;
-                dgCostSharingRequestDetail.DataBind();
-                grvdetailAttachments.DataSource = _presenter.CurrentCostSharingRequest.CSRAttachments;
-                grvdetailAttachments.DataBind();
-                ScriptManager.RegisterStartupScript(this, GetType(), "showSearch", "showSearch();", true);
-            }
-            else if (e.CommandName == "Retire")
-            {                               
-                lblEstimatedAmountresult.Text = _presenter.CurrentCostSharingRequest.EstimatedTotalAmount.ToString();
-                txtActualExpenditure.Text = _presenter.CurrentCostSharingRequest.ActualTotalAmount != 0 ? _presenter.CurrentCostSharingRequest.ActualTotalAmount.ToString() : "";
-                grvAttachments.DataSource = _presenter.CurrentCostSharingRequest.CSRAttachments;
-                grvAttachments.DataBind();
-                pnlReimbursement_ModalPopupExtender.Show();
+                reqID = (int)grvCostSharingRequestList.DataKeys[Convert.ToInt32(e.CommandArgument)].Value;
+                Session["ReqID"] = reqID;
+                _presenter.CurrentCostSharingRequest = _presenter.GetCostSharingRequest(reqID);
+                if (e.CommandName == "ViewItem")
+                {
+
+                    dgCostSharingRequestDetail.DataSource = _presenter.CurrentCostSharingRequest.CostSharingRequestDetails;
+                    dgCostSharingRequestDetail.DataBind();
+                    grvdetailAttachments.DataSource = _presenter.CurrentCostSharingRequest.CSRAttachments;
+                    grvdetailAttachments.DataBind();
+                    ScriptManager.RegisterStartupScript(this, GetType(), "showSearch", "showSearch();", true);
+                }
+                else if (e.CommandName == "Retire")
+                {
+                    lblEstimatedAmountresult.Text = _presenter.CurrentCostSharingRequest.EstimatedTotalAmount.ToString();
+                    txtActualExpenditure.Text = _presenter.CurrentCostSharingRequest.ActualTotalAmount != 0 ? _presenter.CurrentCostSharingRequest.ActualTotalAmount.ToString() : "";
+                    grvAttachments.DataSource = _presenter.CurrentCostSharingRequest.CSRAttachments;
+                    grvAttachments.DataBind();
+                    pnlReimbursement_ModalPopupExtender.Show();
+                }
             }
         }
         protected void btnUpload_Click(object sender, EventArgs e)

@@ -70,6 +70,7 @@
             CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active">
             <RowStyle CssClass="rowstyle" />
             <Columns>
+                
                 <asp:BoundField  DataField="VoucherNo" HeaderText="Voucher No" SortExpression="VoucherNo" />
                  <asp:BoundField DataField="AppUser.FullName" HeaderText="Requester" SortExpression="AppUser.FullName" />
                 <asp:TemplateField HeaderText="Request Date">

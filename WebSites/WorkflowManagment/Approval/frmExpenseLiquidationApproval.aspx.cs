@@ -311,15 +311,18 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         protected void grvExpenseLiquidationRequestList_RowCommand(Object sender, GridViewCommandEventArgs e)
         {
-            liqID = (int)grvExpenseLiquidationRequestList.DataKeys[Convert.ToInt32(e.CommandArgument)].Value;
-            Session["ReqID"] = liqID;
-            _presenter.CurrentExpenseLiquidationRequest = _presenter.GetExpenseLiquidationRequest(liqID);
-            if (e.CommandName == "ViewItem")
+            if (e.CommandName != "Page")
             {
-                //_presenter.OnViewLoaded();
-                dgLiquidationRequestDetail.DataSource = _presenter.CurrentExpenseLiquidationRequest.ExpenseLiquidationRequestDetails;
-                dgLiquidationRequestDetail.DataBind();
-                pnlDetail_ModalPopupExtender.Show();
+                liqID = (int)grvExpenseLiquidationRequestList.DataKeys[Convert.ToInt32(e.CommandArgument)].Value;
+                Session["ReqID"] = liqID;
+            _presenter.CurrentExpenseLiquidationRequest = _presenter.GetExpenseLiquidationRequest(liqID);
+                if (e.CommandName == "ViewItem")
+                {
+                    //_presenter.OnViewLoaded();
+                    dgLiquidationRequestDetail.DataSource = _presenter.CurrentExpenseLiquidationRequest.ExpenseLiquidationRequestDetails;
+                    dgLiquidationRequestDetail.DataBind();
+                    pnlDetail_ModalPopupExtender.Show();
+                }
             }
         }
         protected void grvExpenseLiquidationRequestList_PageIndexChanging(object sender, GridViewPageEventArgs e)

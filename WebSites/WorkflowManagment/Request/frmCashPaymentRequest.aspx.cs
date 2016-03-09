@@ -343,9 +343,10 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             }
         }
         protected void grvCashPaymentRequestList_PageIndexChanging(object sender, GridViewPageEventArgs e)
-        {
-            grvCashPaymentRequestList.PageIndex = e.NewPageIndex;
+        { 
             btnFind_Click(sender, e);
+            grvCashPaymentRequestList.PageIndex = e.NewPageIndex;
+           
         }
         protected void btnSave_Click(object sender, EventArgs e)
         {

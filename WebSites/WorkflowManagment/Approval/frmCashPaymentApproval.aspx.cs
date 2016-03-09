@@ -299,30 +299,33 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         protected void grvCashPaymentRequestList_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            reqID = (int)grvCashPaymentRequestList.DataKeys[Convert.ToInt32(e.CommandArgument)].Value;
-            Session["ReqID"] = reqID;
-            _presenter.CurrentCashPaymentRequest = _presenter.GetCashPaymentRequest(reqID);
-            if (e.CommandName == "ViewItem")
-            {               
-                dgCashPaymentRequestDetail.DataSource = _presenter.CurrentCashPaymentRequest.CashPaymentRequestDetails;
-                dgCashPaymentRequestDetail.DataBind();
-                grvdetailAttachments.DataSource = _presenter.CurrentCashPaymentRequest.CPRAttachments;
-                grvdetailAttachments.DataBind();
-                pnlDetail_ModalPopupExtender.Show();
-            }
-            else if (e.CommandName == "Retire")
+            if (e.CommandName != "Page")
             {
-                lblEstimatedAmountresult.Text = _presenter.CurrentCashPaymentRequest.TotalAmount.ToString();
-                txtActualExpenditure.Text = _presenter.CurrentCashPaymentRequest.TotalActualExpendture != 0 ? _presenter.CurrentCashPaymentRequest.TotalActualExpendture.ToString() : "";
-                grvAttachments.DataSource = _presenter.CurrentCashPaymentRequest.CPRAttachments;
-                grvAttachments.DataBind();
-                grvReimbursementdetail.DataSource = _presenter.CurrentCashPaymentRequest.CashPaymentRequestDetails;
-                grvReimbursementdetail.DataBind();
-                GetActualAmount();
-                pnlReimbursement_ModalPopupExtender.Show();
-                if (_presenter.CurrentCashPaymentRequest.PaymentReimbursementStatus == "Retired")
+                reqID = (int)grvCashPaymentRequestList.DataKeys[Convert.ToInt32(e.CommandArgument)].Value;
+                Session["ReqID"] = reqID;
+                _presenter.CurrentCashPaymentRequest = _presenter.GetCashPaymentRequest(reqID);
+                if (e.CommandName == "ViewItem")
                 {
-                    btnPrintReimburse.Enabled = true;
+                    dgCashPaymentRequestDetail.DataSource = _presenter.CurrentCashPaymentRequest.CashPaymentRequestDetails;
+                    dgCashPaymentRequestDetail.DataBind();
+                    grvdetailAttachments.DataSource = _presenter.CurrentCashPaymentRequest.CPRAttachments;
+                    grvdetailAttachments.DataBind();
+                    pnlDetail_ModalPopupExtender.Show();
+                }
+                else if (e.CommandName == "Retire")
+                {
+                    lblEstimatedAmountresult.Text = _presenter.CurrentCashPaymentRequest.TotalAmount.ToString();
+                    txtActualExpenditure.Text = _presenter.CurrentCashPaymentRequest.TotalActualExpendture != 0 ? _presenter.CurrentCashPaymentRequest.TotalActualExpendture.ToString() : "";
+                    grvAttachments.DataSource = _presenter.CurrentCashPaymentRequest.CPRAttachments;
+                    grvAttachments.DataBind();
+                    grvReimbursementdetail.DataSource = _presenter.CurrentCashPaymentRequest.CashPaymentRequestDetails;
+                    grvReimbursementdetail.DataBind();
+                    GetActualAmount();
+                    pnlReimbursement_ModalPopupExtender.Show();
+                    if (_presenter.CurrentCashPaymentRequest.PaymentReimbursementStatus == "Retired")
+                    {
+                        btnPrintReimburse.Enabled = true;
+                    }
                 }
             }
         }
