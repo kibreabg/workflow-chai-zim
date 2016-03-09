@@ -25,7 +25,8 @@ namespace Chai.WorkflowManagment.Shared
             {
                 ErrorLog.Error("Inner Exception Type: " + exc.InnerException.GetType().ToString());
                 ErrorLog.Error("Inner Exception: " + exc.InnerException.Message);
-                ErrorLog.Error("Second Level Exception: " + exc.InnerException.InnerException.Message);
+                if (exc.InnerException.InnerException != null)
+                    ErrorLog.Error("Second Level Exception: " + exc.InnerException.InnerException.Message);
                 ErrorLog.Error("Inner Source: " + exc.InnerException.Source);
                 if (exc.InnerException.StackTrace != null)
                 {
