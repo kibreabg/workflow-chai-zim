@@ -45,7 +45,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     PrintTransaction();
                 }
             }
-            
+
 
         }
         [CreateNew]
@@ -223,15 +223,40 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     }
                     else
                     {
-                         ELRS.Approver = _presenter.CurrentUser().Id;
-                        _presenter.CurrentExpenseLiquidationRequest.CurrentStatus = ApprovalStatus.Rejected.ToString();
-                       // _presenter.CurrentExpenseLiquidationRequest.CurrentLevel = 0;
+                        ELRS.Approver = _presenter.CurrentUser().Id;
+                        //_presenter.CurrentExpenseLiquidationRequest.CurrentStatus = ApprovalStatus.Rejected.ToString();
+                        //Make adjustments so that the rejected liquidation can appear to the requester for update and re-request
+                        _presenter.CurrentExpenseLiquidationRequest.TravelAdvanceRequest.ExpenseLiquidationStatus = "Completed";
+                        _presenter.CurrentExpenseLiquidationRequest.CurrentLevel = 1;
+                        _presenter.CurrentExpenseLiquidationRequest.CurrentApprover = GetFirstApprover();
+                        NullifyLiquidationStatuses();
+                        //Adjustments ended
+
                         SendEmailRejected(ELRS);
                         Log.Info(_presenter.GetUser(ELRS.Approver).FullName + " has " + ELRS.ApprovalStatus + " Expense Liquidation Request made by " + _presenter.CurrentExpenseLiquidationRequest.TravelAdvanceRequest.AppUser.FullName);
                     }
                     break;
                 }
-              
+
+            }
+        }
+        private int GetFirstApprover()
+        {
+            int approver = 0;
+            foreach (ExpenseLiquidationRequestStatus ELRS in _presenter.CurrentExpenseLiquidationRequest.ExpenseLiquidationRequestStatuses)
+            {
+                approver = ELRS.Approver;
+                break;
+            }
+
+            return approver;
+        }
+        private void NullifyLiquidationStatuses()
+        {
+            foreach (ExpenseLiquidationRequestStatus ELRS in _presenter.CurrentExpenseLiquidationRequest.ExpenseLiquidationRequestStatuses)
+            {
+                ELRS.ApprovalStatus = null;
+                ELRS.Date = null;
             }
         }
         private void GetNextApprover()
@@ -268,9 +293,9 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             ExpenseLiquidationRequest CSR = e.Row.DataItem as ExpenseLiquidationRequest;
             if (CSR != null)
             {
-            if (e.Row.RowType == DataControlRowType.DataRow)
-            {
-                
+                if (e.Row.RowType == DataControlRowType.DataRow)
+                {
+
                     if (CSR.ProgressStatus == ProgressStatus.InProgress.ToString())
                     {
                         btnStatus.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFFF6C");
@@ -290,7 +315,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             {
                 liqID = (int)grvExpenseLiquidationRequestList.DataKeys[Convert.ToInt32(e.CommandArgument)].Value;
                 Session["ReqID"] = liqID;
-                _presenter.CurrentExpenseLiquidationRequest = _presenter.GetExpenseLiquidationRequest(liqID);
+            _presenter.CurrentExpenseLiquidationRequest = _presenter.GetExpenseLiquidationRequest(liqID);
                 if (e.CommandName == "ViewItem")
                 {
                     //_presenter.OnViewLoaded();
@@ -337,7 +362,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 lblTotalqty.Text = _totalUnitPrice.ToString();
             }
         }
-        
+
         protected void ddlApprovalStatus_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (ddlApprovalStatus.SelectedValue == "Rejected")
@@ -479,7 +504,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
 
             return sMime;
         }
-         
+
         private void BindProject(DropDownList ddlProject)
         {
             ddlProject.DataSource = _presenter.GetProjectList();
@@ -546,7 +571,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 cprd.ItemAccount = _presenter.GetItemAccount(Convert.ToInt32(ddlAccountDescription.SelectedValue));
                 DropDownList ddlProject = e.Item.FindControl("ddlEdtProject") as DropDownList;
                 cprd.Project = _presenter.GetProject(Convert.ToInt32(ddlProject.SelectedValue));
-                              
+
                 dgLiquidationRequestDetail.EditItemIndex = -1;
                 dgLiquidationRequestDetail.DataSource = _presenter.CurrentExpenseLiquidationRequest.ExpenseLiquidationRequestDetails;
                 dgLiquidationRequestDetail.DataBind();
@@ -570,7 +595,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
 
                 using (ExcelPackage pck = new ExcelPackage())
                 {
-                    ExcelWorksheet ws = pck.Workbook.Worksheets.Add("Journal Entry - '"+_presenter.CurrentExpenseLiquidationRequest.TravelAdvanceRequest.TravelAdvanceNo+"'");
+                    ExcelWorksheet ws = pck.Workbook.Worksheets.Add("Journal Entry - '" + _presenter.CurrentExpenseLiquidationRequest.TravelAdvanceRequest.TravelAdvanceNo + "'");
 
 
                     ws.Cells["A1"].LoadFromDataTable(dt1, true);
@@ -590,7 +615,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             }
             pnlApproval_ModalPopupExtender.Show();
         }
-}
+    }
 }
 
 
