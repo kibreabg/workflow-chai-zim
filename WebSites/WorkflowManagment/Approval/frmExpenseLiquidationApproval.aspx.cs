@@ -28,6 +28,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         private static readonly ILog Log = LogManager.GetLogger("AuditTrailLog");
         private int liqID = 0;
         decimal _totalUnitPrice = 0;
+        decimal _totalAmountAdvanced = 0;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!this.IsPostBack)
@@ -355,11 +356,18 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 Label lblVariance = (Label)e.Row.FindControl("lblVariance");
                 decimal qty = Convert.ToDecimal(lblVariance.Text);
                 _totalUnitPrice = _totalUnitPrice + qty;
+
+                Label lblAmountAdvanced = (Label)e.Row.FindControl("lblAmountAdvanced");
+                decimal amnt = Convert.ToDecimal(lblAmountAdvanced.Text);
+                _totalAmountAdvanced = _totalAmountAdvanced + amnt;
             }
             if (e.Row.RowType == DataControlRowType.Footer)
             {
                 Label lblTotalqty = (Label)e.Row.FindControl("lblTotalqty");
                 lblTotalqty.Text = _totalUnitPrice.ToString();
+
+                Label lblTotalAmountAdv = (Label)e.Row.FindControl("lblTotalAmountAdv");
+                lblTotalAmountAdv.Text = _totalAmountAdvanced.ToString();
             }
         }
 

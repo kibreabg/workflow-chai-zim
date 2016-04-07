@@ -214,12 +214,13 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             lblRequestNoResult.Text = _presenter.CurrentTravelAdvanceRequest.TravelAdvanceNo;
             lblRequestedDateResult.Text = _presenter.CurrentTravelAdvanceRequest.RequestDate.ToString();
-            lblRequesterResult.Text = _presenter.CurrentTravelAdvanceRequest.AppUser.UserName;
+            lblRequesterResult.Text = _presenter.CurrentTravelAdvanceRequest.AppUser.FullName;
             lblVisitingTeamResult.Text = _presenter.CurrentTravelAdvanceRequest.VisitingTeam;
             lblPurposeOfTravelResult.Text = _presenter.CurrentTravelAdvanceRequest.PurposeOfTravel;
             lblTotalTravelAdvanceResult.Text = _presenter.CurrentTravelAdvanceRequest.TotalTravelAdvance.ToString();
             lblApprovalStatusResult.Text = _presenter.CurrentTravelAdvanceRequest.ProgressStatus.ToString();
             lblProjectIdResult.Text = _presenter.CurrentTravelAdvanceRequest.Project.ProjectCode;
+            lblGrantIdResult.Text = _presenter.CurrentTravelAdvanceRequest.Grant.GrantCode;
             
             grvDetails.DataSource = _presenter.CurrentTravelAdvanceRequest.TravelAdvanceRequestDetails;
             grvDetails.DataBind();

@@ -160,7 +160,7 @@
                                             <ItemTemplate>
                                                 <%# DataBinder.Eval(Container.DataItem, "BankCode")%>
                                             </ItemTemplate>
-                                        </asp:TemplateColumn>                                        
+                                        </asp:TemplateColumn>
                                         <asp:TemplateColumn HeaderText="Account No">
                                             <ItemTemplate>
                                                 <%# DataBinder.Eval(Container.DataItem, "Account.AccountNo")%>
@@ -236,7 +236,7 @@
                     <td style="width: 390px">
                         <asp:Label ID="lblRequesterResult" runat="server"></asp:Label>
                     </td>
-                    
+
                     <td style="width: 389px">&nbsp;</td>
                     <td style="width: 389px"></td>
                     <td>&nbsp;</td>

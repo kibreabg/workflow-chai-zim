@@ -374,12 +374,15 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             lblRequesterResult.Text = _presenter.CurrentOperationalControlRequest.AppUser.FullName;
             lblRequestedDateResult.Text = _presenter.CurrentOperationalControlRequest.RequestDate.Value.ToShortDateString();
             lblBeneficiaryNameResult.Text = _presenter.CurrentOperationalControlRequest.Beneficiary.BeneficiaryName;
+            lblDescriptionResult.Text = _presenter.CurrentOperationalControlRequest.Description;
             lblBranchCodeResult.Text = _presenter.CurrentOperationalControlRequest.BranchCode.ToString();
             lblVoucherNoResult.Text = _presenter.CurrentOperationalControlRequest.VoucherNo.ToString();
             lblTotalAmountResult.Text = _presenter.CurrentOperationalControlRequest.TotalAmount.ToString();
             lblApprovalStatusResult.Text = _presenter.CurrentOperationalControlRequest.ProgressStatus.ToString();
             lblActualExpendtureRes.Text = _presenter.CurrentOperationalControlRequest.TotalActualExpendture != null ? _presenter.CurrentOperationalControlRequest.TotalActualExpendture.ToString() : "";
             lblReimbersestatusRes.Text = _presenter.CurrentOperationalControlRequest.PaymentReimbursementStatus;
+            lblGrantIdResult.Text = _presenter.CurrentOperationalControlRequest.OperationalControlRequestDetails[0].Grant.GrantCode;
+            lblProjectIdResult.Text = _presenter.CurrentOperationalControlRequest.OperationalControlRequestDetails[0].Project.ProjectCode;
             grvDetails.DataSource = _presenter.CurrentOperationalControlRequest.OperationalControlRequestDetails;
             grvDetails.DataBind();
 
