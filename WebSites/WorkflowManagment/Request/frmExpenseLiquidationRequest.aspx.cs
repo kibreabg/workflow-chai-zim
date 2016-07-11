@@ -247,7 +247,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         protected void grvTravelAdvances_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             grvTravelAdvances.PageIndex = e.NewPageIndex;
-            btnFind_Click(sender, e);
+            BindTravelAdvances();
         }
         protected void grvTravelAdvances_RowDataBound(object sender, GridViewRowEventArgs e)
         {
