@@ -247,6 +247,9 @@
                                             <ItemTemplate>
                                                 <%# DataBinder.Eval(Container.DataItem, "Variance")%>
                                             </ItemTemplate>
+                                            <FooterTemplate>
+                                                <asp:Label ID="lblTotalVariance" runat="server" />
+                                            </FooterTemplate>
                                         </asp:TemplateColumn>
                                         <asp:TemplateColumn HeaderText="Project ID">
                                             <ItemTemplate>
@@ -362,6 +365,23 @@
                     </td>
                     <td>&nbsp;</td>
                 </tr>
+                <tr>
+                    <td style="width: 848px">
+                        <strong>
+                            <asp:Label ID="lblTravelAdvReqDatePrint" runat="server" Text="Travel Advance Request Date:"></asp:Label>
+                        </strong>
+                    </td>
+                    <td style="width: 390px">
+                        <asp:Label ID="lblTravelAdvReqDateResult" runat="server"></asp:Label>
+                    </td>
+                    <td style="width: 389px">
+                        <strong>
+                        </strong>
+                    </td>
+                    <td style="width: 389px">
+                    </td>
+                    <td>&nbsp;</td>
+                </tr>
             </table>
             <asp:GridView ID="grvDetails"
                 runat="server" AutoGenerateColumns="False" DataKeyNames="Id"
@@ -401,6 +421,11 @@
                                 <asp:Label ID="lblActualExpenditure" runat="server" Text='<%# Eval("ActualExpenditure") %>' />
                             </div>
                         </ItemTemplate>
+                        <FooterTemplate>
+                            <div style="text-align: right;">
+                                <asp:Label ID="lblTotalActualExp" runat="server" />
+                            </div>
+                        </FooterTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="Variance">
                         <ItemTemplate>

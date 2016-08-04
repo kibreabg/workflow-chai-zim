@@ -205,13 +205,13 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         private void SendEmailRejected(OperationalControlRequestStatus OCRS)
         {
-            EmailSender.Send(_presenter.GetUser(_presenter.CurrentOperationalControlRequest.AppUser.Id).Email, "Bank Payment Request", "'" + "' Your Bank Payment Request was Rejected for this reason '" + OCRS.RejectedReason + "'");
+            EmailSender.Send(_presenter.GetUser(_presenter.CurrentOperationalControlRequest.AppUser.Id).Email, "Bank Payment Request Rejection", "'" + "' Your Bank Payment Request with request no. '" + _presenter.CurrentOperationalControlRequest.RequestNo.ToString() + "' made by " + _presenter.GetUser(_presenter.CurrentOperationalControlRequest.AppUser.Id).FullName + " was Rejected for this reason - '" + OCRS.RejectedReason + "'");
 
             if (OCRS.WorkflowLevel > 1)
             {
                 for (int i = 0; i + 1 < OCRS.WorkflowLevel; i++)
                 {
-                    EmailSender.Send(_presenter.GetUser(_presenter.CurrentOperationalControlRequest.OperationalControlRequestStatuses[i].Approver).Email, "Bank Payment Request Rejection", "'" + "' Bank Payment Request made by " + _presenter.GetUser(_presenter.CurrentOperationalControlRequest.AppUser.Id).FullName + " was Rejected for this reason - '" + OCRS.RejectedReason + "'");
+                    EmailSender.Send(_presenter.GetUser(_presenter.CurrentOperationalControlRequest.OperationalControlRequestStatuses[i].Approver).Email, "Bank Payment Request Rejection", "'" + "' Bank Payment Request with request no. '" + _presenter.CurrentOperationalControlRequest.RequestNo.ToString() + "' made by " + _presenter.GetUser(_presenter.CurrentOperationalControlRequest.AppUser.Id).FullName + " was Rejected for this reason - '" + OCRS.RejectedReason + "'");
                 }
             }
         }

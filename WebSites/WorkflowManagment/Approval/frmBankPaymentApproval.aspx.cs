@@ -170,13 +170,13 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         private void SendEmailRejected(BankPaymentRequestStatus BPRS)
         {
-            EmailSender.Send(_presenter.GetUser(_presenter.CurrentBankPaymentRequest.AppUser.Id).Email, "Payment Request", "'" + "' Your Payment Request was Rejected for this reason '" + BPRS.RejectedReason + "'");
+            EmailSender.Send(_presenter.GetUser(_presenter.CurrentBankPaymentRequest.AppUser.Id).Email, "Bank Payment Request Rejection", "'" + "' Your Payment Request with request no. '" + _presenter.CurrentBankPaymentRequest.RequestNo.ToString() + "' was Rejected for this reason '" + BPRS.RejectedReason + "'");
 
             if (BPRS.WorkflowLevel > 1)
             {
                 for (int i = 0; i + 1 < BPRS.WorkflowLevel; i++)
                 {
-                    EmailSender.Send(_presenter.GetUser(_presenter.CurrentBankPaymentRequest.BankPaymentRequestStatuses[i].Approver).Email, "Bank Payment Request Rejection", "'" + "' Bank Payment Request made by " + _presenter.GetUser(_presenter.CurrentBankPaymentRequest.AppUser.Id).FullName + " was Rejected for this reason - '" + BPRS.RejectedReason + "'");
+                    EmailSender.Send(_presenter.GetUser(_presenter.CurrentBankPaymentRequest.BankPaymentRequestStatuses[i].Approver).Email, "Bank Payment Request Rejection", "'" + "' Bank Payment Request with request no. '" + _presenter.CurrentBankPaymentRequest.RequestNo.ToString() + "' made by " + _presenter.GetUser(_presenter.CurrentBankPaymentRequest.AppUser.Id).FullName + " was Rejected for this reason - '" + BPRS.RejectedReason + "'");
                 }
             }
         }

@@ -29,6 +29,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         private int liqID = 0;
         decimal _totalUnitPrice = 0;
         decimal _totalAmountAdvanced = 0;
+        decimal _totalVariance = 0;
+        decimal _totalActualExpenditure = 0;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!this.IsPostBack)
@@ -124,7 +126,14 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             {
                 if (GetWillStatus().Substring(0, 2) == s[i].Substring(0, 2))
                 {
-                    ddlApprovalStatus.Items.Add(new ListItem(s[i].Replace('_', ' '), s[i].Replace('_', ' ')));
+                    if(_presenter.GetUser(_presenter.CurrentExpenseLiquidationRequest.CurrentApprover).EmployeePosition.PositionName == "Finance Officer")
+                    {
+                        ddlApprovalStatus.Items.Add(new ListItem(ApprovalStatus.Reviewed.ToString().Replace('_', ' '), s[i].Replace('_', ' ')));
+                    }
+                    else
+                    {
+                        ddlApprovalStatus.Items.Add(new ListItem(s[i].Replace('_', ' '), s[i].Replace('_', ' ')));
+                    }                    
                 }
 
             }
@@ -192,7 +201,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         private void SendEmailRejected(ExpenseLiquidationRequestStatus ELRS)
         {
-            EmailSender.Send(_presenter.GetUser(_presenter.CurrentExpenseLiquidationRequest.TravelAdvanceRequest.AppUser.Id).Email, "Expense Liquidation Request", "'" + "' Your Liquidation Request for Travel Advance No. '" + _presenter.CurrentExpenseLiquidationRequest.TravelAdvanceRequest.TravelAdvanceNo + "' was Rejected for this reason '" + ELRS.RejectedReason + "'");
+            EmailSender.Send(_presenter.GetUser(_presenter.CurrentExpenseLiquidationRequest.TravelAdvanceRequest.AppUser.Id).Email, "Expense Liquidation Request Rejection", "'" + "' Your Liquidation Request for Travel Advance No. '" + _presenter.CurrentExpenseLiquidationRequest.TravelAdvanceRequest.TravelAdvanceNo + "' was Rejected for this reason '" + ELRS.RejectedReason + "'");
 
             if (ELRS.WorkflowLevel > 1)
             {
@@ -316,7 +325,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             {
                 liqID = (int)grvExpenseLiquidationRequestList.DataKeys[Convert.ToInt32(e.CommandArgument)].Value;
                 Session["ReqID"] = liqID;
-            _presenter.CurrentExpenseLiquidationRequest = _presenter.GetExpenseLiquidationRequest(liqID);
+                _presenter.CurrentExpenseLiquidationRequest = _presenter.GetExpenseLiquidationRequest(liqID);
                 if (e.CommandName == "ViewItem")
                 {
                     //_presenter.OnViewLoaded();
@@ -338,6 +347,10 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 if (e.Row.RowType == DataControlRowType.DataRow)
                 {
                     e.Row.Cells[1].Text = _presenter.GetUser(_presenter.CurrentExpenseLiquidationRequest.ExpenseLiquidationRequestStatuses[e.Row.RowIndex].Approver).FullName;
+                    if(e.Row.Cells[3].Text == "Pay")
+                    {
+                        e.Row.Cells[3].Text = "Reviewed";
+                    }
                 }
             }
         }
@@ -360,6 +373,10 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 Label lblAmountAdvanced = (Label)e.Row.FindControl("lblAmountAdvanced");
                 decimal amnt = Convert.ToDecimal(lblAmountAdvanced.Text);
                 _totalAmountAdvanced = _totalAmountAdvanced + amnt;
+
+                Label lblActualExpenditure = (Label)e.Row.FindControl("lblActualExpenditure");
+                decimal exp = Convert.ToDecimal(lblActualExpenditure.Text);
+                _totalActualExpenditure = _totalActualExpenditure + exp;
             }
             if (e.Row.RowType == DataControlRowType.Footer)
             {
@@ -368,6 +385,9 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
 
                 Label lblTotalAmountAdv = (Label)e.Row.FindControl("lblTotalAmountAdv");
                 lblTotalAmountAdv.Text = _totalAmountAdvanced.ToString();
+
+                Label lblTotalActualExp = (Label)e.Row.FindControl("lblTotalActualExp");
+                lblTotalActualExp.Text = _totalActualExpenditure.ToString();
             }
         }
 
@@ -438,6 +458,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             TravelAdvanceRequest taRequest = _presenter.GetTravelAdvanceRequest(_presenter.CurrentExpenseLiquidationRequest.Id);
             lblRequestNoResult.Text = taRequest.TravelAdvanceNo;
             lblRequestedDateResult.Text = _presenter.CurrentExpenseLiquidationRequest.RequestDate.Value.ToShortDateString();
+            if (_presenter.CurrentExpenseLiquidationRequest.TravelAdvRequestDate != null)
+                lblTravelAdvReqDateResult.Text = _presenter.CurrentExpenseLiquidationRequest.TravelAdvRequestDate.Value.ToShortDateString();
             lblRequesterResult.Text = taRequest.AppUser.FullName;
             //lblExpenseTypeResult.Text = _presenter.CurrentExpenseLiquidationRequest.ExpenseType.ToString();
             lblPurposeofAdvanceResult.Text = _presenter.CurrentExpenseLiquidationRequest.Comment.ToString();
@@ -553,7 +575,22 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                             liI.Selected = true;
                     }
                 }
+
+                if (e.Item.ItemType == ListItemType.Footer)
+                {
+                    foreach (ExpenseLiquidationRequestDetail detail in _presenter.CurrentExpenseLiquidationRequest.ExpenseLiquidationRequestDetails)
+                    {
+                        _totalVariance = _totalVariance + detail.Variance;
+                    }
+
+
+                    Label lblTotalVariance = e.Item.FindControl("lblTotalVariance") as Label;
+                    lblTotalVariance.Text = _totalVariance.ToString();
+                    lblTotalVariance.ForeColor = System.Drawing.Color.Green;
+                    lblTotalVariance.Font.Bold = true;
+                }
             }
+
         }
         protected void dgLiquidationRequestDetail_EditCommand(object source, DataGridCommandEventArgs e)
         {

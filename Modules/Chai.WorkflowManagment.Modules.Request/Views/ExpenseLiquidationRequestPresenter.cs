@@ -138,6 +138,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
 
             CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.RequestDate = Convert.ToDateTime(DateTime.Today.ToShortDateString());
+            CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.TravelAdvRequestDate = Convert.ToDateTime(View.GetTravelAdvReqDate);
             CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseType = View.GetExpenseType;
             CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.Comment = View.GetComment;
             CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.AdditionalComment = View.GetAdditionalComment;

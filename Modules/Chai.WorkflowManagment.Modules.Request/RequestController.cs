@@ -115,7 +115,7 @@ namespace Chai.WorkflowManagment.Modules.Request
             string filterExpression = "";
 
             filterExpression = "SELECT * FROM CashPaymentRequests Where 1 = Case when '" + RequestNo + "' = '' Then 1 When CashPaymentRequests.VoucherNo = '" + RequestNo + "' Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When CashPaymentRequests.RequestDate = '" + RequestDate + "'  Then 1 END And CashPaymentRequests.AppUser_Id='" + GetCurrentUser().Id + "' ORDER BY CashPaymentRequests.RequestDate Desc";
-
+           // return WorkspaceFactory.CreateReadOnly().Queryable<CashPaymentRequest>(filterExpression).ToList();
             return _workspace.SqlQuery<CashPaymentRequest>(filterExpression).ToList();
         }
         public IList<CashPaymentRequest> GetCashPaymentRequests()
@@ -423,11 +423,13 @@ namespace Chai.WorkflowManagment.Modules.Request
                 _workspace.Update<T>(item);
 
             _workspace.CommitChanges();
+            _workspace.Refresh(item);
         }
         public void DeleteEntity<T>(T item) where T : class
         {
             _workspace.Delete<T>(item);
             _workspace.CommitChanges();
+            _workspace.Refresh(item);
         }
 
         public void Commit()

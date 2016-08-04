@@ -193,7 +193,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         protected void dgCashPaymentDetail_ItemCommand(object source, DataGridCommandEventArgs e)
         {
-            //CarRental CarRental = new CarRental();
             if (e.CommandName == "AddNew")
             {
                 try
@@ -235,7 +234,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         protected void dgCashPaymentDetail_UpdateCommand(object source, DataGridCommandEventArgs e)
         {
-
+            decimal previousAmount = 0;
             int CPRDId = (int)dgCashPaymentDetail.DataKeys[e.Item.ItemIndex];
             CashPaymentRequestDetail cprd;
 
@@ -248,6 +247,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             {
                 cprd.CashPaymentRequest = _presenter.CurrentCashPaymentRequest;
                 TextBox txtAmount = e.Item.FindControl("txtEdtAmount") as TextBox;
+                previousAmount = cprd.Amount; //This is the Total Amount of this request before any edit
                 cprd.Amount = Convert.ToDecimal(txtAmount.Text);
                 TextBox txtEdtAccountCode = e.Item.FindControl("txtEdtAccountCode") as TextBox;
                 cprd.AccountCode = txtEdtAccountCode.Text;
@@ -257,6 +257,9 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 cprd.Project = _presenter.GetProject(Convert.ToInt32(ddlProject.SelectedValue));
                 DropDownList ddlGrant = e.Item.FindControl("ddlEdtGrant") as DropDownList;
                 cprd.Grant = _presenter.GetGrant(int.Parse(ddlGrant.SelectedValue));
+                _presenter.CurrentCashPaymentRequest.TotalAmount -= previousAmount; //Subtract the previous Total amount
+                _presenter.CurrentCashPaymentRequest.TotalAmount += cprd.Amount; //Then add the new individual amounts to the Total amount
+
                 if (ddlAmountType.SelectedValue == "Actual Amount")
                 {
                     cprd.ActualExpendture = Convert.ToDecimal(txtAmount.Text);
@@ -312,7 +315,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     if (ddlEdtGrant != null)
                     {
                         BindGrant(ddlEdtGrant, Convert.ToInt32(ddlProject.SelectedValue));
-                        if (_presenter.CurrentCashPaymentRequest.CashPaymentRequestDetails[e.Item.DataSetIndex].Grant.Id != null)
+                        if (_presenter.CurrentCashPaymentRequest.CashPaymentRequestDetails[e.Item.DataSetIndex].Grant.Id != 0)
                         {
                             ListItem liI = ddlEdtGrant.Items.FindByValue(_presenter.CurrentCashPaymentRequest.CashPaymentRequestDetails[e.Item.DataSetIndex].Grant.Id.ToString());
                             if (liI != null)
@@ -347,6 +350,17 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             btnFind_Click(sender, e);
             grvCashPaymentRequestList.PageIndex = e.NewPageIndex;
            
+        }
+        protected void grvCashPaymentRequestList_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.DataItem != null)
+            {
+                CashPaymentRequest cashPayment = e.Row.DataItem as CashPaymentRequest;
+                if (cashPayment.CurrentStatus == "Rejected")
+                {
+                    e.Row.ForeColor = System.Drawing.Color.Red;
+                }
+            }
         }
         protected void btnSave_Click(object sender, EventArgs e)
         {
@@ -417,6 +431,12 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             TextBox txtAccountCode = ddl.FindControl("txtAccountCode") as TextBox;
             txtAccountCode.Text = _presenter.GetItemAccount(Convert.ToInt32(ddl.SelectedValue)).AccountCode;
         }
+        protected void ddlEdtAccountDescription_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            DropDownList ddl = (DropDownList)sender;
+            TextBox txtEdtAccountCode = ddl.FindControl("txtEdtAccountCode") as TextBox;
+            txtEdtAccountCode.Text = _presenter.GetItemAccount(Convert.ToInt32(ddl.SelectedValue)).AccountCode;
+        }
         protected void ddlEdtProject_SelectedIndexChanged(object sender, EventArgs e)
         {
             DropDownList ddl = (DropDownList)sender;
@@ -479,5 +499,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             }
         }
         #endregion
+
+        
     }
 }

@@ -127,7 +127,7 @@
                                                             <%# DataBinder.Eval(Container.DataItem, "ItemAccount.AccountName")%>
                                                         </ItemTemplate>
                                                         <EditItemTemplate>
-                                                            <asp:DropDownList ID="ddlEdtAccountDescription" runat="server" CssClass="form-control" AppendDataBoundItems="true" AutoPostBack="True">
+                                                            <asp:DropDownList ID="ddlEdtAccountDescription" runat="server" CssClass="form-control" AppendDataBoundItems="true" AutoPostBack="True"  OnSelectedIndexChanged="ddlEdtAccountDescription_SelectedIndexChanged">
                                                                 <asp:ListItem Value="0">Select Account</asp:ListItem>
                                                             </asp:DropDownList>
                                                             <i></i>
@@ -327,7 +327,7 @@
                                         runat="server" AutoGenerateColumns="False" DataKeyNames="Id"
                                         OnSelectedIndexChanged="grvCashPaymentRequestList_SelectedIndexChanged"
                                         AllowPaging="True" OnPageIndexChanging="grvCashPaymentRequestList_PageIndexChanging"
-                                        CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" PageSize="5">
+                                        CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" PageSize="5" OnRowDataBound="grvCashPaymentRequestList_RowDataBound">
                                         <RowStyle CssClass="rowstyle" />
                                         <Columns>
                                             <asp:BoundField DataField="RequestNo" HeaderText="Vourcher No" SortExpression="RequestNo" />
@@ -338,6 +338,7 @@
                                             </asp:TemplateField> 
                                             <asp:BoundField DataField="Payee" HeaderText="Payee" SortExpression="Payee" />
                                             <asp:BoundField DataField="TotalAmount" HeaderText="Total Amount" SortExpression="TotalAmount" />
+                                            <asp:BoundField DataField="CurrentStatus" HeaderText="Status" SortExpression="CurrentStatus" />
                                             <asp:CommandField ShowSelectButton="True" />
                                         </Columns>
                                         <FooterStyle CssClass="FooterStyle" />

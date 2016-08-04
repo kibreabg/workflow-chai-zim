@@ -181,13 +181,13 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         private void SendEmailRejected(TravelAdvanceRequestStatus TARS)
         {
-            EmailSender.Send(_presenter.GetUser(_presenter.CurrentTravelAdvanceRequest.AppUser.Id).Email, "Travel Advance Request", "'" + "' Your Travel Advance no. '" + _presenter.CurrentTravelAdvanceRequest.TravelAdvanceNo + "' was Rejected for reason '" + TARS.RejectedReason + "'");
+            EmailSender.Send(_presenter.GetUser(_presenter.CurrentTravelAdvanceRequest.AppUser.Id).Email, "Travel Advance Request Rejection", "'" + "' Your Travel Advance Request with Travel Advance No. '" + _presenter.CurrentTravelAdvanceRequest.TravelAdvanceNo + "' made by " + _presenter.GetUser(_presenter.CurrentTravelAdvanceRequest.AppUser.Id).FullName + " was Rejected for this reason - '" + TARS.RejectedReason + "'");
 
             if (TARS.WorkflowLevel > 1)
             {
                 for (int i = 0; i + 1 < TARS.WorkflowLevel; i++)
                 {
-                    EmailSender.Send(_presenter.GetUser(_presenter.CurrentTravelAdvanceRequest.TravelAdvanceRequestStatuses[i].Approver).Email, "Travel Advance Request Rejection", "'" + "' Travel Advance Request made by " + _presenter.GetUser(_presenter.CurrentTravelAdvanceRequest.AppUser.Id).FullName + " was Rejected for this reason - '" + TARS.RejectedReason + "'");
+                    EmailSender.Send(_presenter.GetUser(_presenter.CurrentTravelAdvanceRequest.TravelAdvanceRequestStatuses[i].Approver).Email, "Travel Advance Request Rejection", "'" + "' Travel Advance Request with Travel Advance No. '" + _presenter.CurrentTravelAdvanceRequest.TravelAdvanceNo + "' made by " + _presenter.GetUser(_presenter.CurrentTravelAdvanceRequest.AppUser.Id).FullName + " was Rejected for this reason - '" + TARS.RejectedReason + "'");
                 }
             }
         }

@@ -131,11 +131,14 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         public void SaveOrUpdateCashPaymentRequest()
         {
             CashPaymentRequest CashPaymentRequest = CurrentCashPaymentRequest;
-            CashPaymentRequest.RequestNo = View.GetRequestNo;
+            if (CashPaymentRequest.Id <= 0)
+            {
+                CashPaymentRequest.RequestNo = View.GetRequestNo;
+                CashPaymentRequest.VoucherNo = View.GetVoucherNo;
+            }
             CashPaymentRequest.RequestDate = Convert.ToDateTime(DateTime.Today.ToShortDateString());
             CashPaymentRequest.Payee = View.GetPayee;
             CashPaymentRequest.Description = View.GetDescription;
-            CashPaymentRequest.VoucherNo = View.GetVoucherNo;
             CashPaymentRequest.AmountType = View.GetAmountType;
             CashPaymentRequest.ProgressStatus = ProgressStatus.InProgress.ToString();
             CashPaymentRequest.AppUser = _adminController.GetUser(CurrentUser().Id);
@@ -152,10 +155,12 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             CashPaymentRequest.ExportStatus = "Not Exported";
             if (CurrentCashPaymentRequest.CashPaymentRequestStatuses.Count == 0)
                 SaveCashPaymentRequestStatus();
-           
+
             GetCurrentApprover();
 
-             _controller.SaveOrUpdateEntity(CashPaymentRequest);
+            _controller.SaveOrUpdateEntity(CashPaymentRequest);
+
+
         }
         public void SaveOrUpdateCashPaymentRequest(CashPaymentRequest CashPaymentRequest)
         {

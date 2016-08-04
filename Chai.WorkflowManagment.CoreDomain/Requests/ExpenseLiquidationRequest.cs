@@ -16,6 +16,7 @@ namespace Chai.WorkflowManagment.CoreDomain.Requests
         }
         public int Id { get; set; }
         public Nullable<DateTime> RequestDate { get; set; }
+        public Nullable<DateTime> TravelAdvRequestDate { get; set; }
         public string ExpenseType { get; set; }        
         public string Comment { get; set; }
         public string ExpenseReimbersmentType { get; set; }
@@ -26,6 +27,7 @@ namespace Chai.WorkflowManagment.CoreDomain.Requests
         public string CurrentStatus { get; set; }
         public string ProgressStatus { get; set; }
         public decimal TotalActualExpenditure { get; set; }
+        public decimal TotalTravelAdvance { get; set; }
         public string AdditionalComment { get; set; }
 
         [Required]
