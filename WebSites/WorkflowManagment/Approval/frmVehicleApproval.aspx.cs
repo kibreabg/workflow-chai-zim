@@ -23,6 +23,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
     {
         private VehicleApprovalPresenter _presenter;
         private static readonly ILog Log = LogManager.GetLogger("AuditTrailLog");
+        private bool needsApproval = false;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!this.IsPostBack)
@@ -223,7 +224,6 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     SendEmail(VRS);
                     _presenter.CurrentVehicleRequest.CurrentApprover = VRS.Approver;
                     _presenter.CurrentVehicleRequest.CurrentLevel = VRS.WorkflowLevel;
-                    _presenter.CurrentVehicleRequest.CurrentStatus = VRS.ApprovalStatus;
                     _presenter.CurrentVehicleRequest.ProgressStatus = ProgressStatus.InProgress.ToString();
                     break;
 
@@ -240,24 +240,40 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     VRS.ApprovalStatus = ddlApprovalStatus.SelectedValue;
                     VRS.RejectedReason = txtRejectedReason.Text;
                     VRS.AssignedBy = _presenter.GetAssignedJobbycurrentuser(VRS.Approver) != null ? _presenter.GetAssignedJobbycurrentuser(VRS.Approver).AppUser.FullName : "";
-                    VRS.Comment = txtComment.Text;                    
+                    VRS.Comment = txtComment.Text;
                     if (VRS.ApprovalStatus != ApprovalStatus.Rejected.ToString())
-                    {                        
+                    {
+                        foreach (VehicleRequestDetail vehicleReqDet in _presenter.CurrentVehicleRequest.VehicleRequestDetails)
+                        {
+                            if (vehicleReqDet.AssignedVehicle == "carRental")
+                            {
+                                needsApproval = true;
+                            }
+                        }
+                        if (needsApproval == false)
+                        {
+                            _presenter.CurrentVehicleRequest.CurrentLevel = _presenter.CurrentVehicleRequest.VehicleRequestStatuses.Count;
+                        }
                         if (_presenter.CurrentVehicleRequest.CurrentLevel == _presenter.CurrentVehicleRequest.VehicleRequestStatuses.Count)
                         {
                             _presenter.CurrentVehicleRequest.ProgressStatus = ProgressStatus.Completed.ToString();
+                            _presenter.CurrentVehicleRequest.CurrentStatus = VRS.ApprovalStatus;
                             VRS.Approver = _presenter.CurrentUser().Id;
                             SendCompletedEmail(VRS);
+                            break;
                         }
+                        _presenter.CurrentVehicleRequest.CurrentStatus = VRS.ApprovalStatus;     
                         GetNextApprover();
+
                     }
                     else
                     {
                         _presenter.CurrentVehicleRequest.ProgressStatus = ProgressStatus.Completed.ToString();
+                        _presenter.CurrentVehicleRequest.CurrentStatus = VRS.ApprovalStatus;
                         VRS.Approver = _presenter.CurrentUser().Id;
                         SendEmailRejected(VRS);
                     }
-                    
+
                     break;
                 }
 
@@ -465,9 +481,9 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 vehicle.VehicleRequest = _presenter.CurrentVehicleRequest;
                 DropDownList ddlEdtAssignedVehicle = e.Item.FindControl("ddlEdtAssignedVehicle") as DropDownList;
                 vehicle.AssignedVehicle = ddlEdtAssignedVehicle.SelectedValue;
-                
+
                 DropDownList ddlPlateNo = e.Item.FindControl("ddlEdtPlateNo") as DropDownList;
-                vehicle.PlateNo =ddlPlateNo.SelectedItem.Text;
+                vehicle.PlateNo = ddlPlateNo.SelectedItem.Text;
                 DropDownList ddlEdtCarRental = e.Item.FindControl("ddlEdtCarRental") as DropDownList;
                 vehicle.CarRental = _presenter.GetCarRental(Convert.ToInt32(ddlEdtCarRental.SelectedValue));
                 DropDownList ddlEdtDriver = e.Item.FindControl("ddlEdtDriver") as DropDownList;
@@ -562,8 +578,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             Response.Redirect("../Default.aspx");
         }
-        
 
-        
-}
+
+
+    }
 }

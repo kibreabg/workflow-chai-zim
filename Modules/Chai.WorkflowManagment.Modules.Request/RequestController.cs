@@ -40,7 +40,7 @@ namespace Chai.WorkflowManagment.Modules.Request
         }
         public AppUser Approver(int position)
         {
-            return _workspace.Single<AppUser>(x => x.EmployeePosition.Id == position);
+            return _workspace.SqlQuery<AppUser>("SELECT * FROM AppUsers WHERE EmployeePosition_Id = " + position).ToList().Last<AppUser>();
         }
         #region CurrenrObject
         public object CurrentObject
@@ -304,7 +304,7 @@ namespace Chai.WorkflowManagment.Modules.Request
         public IList<TravelAdvanceRequest> ListTravelAdvancesNotExpensed()
         {
             int currentUserId = GetCurrentUser().Id;
-            return WorkspaceFactory.CreateReadOnly().Query<TravelAdvanceRequest>(x => x.ExpenseLiquidationStatus == "Completed" &&   x.AppUser.Id == currentUserId).ToList();
+            return WorkspaceFactory.CreateReadOnly().Query<TravelAdvanceRequest>(x => x.ExpenseLiquidationStatus == "Completed" && x.ExpenseLiquidationRequest.ExpenseLiquidationRequestStatuses.Count == 0 && x.AppUser.Id == currentUserId).ToList();
         }
         public TravelAdvanceRequestDetail GetTravelAdvanceRequestDetail(int id)
         {

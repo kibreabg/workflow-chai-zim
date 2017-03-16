@@ -455,11 +455,13 @@ namespace Chai.WorkflowManagment.Modules.Setting
                 _workspace.Update<T>(item);
 
             _workspace.CommitChanges();
+            _workspace.Refresh(item);
         }
         public void DeleteEntity<T>(T item) where T : class
         {
             _workspace.Delete<T>(item);
             _workspace.CommitChanges();
+            _workspace.Refresh(item);
         }
 
         public void Commit()

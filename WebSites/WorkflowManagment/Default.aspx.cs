@@ -23,27 +23,34 @@ public partial class ShellDefault : Microsoft.Practices.CompositeWeb.Web.UI.Page
         if (!this.IsPostBack)
         {
             this._presenter.OnViewInitialized();
+            BindCashPaymentRequests();
+            BindLeaveRequests();
+            BindVehicleRequests();
+            BindCostSharingRequests();
+            BindTravelAdvanceRequests();
+            BindPurchaseRequests();
+            BindBankPaymentRequests();
         }
         this._presenter.OnViewLoaded();
         MyTasks();
         MyRequests();
         if (_presenter.CurrentUser.EmployeePosition.PositionName == "Admin/HR Officer" || _presenter.CurrentUser.EmployeePosition.PositionName == "Operational Manager" || _presenter.CurrentUser.EmployeePosition.PositionName == "Country Director" || _presenter.CurrentUser.EmployeePosition.PositionName == "Finance Officer" || _presenter.CurrentUser.EmployeePosition.PositionName == "Finance Manager")
-       {
-           reimbersmentstatuses.Visible = true;
-           ReimbersmentStatus();
-       }
+        {
+            reimbersmentstatuses.Visible = true;
+            ReimbersmentStatus();
+        }
     }
 
     [CreateNew]
     public BaseMasterPresenter Presenter
     {
         get
-		{
-			return this._presenter;
-		}
+        {
+            return this._presenter;
+        }
         set
         {
-            if(value == null)
+            if (value == null)
                 throw new ArgumentNullException("value");
 
             this._presenter = value;
@@ -53,11 +60,11 @@ public partial class ShellDefault : Microsoft.Practices.CompositeWeb.Web.UI.Page
 
     public string TabId
     {
-        get { return Request.QueryString[AppConstants.TABID]; } 
+        get { return Request.QueryString[AppConstants.TABID]; }
     }
     public string NodeId
     {
-        get { return Request.QueryString[AppConstants.NODEID];} 
+        get { return Request.QueryString[AppConstants.NODEID]; }
     }
     public Chai.WorkflowManagment.CoreDomain.Users.AppUser CurrentUser
     {
@@ -190,7 +197,7 @@ public partial class ShellDefault : Microsoft.Practices.CompositeWeb.Web.UI.Page
         {
             lblPurchaseStatus.Text = ProgressStatus.InProgress.ToString();
             lblPurchaseStatus.ForeColor = System.Drawing.Color.Green;
-            
+
         }
 
         if (_presenter.GetBankRequestsMyRequest() != 0)
@@ -201,19 +208,18 @@ public partial class ShellDefault : Microsoft.Practices.CompositeWeb.Web.UI.Page
         }
 
     }
-
     private void ReimbersmentStatus()
     {
         if (_presenter.GetCashPaymentReimbersment() != 0)
         {
             lblCashPaymentreimbersment.Text = _presenter.GetCashPaymentReimbersment().ToString();
-         
+
         }
         else
         {
             lblCashPaymentreimbersment.Text = Convert.ToString(0);
         }
-        
+
         if (_presenter.GetCostSharingPaymentReimbersment() != 0)
         {
             lblCostPaymentreimbersment.Text = _presenter.GetCostSharingPaymentReimbersment().ToString();
@@ -222,6 +228,121 @@ public partial class ShellDefault : Microsoft.Practices.CompositeWeb.Web.UI.Page
         else
         {
             lblCostPaymentreimbersment.Text = Convert.ToString(0);
+        }
+    }
+    private void BindLeaveRequests()
+    {
+        grvLeaveProgress.DataSource = _presenter.ListLeaveApprovalProgress();
+        grvLeaveProgress.DataBind();
+    }
+    private void BindVehicleRequests()
+    {
+        grvVehicleProgress.DataSource = _presenter.ListVehicleApprovalProgress();
+        grvVehicleProgress.DataBind();
+    }
+    private void BindCashPaymentRequests()
+    {
+        grvPaymentProgress.DataSource = _presenter.ListPaymentApprovalProgress();
+        grvPaymentProgress.DataBind();
+    }
+    private void BindCostSharingRequests()
+    {
+        grvCostProgress.DataSource = _presenter.ListCostApprovalProgress();
+        grvCostProgress.DataBind();
+    }
+    private void BindTravelAdvanceRequests()
+    {
+        grvTravelProgress.DataSource = _presenter.ListTravelApprovalProgress();
+        grvTravelProgress.DataBind();
+    }
+    private void BindPurchaseRequests()
+    {
+        grvPurchaseProgress.DataSource = _presenter.ListPurchaseApprovalProgress();
+        grvPurchaseProgress.DataBind();
+    }
+    private void BindBankPaymentRequests()
+    {
+        grvBankProgress.DataSource = _presenter.ListBankPaymentApprovalProgress();
+        grvBankProgress.DataBind();
+    }
+    protected void grvLeaveProgress_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (_presenter.ListLeaveApprovalProgress() != null)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                if (_presenter.ListLeaveApprovalProgress()[e.Row.RowIndex].CurrentApprover != 0)
+                    e.Row.Cells[2].Text = _presenter.GetUser(_presenter.ListLeaveApprovalProgress()[e.Row.RowIndex].CurrentApprover).FullName;
+            }
+        }
+    }
+    protected void grvVehicleProgress_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (_presenter.ListVehicleApprovalProgress() != null)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                if (_presenter.ListVehicleApprovalProgress()[e.Row.RowIndex].CurrentApprover != 0)
+                    e.Row.Cells[2].Text = _presenter.GetUser(_presenter.ListVehicleApprovalProgress()[e.Row.RowIndex].CurrentApprover).FullName;
+            }
+        }
+    }
+    protected void grvPaymentProgress_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (_presenter.ListPaymentApprovalProgress() != null)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                if (_presenter.ListPaymentApprovalProgress().Count != 0)
+                {
+                    if (_presenter.ListPaymentApprovalProgress()[e.Row.RowIndex].CurrentApprover != 0)
+                        e.Row.Cells[2].Text = _presenter.GetUser(_presenter.ListPaymentApprovalProgress()[e.Row.RowIndex].CurrentApprover).FullName;
+                }
+            }
+        }        
+    }
+    protected void grvCostProgress_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (_presenter.ListCostApprovalProgress() != null)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                if (_presenter.ListCostApprovalProgress()[e.Row.RowIndex].CurrentApprover != 0)
+                    e.Row.Cells[2].Text = _presenter.GetUser(_presenter.ListCostApprovalProgress()[e.Row.RowIndex].CurrentApprover).FullName;
+            }
+        }
+    }
+    protected void grvTravelProgress_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (_presenter.ListTravelApprovalProgress() != null)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                if (_presenter.ListTravelApprovalProgress()[e.Row.RowIndex].CurrentApprover != 0)
+                    e.Row.Cells[2].Text = _presenter.GetUser(_presenter.ListTravelApprovalProgress()[e.Row.RowIndex].CurrentApprover).FullName;
+            }
+        }
+    }
+    protected void grvPurchaseProgress_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (_presenter.ListPurchaseApprovalProgress() != null)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                if (_presenter.ListPurchaseApprovalProgress()[e.Row.RowIndex].CurrentApprover != 0)
+                    e.Row.Cells[2].Text = _presenter.GetUser(_presenter.ListPurchaseApprovalProgress()[e.Row.RowIndex].CurrentApprover).FullName;
+            }
+        }
+    }
+    protected void grvBankProgress_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (_presenter.ListBankPaymentApprovalProgress() != null)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                if (_presenter.ListBankPaymentApprovalProgress()[e.Row.RowIndex].CurrentApprover != 0)
+                    e.Row.Cells[2].Text = _presenter.GetUser(_presenter.ListBankPaymentApprovalProgress()[e.Row.RowIndex].CurrentApprover).FullName;
+            }
         }
     }
 }

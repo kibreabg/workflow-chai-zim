@@ -12,7 +12,7 @@
                 $('#searchModal').modal('show');
             });
         }
-       
+
     </script>
     <div class="jarviswidget" id="wid-id-8" data-widget-editbutton="false" data-widget-custombutton="false">
         <header>
@@ -25,7 +25,7 @@
                 <div class="smart-form">
                     <fieldset>
                         <div class="row">
-                           <%-- <section class="col col-6">
+                            <%-- <section class="col col-6">
                                 <label class="label">Request No</label>
                                 <label class="input">
                                     <asp:TextBox ID="txtVoucherNo" runat="server" ReadOnly="true"></asp:TextBox>
@@ -68,13 +68,14 @@
                                 <label class="label">Amount Type</label>
                                 <label class="select">
                                     <asp:DropDownList ID="ddlAmountType" runat="server">
-                                     <asp:ListItem Value="">Select Amount Type</asp:ListItem>
-                                                        <asp:ListItem>Estimated Amount</asp:ListItem>
-                                                        <asp:ListItem>Actual Amount</asp:ListItem></asp:DropDownList><i></i>
+                                        <asp:ListItem Value="">Select Amount Type</asp:ListItem>
+                                        <asp:ListItem>Estimated Amount</asp:ListItem>
+                                        <asp:ListItem>Actual Amount</asp:ListItem>
+                                    </asp:DropDownList><i></i>
                                 </label>
                                 <asp:RequiredFieldValidator ID="RfvAmountType" runat="server" ControlToValidate="ddlAmountType" CssClass="validator" Display="Dynamic" ErrorMessage="Amount Type Required" SetFocusOnError="true" ValidationGroup="request"></asp:RequiredFieldValidator>
                             </section>
-                         
+
                         </div>
                     </fieldset>
                     <div role="content">
@@ -127,7 +128,7 @@
                                                             <%# DataBinder.Eval(Container.DataItem, "ItemAccount.AccountName")%>
                                                         </ItemTemplate>
                                                         <EditItemTemplate>
-                                                            <asp:DropDownList ID="ddlEdtAccountDescription" runat="server" CssClass="form-control" AppendDataBoundItems="true" AutoPostBack="True"  OnSelectedIndexChanged="ddlEdtAccountDescription_SelectedIndexChanged">
+                                                            <asp:DropDownList ID="ddlEdtAccountDescription" runat="server" CssClass="form-control" AppendDataBoundItems="true" AutoPostBack="True" OnSelectedIndexChanged="ddlEdtAccountDescription_SelectedIndexChanged">
                                                                 <asp:ListItem Value="0">Select Account</asp:ListItem>
                                                             </asp:DropDownList>
                                                             <i></i>
@@ -194,13 +195,13 @@
                                                             <asp:DropDownList ID="ddlEdtGrant" runat="server" AppendDataBoundItems="True" CssClass="form-control" DataTextField="GrantCode" DataValueField="Id">
                                                                 <asp:ListItem Value="0">Select Grant</asp:ListItem>
                                                             </asp:DropDownList>
-                                                            <asp:RequiredFieldValidator ID="RfvGrant" runat="server"  CssClass="validator" ControlToValidate="ddlEdtGrant" ErrorMessage="Grant is required" InitialValue="0" SetFocusOnError="True" ValidationGroup="edit"></asp:RequiredFieldValidator>
+                                                            <asp:RequiredFieldValidator ID="RfvGrant" runat="server" CssClass="validator" ControlToValidate="ddlEdtGrant" ErrorMessage="Grant is required" InitialValue="0" SetFocusOnError="True" ValidationGroup="edit"></asp:RequiredFieldValidator>
                                                         </EditItemTemplate>
                                                         <FooterTemplate>
                                                             <asp:DropDownList ID="ddlGrant" runat="server" AppendDataBoundItems="True" CssClass="form-control" DataTextField="GrantCode" DataValueField="Id" EnableViewState="true">
                                                                 <asp:ListItem Value="0">Select Grant</asp:ListItem>
                                                             </asp:DropDownList>
-                                                            <asp:RequiredFieldValidator ID="RfvFGrantCode" runat="server"  CssClass="validator" ControlToValidate="ddlGrant" Display="Dynamic" ErrorMessage="Grant is required" InitialValue="0" SetFocusOnError="True" ValidationGroup="save"></asp:RequiredFieldValidator>
+                                                            <asp:RequiredFieldValidator ID="RfvFGrantCode" runat="server" CssClass="validator" ControlToValidate="ddlGrant" Display="Dynamic" ErrorMessage="Grant is required" InitialValue="0" SetFocusOnError="True" ValidationGroup="save"></asp:RequiredFieldValidator>
                                                         </FooterTemplate>
                                                         <ItemTemplate>
                                                             <%# DataBinder.Eval(Container.DataItem, "Grant.GrantCode")%>
@@ -224,7 +225,7 @@
                                             </asp:DataGrid>
                                         </div>
                                         <div class="tab-pane" id="iss2">
-                                             <fieldset>
+                                            <fieldset>
                                                 <div class="row">
                                                     <section class="col col-6">
                                                         <label class="label">Attach Reciepts</label>
@@ -240,15 +241,15 @@
                                                 <Columns>
                                                     <asp:BoundField DataField="FilePath" HeaderText="File Name" SortExpression="FilePath" />
                                                     <asp:TemplateField>
-                                                     <ItemTemplate>
-                                                       <asp:LinkButton ID="lnkDownload" Text = "Download" CommandArgument = '<%# Eval("FilePath") %>' runat="server" OnClick = "DownloadFile"></asp:LinkButton>
-                                                     </ItemTemplate>
-                                                   </asp:TemplateField>
-                                                   <asp:TemplateField>
-                                                   <ItemTemplate>
-                                                  <asp:LinkButton ID = "lnkDelete" Text = "Delete" CommandArgument = '<%# Eval("FilePath") %>' runat = "server" OnClick = "DeleteFile" />
-                                                  </ItemTemplate>
-                                                  </asp:TemplateField>
+                                                        <ItemTemplate>
+                                                            <asp:LinkButton ID="lnkDownload" Text="Download" CommandArgument='<%# Eval("FilePath") %>' runat="server" OnClick="DownloadFile"></asp:LinkButton>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField>
+                                                        <ItemTemplate>
+                                                            <asp:LinkButton ID="lnkDelete" Text="Delete" CommandArgument='<%# Eval("FilePath") %>' runat="server" OnClick="DeleteFile" />
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
                                                 </Columns>
                                                 <FooterStyle CssClass="FooterStyle" />
                                                 <HeaderStyle CssClass="headerstyle" />
@@ -268,14 +269,14 @@
                     <footer>
                         <asp:Button ID="btnSave" runat="server" Text="Request" OnClick="btnSave_Click" class="btn btn-primary" ValidationGroup="request"></asp:Button>
                         <%--<asp:Button ID="btnSearch" runat="server" Text="Search" class="btn btn-primary" />--%>
-                        <a data-toggle="modal" runat="server" id="searchLink" href="#searchModal" class="btn btn-primary"><i class="fa fa-circle-arrow-up fa-lg"></i> Search</a>
+                        <a data-toggle="modal" runat="server" id="searchLink" href="#searchModal" class="btn btn-primary"><i class="fa fa-circle-arrow-up fa-lg"></i>Search</a>
                         <asp:Button ID="btnDelete" runat="server" CausesValidation="False" class="btn btn-primary"
                             Text="Delete" OnClick="btnDelete_Click" Visible="false"></asp:Button>
                         <cc1:ConfirmButtonExtender ID="btnDelete_ConfirmButtonExtender" runat="server"
                             ConfirmText="Are you sure you want to delete this record?" Enabled="True" TargetControlID="btnDelete">
                         </cc1:ConfirmButtonExtender>
                         <asp:Button ID="btnCancel" runat="server" CssClass="btn btn-primary" OnClick="btnCancel_Click" Text="New" />
-                          <asp:Button ID="btnClosepage" runat="server" Text="Close" data-dismiss="modal" CssClass="btn btn-primary" PostBackUrl="../Default.aspx"></asp:Button>
+                        <asp:Button ID="btnClosepage" runat="server" Text="Close" data-dismiss="modal" CssClass="btn btn-primary" PostBackUrl="../Default.aspx"></asp:Button>
                     </footer>
                 </div>
             </div>
@@ -303,8 +304,8 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="txtSrchRequestDate">Request Date</label>
-                                 <label class="input" style="position: relative; display: block; font-weight: 400;">
-                                    <i class="icon-append fa fa-calendar" style="position: absolute;top: 5px;width: 22px;height: 22px;font-size: 14px;line-height: 22px;text-align: center;right: 5px;padding-left: 3px;border-left-width: 1px;border-left-style: solid;color: #A2A2A2;"></i>
+                                <label class="input" style="position: relative; display: block; font-weight: 400;">
+                                    <i class="icon-append fa fa-calendar" style="position: absolute; top: 5px; width: 22px; height: 22px; font-size: 14px; line-height: 22px; text-align: center; right: 5px; padding-left: 3px; border-left-width: 1px; border-left-style: solid; color: #A2A2A2;"></i>
                                     <asp:TextBox ID="txtSrchRequestDate" CssClass="form-control datepicker"
                                         data-dateformat="mm/dd/yy" ToolTip="Request Date" runat="server"></asp:TextBox>
                                 </label>
@@ -332,10 +333,10 @@
                                         <Columns>
                                             <asp:BoundField DataField="RequestNo" HeaderText="Vourcher No" SortExpression="RequestNo" />
                                             <asp:TemplateField HeaderText="Request Date">
-                                            <ItemTemplate>
-                                              <asp:Label ID="lblDate" runat="server" Text='<%# Eval("RequestDate", "{0:dd/MM/yyyy}")%>' ></asp:Label>
-                                            </ItemTemplate>
-                                            </asp:TemplateField> 
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblDate" runat="server" Text='<%# Eval("RequestDate", "{0:dd/MM/yyyy}")%>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
                                             <asp:BoundField DataField="Payee" HeaderText="Payee" SortExpression="Payee" />
                                             <asp:BoundField DataField="TotalAmount" HeaderText="Total Amount" SortExpression="TotalAmount" />
                                             <asp:BoundField DataField="CurrentStatus" HeaderText="Status" SortExpression="CurrentStatus" />
@@ -351,7 +352,7 @@
                         </div>
                     </div>
                 </div>
-                
+
             </div>
         </div>
     </div>

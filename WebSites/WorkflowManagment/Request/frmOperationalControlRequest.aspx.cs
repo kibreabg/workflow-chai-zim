@@ -149,13 +149,13 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                         }
                         if (CPR.CPRAttachments.Count > 0)
                         {
-                            foreach(CPRAttachment CP in CPR.CPRAttachments)
+                            foreach (CPRAttachment CP in CPR.CPRAttachments)
                             {
-                            OCRAttachment OPA = new OCRAttachment();
-                            
-                              OPA.FilePath = CP.FilePath;
-                              OPA.OperationalControlRequest = _presenter.CurrentOperationalControlRequest;
-                              _presenter.CurrentOperationalControlRequest.OCRAttachments.Add(OPA);
+                                OCRAttachment OPA = new OCRAttachment();
+
+                                OPA.FilePath = CP.FilePath;
+                                OPA.OperationalControlRequest = _presenter.CurrentOperationalControlRequest;
+                                _presenter.CurrentOperationalControlRequest.OCRAttachments.Add(OPA);
                             }
                         }
 
@@ -195,11 +195,44 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                         }
                     }
                 }
+                /*else if (Request.QueryString["Page"].Contains("TravelAdvance"))
+                {
+                    CostSharingRequest CPR = _presenter.GetCostSharingPaymentRequest(Convert.ToInt32(Request.QueryString["PaymentId"]));
+                    if (CPR != null)
+                    {
+
+
+                        foreach (CostSharingRequestDetail CPRD in CPR.CostSharingRequestDetails)
+                        {
+                            OperationalControlRequestDetail OCRD = new OperationalControlRequestDetail();
+                            OCRD.ItemAccount = CPRD.CostSharingRequest.ItemAccount;
+                            OCRD.Project = CPRD.Project;
+                            OCRD.Grant = CPRD.Grant;
+                            OCRD.Amount = CPRD.SharedAmount;
+                            OCRD.ActualExpendture = CPRD.SharedAmount;
+                            OCRD.AccountCode = CPRD.CostSharingRequest.ItemAccount.AccountCode;
+                            _presenter.CurrentOperationalControlRequest.TotalAmount += OCRD.Amount;
+                            _presenter.CurrentOperationalControlRequest.TotalActualExpendture += OCRD.Amount;
+                            OCRD.OperationalControlRequest = _presenter.CurrentOperationalControlRequest;
+                            _presenter.CurrentOperationalControlRequest.OperationalControlRequestDetails.Add(OCRD);
+                        }
+                        if (CPR.CSRAttachments.Count > 0)
+                        {
+                            foreach (CSRAttachment CP in CPR.CSRAttachments)
+                            {
+                                OCRAttachment OPA = new OCRAttachment();
+                                OPA.FilePath = CP.FilePath;
+                                OPA.OperationalControlRequest = _presenter.CurrentOperationalControlRequest;
+                                _presenter.CurrentOperationalControlRequest.OCRAttachments.Add(OPA);
+                            }
+                        }
+                    }
+                }*/
             }
         }
         private string AutoNumber()
         {
-           return "BP-" + (_presenter.GetLastOperationalControlRequestId() + 1).ToString();
+            return "BP-" + (_presenter.GetLastOperationalControlRequestId() + 1).ToString();
         }
         private void CheckApprovalSettings()
         {
@@ -212,7 +245,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             // txtVoucherNo.Text = String.Empty;
             //txtPayee.Text = String.Empty;
-           // txtVoucherNo.Text = String.Empty;
+            // txtVoucherNo.Text = String.Empty;
         }
         private void PopBankAccounts()
         {
@@ -255,12 +288,12 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 txtBranchCode.Text = _presenter.CurrentOperationalControlRequest.BranchCode;
                 txtBankName.Text = _presenter.CurrentOperationalControlRequest.BankName;
                 txtDescription.Text = _presenter.CurrentOperationalControlRequest.Description;
-               // txtVoucherNo.Text = _presenter.CurrentOperationalControlRequest.VoucherNo.ToString();
+                // txtVoucherNo.Text = _presenter.CurrentOperationalControlRequest.VoucherNo.ToString();
                 ddlBankAccount.SelectedValue = _presenter.CurrentOperationalControlRequest.Account.Id.ToString();
                 txtBankAccountNo.Text = _presenter.GetBankAccount(_presenter.CurrentOperationalControlRequest.Account.Id).AccountNo;
                 BindOperationalControlDetails();
                 BindOperationalControlRequests();
-               
+
             }
         }
         private void BindProject(DropDownList ddlProject)
@@ -564,8 +597,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 txtBranchCode.Text = Benef.BranchName;
                 txtBankName.Text = Benef.BankName;
             }
-            
-                
+
+
         }
         #region Attachments
         protected void btnUpload_Click(object sender, EventArgs e)
@@ -739,13 +772,13 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 Master.ShowMessage(new AppMessage("Error: Unable to Update Beneficiary. " + ex.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
             }
             pnlBeneficary_ModalPopupExtender.Show();
-        }        
+        }
         protected void btnpop_Click(object sender, EventArgs e)
         {
-        BindBeneficiaries();
-        pnlBeneficary_ModalPopupExtender.Show();
+            BindBeneficiaries();
+            pnlBeneficary_ModalPopupExtender.Show();
         }
-       #endregion
+        #endregion
     }
 
 }

@@ -85,6 +85,13 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                         else
                             VRS.ApprovalStatus = ApprovalStatus.Approved.ToString();
                     }
+                    else if (AL.EmployeePosition.PositionName == "Program Manager")
+                    {
+                        if (CurrentVehicleRequest.Project.Id != 0)
+                        {
+                            VRS.Approver = GetProject(CurrentVehicleRequest.Project.Id).AppUser.Id;
+                        }
+                    }
                     else
                     {
                         if (Approver(AL.EmployeePosition.Id) != null)
@@ -177,6 +184,10 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         public AppUser CurrentUser()
         {
             return _controller.GetCurrentUser();
+        }
+        public Project GetProject(int ProjectId)
+        {
+            return _settingController.GetProject(ProjectId);
         }
         public IList<Project> GetProjects()
         {

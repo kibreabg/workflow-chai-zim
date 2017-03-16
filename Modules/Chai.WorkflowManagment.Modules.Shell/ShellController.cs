@@ -64,7 +64,6 @@ namespace Chai.WorkflowManagment.Modules.Shell
                 return vr.Single<Node>(x => x.Id == nodeid, x => x.NodeRoles.Select(y => y.Role));     
             }
         }
-
         public Tab ActiveTab(int tabid)
         {
             using (var vr = WorkspaceFactory.CreateReadOnly())
@@ -126,9 +125,7 @@ namespace Chai.WorkflowManagment.Modules.Shell
                                    " AND  (VehicleRequests.CurrentApprover = '" + currentUser + "') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "') order by VehicleRequests.Id ";
 
             return _workspace.SqlQuery<VehicleRequest>(filterExpression).Count();
-        }
-       
-       
+        }       
         public int GetCashPaymentRequestTasks()
         {
             currentUser = GetCurrentUser().Id;
@@ -179,8 +176,7 @@ namespace Chai.WorkflowManagment.Modules.Shell
                                    " AND  ((ExpenseLiquidationRequests.CurrentApprover = '" + currentUser + "') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) order by ExpenseLiquidationRequests.Id ";
 
             return _workspace.SqlQuery<ExpenseLiquidationRequest>(filterExpression).Count();
-        }
-       
+        }       
         public int GetExpenseLiquidationRequestsTasks()
         {
             currentUser = GetCurrentUser().Id;
@@ -237,7 +233,7 @@ namespace Chai.WorkflowManagment.Modules.Shell
             else
                 return 0;
 
-        }
+        }        
         public int GetCostSharingRequestMyRequests()
         {
             currentUser = GetCurrentUser().Id;
@@ -283,6 +279,60 @@ namespace Chai.WorkflowManagment.Modules.Shell
 
         }
         #endregion
+        #region MyProgresses
+        public IList<VehicleRequest> GetVehicleInProgress()
+        {
+            currentUser = GetCurrentUser().Id;
+            IList<VehicleRequest> vehicleRequests = WorkspaceFactory.CreateReadOnly().Query<VehicleRequest>(x => x.AppUser.Id == currentUser && x.ProgressStatus == "InProgress").ToList();
+            return vehicleRequests;
+        }
+
+        public IList<CashPaymentRequest> GetCashPaymentsInProgress()
+        {
+            currentUser = GetCurrentUser().Id;
+            IList<CashPaymentRequest> cashPaymentRequests = WorkspaceFactory.CreateReadOnly().Query<CashPaymentRequest>(x => x.AppUser.Id == currentUser && x.ProgressStatus == "InProgress").ToList();
+            return cashPaymentRequests;
+        }
+
+        public IList<CostSharingRequest> GetCostSharingInProgress()
+        {
+            currentUser = GetCurrentUser().Id;
+            IList<CostSharingRequest> costSharingRequests = WorkspaceFactory.CreateReadOnly().Query<CostSharingRequest>(x => x.AppUser.Id == currentUser && x.ProgressStatus == "InProgress").ToList();
+            return costSharingRequests;
+        }
+
+        public IList<TravelAdvanceRequest> GetTravelAdvanceInProgress()
+        {
+            currentUser = GetCurrentUser().Id;
+            IList<TravelAdvanceRequest> travelAdvanceRequests = WorkspaceFactory.CreateReadOnly().Query<TravelAdvanceRequest>(x => x.AppUser.Id == currentUser && x.ProgressStatus == "InProgress").ToList();
+            return travelAdvanceRequests;
+        }
+
+        public IList<PurchaseRequest> GetPurchaseInProgress()
+        {
+            currentUser = GetCurrentUser().Id;
+            IList<PurchaseRequest> purchaseRequests = WorkspaceFactory.CreateReadOnly().Query<PurchaseRequest>(x => x.Requester == currentUser && x.ProgressStatus == "InProgress").ToList();
+            return purchaseRequests;
+        }
+
+        public IList<BankPaymentRequest> GetBankPaymentInProgress()
+        {
+            currentUser = GetCurrentUser().Id;
+            IList<BankPaymentRequest> bankPaymentRequests = WorkspaceFactory.CreateReadOnly().Query<BankPaymentRequest>(x => x.AppUser.Id == currentUser && x.ProgressStatus == "InProgress").ToList();
+            return bankPaymentRequests;
+        }
+
+        public IList<LeaveRequest> GetLeaveInProgress()
+        {
+            currentUser = GetCurrentUser().Id;
+            IList<LeaveRequest> leaveRequests = WorkspaceFactory.CreateReadOnly().Query<LeaveRequest>(x => x.Requester == currentUser && x.ProgressStatus == "InProgress").ToList();
+            return leaveRequests;
+        }
+        #endregion
+        public AppUser GetUser(int userid)
+        {
+            return _workspace.Single<AppUser>(x => x.Id == userid, x => x.AppUserRoles.Select(y => y.Role));
+        }
         public void SaveOrUpdateEntity<T>(T item) where T : class
         {
             IEntity entity = (IEntity)item;
@@ -292,6 +342,7 @@ namespace Chai.WorkflowManagment.Modules.Shell
                 _workspace.Update<T>(item);
 
             _workspace.CommitChanges();
+            _workspace.Refresh(item);
         }
     }
 }

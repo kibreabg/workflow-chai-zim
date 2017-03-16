@@ -36,7 +36,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
 
                 PrintTransaction();
             }
-            
+
         }
         [CreateNew]
         public TravelAdvanceApprovalPresenter Presenter
@@ -61,7 +61,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 return "{DBC4CB73-69E5-42F3-84F8-09F8EA69B06D}";
             }
         }
-        
+
         #region Field Getters
         public int GetTravelAdvanceRequestId
         {
@@ -94,7 +94,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         private void PopApprovalStatus()
         {
             ddlApprovalStatus.Items.Clear();
-            ddlApprovalStatus.Items.Add(new ListItem("Select Status","0"));
+            ddlApprovalStatus.Items.Add(new ListItem("Select Status", "0"));
             string[] s = Enum.GetNames(typeof(ApprovalStatus));
 
             for (int i = 0; i < s.Length; i++)
@@ -105,6 +105,10 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 }
 
             }
+            if (_presenter.CurrentTravelAdvanceRequest.TravelAdvanceRequestStatuses.Count == _presenter.CurrentTravelAdvanceRequest.CurrentLevel)
+            {
+                ddlApprovalStatus.Items.Add(new ListItem(ApprovalStatus.Bank_Payment.ToString().Replace('_', ' '), ApprovalStatus.Bank_Payment.ToString().Replace('_', ' ')));
+            }
             ddlApprovalStatus.Items.Add(new ListItem(ApprovalStatus.Rejected.ToString().Replace('_', ' '), ApprovalStatus.Rejected.ToString().Replace('_', ' ')));
 
         }
@@ -114,7 +118,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             string will = "";
             foreach (ApprovalLevel AL in AS.ApprovalLevels)
             {
-                if (AL.EmployeePosition.PositionName == "Superviser/Line Manager" || AL.EmployeePosition.PositionName=="Program Manager" && _presenter.CurrentTravelAdvanceRequest.CurrentLevel==1)
+                if (AL.EmployeePosition.PositionName == "Superviser/Line Manager" || AL.EmployeePosition.PositionName == "Program Manager" && _presenter.CurrentTravelAdvanceRequest.CurrentLevel == 1)
                 {
                     will = "Approve";
                     break;
@@ -154,6 +158,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 if (TARS.WorkflowLevel == _presenter.CurrentTravelAdvanceRequest.TravelAdvanceRequestStatuses.Count && TARS.ApprovalStatus != null)
                 {
                     btnPrint.Enabled = true;
+                    if (_presenter.CurrentTravelAdvanceRequest.TravelAdvanceRequestStatuses.Last().PaymentType == "Bank Payment")
+                        btnBankPayment.Visible = true;
                 }
                 else
                     btnPrint.Enabled = false;
@@ -164,6 +170,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             if (_presenter.CurrentTravelAdvanceRequest.CurrentLevel == _presenter.CurrentTravelAdvanceRequest.TravelAdvanceRequestStatuses.Count && _presenter.CurrentTravelAdvanceRequest.ProgressStatus == ProgressStatus.Completed.ToString())
             {
                 btnPrint.Enabled = true;
+                if (_presenter.CurrentTravelAdvanceRequest.TravelAdvanceRequestStatuses.Last().PaymentType == "Bank Payment")
+                    btnBankPayment.Visible = true;
                 SendEmailToRequester();
             }
         }
@@ -171,7 +179,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             if (_presenter.GetUser(TARS.Approver).IsAssignedJob != true)
             {
-                EmailSender.Send(_presenter.GetSuperviser(TARS.Approver).Email,"Travel Advance Approval","'" +_presenter.CurrentTravelAdvanceRequest.AppUser.FullName + "' Request for Travel Advance No. '"+_presenter.CurrentTravelAdvanceRequest.TravelAdvanceNo +"'");               
+                EmailSender.Send(_presenter.GetSuperviser(TARS.Approver).Email, "Travel Advance Approval", "'" + _presenter.CurrentTravelAdvanceRequest.AppUser.FullName + "' Request for Travel Advance No. '" + _presenter.CurrentTravelAdvanceRequest.TravelAdvanceNo + "'");
             }
             else
             {
@@ -221,7 +229,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             lblApprovalStatusResult.Text = _presenter.CurrentTravelAdvanceRequest.ProgressStatus.ToString();
             lblProjectIdResult.Text = _presenter.CurrentTravelAdvanceRequest.Project.ProjectCode;
             lblGrantIdResult.Text = _presenter.CurrentTravelAdvanceRequest.Grant.GrantCode;
-            
+
             grvDetails.DataSource = _presenter.CurrentTravelAdvanceRequest.TravelAdvanceRequestDetails;
             grvDetails.DataBind();
 
@@ -246,13 +254,18 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     TARS.AssignedBy = _presenter.GetAssignedJobbycurrentuser(TARS.Approver) != null ? _presenter.GetAssignedJobbycurrentuser(TARS.Approver).AppUser.FullName : "";
                     TARS.RejectedReason = txtRejectedReason.Text;
                     if (TARS.ApprovalStatus != ApprovalStatus.Rejected.ToString())
-                    {                        
+                    {
                         if (_presenter.CurrentTravelAdvanceRequest.CurrentLevel == _presenter.CurrentTravelAdvanceRequest.TravelAdvanceRequestStatuses.Count)
                         {
                             _presenter.CurrentTravelAdvanceRequest.ProgressStatus = ProgressStatus.Completed.ToString();
                             _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationStatus = ProgressStatus.Completed.ToString();
-                            
+
                             TARS.Approver = _presenter.CurrentUser().Id;
+                            _presenter.CurrentTravelAdvanceRequest.CurrentStatus = TARS.ApprovalStatus;
+                            if (TARS.PaymentType.Contains("Bank Payment"))
+                            {
+                                btnBankPayment.Visible = true;
+                            }
                         }
                         GetNextApprover();
                         Log.Info(_presenter.GetUser(TARS.Approver).FullName + " has " + TARS.ApprovalStatus + " Travel Advance Request made by " + _presenter.CurrentTravelAdvanceRequest.AppUser.FullName);
@@ -266,7 +279,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     }
                     break;
                 }
-               
+
             }
         }
         protected void grvTravelAdvanceRequestList_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -341,12 +354,12 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 if (_presenter.CurrentTravelAdvanceRequest.ProgressStatus != ProgressStatus.Completed.ToString())
                 {
                     SaveTravelAdvanceRequestStatus();
-                    
+
                     _presenter.CurrentTravelAdvanceRequest.Account = _presenter.GetAccount(Convert.ToInt32(ddlAccount.SelectedValue));
                     _presenter.SaveOrUpdateTravelAdvanceRequest(_presenter.CurrentTravelAdvanceRequest);
                     ShowPrint();
-                    if(ddlApprovalStatus.SelectedValue != "Rejected")
-                    Master.ShowMessage(new AppMessage("Travel Advance  Approval Processed", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                    if (ddlApprovalStatus.SelectedValue != "Rejected")
+                        Master.ShowMessage(new AppMessage("Travel Advance  Approval Processed", Chai.WorkflowManagment.Enums.RMessageType.Info));
                     else
                         Master.ShowMessage(new AppMessage("Travel Advance  Approval Rejected", Chai.WorkflowManagment.Enums.RMessageType.Info));
                     btnApprove.Enabled = false;
@@ -368,6 +381,10 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             pnlDetail.Visible = false;
         }
+        protected void btnBankPayment_Click(object sender, EventArgs e)
+        {
+            Response.Redirect(String.Format("../Request/frmOperationalControlRequest.aspx?paymentId={0}&Page={1}", Convert.ToInt32(Session["PaymentId"]), "TravelAdvance"));
+        }
         protected void ddlApprovalStatus_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (ddlApprovalStatus.SelectedValue == "Rejected")
@@ -385,7 +402,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             _presenter.CurrentTravelAdvanceRequest = (TravelAdvanceRequest)Session["CurrentTravelAdvanceRequest"];
             grvTravelAdvanceCosts.DataSource = _presenter.CurrentTravelAdvanceRequest.GetTravelAdvanceRequestDetail(recordId).TravelAdvanceCosts;
             grvTravelAdvanceCosts.DataBind();
-           
+
             pnlDetail_ModalPopupExtender.Show();
 
         }
@@ -397,5 +414,5 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             Response.Redirect("../Default.aspx");
         }
-}
+    }
 }

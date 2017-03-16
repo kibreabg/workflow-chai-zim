@@ -23,6 +23,7 @@ namespace Chai.WorkflowManagment.CoreDomain.Requests
         public string Description { get; set; }
         public string VoucherNo { get; set; }
         public int CurrentApprover { get; set; }
+        public int CurrentApproverPosition { get; set; }
         public int CurrentLevel { get; set; }
         public string CurrentStatus { get; set; }
         public decimal TotalAmount { get; set; }

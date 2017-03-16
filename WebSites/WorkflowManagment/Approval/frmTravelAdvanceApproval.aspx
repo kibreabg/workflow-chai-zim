@@ -158,6 +158,7 @@
                                         <asp:Button ID="btnApprove" runat="server" ValidationGroup="save" Text="Save" OnClick="btnApprove_Click" Enabled="false" CssClass="btn btn-primary"></asp:Button>
                                         <asp:Button ID="btnCancelPopup" runat="server" Text="Close" CssClass="btn btn-primary" OnClick="btnCancelPopup_Click"></asp:Button>
                                         <asp:Button ID="btnPrint" runat="server" Text="Print" CssClass="btn btn-primary" Enabled="false" OnClientClick="javascript:Clickheretoprint('divprint')"></asp:Button>
+                                        <asp:Button ID="btnBankPayment" runat="server" CssClass="btn btn-primary" OnClick="btnBankPayment_Click" Text="Bank Payment" Visible="False" />
                                     </footer>
                                 </div>
                             </div>

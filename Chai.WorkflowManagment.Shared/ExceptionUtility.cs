@@ -46,7 +46,10 @@ namespace Chai.WorkflowManagment.Shared
         // Notify System Operators about an exception 
         public static void NotifySystemOps(Exception exc)
         {
-            EmailSender.SendEmails("Exception Detail", "supportwfms@clintonhealthaccess.org", "Exception Raised", exc.StackTrace);
+            StringBuilder body = new StringBuilder();
+            body.AppendLine("<b>Inner Exception</b> " + exc.InnerException + System.Environment.NewLine + "<b>Stacktrace</b> " + exc.StackTrace + System.Environment.NewLine + "<b>Source</b> " + exc.Source + System.Environment.NewLine + "  <b>Target Site</b>  " + exc.TargetSite);
+            //EmailSender.SendEmails("Exception Detail", "supportwfms@clintonhealthaccess.org", "Exception Raised", exc.StackTrace);
+            EmailSender.SendException("kgizatu@clintonhealthaccess.org,ygossaye@clintonhealthaccess.org", exc.Message, body.ToString());
         }
     }
 }

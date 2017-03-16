@@ -67,7 +67,7 @@
             runat="server" AutoGenerateColumns="False" DataKeyNames="Id" OnRowCommand="grvCashPaymentRequestList_RowCommand"
             OnRowDataBound="grvCashPaymentRequestList_RowDataBound" OnSelectedIndexChanged="grvCashPaymentRequestList_SelectedIndexChanged"
             AllowPaging="True" OnPageIndexChanging="grvCashPaymentRequestList_PageIndexChanging"
-            CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active">
+            CssClass="table table-striped table-bordered table-hover" PageSize="30" PagerStyle-CssClass="paginate_button active">
             <RowStyle CssClass="rowstyle" />
             <Columns>
 
@@ -132,6 +132,7 @@
                                                         <asp:ListItem Value=" ">Select Payment Type</asp:ListItem>
                                                         <asp:ListItem>Petty Cash</asp:ListItem>
                                                         <asp:ListItem>Bank Payment</asp:ListItem>
+                                                        <asp:ListItem>Mobile Money</asp:ListItem>
                                                     </asp:DropDownList><i></i>
                                                 </asp:Label>
                                             </section>
@@ -430,8 +431,6 @@
                                             <PagerStyle CssClass="PagerStyle" />
                                             <RowStyle CssClass="rowstyle" />
                                         </asp:GridView>
-
-
                                     </div>
                                 </div>
                             </div>

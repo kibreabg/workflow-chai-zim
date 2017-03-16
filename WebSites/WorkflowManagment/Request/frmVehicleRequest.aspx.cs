@@ -38,7 +38,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             }
             txtRequestDate.Text = DateTime.Today.Date.ToShortDateString();
             this._presenter.OnViewLoaded();
-           
+
         }
         [CreateNew]
         public VehicleRequestPresenter Presenter
@@ -229,20 +229,20 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         protected void btnSave_Click(object sender, EventArgs e)
         {
             try
-              {
-            _presenter.SaveOrUpdateVehicleRequest();
-            if (_presenter.CurrentVehicleRequest.VehicleRequestStatuses.Count != 0)
             {
-                BindVehicleRequests();
-                Master.ShowMessage(new AppMessage("Successfully did a Vehicle  Request, Reference No - <b>'"+_presenter.CurrentVehicleRequest.RequestNo+"'</b>", Chai.WorkflowManagment.Enums.RMessageType.Info));
-                Log.Info(_presenter.CurrentUser().FullName + " has requested a Vehicle");
-                btnSave.Visible = false;
+                _presenter.SaveOrUpdateVehicleRequest();
+                if (_presenter.CurrentVehicleRequest.VehicleRequestStatuses.Count != 0)
+                {
+                    BindVehicleRequests();
+                    Master.ShowMessage(new AppMessage("Successfully did a Vehicle  Request, Reference No - <b>'" + _presenter.CurrentVehicleRequest.RequestNo + "'</b>", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                    Log.Info(_presenter.CurrentUser().FullName + " has requested a Vehicle");
+                    btnSave.Visible = false;
+                }
+                else
+                {
+                    Master.ShowMessage(new AppMessage("There was an error constructing the approval process", Chai.WorkflowManagment.Enums.RMessageType.Error));
+                }
             }
-            else
-            {
-                Master.ShowMessage(new AppMessage("There was an error constructing the approval process", Chai.WorkflowManagment.Enums.RMessageType.Error));
-            }
-        }
             catch (Exception ex)
             {
                 if (ex.InnerException != null)
@@ -271,7 +271,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             BindVehicleRequests();
             //pnlSearch_ModalPopupExtender.Show();
-            ScriptManager.RegisterStartupScript(this, GetType(), "showSearch", "showSearch();", true);   
+            ScriptManager.RegisterStartupScript(this, GetType(), "showSearch", "showSearch();", true);
         }
         protected void btnCancelPopup_Click(object sender, EventArgs e)
         {

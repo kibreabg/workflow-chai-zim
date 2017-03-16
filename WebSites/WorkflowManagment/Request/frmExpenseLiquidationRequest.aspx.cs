@@ -126,6 +126,9 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             {
                 ddlPExpenseType.SelectedValue = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseType;
                 txtComment.Text = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.Comment;
+                txtTotActual.Text = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.TotalActualExpenditure.ToString();
+                txtTotalAdvance.Text = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.TotalTravelAdvance.ToString();
+                txtAdditionalComment.Text = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.AdditionalComment;
                 BindExpenseLiquidationDetails();
                 BindExpenseLiquidationRequests();
             }
@@ -172,7 +175,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     //ELD.ItemAccount = TAC.ItemAccount;
                     ELD.Project = TAC.TravelAdvanceRequestDetail.TravelAdvanceRequest.Project;
                     ELD.Grant = TAC.TravelAdvanceRequestDetail.TravelAdvanceRequest.Grant;
-                   _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestDetails.Add(ELD);
+                    _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestDetails.Add(ELD);
                 }
             }
         }
@@ -228,12 +231,22 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             Session["ExpenseLiquidationRequest"] = true;
             //ClearForm();
             tarId = (int)grvExpenseLiquidationRequestList.DataKeys[grvExpenseLiquidationRequestList.SelectedIndex].Value;
+            Session["tarId"] = (int)grvExpenseLiquidationRequestList.DataKeys[grvExpenseLiquidationRequestList.SelectedIndex].Value;
             BindExpenseLiquidationRequestFields();
             grvAttachments.DataSource = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ELRAttachments;
             grvAttachments.DataBind();
             PrintTransaction();
-            btnSave.Visible = true;
             btnPrint.Enabled = true;
+            if (_presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.CurrentStatus != null)
+            {
+                btnSave.Visible = false;
+                btnDelete.Visible = false;
+            }
+            else
+            {
+                btnSave.Visible = true;
+                btnDelete.Visible = true;
+            }
         }
         protected void grvExpenseLiquidationRequestList_RowDataBound(object sender, GridViewRowEventArgs e)
         {
@@ -387,8 +400,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             TextBox txtActualExpenditure = txt.FindControl("txtActualExpenditure") as TextBox;
             TextBox txtVariance = txt.FindControl("txtVariance") as TextBox;
             txtVariance.Text = ((Convert.ToDecimal(hfAmountAdvanced.Value) - Convert.ToDecimal(txtActualExpenditure.Text))).ToString();
-            
-           
+
+
         }
         protected void txtFActualExpenditure_TextChanged(object sender, EventArgs e)
         {
@@ -397,7 +410,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             TextBox txtFActualExpenditure = txt.FindControl("txtFActualExpenditure") as TextBox;
             TextBox txtFVariance = txt.FindControl("txtFVariance") as TextBox;
             txtFVariance.Text = ((Convert.ToDecimal(txtFAmount.Text) - Convert.ToDecimal(txtFActualExpenditure.Text))).ToString();
-         
+
         }
         protected void btnUpload_Click(object sender, EventArgs e)
         {
@@ -448,7 +461,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     Master.ShowMessage(new AppMessage("Please select file ", Chai.WorkflowManagment.Enums.RMessageType.Error));
                 }
             }
-            catch(HttpException ex)
+            catch (HttpException ex)
             {
                 Master.ShowMessage(new AppMessage("Unable to upload the file,The file is to big or The internet is too slow " + ex.InnerException.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
             }
@@ -456,18 +469,22 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         protected void btnSave_Click(object sender, EventArgs e)
         {
             SetLiquidationDetails();
-            
+
             if (_presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ELRAttachments.Count != 0)
             {
+                //For update cases make the totals equal to zero first then add up the individuals
+                _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.TotalActualExpenditure = 0;
+                _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.TotalTravelAdvance = 0;
                 foreach (ExpenseLiquidationRequestDetail detail in _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestDetails)
-                {
+                {                    
                     _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.TotalActualExpenditure = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.TotalActualExpenditure + detail.ActualExpenditure;
                     _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.TotalTravelAdvance = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.TotalTravelAdvance + detail.AmountAdvanced;
                     txtTotActual.Text = (_presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.TotalActualExpenditure).ToString();
                     txtTotalAdvance.Text = (_presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.TotalTravelAdvance).ToString();
                 }
 
-                _presenter.SaveOrUpdateExpenseLiquidationRequest(Convert.ToInt32(Session["tarId"]));
+                int tarID = Convert.ToInt32(Session["tarId"]);
+                _presenter.SaveOrUpdateExpenseLiquidationRequest(tarID);
                 BindExpenseLiquidationRequests();
                 PrintTransaction();
                 Master.ShowMessage(new AppMessage("Expense Successfully Liquidated", Chai.WorkflowManagment.Enums.RMessageType.Info));
@@ -506,7 +523,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             DropDownList ddl = (DropDownList)sender;
             TextBox txtAccountCode = ddl.FindControl("txtAccountCode") as TextBox;
             txtAccountCode.Text = _presenter.GetItemAccount(Convert.ToInt32(ddl.SelectedValue)).AccountCode;
-        }        
+        }
         protected void ddlProject_SelectedIndexChanged(object sender, EventArgs e)
         {
             DropDownList ddl = (DropDownList)sender;
@@ -521,18 +538,22 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         private void PrintTransaction()
         {
-            lblRequestNoResult.Text = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.TravelAdvanceRequest.TravelAdvanceNo.ToString();
-            lblRequestedDateResult.Text = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.RequestDate.ToString();
-            lblRequesterResult.Text = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.TravelAdvanceRequest.AppUser.UserName;
-            // lblExpenseTypeResult.Text = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseType.ToString();
-            lblCommentResult.Text = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.Comment.ToString();
-            lblApprovalStatusResult.Text = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ProgressStatus.ToString();
+            if (_presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest != null)
+            {
+                lblRequestNoResult.Text = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.TravelAdvanceRequest.TravelAdvanceNo.ToString();
+                lblRequestedDateResult.Text = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.RequestDate.ToString();
+                lblRequesterResult.Text = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.TravelAdvanceRequest.AppUser.UserName;
+                // lblExpenseTypeResult.Text = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseType.ToString();
+                lblCommentResult.Text = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.Comment.ToString();
+                lblApprovalStatusResult.Text = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ProgressStatus.ToString();
 
-            grvDetails.DataSource = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestDetails;
-            grvDetails.DataBind();
+                grvDetails.DataSource = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestDetails;
+                grvDetails.DataBind();
 
-            grvStatuses.DataSource = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestStatuses;
-            grvStatuses.DataBind();
+                grvStatuses.DataSource = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestStatuses;
+                grvStatuses.DataBind();
+            }
+
         }
     }
 }

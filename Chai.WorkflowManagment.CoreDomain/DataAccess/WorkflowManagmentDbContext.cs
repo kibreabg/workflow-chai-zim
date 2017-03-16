@@ -18,7 +18,7 @@ namespace Chai.WorkflowManagment.CoreDomain.DataAccess
     public class WorkflowManagmentDbContext : BaseDbContext
     {
         public WorkflowManagmentDbContext(bool disableProxy)
-            : base("WorkflowManagment")
+            : base("WorkflowManagmentTest")
         {
             if (disableProxy)
                 ObjContext().ContextOptions.ProxyCreationEnabled = false;

@@ -74,18 +74,18 @@ namespace Chai.WorkflowManagment.Modules.Approval
             string filterExpression = "";
             if (ProgressStatus == "InProgress" )
             {
-                filterExpression = " SELECT * FROM CashPaymentRequests INNER JOIN AppUsers on AppUsers.Id = CashPaymentRequests.CurrentApprover Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where 1 = Case when '" + RequestNo + "' = '' Then 1 When CashPaymentRequests.VoucherNo = '" + RequestNo + "'  Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When CashPaymentRequests.RequestDate = '" + RequestDate + "'  Then 1 END AND CashPaymentRequests.ProgressStatus='" + ProgressStatus + "' " +
-                                   " AND  ((CashPaymentRequests.CurrentApprover = '" + CurrentUser().Id + "') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) order by CashPaymentRequests.Id ";
+                filterExpression = " SELECT * FROM CashPaymentRequests INNER JOIN AppUsers ON (AppUsers.Id = CashPaymentRequests.CurrentApprover) OR (AppUsers.EmployeePosition_Id = CashPaymentRequests.CurrentApproverPosition AND AppUsers.Id = '" + CurrentUser().Id +"') Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where 1 = Case when '" + RequestNo + "' = '' Then 1 When CashPaymentRequests.VoucherNo = '" + RequestNo + "'  Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When CashPaymentRequests.RequestDate = '" + RequestDate + "'  Then 1 END AND CashPaymentRequests.ProgressStatus='" + ProgressStatus + "' " +
+                                   " AND  ((CashPaymentRequests.CurrentApprover = '" + CurrentUser().Id + "') or (CashPaymentRequests.CurrentApproverPosition = '" + CurrentUser().EmployeePosition.Id +"') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) order by CashPaymentRequests.Id ";
             }
             else if (ProgressStatus == "Not Retired" || ProgressStatus == "Retired")
             {
-                filterExpression = " SELECT * FROM CashPaymentRequests INNER JOIN AppUsers on AppUsers.Id = CashPaymentRequests.CurrentApprover Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where 1 = Case when '" + RequestNo + "' = '' Then 1 When CashPaymentRequests.VoucherNo = '" + RequestNo + "'  Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When CashPaymentRequests.RequestDate = '" + RequestDate + "'  Then 1 END AND CashPaymentRequests.ProgressStatus='Completed' AND CashPaymentRequests.PaymentReimbursementStatus = '" + ProgressStatus + "' " +
-                                         " AND  (CashPaymentRequests.CurrentApprover = '" + CurrentUser().Id + "') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "') order by CashPaymentRequests.Id ";
+                filterExpression = " SELECT * FROM CashPaymentRequests INNER JOIN AppUsers ON  (AppUsers.Id = CashPaymentRequests.CurrentApprover) OR (AppUsers.EmployeePosition_Id = CashPaymentRequests.CurrentApproverPosition AND AppUsers.Id = '" + CurrentUser().Id + "') Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where 1 = Case when '" + RequestNo + "' = '' Then 1 When CashPaymentRequests.VoucherNo = '" + RequestNo + "'  Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When CashPaymentRequests.RequestDate = '" + RequestDate + "'  Then 1 END AND CashPaymentRequests.ProgressStatus='Completed' AND CashPaymentRequests.PaymentReimbursementStatus = '" + ProgressStatus + "' " +
+                                         " AND  (CashPaymentRequests.CurrentApprover = '" + CurrentUser().Id + "') or (CashPaymentRequests.CurrentApproverPosition = '" + CurrentUser().EmployeePosition.Id + "') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "') order by CashPaymentRequests.Id ";
             }
             else if (ProgressStatus == "Completed")
             {
-                filterExpression = " SELECT * FROM CashPaymentRequests INNER JOIN AppUsers on AppUsers.Id = CashPaymentRequests.CurrentApprover INNER JOIN CashPaymentRequestStatuses on CashPaymentRequestStatuses.CashPaymentRequest_Id = CashPaymentRequests.Id Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where 1 = Case when '" + RequestNo + "' = '' Then 1 When CashPaymentRequests.VoucherNo = '" + RequestNo + "'  Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When CashPaymentRequests.RequestDate = '" + RequestDate + "'  Then 1 END " +
-                                       " AND  (CashPaymentRequestStatuses.ApprovalStatus Is not null  AND (CashPaymentRequestStatuses.Approver = '" + CurrentUser().Id + "') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) order by CashPaymentRequests.Id ";
+                filterExpression = " SELECT * FROM CashPaymentRequests INNER JOIN AppUsers ON (AppUsers.Id = CashPaymentRequests.CurrentApprover) OR (AppUsers.EmployeePosition_Id = CashPaymentRequests.CurrentApproverPosition AND AppUsers.Id = '" + CurrentUser().Id + "') INNER JOIN CashPaymentRequestStatuses on CashPaymentRequestStatuses.CashPaymentRequest_Id = CashPaymentRequests.Id Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where 1 = Case when '" + RequestNo + "' = '' Then 1 When CashPaymentRequests.VoucherNo = '" + RequestNo + "'  Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When CashPaymentRequests.RequestDate = '" + RequestDate + "'  Then 1 END " +
+                                       " AND  (CashPaymentRequestStatuses.ApprovalStatus Is not null  AND (CashPaymentRequestStatuses.Approver = '" + CurrentUser().Id + "') or (CashPaymentRequestStatuses.ApproverPosition = '" + CurrentUser().EmployeePosition.Id + "') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) order by CashPaymentRequests.Id ";
             }
             return _workspace.SqlQuery<CashPaymentRequest>(filterExpression).ToList();
         }
@@ -302,11 +302,13 @@ namespace Chai.WorkflowManagment.Modules.Approval
                 _workspace.Update<T>(item);
 
             _workspace.CommitChanges();
+            _workspace.Refresh(item);
         }
         public void DeleteEntity<T>(T item) where T : class
         {
             _workspace.Delete<T>(item);
             _workspace.CommitChanges();
+            _workspace.Refresh(item);
         }
 
         public void Commit()

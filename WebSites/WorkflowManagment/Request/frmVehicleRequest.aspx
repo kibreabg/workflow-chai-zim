@@ -134,7 +134,7 @@
                             </section>
                             <section class="col col-6">
                                 <label class="label">Comment </label>
-                                <label style="color:green;">(Please add additional info about your travel)</label>
+                                <label style="color: green;">(Please add additional info about your travel)</label>
                                 <label class="input">
                                     <asp:TextBox ID="txtComment" TextMode="MultiLine" Rows="5" Width="100%" runat="server"></asp:TextBox>
                                 </label>
@@ -152,7 +152,7 @@
                             ConfirmText="Are you sure you want to delete this record?" Enabled="True" TargetControlID="btnDelete">
                         </cc1:ConfirmButtonExtender>
                         <asp:Button ID="btnCancel" runat="server" CssClass="btn btn-primary" OnClick="btnCancel_Click" Text="New" />
-                          <asp:Button ID="btnClosepage" runat="server" Text="Close" data-dismiss="modal" CssClass="btn btn-primary" PostBackUrl="../Default.aspx"></asp:Button>
+                        <asp:Button ID="btnClosepage" runat="server" Text="Close" data-dismiss="modal" CssClass="btn btn-primary" PostBackUrl="../Default.aspx"></asp:Button>
                     </footer>
                 </div>
             </div>
@@ -181,7 +181,7 @@
                             <div class="form-group">
                                 <label for="txtSrchRequestDate">Requested Date</label>
                                 <label class="input" style="position: relative; display: block; font-weight: 400;">
-                                    <i class="icon-append fa fa-calendar" style="position: absolute;top: 5px;width: 22px;height: 22px;font-size: 14px;line-height: 22px;text-align: center;right: 5px;padding-left: 3px;border-left-width: 1px;border-left-style: solid;color: #A2A2A2;"></i>
+                                    <i class="icon-append fa fa-calendar" style="position: absolute; top: 5px; width: 22px; height: 22px; font-size: 14px; line-height: 22px; text-align: center; right: 5px; padding-left: 3px; border-left-width: 1px; border-left-style: solid; color: #A2A2A2;"></i>
                                     <asp:TextBox ID="txtSrchRequestDate" CssClass="form-control datepicker"
                                         data-dateformat="mm/dd/yy" ToolTip="Request Date" runat="server"></asp:TextBox>
                                 </label>
@@ -208,23 +208,23 @@
                                         <Columns>
                                             <asp:BoundField DataField="RequestNo" HeaderText="Request No" SortExpression="RequestNo" />
                                             <asp:TemplateField HeaderText="Request Date">
-                                            <ItemTemplate>
-                                              <asp:Label ID="lblRequestDate" runat="server" Text='<%# Eval("RequestDate", "{0:dd/MM/yyyy}")%>' ></asp:Label>
-                                            </ItemTemplate>
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblRequestDate" runat="server" Text='<%# Eval("RequestDate", "{0:dd/MM/yyyy}")%>'></asp:Label>
+                                                </ItemTemplate>
                                             </asp:TemplateField>
-                                            
+
                                             <asp:TemplateField HeaderText="Departure Date">
-                                            <ItemTemplate>
-                                              <asp:Label ID="lblReportedDate" runat="server" Text='<%# Eval("DepartureDate", "{0:dd/MM/yyyy}")%>' ></asp:Label>
-                                            </ItemTemplate>
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblReportedDate" runat="server" Text='<%# Eval("DepartureDate", "{0:dd/MM/yyyy}")%>'></asp:Label>
+                                                </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:BoundField DataField="DepartureTime" HeaderText="Departure Time" SortExpression="DepartureTime" />
-                                             <asp:TemplateField HeaderText="Returning Date">
-                                            <ItemTemplate>
-                                              <asp:Label ID="lblReturningDate" runat="server" Text='<%# Eval("ReturningDate", "{0:dd/MM/yyyy}")%>' ></asp:Label>
-                                            </ItemTemplate>
+                                            <asp:TemplateField HeaderText="Returning Date">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblReturningDate" runat="server" Text='<%# Eval("ReturningDate", "{0:dd/MM/yyyy}")%>'></asp:Label>
+                                                </ItemTemplate>
                                             </asp:TemplateField>
-                                            
+
                                             <asp:BoundField DataField="PurposeOfTravel" HeaderText="Purpose Of Travel" SortExpression="PurposeOfTravel" />
                                             <asp:CommandField ShowSelectButton="True" />
                                         </Columns>
@@ -238,7 +238,7 @@
                         </div>
                     </div>
                 </div>
-               
+
             </div>
         </div>
     </div>

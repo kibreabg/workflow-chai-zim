@@ -1,16 +1,15 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 using Microsoft.Practices.ObjectBuilder;
 using Microsoft.Practices.CompositeWeb;
 using Microsoft.Practices.CompositeWeb.Interfaces;
 using System.Linq;
-using System.Linq.Expressions;
 
 using Chai.WorkflowManagment.CoreDomain.DataAccess;
 using Chai.WorkflowManagment.CoreDomain.Admins;
 using Chai.WorkflowManagment.CoreDomain.Users;
-using Chai.WorkflowManagment.Services;
+using Chai.WorkflowManagment.CoreDomain.Request;
+using Chai.WorkflowManagment.CoreDomain.Requests;
 
 namespace Chai.WorkflowManagment.Modules.Shell.MasterPages
 {
@@ -18,7 +17,7 @@ namespace Chai.WorkflowManagment.Modules.Shell.MasterPages
     {
         private ShellController _controller;
         private int _tabId;
-        
+
         public BaseMasterPresenter()
         {
         }
@@ -172,8 +171,39 @@ namespace Chai.WorkflowManagment.Modules.Shell.MasterPages
         public int GetBankRequestsMyRequest()
         {
             return _controller.GetBankRequestsMyRequest();
-
+        }              
+        public IList<LeaveRequest> ListLeaveApprovalProgress()
+        {
+            return _controller.GetLeaveInProgress();
+        }
+        public IList<VehicleRequest> ListVehicleApprovalProgress()
+        {
+            return _controller.GetVehicleInProgress();
+        }
+        public IList<CashPaymentRequest> ListPaymentApprovalProgress()
+        {
+            return _controller.GetCashPaymentsInProgress();
+        }
+        public IList<CostSharingRequest> ListCostApprovalProgress()
+        {
+            return _controller.GetCostSharingInProgress();
+        }
+        public IList<TravelAdvanceRequest> ListTravelApprovalProgress()
+        {
+            return _controller.GetTravelAdvanceInProgress();
+        }
+        public IList<PurchaseRequest> ListPurchaseApprovalProgress()
+        {
+            return _controller.GetPurchaseInProgress();
+        }
+        public IList<BankPaymentRequest> ListBankPaymentApprovalProgress()
+        {
+            return _controller.GetBankPaymentInProgress();
         }
         #endregion
+        public AppUser GetUser(int UserId)
+        {
+            return _controller.GetUser(UserId);
+        }        
     }
 }

@@ -80,6 +80,7 @@
                                         <asp:Label ID="lblLeaveMyRequest" runat="server" Text="Leave Request" CssClass="label"></asp:Label>-
                                             <asp:Label ID="lblLeaveStatus" runat="server" Text="No Request"></asp:Label>
                                     </p>
+                                    <a data-toggle="modal" runat="server" id="A7" href="#leaveModal">Progress Detail</a>
                                 </li>
                                 <li class="">
                                     <span class="handle" style="display: none"></span>
@@ -87,13 +88,15 @@
                                         <asp:Label ID="lblVehicleMyRequest" runat="server" Text="Vehicle Request" CssClass="label"></asp:Label>-
                                             <asp:Label ID="lblVehicleStatus" runat="server" Text="No Request"></asp:Label>
                                     </p>
+                                    <a data-toggle="modal" runat="server" id="A8" href="#vehicleModal">Progress Detail</a>
                                 </li>
                                 <li class="">
                                     <span class="handle" style="display: none"></span>
                                     <p>
                                         <asp:Label ID="lblPaymentMyRequest" runat="server" Text="Payment Request" CssClass="label"></asp:Label>-
-                                            <asp:Label ID="lblPaymentStatus" runat="server" Text="No Request"></asp:Label>
+                                        <asp:Label ID="lblPaymentStatus" runat="server" Text="No Request"></asp:Label>
                                     </p>
+                                    <a data-toggle="modal" runat="server" id="paymentDetail" href="#paymentModal">Progress Detail</a>
                                 </li>
                                 <li class="">
                                     <span class="handle" style="display: none"></span>
@@ -101,6 +104,7 @@
                                         <asp:Label ID="lblCostSharingMyRequest" runat="server" Text="Cost Sharing Request" CssClass="label"></asp:Label>-
                                             <asp:Label ID="lblCostSharingStatus" runat="server" Text="No Request"></asp:Label>
                                     </p>
+                                    <a data-toggle="modal" runat="server" id="A3" href="#costModal">Progress Detail</a>
                                 </li>
                                 <li class="">
                                     <span class="handle" style="display: none"></span>
@@ -108,6 +112,7 @@
                                         <asp:Label ID="lblTravelAdvanceMyRequest" runat="server" Text="Travel Advance Request" CssClass="label"></asp:Label>-
                                             <asp:Label ID="lblTravelStatus" runat="server" Text="No Request"></asp:Label>
                                     </p>
+                                    <a data-toggle="modal" runat="server" id="A4" href="#travelModal">Progress Detail</a>
                                 </li>
                                 <li class="">
                                     <span class="handle" style="display: none"></span>
@@ -115,6 +120,7 @@
                                         <asp:Label ID="lblPurchaseMyRequest" runat="server" Text="Purchase Request" CssClass="label"></asp:Label>-
                                             <asp:Label ID="lblPurchaseStatus" runat="server" Text="No Request"></asp:Label>
                                     </p>
+                                    <a data-toggle="modal" runat="server" id="A5" href="#purchaseModal">Progress Detail</a>
                                 </li>
                                 <li class="">
                                     <span class="handle" style="display: none"></span>
@@ -122,6 +128,7 @@
                                         <asp:Label ID="lblBankRequestMyRequest" runat="server" Text="Bank Payment Request" CssClass="label"></asp:Label>-
                                             <asp:Label ID="lblBankRequestStatus" runat="server" Text="No Request"></asp:Label>
                                     </p>
+                                    <a data-toggle="modal" runat="server" id="A6" href="#bankModal">Progress Detail</a>
                                 </li>
                             </ul>
 
@@ -246,6 +253,287 @@
                     <!-- end widget div -->
                 </div>
             </article>
+        </div>
+    </div>
+
+    <div class="modal fade" id="leaveModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        ×
+                    </button>
+                    <h4 class="modal-title" id="myLeaveModalLabel">Leave Approval Progress</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="well well-sm well-primary">
+                                    <asp:GridView ID="grvLeaveProgress"
+                                        runat="server" AutoGenerateColumns="False" DataKeyNames="Id"
+                                        CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" OnRowDataBound="grvLeaveProgress_RowDataBound">
+                                        <RowStyle CssClass="rowstyle" />
+                                        <Columns>
+                                            <asp:BoundField DataField="RequestNo" HeaderText="Request No" SortExpression="RequestNo" />
+                                            <asp:TemplateField HeaderText="Request Date">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblRequestDate" runat="server" Text='<%# Eval("RequestedDate", "{0:dd/MM/yyyy}")%>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:BoundField DataField="CurrentApprover" HeaderText="Current Approver" SortExpression="CurrentApprover" />
+                                        </Columns>
+                                        <FooterStyle CssClass="FooterStyle" />
+                                        <HeaderStyle CssClass="headerstyle" />
+                                        <PagerStyle CssClass="PagerStyle" />
+                                        <RowStyle CssClass="rowstyle" />
+                                    </asp:GridView>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="vehicleModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        ×
+                    </button>
+                    <h4 class="modal-title" id="myVehicleModalLabel">Vehicle Approval Progress</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="well well-sm well-primary">
+                                    <asp:GridView ID="grvVehicleProgress"
+                                        runat="server" AutoGenerateColumns="False" DataKeyNames="Id"
+                                        CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" OnRowDataBound="grvVehicleProgress_RowDataBound">
+                                        <RowStyle CssClass="rowstyle" />
+                                        <Columns>
+                                            <asp:BoundField DataField="RequestNo" HeaderText="Request No" SortExpression="RequestNo" />
+                                            <asp:TemplateField HeaderText="Request Date">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblRequestDate" runat="server" Text='<%# Eval("RequestDate", "{0:dd/MM/yyyy}")%>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:BoundField DataField="CurrentApprover" HeaderText="Current Approver" SortExpression="CurrentApprover" />
+                                        </Columns>
+                                        <FooterStyle CssClass="FooterStyle" />
+                                        <HeaderStyle CssClass="headerstyle" />
+                                        <PagerStyle CssClass="PagerStyle" />
+                                        <RowStyle CssClass="rowstyle" />
+                                    </asp:GridView>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        ×
+                    </button>
+                    <h4 class="modal-title" id="myPaymentModalLabel">Payment Approval Progress</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="well well-sm well-primary">
+                                    <asp:GridView ID="grvPaymentProgress"
+                                        runat="server" AutoGenerateColumns="False" DataKeyNames="Id"
+                                        CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" OnRowDataBound="grvPaymentProgress_RowDataBound">
+                                        <RowStyle CssClass="rowstyle" />
+                                        <Columns>
+                                            <asp:BoundField DataField="RequestNo" HeaderText="Request No" SortExpression="RequestNo" />
+                                            <asp:TemplateField HeaderText="Request Date">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblRequestDate" runat="server" Text='<%# Eval("RequestDate", "{0:dd/MM/yyyy}")%>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:BoundField DataField="CurrentApprover" HeaderText="Current Approver" SortExpression="CurrentApprover" />
+                                        </Columns>
+                                        <FooterStyle CssClass="FooterStyle" />
+                                        <HeaderStyle CssClass="headerstyle" />
+                                        <PagerStyle CssClass="PagerStyle" />
+                                        <RowStyle CssClass="rowstyle" />
+                                    </asp:GridView>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="costModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        ×
+                    </button>
+                    <h4 class="modal-title" id="myCostModalLabel">Cost Sharing Approval Progress</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="well well-sm well-primary">
+                                    <asp:GridView ID="grvCostProgress"
+                                        runat="server" AutoGenerateColumns="False" DataKeyNames="Id"
+                                        CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" OnRowDataBound="grvCostProgress_RowDataBound">
+                                        <RowStyle CssClass="rowstyle" />
+                                        <Columns>
+                                            <asp:BoundField DataField="RequestNo" HeaderText="Request No" SortExpression="RequestNo" />
+                                            <asp:TemplateField HeaderText="Request Date">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblRequestDate" runat="server" Text='<%# Eval("RequestDate", "{0:dd/MM/yyyy}")%>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:BoundField DataField="CurrentApprover" HeaderText="Current Approver" SortExpression="CurrentApprover" />
+                                        </Columns>
+                                        <FooterStyle CssClass="FooterStyle" />
+                                        <HeaderStyle CssClass="headerstyle" />
+                                        <PagerStyle CssClass="PagerStyle" />
+                                        <RowStyle CssClass="rowstyle" />
+                                    </asp:GridView>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="travelModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        ×
+                    </button>
+                    <h4 class="modal-title" id="myTravelModalLabel">Travel Advance Approval Progress</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="well well-sm well-primary">
+                                    <asp:GridView ID="grvTravelProgress"
+                                        runat="server" AutoGenerateColumns="False" DataKeyNames="Id"
+                                        CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" OnRowDataBound="grvTravelProgress_RowDataBound">
+                                        <RowStyle CssClass="rowstyle" />
+                                        <Columns>
+                                            <asp:BoundField DataField="TravelAdvanceNo" HeaderText="Travel Advance No" SortExpression="TravelAdvanceNo" />
+                                            <asp:TemplateField HeaderText="Request Date">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblRequestDate" runat="server" Text='<%# Eval("RequestDate", "{0:dd/MM/yyyy}")%>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:BoundField DataField="CurrentApprover" HeaderText="Current Approver" SortExpression="CurrentApprover" />
+                                        </Columns>
+                                        <FooterStyle CssClass="FooterStyle" />
+                                        <HeaderStyle CssClass="headerstyle" />
+                                        <PagerStyle CssClass="PagerStyle" />
+                                        <RowStyle CssClass="rowstyle" />
+                                    </asp:GridView>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="purchaseModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        ×
+                    </button>
+                    <h4 class="modal-title" id="myPurchaseModalLabel">Purchase Approval Progress</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="well well-sm well-primary">
+                                    <asp:GridView ID="grvPurchaseProgress"
+                                        runat="server" AutoGenerateColumns="False" DataKeyNames="Id"
+                                        CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" OnRowDataBound="grvPurchaseProgress_RowDataBound">
+                                        <RowStyle CssClass="rowstyle" />
+                                        <Columns>
+                                            <asp:BoundField DataField="RequestNo" HeaderText="Request No" SortExpression="RequestNo" />
+                                            <asp:TemplateField HeaderText="Request Date">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblRequestDate" runat="server" Text='<%# Eval("RequestedDate", "{0:dd/MM/yyyy}")%>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:BoundField DataField="CurrentApprover" HeaderText="Current Approver" SortExpression="CurrentApprover" />
+                                        </Columns>
+                                        <FooterStyle CssClass="FooterStyle" />
+                                        <HeaderStyle CssClass="headerstyle" />
+                                        <PagerStyle CssClass="PagerStyle" />
+                                        <RowStyle CssClass="rowstyle" />
+                                    </asp:GridView>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="bankModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        ×
+                    </button>
+                    <h4 class="modal-title" id="myBankModalLabel">Bank Payment Approval Progress</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="well well-sm well-primary">
+                                    <asp:GridView ID="grvBankProgress"
+                                        runat="server" AutoGenerateColumns="False" DataKeyNames="Id"
+                                        CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" OnRowDataBound="grvBankProgress_RowDataBound">
+                                        <RowStyle CssClass="rowstyle" />
+                                        <Columns>
+                                            <asp:BoundField DataField="RequestNo" HeaderText="Request No" SortExpression="RequestNo" />
+                                            <asp:TemplateField HeaderText="Request Date">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblRequestDate" runat="server" Text='<%# Eval("ProcessDate", "{0:dd/MM/yyyy}")%>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:BoundField DataField="CurrentApprover" HeaderText="Current Approver" SortExpression="CurrentApprover" />
+                                        </Columns>
+                                        <FooterStyle CssClass="FooterStyle" />
+                                        <HeaderStyle CssClass="headerstyle" />
+                                        <PagerStyle CssClass="PagerStyle" />
+                                        <RowStyle CssClass="rowstyle" />
+                                    </asp:GridView>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

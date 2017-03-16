@@ -333,7 +333,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             BindCashPaymentRequestFields();
             grvAttachments.DataSource = _presenter.CurrentCashPaymentRequest.CPRAttachments;
             grvAttachments.DataBind();
-            btnDelete.Visible = true;
             if (_presenter.CurrentCashPaymentRequest.CurrentStatus != null)
             {
                 btnSave.Visible = false;
@@ -390,6 +389,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             }
             catch (Exception ex)
             {
+                Master.ShowMessage(new AppMessage(ex.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
                 if (ex.InnerException != null)
                 {
                     if (ex.InnerException.InnerException.Message.Contains("Violation of UNIQUE KEY"))
