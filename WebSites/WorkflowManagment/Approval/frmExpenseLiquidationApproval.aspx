@@ -215,46 +215,49 @@
                                     ShowFooter="True" OnItemDataBound="dgLiquidationRequestDetail_ItemDataBound" OnEditCommand="dgLiquidationRequestDetail_EditCommand" OnUpdateCommand="dgLiquidationRequestDetail_UpdateCommand">
                                     <Columns>
                                         <asp:TemplateColumn HeaderText="Account Name">
-                                            <ItemTemplate>
-                                                <%# DataBinder.Eval(Container.DataItem, "ItemAccount.AccountName")%>
-                                            </ItemTemplate>
                                             <EditItemTemplate>
                                                 <asp:DropDownList ID="ddlEdtAccountDescription" CssClass="form-control" OnSelectedIndexChanged="ddlEdtAccountDescription_SelectedIndexChanged" runat="server" AppendDataBoundItems="true" AutoPostBack="True">
                                                     <asp:ListItem Value="0">Select Account</asp:ListItem>
                                                 </asp:DropDownList>
                                                 <i></i>
                                             </EditItemTemplate>
+                                            <ItemTemplate>
+                                                <%# DataBinder.Eval(Container.DataItem, "ItemAccount.AccountName")%>
+                                            </ItemTemplate>
                                         </asp:TemplateColumn>
                                         <asp:TemplateColumn HeaderText="Account Code">
-                                            <ItemTemplate>
-                                                <%# DataBinder.Eval(Container.DataItem, "ItemAccount.AccountCode")%>
-                                            </ItemTemplate>
                                             <EditItemTemplate>
                                                 <asp:TextBox ID="txtEdtAccountCode" ReadOnly="true" runat="server" CssClass="form-control" Text='<%# DataBinder.Eval(Container.DataItem, "ItemAccount.AccountCode")%>'></asp:TextBox>
                                             </EditItemTemplate>
+                                            <ItemTemplate>
+                                                <%# DataBinder.Eval(Container.DataItem, "ItemAccount.AccountCode")%>
+                                            </ItemTemplate>
                                         </asp:TemplateColumn>
                                         <asp:TemplateColumn HeaderText="Amount Advanced">
+                                            <FooterTemplate>
+                                                <asp:Label ID="lblTotalAdvAmount" runat="server" />
+                                            </FooterTemplate>
                                             <ItemTemplate>
                                                 <%# DataBinder.Eval(Container.DataItem, "AmountAdvanced")%>
                                             </ItemTemplate>
                                         </asp:TemplateColumn>
                                         <asp:TemplateColumn HeaderText="Actual Expenditure">
+                                            <FooterTemplate>
+                                                <asp:Label ID="lblTotalActualExp" runat="server" />
+                                            </FooterTemplate>
                                             <ItemTemplate>
                                                 <%# DataBinder.Eval(Container.DataItem, "ActualExpenditure")%>
                                             </ItemTemplate>
                                         </asp:TemplateColumn>
                                         <asp:TemplateColumn HeaderText="Variance">
-                                            <ItemTemplate>
-                                                <%# DataBinder.Eval(Container.DataItem, "Variance")%>
-                                            </ItemTemplate>
                                             <FooterTemplate>
                                                 <asp:Label ID="lblTotalVariance" runat="server" />
                                             </FooterTemplate>
+                                            <ItemTemplate>
+                                                <%# DataBinder.Eval(Container.DataItem, "Variance")%>
+                                            </ItemTemplate>
                                         </asp:TemplateColumn>
                                         <asp:TemplateColumn HeaderText="Project ID">
-                                            <ItemTemplate>
-                                                <%# DataBinder.Eval(Container.DataItem, "Project.ProjectCode")%>
-                                            </ItemTemplate>
                                             <EditItemTemplate>
                                                 <asp:DropDownList ID="ddlEdtProject" CssClass="form-control" runat="server" AppendDataBoundItems="true">
                                                     <asp:ListItem Value="0">Select Project</asp:ListItem>
@@ -262,6 +265,9 @@
                                                 <i></i>
                                                 <asp:RequiredFieldValidator ID="rfvddlEdtProject" runat="server" ControlToValidate="ddlEdtProject" CssClass="validator" Display="Dynamic" ErrorMessage="Project must be selected" InitialValue="0" SetFocusOnError="true" ValidationGroup="edit"></asp:RequiredFieldValidator>
                                             </EditItemTemplate>
+                                            <ItemTemplate>
+                                                <%# DataBinder.Eval(Container.DataItem, "Project.ProjectCode")%>
+                                            </ItemTemplate>
                                         </asp:TemplateColumn>
 
                                         <asp:TemplateColumn HeaderText="Actions">

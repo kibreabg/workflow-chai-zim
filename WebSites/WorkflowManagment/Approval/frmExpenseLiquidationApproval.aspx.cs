@@ -591,6 +591,32 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     lblTotalVariance.ForeColor = System.Drawing.Color.Green;
                     lblTotalVariance.Font.Bold = true;
                 }
+                if (e.Item.ItemType == ListItemType.Footer)
+                {
+                    foreach (ExpenseLiquidationRequestDetail detail in _presenter.CurrentExpenseLiquidationRequest.ExpenseLiquidationRequestDetails)
+                    {
+                        _totalAmountAdvanced = _totalAmountAdvanced + detail.AmountAdvanced;
+                    }
+
+
+                    Label lblTotalAdvAmount = e.Item.FindControl("lblTotalAdvAmount") as Label;
+                    lblTotalAdvAmount.Text = _totalAmountAdvanced.ToString();
+                    lblTotalAdvAmount.ForeColor = System.Drawing.Color.Green;
+                    lblTotalAdvAmount.Font.Bold = true;
+                }
+                if (e.Item.ItemType == ListItemType.Footer)
+                {
+                    foreach (ExpenseLiquidationRequestDetail detail in _presenter.CurrentExpenseLiquidationRequest.ExpenseLiquidationRequestDetails)
+                    {
+                        _totalActualExpenditure = _totalActualExpenditure + detail.ActualExpenditure;
+                    }
+
+
+                    Label lblTotalActualExp = e.Item.FindControl("lblTotalActualExp") as Label;
+                    lblTotalActualExp.Text = _totalActualExpenditure.ToString();
+                    lblTotalActualExp.ForeColor = System.Drawing.Color.Green;
+                    lblTotalActualExp.Font.Bold = true;
+                }
             }
 
         }
