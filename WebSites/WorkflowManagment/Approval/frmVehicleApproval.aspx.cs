@@ -197,24 +197,16 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             foreach (VehicleRequestDetail assignedVehicle in _presenter.CurrentVehicleRequest.VehicleRequestDetails)
             {
-                if (assignedVehicle.AssignedVehicle == "driver")
-                {
-                    EmailSender.Send(_presenter.GetUser(_presenter.CurrentVehicleRequest.AppUser.Id).Email, "Vehicle Request Approved", "'" + "' Your Vehicle Request has been proccessed by '" + _presenter.GetUser(VRS.Approver).FullName + " and your driver is " + _presenter.GetUser(assignedVehicle.AppUser.Id).FullName + "'");
-                    EmailSender.Send(_presenter.GetUser(assignedVehicle.AppUser.Id).Email, "Assigned to a Vehicle Request", "'" + "' You have been assigned as a driver for '" + _presenter.GetUser(_presenter.CurrentVehicleRequest.AppUser.Id).FullName + "'");
-                    Log.Info(_presenter.GetUser(VRS.Approver).FullName + " has approved a Vehicle Request made by " + _presenter.CurrentVehicleRequest.AppUser.FullName + " and assigned " + _presenter.GetUser(assignedVehicle.AppUser.Id).FullName + " as a driver");
-                }
-                else if (assignedVehicle.AssignedVehicle == "personal")
-                {
-                    EmailSender.Send(_presenter.GetUser(_presenter.CurrentVehicleRequest.AppUser.Id).Email, "Vehicle Request Approved", "'" + "' Your Vehicle Request has been proccessed by '" + _presenter.GetUser(VRS.Approver).FullName + " and we kindly ask you to use your own car. ");
-                    Log.Info(_presenter.GetUser(VRS.Approver).FullName + " has approved a Vehicle Request made by " + _presenter.CurrentVehicleRequest.AppUser.FullName + " and asked the requester to use their Personal Vehicle.");
-                }
-                else
-                {
-                    EmailSender.Send(_presenter.GetUser(_presenter.CurrentVehicleRequest.AppUser.Id).Email, "Vehicle Request Approved", "'" + "' Your Vehicle Request has been proccessed by '" + _presenter.GetUser(VRS.Approver).FullName + " and your assigned Car Rental company is " + _presenter.GetCarRental(assignedVehicle.CarRental.Id).Name + "'");
+               
+              
+               
+                    EmailSender.Send(_presenter.GetUser(_presenter.CurrentVehicleRequest.CurrentApprover).Email, "Vehicle Request ", "'" + "' Your Vehicle Request has been proccessed by '" + _presenter.GetUser(VRS.Approver).FullName + " and your assigned Car Rental company is " + _presenter.GetCarRental(assignedVehicle.CarRental.Id).Name + "'");
                     Log.Info(_presenter.GetUser(VRS.Approver).FullName + " has approved a Vehicle Request made by " + _presenter.CurrentVehicleRequest.AppUser.FullName + " and assigned a Car Rental company named " + _presenter.GetCarRental(assignedVehicle.CarRental.Id).Name);
-                }
+               
             }
         }
+
+    
         private void GetNextApprover()
         {
             foreach (VehicleRequestStatus VRS in _presenter.CurrentVehicleRequest.VehicleRequestStatuses)
@@ -253,16 +245,24 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                         if (needsApproval == false)
                         {
                             _presenter.CurrentVehicleRequest.CurrentLevel = _presenter.CurrentVehicleRequest.VehicleRequestStatuses.Count;
+
+                            if (_presenter.CurrentVehicleRequest.CurrentLevel == _presenter.CurrentVehicleRequest.VehicleRequestStatuses.Count)
+                            {
+
+                                _presenter.CurrentVehicleRequest.ProgressStatus = ProgressStatus.Completed.ToString();
+                                _presenter.CurrentVehicleRequest.CurrentStatus = VRS.ApprovalStatus;
+                                VRS.Approver = _presenter.CurrentUser().Id;
+                                SendCompletedEmail(VRS);
+                                break;
+                            }
                         }
-                        if (_presenter.CurrentVehicleRequest.CurrentLevel == _presenter.CurrentVehicleRequest.VehicleRequestStatuses.Count)
+                        else
                         {
-                            _presenter.CurrentVehicleRequest.ProgressStatus = ProgressStatus.Completed.ToString();
-                            _presenter.CurrentVehicleRequest.CurrentStatus = VRS.ApprovalStatus;
-                            VRS.Approver = _presenter.CurrentUser().Id;
-                            SendCompletedEmail(VRS);
-                            break;
+                            GetNextApprover();
+
                         }
-                        _presenter.CurrentVehicleRequest.CurrentStatus = VRS.ApprovalStatus;     
+
+                            _presenter.CurrentVehicleRequest.CurrentStatus = VRS.ApprovalStatus;     
                         GetNextApprover();
 
                     }
@@ -509,6 +509,11 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             {
                 if (_presenter.CurrentVehicleRequest.ProgressStatus != ProgressStatus.Completed.ToString())
                 {
+                    if(ddlApprovalStatus.Text !="Car Rental")
+                    {
+
+
+                    }
                     SaveVehicleRequestStatus();
                     _presenter.SaveOrUpdateVehicleRequest(_presenter.CurrentVehicleRequest);
                     ShowPrint();

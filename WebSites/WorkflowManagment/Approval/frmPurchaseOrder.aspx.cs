@@ -17,6 +17,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
     {
         private PurchaseOrderPresenter _presenter;
         private PurchaseRequest _purchaserequest;
+        
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -29,6 +30,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
 
                 }
                 BindPurchaseOrder();
+                btnPrintPurchaseForm.Enabled = true;
+                btnPrintPurchaseOrder.Enabled = true;
                 //BindRepeater();  
             }
             this._presenter.OnViewLoaded();
