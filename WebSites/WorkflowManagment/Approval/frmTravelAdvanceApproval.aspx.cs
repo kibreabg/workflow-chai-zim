@@ -262,9 +262,12 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
 
                             TARS.Approver = _presenter.CurrentUser().Id;
                             _presenter.CurrentTravelAdvanceRequest.CurrentStatus = TARS.ApprovalStatus;
-                            if (TARS.PaymentType.Contains("Bank Payment"))
+                            if (TARS.PaymentType != null)
                             {
-                                btnBankPayment.Visible = true;
+                                if (TARS.PaymentType.Contains("Bank Payment"))
+                                {
+                                    btnBankPayment.Visible = true;
+                                }
                             }
                         }
                         GetNextApprover();

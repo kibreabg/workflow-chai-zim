@@ -182,7 +182,7 @@ namespace Chai.WorkflowManagment.Modules.Approval
             string filterExpression = "";
 
             filterExpression = " SELECT * FROM ExpenseLiquidationRequests INNER JOIN AppUsers on AppUsers.Id = ExpenseLiquidationRequests.CurrentApprover Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where 1 = Case when '" + ExpenseType + "' = '' Then 1 When ExpenseLiquidationRequests.ExpenseType = '" + ExpenseType + "'  Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When ExpenseLiquidationRequests.RequestDate = '" + RequestDate + "'  Then 1 END AND ExpenseLiquidationRequests.ProgressStatus='" + ProgressStatus + "' " +
-                                   " AND ExpenseLiquidationRequests.CurrentStatus IS NULL AND ((ExpenseLiquidationRequests.CurrentApprover = '" + CurrentUser().Id + "') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) order by ExpenseLiquidationRequests.Id ";
+                                   " AND ((ExpenseLiquidationRequests.CurrentApprover = '" + CurrentUser().Id + "') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) order by ExpenseLiquidationRequests.Id ";
 
             return _workspace.SqlQuery<ExpenseLiquidationRequest>(filterExpression).ToList();
         }
