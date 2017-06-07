@@ -316,8 +316,14 @@
                     <td style="width: 390px">
                         <asp:Label ID="lblRequesterResult" runat="server"></asp:Label>
                     </td>
-                    <td style="width: 389px">&nbsp;</td>
-                    <td style="width: 389px"></td>
+                    <td style="width: 389px">
+                        <strong>
+                            <asp:Label ID="lblComments" runat="server" Text="Comments:"></asp:Label>
+                        </strong>
+                    </td>
+                    <td style="width: 389px">
+                        <asp:Label ID="lblCommentsResult" runat="server"></asp:Label>
+                    </td>
                     <td>&nbsp;</td>
                 </tr>
                 <tr>

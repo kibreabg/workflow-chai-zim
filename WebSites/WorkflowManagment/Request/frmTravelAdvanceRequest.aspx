@@ -37,7 +37,7 @@
             <div class="widget-body no-padding">
                 <div class="smart-form">
                     <fieldset>
-                        <div class="row">
+                        <div class="row">                            
                            <%-- <section class="col col-6">
                                 <label class="label">Travel Advance Number</label>
                                 <label class="input">
@@ -51,14 +51,6 @@
                                     <asp:TextBox ID="txtRequestDate" ReadOnly="true" runat="server"></asp:TextBox>
                                 </label>
                             </section>
-                        </div>
-                        <div class="row">
-                            <section class="col col-6">
-                                <label class="label">Visiting Team</label>
-                                <label class="input">
-                                    <asp:TextBox ID="txtVisitingTeam" runat="server"></asp:TextBox>
-                                </label>
-                            </section>
                             <section class="col col-6">
                                 <label class="label">Purpose of Travel</label>
                                 <label class="input">
@@ -66,8 +58,7 @@
                                 </label>
                             </section>
                         </div>
-                        <div class="row">
-
+                        <div class="row">                            
                             <section class="col col-6">
                                 <label class="label">Project</label>
                                 <label class="select">
@@ -88,6 +79,20 @@
                                         ID="rfvGrant" runat="server" ErrorMessage="Grant is required" Display="Dynamic"
                                         CssClass="validator" ValidationGroup="saveMain" InitialValue="0"
                                         SetFocusOnError="true" ControlToValidate="ddlGrant"></asp:RequiredFieldValidator>
+                                </label>
+                            </section>
+                        </div>
+                        <div class="row">
+                            <section class="col col-6">
+                                <label class="label">Visiting Team</label>
+                                <label class="input">
+                                    <asp:TextBox ID="txtVisitingTeam" runat="server"></asp:TextBox>
+                                </label>
+                            </section>
+                            <section class="col col-6">
+                                <label class="label">Additional Comments</label>
+                                <label class="input">
+                                    <asp:TextBox ID="txtComments" runat="server"></asp:TextBox>
                                 </label>
                             </section>
                         </div>
@@ -640,8 +645,14 @@
                     <td style="width: 390px; height: 18px;">
                         <asp:Label ID="lblTotalTravelAdvanceResult" runat="server"></asp:Label>
                     </td>
-                    <td style="width: 389px; height: 18px;">&nbsp;</td>
-                    <td style="width: 389px; height: 18px;">&nbsp;</td>
+                    <td style="width: 389px; height: 18px;">
+                        <strong>
+                            <asp:Label ID="lblComments" runat="server" Text="Comments:"></asp:Label>
+                        </strong>
+                    </td>
+                    <td style="width: 389px; height: 18px;">
+                        <asp:Label ID="lblCommentsResult" runat="server"></asp:Label>
+                    </td>
                     <td style="height: 18px">&nbsp;</td>
                 </tr>
                 <tr>

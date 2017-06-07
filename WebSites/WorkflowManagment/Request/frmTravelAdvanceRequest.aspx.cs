@@ -99,6 +99,10 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             get { return txtPurposeOfTravel.Text; }
         }
+        public string GetComments
+        {
+            get { return txtComments.Text; }
+        }
         public string GetVisitingTeam
         {
             get { return txtVisitingTeam.Text; }
@@ -174,6 +178,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 //txtTravelAdvanceNo.Text = _presenter.CurrentTravelAdvanceRequest.TravelAdvanceNo.ToString();
                 txtVisitingTeam.Text = _presenter.CurrentTravelAdvanceRequest.VisitingTeam;
                 txtPurposeOfTravel.Text = _presenter.CurrentTravelAdvanceRequest.PurposeOfTravel.ToString();
+                txtComments.Text = _presenter.CurrentTravelAdvanceRequest.Comments.ToString();
                 txtTotal.Text = _presenter.CurrentTravelAdvanceRequest.TotalTravelAdvance.ToString();
                 ddlProject.SelectedValue = _presenter.CurrentTravelAdvanceRequest.Project.Id.ToString();
                 PopGrants(Convert.ToInt32(ddlProject.SelectedValue));
@@ -198,6 +203,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             txtVisitingTeam.Text = String.Empty;
             txtPurposeOfTravel.Text = String.Empty;
+            txtComments.Text = String.Empty;
             txtTotal.Text = String.Empty;
         }
         private void PrintTransaction()
@@ -207,6 +213,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             lblRequesterResult.Text = _presenter.CurrentTravelAdvanceRequest.AppUser.UserName.ToString();
             lblVisitingTeamResult.Text = _presenter.CurrentTravelAdvanceRequest.VisitingTeam.ToString();
             lblPurposeOfTravelResult.Text = _presenter.CurrentTravelAdvanceRequest.PurposeOfTravel.ToString();
+            lblCommentsResult.Text = _presenter.CurrentTravelAdvanceRequest.Comments.ToString();
             lblTotalTravelAdvanceResult.Text = _presenter.CurrentTravelAdvanceRequest.TotalTravelAdvance.ToString();
             lblApprovalStatusResult.Text = _presenter.CurrentTravelAdvanceRequest.ProgressStatus.ToString();
             lblProjectIdResult.Text = _presenter.CurrentTravelAdvanceRequest.Project.ProjectCode;

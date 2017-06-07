@@ -19,6 +19,7 @@ namespace Chai.WorkflowManagment.CoreDomain.Requests
         public Nullable<DateTime> RequestDate { get; set; }
         public string VisitingTeam { get; set; }
         public string PurposeOfTravel { get; set; }
+        public string Comments { get; set; }
         public decimal TotalTravelAdvance { get; set; }
         public int CurrentApprover { get; set; }
         public int CurrentLevel { get; set; }

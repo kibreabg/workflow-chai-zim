@@ -10,6 +10,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         int GetTARequestId { get; }
         string GetRequestNo { get; }
         DateTime GetRequestDate { get; }
+        string GetComments { get; }
         string GetPurposeOfTravel { get; }
         string GetVisitingTeam { get; }
         int GetProjectId { get; }

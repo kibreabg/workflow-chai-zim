@@ -132,6 +132,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             TravelAdvanceRequest.RequestDate = View.GetRequestDate;
             TravelAdvanceRequest.VisitingTeam = View.GetVisitingTeam;
             TravelAdvanceRequest.PurposeOfTravel = View.GetPurposeOfTravel;
+            TravelAdvanceRequest.Comments = View.GetComments;
             TravelAdvanceRequest.ProgressStatus = ProgressStatus.InProgress.ToString();
             TravelAdvanceRequest.ExportStatus = "Not Exported";
             TravelAdvanceRequest.AppUser = _adminController.GetUser(CurrentUser().Id);

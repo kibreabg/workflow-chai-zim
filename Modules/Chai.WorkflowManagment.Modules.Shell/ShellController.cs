@@ -131,8 +131,14 @@ namespace Chai.WorkflowManagment.Modules.Shell
             currentUser = GetCurrentUser().Id;
             string filterExpression = "";
 
-            filterExpression = " SELECT * FROM CashPaymentRequests INNER JOIN AppUsers on AppUsers.Id = CashPaymentRequests.CurrentApprover Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where CashPaymentRequests.ProgressStatus='InProgress' " +
-                                   " AND  ((CashPaymentRequests.CurrentApprover = '" + currentUser + "') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) order by CashPaymentRequests.Id ";
+            filterExpression = " SELECT * FROM CashPaymentRequests " +
+                                    " LEFT JOIN AppUsers on AppUsers.Id = CashPaymentRequests.CurrentApprover " + 
+                                    " LEFT JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 " +
+                                    " WHERE CashPaymentRequests.ProgressStatus = 'InProgress'" + 
+                                        " AND ((CashPaymentRequests.CurrentApprover = '" + currentUser + "')" +
+                                        " OR (CashPaymentRequests.CurrentApproverPosition = '" + GetCurrentUser().EmployeePosition.Id + "')" +
+                                        " OR (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "'))" +
+                                        " ORDER BY CashPaymentRequests.Id";
 
             return _workspace.SqlQuery<CashPaymentRequest>(filterExpression).Count();
         }

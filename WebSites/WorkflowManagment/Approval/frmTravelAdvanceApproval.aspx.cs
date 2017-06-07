@@ -225,6 +225,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             lblRequesterResult.Text = _presenter.CurrentTravelAdvanceRequest.AppUser.FullName;
             lblVisitingTeamResult.Text = _presenter.CurrentTravelAdvanceRequest.VisitingTeam;
             lblPurposeOfTravelResult.Text = _presenter.CurrentTravelAdvanceRequest.PurposeOfTravel;
+            lblCommentsResult.Text = _presenter.CurrentTravelAdvanceRequest.Comments.ToString();
             lblTotalTravelAdvanceResult.Text = _presenter.CurrentTravelAdvanceRequest.TotalTravelAdvance.ToString();
             lblApprovalStatusResult.Text = _presenter.CurrentTravelAdvanceRequest.ProgressStatus.ToString();
             lblProjectIdResult.Text = _presenter.CurrentTravelAdvanceRequest.Project.ProjectCode;

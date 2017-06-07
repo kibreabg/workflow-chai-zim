@@ -407,15 +407,6 @@
                     <td style="width: 357px; height: 18px;">
                         <asp:Label ID="lblTotalAmountResult" runat="server"></asp:Label>
                     </td>
-                    <td style="width: 629px; height: 18px;">
-                        <strong>
-                            <asp:Label ID="lblGrantId" runat="server" Text="Grant ID:"></asp:Label>
-                        </strong>
-                    </td>
-                    <td style="width: 389px; height: 18px;">
-                        <asp:Label ID="lblGrantIdResult" runat="server"></asp:Label>
-                    </td>
-                    <td style="height: 18px">&nbsp;</td>
                 </tr>
                 <tr>
                     <td style="width: 629px; height: 18px; padding-left: 10%;"><strong>
@@ -425,15 +416,6 @@
                     <td style="width: 357px; height: 18px;">
                         <asp:Label ID="lblActualExpendtureRes" runat="server"></asp:Label>
                     </td>
-                    <td style="width: 389px; height: 18px;">
-                        <strong>
-                            <asp:Label ID="lblProjectId" runat="server" Text="Project ID:"></asp:Label>
-                        </strong>
-                    </td>
-                    <td style="width: 389px; height: 18px;">
-                        <asp:Label ID="lblProjectIdResult" runat="server"></asp:Label>
-                    </td>
-                    <td style="height: 18px">&nbsp;</td>
                 </tr>
                 <tr>
                     <td style="width: 629px; height: 18px; padding-left: 10%;">
