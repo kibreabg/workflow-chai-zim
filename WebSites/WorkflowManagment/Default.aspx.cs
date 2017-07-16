@@ -297,6 +297,8 @@ public partial class ShellDefault : Microsoft.Practices.CompositeWeb.Web.UI.Page
                 {
                     if (_presenter.ListPaymentApprovalProgress()[e.Row.RowIndex].CurrentApprover != 0)
                         e.Row.Cells[2].Text = _presenter.GetUser(_presenter.ListPaymentApprovalProgress()[e.Row.RowIndex].CurrentApprover).FullName;
+                    else
+                        e.Row.Cells[2].Text = "Finance Officer";
                 }
             }
         }        
