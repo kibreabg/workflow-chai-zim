@@ -52,7 +52,7 @@
             runat="server" AutoGenerateColumns="False" DataKeyNames="ID"
             OnRowDataBound="grvPurchaseRequestList_RowDataBound" OnRowDeleting="grvPurchaseRequestList_RowDeleting"
             OnSelectedIndexChanged="grvPurchaseRequestList_SelectedIndexChanged" AllowPaging="True" OnPageIndexChanging="grvPurchaseRequestList_PageIndexChanging"
-            CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" OnRowCommand="grvPurchaseRequestList_RowCommand">
+            CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" OnRowCommand="grvPurchaseRequestList_RowCommand" PageSize="30">
             <RowStyle CssClass="rowstyle" />
             <Columns>
                 <asp:BoundField DataField="RequestNo" HeaderText="Request No" SortExpression="RequestNo" />

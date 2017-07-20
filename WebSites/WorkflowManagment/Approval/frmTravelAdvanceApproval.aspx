@@ -66,7 +66,7 @@
             runat="server" AutoGenerateColumns="False" DataKeyNames="Id" OnRowCommand="grvTravelAdvanceRequestList_RowCommand"
             OnRowDataBound="grvTravelAdvanceRequestList_RowDataBound" OnSelectedIndexChanged="grvTravelAdvanceRequestList_SelectedIndexChanged"
             AllowPaging="True" OnPageIndexChanging="grvTravelAdvanceRequestList_PageIndexChanging"
-            CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active">
+            CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" PageSize="30">
             <RowStyle CssClass="rowstyle" />
             <Columns>
                 <asp:BoundField DataField="TravelAdvanceNo" HeaderText="Travel Advance No" SortExpression="TravelAdvanceNo" />

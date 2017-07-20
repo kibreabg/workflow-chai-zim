@@ -65,7 +65,7 @@
         <asp:GridView ID="grvPaymentReimbursementRequestList"
             runat="server" AutoGenerateColumns="False" DataKeyNames="Id" OnRowCommand="grvPaymentReimbursementRequestList_RowCommand"
             OnRowDataBound="grvPaymentReimbursementRequestList_RowDataBound" OnSelectedIndexChanged="grvPaymentReimbursementRequestList_SelectedIndexChanged" AllowPaging="True" OnPageIndexChanging="grvPaymentReimbursementRequestList_PageIndexChanging"
-            CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active">
+            CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" PageSize="30">
             <RowStyle CssClass="rowstyle" />
             <Columns>
                 <asp:BoundField DataField="ExpenseType" HeaderText="Expense Type" SortExpression="ExpenseType" />

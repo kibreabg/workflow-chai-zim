@@ -66,7 +66,7 @@
         <asp:GridView ID="grvExpenseLiquidationRequestList"
             runat="server" AutoGenerateColumns="False" DataKeyNames="Id" OnRowCommand="grvExpenseLiquidationRequestList_RowCommand"
             OnRowDataBound="grvExpenseLiquidationRequestList_RowDataBound" OnSelectedIndexChanged="grvExpenseLiquidationRequestList_SelectedIndexChanged" AllowPaging="True" OnPageIndexChanging="grvExpenseLiquidationRequestList_PageIndexChanging"
-            CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active">
+            CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" PageSize="30">
             <RowStyle CssClass="rowstyle" />
             <Columns>
                 <asp:BoundField DataField="TravelAdvanceRequest.AppUser.FullName" HeaderText="Requester" SortExpression="TravelAdvanceRequest.AppUser.FullName" />

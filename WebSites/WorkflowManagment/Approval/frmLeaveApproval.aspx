@@ -68,7 +68,7 @@
             runat="server" AutoGenerateColumns="False" DataKeyNames="ID"
             OnRowDataBound="grvLeaveRequestList_RowDataBound" OnRowDeleting="grvLeaveRequestList_RowDeleting"
             OnSelectedIndexChanged="grvLeaveRequestList_SelectedIndexChanged" AllowPaging="True" OnPageIndexChanging="grvLeaveRequestList_PageIndexChanging"
-            CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active">
+            CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" PageSize="30">
             <RowStyle CssClass="rowstyle" />
             <Columns>
                 <asp:BoundField DataField="RequestNo" HeaderText="Request No" SortExpression="RequestNo" />

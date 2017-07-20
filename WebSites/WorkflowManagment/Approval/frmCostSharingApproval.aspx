@@ -73,7 +73,7 @@
             runat="server" AutoGenerateColumns="False" DataKeyNames="Id" OnRowCommand="grvCostSharingRequestList_RowCommand"
             OnRowDataBound="grvCostSharingRequestList_RowDataBound" OnSelectedIndexChanged="grvCostSharingRequestList_SelectedIndexChanged"
             AllowPaging="True" OnPageIndexChanging="grvCostSharingRequestList_PageIndexChanging"
-            CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active">
+            CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" PageSize="30">
             <RowStyle CssClass="rowstyle" />
             <Columns>
                 <asp:BoundField DataField="RequestNo" HeaderText="Request No" SortExpression="RequestNo" />
