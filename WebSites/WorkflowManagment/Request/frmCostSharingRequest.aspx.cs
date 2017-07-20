@@ -29,7 +29,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 CheckApprovalSettings();
                 BindCostSharingRequests();
                 BindAccountDescription();
-                
+                PopPayee();
             }
             txtRequestDate.Text = DateTime.Today.Date.ToShortDateString();
             this._presenter.OnViewLoaded();
@@ -80,7 +80,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         public string GetPayee
         {
-            get { return txtPayee.Text; }
+            get { return ddlPayee.SelectedValue; }
         }
         public string GetDescription
         {
@@ -117,11 +117,19 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         private void ClearFormFields()
         {
             // txtVoucherNo.Text = String.Empty;
-            txtPayee.Text = String.Empty;
             //txtVoucherNo.Text = String.Empty;
             txtEstimatedCost.Text = String.Empty;
         }
-        
+        private void PopPayee()
+        {
+            ddlPayee.Items.Clear();
+            ListItem lst = new ListItem();
+            lst.Text = " Select Payee ";
+            lst.Value = "0";
+            ddlPayee.Items.Add(lst);
+            ddlPayee.DataSource = _presenter.GetSuppliers();
+            ddlPayee.DataBind();
+        }
         private void BindCostSharingRequests()
         {
             grvCashPaymentRequestList.DataSource = _presenter.ListCostSharingRequests(txtSrchRequestNo.Text, txtSrchRequestDate.Text);
@@ -133,7 +141,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             if (_presenter.CurrentCostSharingRequest != null)
             {
                 // txtRequestNo.Text = _presenter.CurrentCashPaymentRequest.RequestNo.ToString();
-                txtPayee.Text = _presenter.CurrentCostSharingRequest.Payee;
+                ddlPayee.SelectedValue = _presenter.CurrentCostSharingRequest.Payee;
                 txtDescription.Text = _presenter.CurrentCostSharingRequest.Description;
                 //txtVoucherNo.Text = _presenter.CurrentCostSharingRequest.VoucherNo.ToString();
                 txtEstimatedCost.Text = _presenter.CurrentCostSharingRequest.EstimatedTotalAmount.ToString();

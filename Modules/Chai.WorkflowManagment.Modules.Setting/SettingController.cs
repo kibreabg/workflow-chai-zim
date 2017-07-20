@@ -51,6 +51,10 @@ namespace Chai.WorkflowManagment.Modules.Setting
         {
             return WorkspaceFactory.CreateReadOnly().Query<AppUser>(x => x.IsActive == true).OrderBy(x=>x.FullName).ToList();
         }
+        public IList<AppUser> GetAppUsersByEmployeePosition(int employeePosition)
+        {
+            return WorkspaceFactory.CreateReadOnly().Query<AppUser>(x => x.EmployeePosition.Id == employeePosition).ToList();
+        }
         public AppUser GetUser(int userid)
         {
             return _workspace.Single<AppUser>(x => x.Id == userid, x => x.AppUserRoles.Select(y => y.Role));

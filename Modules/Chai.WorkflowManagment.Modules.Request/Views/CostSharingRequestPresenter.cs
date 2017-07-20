@@ -165,7 +165,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             _controller.SaveOrUpdateEntity(CostSharingRequest);
             _controller.CurrentObject = null;
         }
-
         public void SaveCostSharingDetail()
         {
             RemoveCostSharingDetail();
@@ -186,8 +185,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 
                 }
             }
-        }
-        
+        }        
         public void RemoveCostSharingDetail()
         {
             foreach (CostSharingRequestDetail CSRD in CurrentCostSharingRequest.CostSharingRequestDetails)
@@ -223,6 +221,10 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         public IList<CostSharingRequest> ListCostSharingRequests(string RequestNo, string RequestDate)
         {
             return _controller.ListCostSharingRequests(RequestNo, RequestDate);
+        }
+        public IList<Supplier> GetSuppliers()
+        {
+            return _settingController.GetSuppliers();
         }
         public CostSharingRequestDetail GetCostSharingRequestDetail(int CPRDId)
         {

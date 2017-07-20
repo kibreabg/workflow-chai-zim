@@ -7,6 +7,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Chai.WorkflowManagment.CoreDomain.Requests;
 using Chai.WorkflowManagment.CoreDomain.Setting;
+using Chai.WorkflowManagment.CoreDomain.Users;
 using Chai.WorkflowManagment.Enums;
 using Chai.WorkflowManagment.Modules.Approval.Views;
 using Chai.WorkflowManagment.Shared;
@@ -244,7 +245,17 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             }
             else
             {
-                ///////jlkjlkjljlkjlkjlkj
+                foreach(AppUser Payer in _presenter.GetAppUsersByEmployeePosition(CPRS.ApproverPosition))
+                {
+                    if(Payer.IsAssignedJob != true)
+                    {
+                        EmailSender.Send(Payer.Email, "Payment Approval", " '" + _presenter.CurrentCashPaymentRequest.AppUser.FullName + "' Request for Payment No '" + _presenter.CurrentCashPaymentRequest.RequestNo + "'");
+                    }
+                    else
+                    {
+                        EmailSender.Send(_presenter.GetUser(_presenter.GetAssignedJobbycurrentuser(Payer.Id).AssignedTo).Email, "Payment Approval", "'" + _presenter.CurrentCashPaymentRequest.AppUser.FullName + "' Request for Payment No '" + _presenter.CurrentCashPaymentRequest.RequestNo + "'");
+                    }
+                }
             }
 
         }
@@ -256,7 +267,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             {
                 for (int i = 0; i + 1 < CPRS.WorkflowLevel; i++)
                 {
-                    EmailSender.Send(_presenter.GetUser(_presenter.CurrentCashPaymentRequest.CashPaymentRequestStatuses[i].Approver).Email, "Payment Request Rejection", "'" + "' Payment Request with Voucher No. " + _presenter.CurrentCashPaymentRequest.VoucherNo + " made by " + _presenter.GetUser(_presenter.CurrentCashPaymentRequest.AppUser.Id).FullName + " was Rejected for this reason - '" + CPRS.RejectedReason + "'");
+                    EmailSender.Send(_presenter.GetUser(_presenter.CurrentCashPaymentRequest.CashPaymentRequestStatuses[i].Approver).Email, "Payment Request Rejection", "Payment Request with Voucher No. " + _presenter.CurrentCashPaymentRequest.VoucherNo + " made by " + _presenter.GetUser(_presenter.CurrentCashPaymentRequest.AppUser.Id).FullName + " was Rejected for this reason - '" + CPRS.RejectedReason + "'");
                 }
             }
         }

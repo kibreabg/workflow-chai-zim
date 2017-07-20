@@ -86,7 +86,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             AppUser CurrentUser = _presenter.CurrentUser();
             txtRequester.Text = CurrentUser.FirstName + " " + CurrentUser.LastName;
-            txtEmployeeNo.Text = CurrentUser.EmployeeNo;
+            //txtEmployeeNo.Text = CurrentUser.EmployeeNo;
             if (_presenter.CurrentLeaveRequest.Id <= 0)
             {
 

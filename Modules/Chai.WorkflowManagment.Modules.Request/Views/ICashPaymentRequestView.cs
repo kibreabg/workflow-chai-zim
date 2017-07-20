@@ -9,7 +9,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
     {
         int GetCashPaymentRequestId { get; }
         string GetRequestNo { get; }
-        string GetPayee { get; }
+        int GetPayee { get; }
         string GetDescription { get; }
         string GetVoucherNo { get; }
         string GetAmountType { get; }

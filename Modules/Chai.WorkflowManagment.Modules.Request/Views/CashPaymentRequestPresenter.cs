@@ -146,11 +146,12 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 CashPaymentRequest.VoucherNo = View.GetVoucherNo;
             }
             CashPaymentRequest.RequestDate = Convert.ToDateTime(DateTime.Today.ToShortDateString());
-            CashPaymentRequest.Payee = View.GetPayee;
+            CashPaymentRequest.Payee = "";
             CashPaymentRequest.Description = View.GetDescription;
             CashPaymentRequest.AmountType = View.GetAmountType;
             CashPaymentRequest.ProgressStatus = ProgressStatus.InProgress.ToString();
             CashPaymentRequest.AppUser = _adminController.GetUser(CurrentUser().Id);
+            CashPaymentRequest.Beneficiary = _settingController.GetBeneficiary(View.GetPayee);
             if (View.GetAmountType != "Actual Amount")
             {
                 CashPaymentRequest.PaymentReimbursementStatus = "Not Retired";
@@ -227,6 +228,10 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         public Grant GetGrant(int GrantId)
         {
             return _settingController.GetGrant(GrantId);
+        }
+        public IList<Supplier> GetSuppliers()
+        {
+            return _settingController.GetSuppliers();
         }
         public IList<Project> ListProjects()
         {

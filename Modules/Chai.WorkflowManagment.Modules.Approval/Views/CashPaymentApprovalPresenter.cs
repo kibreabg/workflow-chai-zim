@@ -95,6 +95,10 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             return _controller.GetCurrentUser();
         }
+        public IList<AppUser> GetAppUsersByEmployeePosition(int employeePosition)
+        {
+            return _settingController.GetAppUsersByEmployeePosition(employeePosition);
+        }
         public IList<Project> ListProjects()
         {
             return _settingController.GetProjects();
@@ -142,7 +146,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         public void Commit()
         {
             _controller.Commit();
-        }        
+        }
     }
 }
 

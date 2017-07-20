@@ -29,6 +29,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 CheckApprovalSettings();
                 BindCashPaymentRequests();
                 BindCashPaymentDetails();
+                PopPayee();
                
             }
             txtRequestDate.Text = DateTime.Today.Date.ToShortDateString();
@@ -78,9 +79,9 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             get { return AutoNumber(); }
         }
-        public string GetPayee
+        public int GetPayee
         {
-            get { return txtPayee.Text; }
+            get { return Convert.ToInt32(ddlPayee.SelectedValue); }
         }
         public string GetDescription
         {
@@ -109,7 +110,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         private void ClearFormFields()
         {
             // txtVoucherNo.Text = String.Empty;
-            txtPayee.Text = String.Empty;
            // txtVoucherNo.Text = String.Empty;
             ddlAmountType.SelectedValue = "";
         }
@@ -123,13 +123,23 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             grvCashPaymentRequestList.DataSource = _presenter.ListCashPaymentRequests(txtSrchRequestNo.Text, txtSrchRequestDate.Text);
             grvCashPaymentRequestList.DataBind();
         }
+        private void PopPayee()
+        {
+            ddlPayee.Items.Clear();
+            ListItem lst = new ListItem();
+            lst.Text = " Select Payee ";
+            lst.Value = "0";
+            ddlPayee.Items.Add(lst);
+            ddlPayee.DataSource = _presenter.GetSuppliers();
+            ddlPayee.DataBind();
+        }
         private void BindCashPaymentRequestFields()
         {
             _presenter.OnViewLoaded();
             if (_presenter.CurrentCashPaymentRequest != null)
             {
                 // txtRequestNo.Text = _presenter.CurrentCashPaymentRequest.RequestNo.ToString();
-                txtPayee.Text = _presenter.CurrentCashPaymentRequest.Payee;
+                ddlPayee.SelectedValue = _presenter.CurrentCashPaymentRequest.Payee;
                 txtDescription.Text = _presenter.CurrentCashPaymentRequest.Description;
                 //txtVoucherNo.Text = _presenter.CurrentCashPaymentRequest.VoucherNo.ToString();
                 ddlAmountType.SelectedValue = _presenter.CurrentCashPaymentRequest.AmountType;
