@@ -13,6 +13,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         DateTime GetDepartureDate { get; }
         DateTime GetReturningDate { get; }
         string GetDepartureTime { get; }
+        string GetVehicleRegistrationNumber { get; }
+        string GetFuelCardNumber { get; }
         string GetPurposeOfTravel { get; }
         string GetDestination { get; }
         string GetComment { get; }

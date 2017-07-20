@@ -87,7 +87,7 @@ namespace Chai.WorkflowManagment.Modules.Request
         {
             string filterExpression = "";
 
-            filterExpression = "SELECT * FROM VehicleRequests Where 1 = Case when '" + RequestNo + "' = '' Then 1 When VehicleRequests.RequestNo = '" + RequestNo + "'  Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When VehicleRequests.RequestDate = '" + RequestDate + "'  Then 1 END And VehicleRequests.AppUser_Id='" + GetCurrentUser().Id + "' order by VehicleRequests.RequestDate Desc ";
+            filterExpression = "SELECT * FROM VehicleRequests Where 1 = Case when '" + RequestNo + "' = '' Then 1 When VehicleRequests.RequestNo = '" + RequestNo + "'  Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When VehicleRequests.RequestDate = '" + RequestDate + "'  Then 1 END And VehicleRequests.AppUser_Id='" + GetCurrentUser().Id + "' order by VehicleRequests.Id Desc ";
 
             return _workspace.SqlQuery<VehicleRequest>(filterExpression).ToList();
 
@@ -114,7 +114,7 @@ namespace Chai.WorkflowManagment.Modules.Request
         {
             string filterExpression = "";
 
-            filterExpression = "SELECT * FROM CashPaymentRequests Where 1 = Case when '" + RequestNo + "' = '' Then 1 When CashPaymentRequests.VoucherNo = '" + RequestNo + "' Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When CashPaymentRequests.RequestDate = '" + RequestDate + "'  Then 1 END And CashPaymentRequests.AppUser_Id='" + GetCurrentUser().Id + "' ORDER BY CashPaymentRequests.RequestDate Desc";
+            filterExpression = "SELECT * FROM CashPaymentRequests Where 1 = Case when '" + RequestNo + "' = '' Then 1 When CashPaymentRequests.VoucherNo = '" + RequestNo + "' Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When CashPaymentRequests.RequestDate = '" + RequestDate + "'  Then 1 END And CashPaymentRequests.AppUser_Id='" + GetCurrentUser().Id + "' ORDER BY CashPaymentRequests.Id Desc";
            // return WorkspaceFactory.CreateReadOnly().Queryable<CashPaymentRequest>(filterExpression).ToList();
             return _workspace.SqlQuery<CashPaymentRequest>(filterExpression).ToList();
         }
@@ -154,7 +154,7 @@ namespace Chai.WorkflowManagment.Modules.Request
         {
             string filterExpression = "";
 
-            filterExpression = "SELECT * FROM CostSharingRequests Where 1 = Case when '" + RequestNo + "' = '' Then 1 When CostSharingRequests.VoucherNo = '" + RequestNo + "' Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When CostSharingRequests.RequestDate = '" + RequestDate + "'  Then 1 END And CostSharingRequests.AppUser_Id='" + GetCurrentUser().Id + "' ORDER BY CostSharingRequests.RequestDate Desc";
+            filterExpression = "SELECT * FROM CostSharingRequests Where 1 = Case when '" + RequestNo + "' = '' Then 1 When CostSharingRequests.VoucherNo = '" + RequestNo + "' Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When CostSharingRequests.RequestDate = '" + RequestDate + "'  Then 1 END And CostSharingRequests.AppUser_Id='" + GetCurrentUser().Id + "' ORDER BY CostSharingRequests.Id Desc";
 
             return _workspace.SqlQuery<CostSharingRequest>(filterExpression).ToList();
         }
@@ -189,7 +189,7 @@ namespace Chai.WorkflowManagment.Modules.Request
         {
             string filterExpression = "";
 
-            filterExpression = "SELECT * FROM PaymentReimbursementRequests Where 1 = Case when '" + RequestDate + "' = '' Then 1 When PaymentReimbursementRequests.RequestDate = '" + RequestDate + "'  Then 1 END ORDER BY PaymentReimbursementRequests.RequestDate Desc ";
+            filterExpression = "SELECT * FROM PaymentReimbursementRequests Where 1 = Case when '" + RequestDate + "' = '' Then 1 When PaymentReimbursementRequests.RequestDate = '" + RequestDate + "'  Then 1 END ORDER BY PaymentReimbursementRequests.Id Desc ";
 
             return _workspace.SqlQuery<PaymentReimbursementRequest>(filterExpression).ToList();
         }
@@ -227,7 +227,7 @@ namespace Chai.WorkflowManagment.Modules.Request
         {
             string filterExpression = "";
 
-            filterExpression = "SELECT * FROM BankPaymentRequests Where 1 = Case when '" + RequestNo + "' = '' Then 1 When BankPaymentRequests.RequestNo = '" + RequestNo + "' Then 1 END And  1 = Case when '" + ProcessDate + "' = '' Then 1 When BankPaymentRequests.ProcessDate = '" + ProcessDate + "'  Then 1 END ORDER BY BankPaymentRequests.ProcessDate Desc";
+            filterExpression = "SELECT * FROM BankPaymentRequests Where 1 = Case when '" + RequestNo + "' = '' Then 1 When BankPaymentRequests.RequestNo = '" + RequestNo + "' Then 1 END And  1 = Case when '" + ProcessDate + "' = '' Then 1 When BankPaymentRequests.ProcessDate = '" + ProcessDate + "'  Then 1 END ORDER BY BankPaymentRequests.Id Desc";
 
             return _workspace.SqlQuery<BankPaymentRequest>(filterExpression).ToList();
         }
@@ -245,7 +245,7 @@ namespace Chai.WorkflowManagment.Modules.Request
         {
             string filterExpression = "";
 
-            filterExpression = "SELECT * FROM OperationalControlRequests Where 1 = Case when '" + RequestNo + "' = '' Then 1 When OperationalControlRequests.VoucherNo = '" + RequestNo + "' Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When OperationalControlRequests.RequestDate = '" + RequestDate + "'  Then 1 END ORDER BY OperationalControlRequests.RequestDate Desc";
+            filterExpression = "SELECT * FROM OperationalControlRequests Where 1 = Case when '" + RequestNo + "' = '' Then 1 When OperationalControlRequests.VoucherNo = '" + RequestNo + "' Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When OperationalControlRequests.RequestDate = '" + RequestDate + "'  Then 1 END ORDER BY OperationalControlRequests.Id Desc";
 
             return _workspace.SqlQuery<OperationalControlRequest>(filterExpression).ToList();
         }
@@ -297,7 +297,7 @@ namespace Chai.WorkflowManagment.Modules.Request
         {
             string filterExpression = "";
 
-            filterExpression = "SELECT * FROM TravelAdvanceRequests Where 1 = Case when '" + RequestNo + "' = '' Then 1 When TravelAdvanceRequests.TravelAdvanceNo = '" + RequestNo + "' Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When TravelAdvanceRequests.RequestDate = '" + RequestDate + "'  Then 1 END And TravelAdvanceRequests.AppUser_Id='" + GetCurrentUser().Id + "' ORDER BY TravelAdvanceRequests.RequestDate Desc ";
+            filterExpression = "SELECT * FROM TravelAdvanceRequests Where 1 = Case when '" + RequestNo + "' = '' Then 1 When TravelAdvanceRequests.TravelAdvanceNo = '" + RequestNo + "' Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When TravelAdvanceRequests.RequestDate = '" + RequestDate + "'  Then 1 END And TravelAdvanceRequests.AppUser_Id='" + GetCurrentUser().Id + "' ORDER BY TravelAdvanceRequests.Id Desc ";
 
             return _workspace.SqlQuery<TravelAdvanceRequest>(filterExpression).ToList();
         }
@@ -320,7 +320,7 @@ namespace Chai.WorkflowManagment.Modules.Request
         {
             string filterExpression = "";
 
-            filterExpression = "SELECT * FROM ExpenseLiquidationRequests INNER JOIN TravelAdvanceRequests ON TravelAdvanceRequests.Id = ExpenseLiquidationRequests.Id Where 1 = Case when '" + ExpenseType + "' = '' Then 1 When ExpenseLiquidationRequests.ExpenseType = '" + ExpenseType + "' Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When ExpenseLiquidationRequests.RequestDate = '" + RequestDate + "'  Then 1 END AND TravelAdvanceRequests.AppUser_Id='" + GetCurrentUser().Id + "' ORDER BY ExpenseLiquidationRequests.RequestDate Desc ";
+            filterExpression = "SELECT * FROM ExpenseLiquidationRequests INNER JOIN TravelAdvanceRequests ON TravelAdvanceRequests.Id = ExpenseLiquidationRequests.Id Where 1 = Case when '" + ExpenseType + "' = '' Then 1 When ExpenseLiquidationRequests.ExpenseType = '" + ExpenseType + "' Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When ExpenseLiquidationRequests.RequestDate = '" + RequestDate + "'  Then 1 END AND TravelAdvanceRequests.AppUser_Id='" + GetCurrentUser().Id + "' ORDER BY ExpenseLiquidationRequests.Id Desc ";
 
             return _workspace.SqlQuery<ExpenseLiquidationRequest>(filterExpression).ToList();
         }
@@ -352,7 +352,7 @@ namespace Chai.WorkflowManagment.Modules.Request
         {
             string filterExpression = "";
 
-            filterExpression = "SELECT  *  FROM LeaveRequests Where 1 = Case when '" + RequestNo + "' = '' Then 1 When LeaveRequests.RequestNo = '" + RequestNo + "'  Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When LeaveRequests.RequestedDate = '" + RequestDate + "'  Then 1 END And LeaveRequests.Requester='" + GetCurrentUser().Id + "'order by LeaveRequests.RequestedDate ";
+            filterExpression = "SELECT  *  FROM LeaveRequests Where 1 = Case when '" + RequestNo + "' = '' Then 1 When LeaveRequests.RequestNo = '" + RequestNo + "'  Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When LeaveRequests.RequestedDate = '" + RequestDate + "'  Then 1 END And LeaveRequests.Requester='" + GetCurrentUser().Id + "'order by LeaveRequests.Id DESC ";
 
             return _workspace.SqlQuery<LeaveRequest>(filterExpression).ToList();
 

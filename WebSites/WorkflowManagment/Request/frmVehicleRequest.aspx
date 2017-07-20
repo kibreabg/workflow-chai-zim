@@ -79,6 +79,20 @@
                                 </label>
                             </section>
                         </div>
+                          <div class="row">
+                        <section class="col col-6">
+                                <label class="label">Vehicle Registration Number</label>
+                                <label class="input">
+                                    <asp:TextBox ID="txtVRN" runat="server"></asp:TextBox>
+                                </label>
+                            </section>
+                         <section class="col col-6">
+                                <label class="label">Fuel Card Number</label>
+                                <label class="input">
+                                    <asp:TextBox ID="txtFuelCardNo" runat="server"></asp:TextBox>
+                                </label>
+                            </section>
+                        </div>
                         <div class="row">
                             <section class="col col-6">
                                 <label class="label">Purpose of Travel</label>

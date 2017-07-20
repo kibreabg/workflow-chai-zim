@@ -95,6 +95,15 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             get { return timepicker.Text; }
         }
+        public string GetVehicleRegistrationNumber
+        {
+            get { return txtVRN.Text; }
+        }
+
+        public string GetFuelCardNumber
+        {
+            get { return txtFuelCardNo.Text; }
+        }
         public string GetPurposeOfTravel
         {
             get { return txtPurposeOfTravel.Text; }
@@ -168,6 +177,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             txtDepartureDate.Text = String.Empty;
             txtReturningDate.Text = String.Empty;
             txtPurposeOfTravel.Text = String.Empty;
+            txtVRN.Text = String.Empty;
+            txtFuelCardNo.Text = String.Empty;
             txtNoOfPassangers.Text = String.Empty;
             txtDestination.Text = String.Empty;
             txtComment.Text = String.Empty;
@@ -186,6 +197,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 txtDepartureDate.Text = _presenter.CurrentVehicleRequest.DepartureDate.Value.ToShortDateString();
                 txtReturningDate.Text = _presenter.CurrentVehicleRequest.ReturningDate.Value.ToShortDateString();
                 timepicker.Text = _presenter.CurrentVehicleRequest.DepartureTime;
+                txtVRN.Text = _presenter.CurrentVehicleRequest.VehicleRegistrationNumber;
+                txtFuelCardNo.Text = _presenter.CurrentVehicleRequest.FuelCardNumber;
                 txtPurposeOfTravel.Text = _presenter.CurrentVehicleRequest.PurposeOfTravel.ToString();
                 txtDestination.Text = _presenter.CurrentVehicleRequest.Destination;
                 txtComment.Text = _presenter.CurrentVehicleRequest.Comment;
@@ -286,5 +299,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             PopGrants(Convert.ToInt32(ddlProject.SelectedValue));
         }
+
+
+      
     }
 }
