@@ -679,16 +679,14 @@
     </DataSet>
   </DataSets>
   <ReportParameters>
-    <ReportParameter Name="DateFrom">
-      <DataType>String</DataType>
+    <ReportParameter Name="EmployeeName">
+      <DataType>Integer</DataType>
       <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
       <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
-    <ReportParameter Name="DateTo">
-      <DataType>String</DataType>
+    <ReportParameter Name="LeaveType">
+      <DataType>Integer</DataType>
       <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
       <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
   </ReportParameters>

@@ -2,6 +2,7 @@
 using Microsoft.Practices.ObjectBuilder;
 using Microsoft.Reporting.WebForms;
 using System.Collections.Generic;
+using System.Web.UI.WebControls;
 
 namespace Chai.WorkflowManagment.Modules.Report.Views
 {
@@ -14,6 +15,8 @@ namespace Chai.WorkflowManagment.Modules.Report.Views
 			if (!this.IsPostBack)
 			{
 				this._presenter.OnViewInitialized();
+                PopUsers();
+                PopLeaveType();
 			}
 			this._presenter.OnViewLoaded();
 		}
@@ -41,20 +44,31 @@ namespace Chai.WorkflowManagment.Modules.Report.Views
                 return "{8FD3CC34-9213-497B-A316-F59D40EADB44}";
             }
         }
+        private void PopUsers()
+        {
+            ddlEmployeeName.DataSource = _presenter.GetAllUsers();
+            ddlEmployeeName.DataBind();
+        }
+        private void PopLeaveType()
+        {
+            ddlLeaveType.DataSource = _presenter.GetLeaveTypes();
+            ddlLeaveType.DataBind();
+
+        }
         private void ViewLeaveReport()
         {
 
             var path = Server.MapPath("LeaveReport.rdlc");
-            var datasource = _presenter.GetLeaveReport(txtDateFrom.Text, txtDateTo.Text);
+            var datasource = _presenter.GetLeaveReport(Convert.ToInt32(ddlEmployeeName.SelectedValue), Convert.ToInt32(ddlLeaveType.SelectedValue));
             ReportDataSource s = new ReportDataSource("DataSet1", datasource.Tables[0]);
             ReportViewer1.ProcessingMode = Microsoft.Reporting.WebForms.ProcessingMode.Local;
             ReportViewer1.LocalReport.DataSources.Clear();
             ReportViewer1.LocalReport.DataSources.Add(s);
             ReportViewer1.LocalReport.ReportPath = path;
-            var DateFrom = txtDateFrom.Text != "" ? txtDateFrom.Text : " ";
-            var DateTo = txtDateTo.Text != "" ? txtDateTo.Text : " ";
-            var param4 = new ReportParameter("DateFrom", DateFrom);
-            var param5 = new ReportParameter("DateTo", DateTo);
+            var EmployeeName = ddlEmployeeName.SelectedValue != "" ? ddlEmployeeName.SelectedValue : " ";
+            var LeaveType = ddlLeaveType.SelectedValue != "" ? ddlLeaveType.SelectedValue : " ";
+            var param4 = new ReportParameter("EmployeeName", EmployeeName);
+            var param5 = new ReportParameter("LeaveType", LeaveType);
             var parameters = new List<ReportParameter>();
             
             parameters.Add(param4);
