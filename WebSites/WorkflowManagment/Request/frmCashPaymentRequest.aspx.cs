@@ -30,11 +30,11 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 BindCashPaymentRequests();
                 BindCashPaymentDetails();
                 PopPayee();
-               
+
             }
             txtRequestDate.Text = DateTime.Today.Date.ToShortDateString();
             this._presenter.OnViewLoaded();
-            
+
         }
 
         [CreateNew]
@@ -110,7 +110,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         private void ClearFormFields()
         {
             // txtVoucherNo.Text = String.Empty;
-           // txtVoucherNo.Text = String.Empty;
+            // txtVoucherNo.Text = String.Empty;
             ddlAmountType.SelectedValue = "";
         }
         private void BindCashPaymentDetails()
@@ -355,10 +355,10 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             }
         }
         protected void grvCashPaymentRequestList_PageIndexChanging(object sender, GridViewPageEventArgs e)
-        { 
+        {
             btnFind_Click(sender, e);
             grvCashPaymentRequestList.PageIndex = e.NewPageIndex;
-           
+
         }
         protected void grvCashPaymentRequestList_RowDataBound(object sender, GridViewRowEventArgs e)
         {
@@ -374,7 +374,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         protected void btnSave_Click(object sender, EventArgs e)
         {
             try
-             and 
+            {
+                if (_presenter.CurrentCashPaymentRequest.CashPaymentRequestDetails.Count != 0)
                 {
                     if ((ddlAmountType.SelectedValue == "Estimated Amount" || ddlAmountType.SelectedValue == "Actual Amount") && _presenter.CurrentCashPaymentRequest.CPRAttachments.Count != 0)
                     {
@@ -423,7 +424,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             BindCashPaymentRequests();
             //pnlSearch_ModalPopupExtender.Show();
-            ScriptManager.RegisterStartupScript(this, GetType(), "showSearch", "showSearch();", true);   
+            ScriptManager.RegisterStartupScript(this, GetType(), "showSearch", "showSearch();", true);
         }
         protected void btnCancel_Click(object sender, EventArgs e)
         {
@@ -479,28 +480,28 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             grvAttachments.DataSource = _presenter.CurrentCashPaymentRequest.CPRAttachments;
             grvAttachments.DataBind();
             //Response.Redirect(Request.Url.AbsoluteUri);
-            
-           
+
+
         }
         private void UploadFile()
         {
             string fileName = Path.GetFileName(fuReciept.PostedFile.FileName);
-            
+
             if (fileName != String.Empty)
             {
 
-                
+
 
                 CPRAttachment attachment = new CPRAttachment();
                 attachment.FilePath = "~/CPUploads/" + fileName;
                 fuReciept.PostedFile.SaveAs(Server.MapPath("~/CPUploads/") + fileName);
                 //Response.Redirect(Request.Url.AbsoluteUri);
                 _presenter.CurrentCashPaymentRequest.CPRAttachments.Add(attachment);
-            
+
                 grvAttachments.DataSource = _presenter.CurrentCashPaymentRequest.CPRAttachments;
                 grvAttachments.DataBind();
-               
-               
+
+
             }
             else
             {
@@ -509,6 +510,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         #endregion
 
-        
+
     }
 }

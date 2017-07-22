@@ -52,11 +52,10 @@
                             <section class="col col-6">
                                 <label class="label">Payee</label>
                                 <label class="select">
-                                    <asp:DropDownList ID="ddlPayee" runat="server" DataValueField="Id" DataTextField="SupplierName" AppendDataBoundItems="True" >
-                                        <asp:ListItem Value="">--Select Payee--</asp:ListItem>
+                                    <asp:DropDownList ID="ddlPayee" runat="server" DataTextField="SupplierName" DataValueField="Id">
+                                        <asp:ListItem Value="0">Select Payee</asp:ListItem>
                                     </asp:DropDownList><i></i>
                                 </label>
-                                <asp:RequiredFieldValidator ID="rfvPayee" runat="server" ControlToValidate="ddlPayee" CssClass="validator" Display="Dynamic" ErrorMessage="Payee Required" SetFocusOnError="true" ValidationGroup="request"></asp:RequiredFieldValidator>
                             </section>
                             <section class="col col-6">
                                 <label class="label">Description</label>
