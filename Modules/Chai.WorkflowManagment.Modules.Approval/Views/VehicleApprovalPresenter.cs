@@ -68,6 +68,11 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             return _adminController.GetDrivers();
         }
+        public AppUser GetAssignDriver(int Id)
+        {
+            return _adminController.GetAssignDriver(Id);
+        }
+       
         public IList<CarRental> GetCarRentals()
         {
             return _settingController.GetCarRentals();

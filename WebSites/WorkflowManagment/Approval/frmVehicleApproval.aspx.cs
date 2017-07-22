@@ -190,22 +190,33 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         private void SendEmailRejected(VehicleRequestStatus VRS)
         {
-            EmailSender.Send(_presenter.GetUser(_presenter.CurrentVehicleRequest.AppUser.Id).Email, "Vehicle Request Rejection", "'" + "' Your Vehicle Request with RequestNo. '" + _presenter.CurrentVehicleRequest.RequestNo + "' made by " + _presenter.CurrentVehicleRequest.AppUser.FullName + " was Rejected for reason '" + VRS.RejectedReason + "'");
+            EmailSender.Send(_presenter.GetUser(_presenter.CurrentVehicleRequest.AppUser.Id).Email, "Vehicle Request Rejection", "'" + "' Your Vehicle Request with RequestNo. '" + (_presenter.CurrentVehicleRequest.RequestNo).ToUpper() + "' made by " + (_presenter.CurrentVehicleRequest.AppUser.FullName).ToUpper() + " was Rejected for reason '" + (VRS.RejectedReason).ToUpper() + "'");
             Log.Info(_presenter.GetUser(VRS.Approver).FullName + " has rejected a Vehicle Request made by " + _presenter.CurrentVehicleRequest.AppUser.FullName);
         }
         private void SendCompletedEmail(VehicleRequestStatus VRS)
         {
             foreach (VehicleRequestDetail assignedVehicle in _presenter.CurrentVehicleRequest.VehicleRequestDetails)
             {
+
+
+
+                EmailSender.Send(_presenter.GetUser(_presenter.CurrentVehicleRequest.AppUser.Id).Email, "Vehicle Request ", "Your Vehicle Request has been proccessed by " + (_presenter.GetUser(VRS.Approver).FullName).ToUpper() + " and Your assigned Driver is " + assignedVehicle.AppUser.FullName + ". The Car's Vehicle Registration Number is " + (_presenter.CurrentVehicleRequest.VehicleRegistrationNumber).ToUpper());
                
-              
-               
-                    EmailSender.Send(_presenter.GetUser(_presenter.CurrentVehicleRequest.CurrentApprover).Email, "Vehicle Request ", "'" + "' Your Vehicle Request has been proccessed by '" + _presenter.GetUser(VRS.Approver).FullName + " and your assigned Car Rental company is " + _presenter.GetCarRental(assignedVehicle.CarRental.Id).Name + "'");
-                    Log.Info(_presenter.GetUser(VRS.Approver).FullName + " has approved a Vehicle Request made by " + _presenter.CurrentVehicleRequest.AppUser.FullName + " and assigned a Car Rental company named " + _presenter.GetCarRental(assignedVehicle.CarRental.Id).Name);
+                    Log.Info(_presenter.GetUser(VRS.Approver).FullName + " has approved a Vehicle Request made by " +( _presenter.CurrentVehicleRequest.AppUser.FullName).ToUpper() + " and assigned a Car Rental company named " + (_presenter.GetCarRental(assignedVehicle.CarRental.Id).Name).ToUpper());
                
             }
         }
 
+
+        private void SendEmailDriver(VehicleRequestStatus VRS)
+        {
+            foreach (VehicleRequestDetail assignedVehicle in _presenter.CurrentVehicleRequest.VehicleRequestDetails)
+            {
+                EmailSender.Send(_presenter.GetUser(assignedVehicle.AppUser.Id).Email, "Vehicle Request ", "You are assigned to give a drive to " + (_presenter.CurrentVehicleRequest.AppUser.FullName).ToUpper() + " and your assigned Car Vehicle Registration Number is " + (_presenter.CurrentVehicleRequest.VehicleRegistrationNumber).ToUpper() + " and your Fuel Card Number  is " + (_presenter.CurrentVehicleRequest.FuelCardNumber).ToUpper());
+                Log.Info(_presenter.GetUser(VRS.Approver).FullName + " has approved a Vehicle Request made by " + _presenter.CurrentVehicleRequest.AppUser.FullName);
+
+            }
+        }
     
         private void GetNextApprover()
         {
@@ -252,7 +263,9 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                                 _presenter.CurrentVehicleRequest.ProgressStatus = ProgressStatus.Completed.ToString();
                                 _presenter.CurrentVehicleRequest.CurrentStatus = VRS.ApprovalStatus;
                                 VRS.Approver = _presenter.CurrentUser().Id;
+                                SendEmailDriver(VRS);
                                 SendCompletedEmail(VRS);
+                                
                                 break;
                             }
                         }
