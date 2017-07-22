@@ -129,6 +129,10 @@
       <Project>{1b1467b4-2bf5-4824-9fac-39c36d4c6c89}</Project>
       <Name>Chai.WorkflowManagment.Modules.Admin</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Chai.WorkflowManagment.Modules.Setting\Chai.WorkflowManagment.Modules.Setting.csproj">
+      <Project>{6e8e1e43-0c9b-4b03-bb95-be86d1853cea}</Project>
+      <Name>Chai.WorkflowManagment.Modules.Setting</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Chai.WorkflowManagment.Modules.Shell\Chai.WorkflowManagment.Modules.Shell.csproj">
       <Project>{b6477755-f019-42bd-b33a-592b65bc6bf9}</Project>
       <Name>Chai.WorkflowManagment.Modules.Shell</Name>

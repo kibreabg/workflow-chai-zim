@@ -15,16 +15,20 @@
                     <fieldset>
                         <div class="row">
                             <section class="col col-6">
-                                <label class="label">Date From</label>
-                                <label class="input">
-                                    <i class="icon-append fa fa-calendar"></i>
-                                    <asp:TextBox ID="txtDateFrom" runat="server" CssClass="form-control datepicker" data-dateformat="mm/dd/yy"></asp:TextBox></label>
+                                <label class="label">Employee Name</label>
+                                <label class="select">
+                                    <asp:DropDownList ID="ddlEmployeeName" runat="server" AppendDataBoundItems="True" DataTextField="FullName" DataValueField="Id">
+                                        <asp:ListItem Value="0">Select Employee</asp:ListItem>
+                                    </asp:DropDownList><i></i>
+                                </label>
                             </section>
                             <section class="col col-6">
-                                <label class="label">Date To</label>
-                                <label class="input">
-                                    <i class="icon-append fa fa-calendar"></i>
-                                    <asp:TextBox ID="txtDateTo" runat="server" CssClass="form-control datepicker" data-dateformat="mm/dd/yy"></asp:TextBox></label>
+                                <label class="label">Leave Type</label>
+                                <label class="select">
+                                    <asp:DropDownList ID="ddlLeaveType" runat="server" AppendDataBoundItems="True" DataTextField="LeaveTypeName" DataValueField="Id">
+                                        <asp:ListItem Value="0">Select Leave Type</asp:ListItem>
+                                    </asp:DropDownList><i></i>                                    
+                                </label>
                             </section>
                         </div>
                     </fieldset>

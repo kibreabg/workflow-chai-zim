@@ -151,7 +151,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             CashPaymentRequest.AmountType = View.GetAmountType;
             CashPaymentRequest.ProgressStatus = ProgressStatus.InProgress.ToString();
             CashPaymentRequest.AppUser = _adminController.GetUser(CurrentUser().Id);
-            CashPaymentRequest.Beneficiary = _settingController.GetBeneficiary(View.GetPayee);
+            CashPaymentRequest.Supplier = _settingController.GetSupplier(View.GetPayee);
             if (View.GetAmountType != "Actual Amount")
             {
                 CashPaymentRequest.PaymentReimbursementStatus = "Not Retired";
