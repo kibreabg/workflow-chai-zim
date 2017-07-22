@@ -186,6 +186,12 @@ namespace Chai.WorkflowManagment.Modules.Admin
         {
             return WorkspaceFactory.CreateReadOnly().Query<AppUser>(x => x.EmployeePosition.PositionName == "Driver" || x.EmployeePosition.PositionName == "Admin/HR Assisitance (Driver)").ToList();
         }
+
+        public AppUser GetAssignDriver(int Id)
+        {
+            return _workspace.Single<AppUser>(x => x.Id == Id);
+        }
+       
         #endregion
 
         #region Entity Manipulation
