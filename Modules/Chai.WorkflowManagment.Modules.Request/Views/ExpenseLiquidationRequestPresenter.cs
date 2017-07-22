@@ -232,11 +232,11 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             if (GetSuperviser(ELRS.Approver).IsAssignedJob != true)
             {
-                EmailSender.Send(GetSuperviser(ELRS.Approver).Email, "Expense Liquidation Request", CurrentTravelAdvanceRequest.AppUser.FullName + "' Request for Expense Liquidation for Travel Advance No. '" + CurrentTravelAdvanceRequest.TravelAdvanceNo+ "'");
+                EmailSender.Send(GetSuperviser(ELRS.Approver).Email, "Expense Liquidation Request", (CurrentTravelAdvanceRequest.AppUser.FullName).ToUpper() + "' Request for Expense Liquidation for Travel Advance No. '" + (CurrentTravelAdvanceRequest.TravelAdvanceNo).ToUpper()+ "'");
             }
             else
             {
-                EmailSender.Send(GetSuperviser(_controller.GetAssignedJobbycurrentuser(ELRS.Approver).AssignedTo).Email, "Expense Liquidation Request", CurrentTravelAdvanceRequest.AppUser.FullName + "' Request for Expense Liquidation  for Travel Advance No. '" + CurrentTravelAdvanceRequest.TravelAdvanceNo + "'");
+                EmailSender.Send(GetSuperviser(_controller.GetAssignedJobbycurrentuser(ELRS.Approver).AssignedTo).Email, "Expense Liquidation Request", (CurrentTravelAdvanceRequest.AppUser.FullName).ToUpper() + "' Request for Expense Liquidation  for Travel Advance No. '" + (CurrentTravelAdvanceRequest.TravelAdvanceNo).ToUpper() + "'");
             }
         }
         public void Commit()

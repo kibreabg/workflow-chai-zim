@@ -325,6 +325,24 @@
                 </td>
                 <td>&nbsp;</td>
             </tr>
+             <tr>
+                <td style="width: 576px; height: 18px;padding-left: 20%; ">
+                    <strong>
+                        <asp:Label ID="lblProjectId" runat="server" Text="ProjectID:"></asp:Label>
+                    </strong></td>
+                <td style="width: 490px" padding-left: 20%;>
+                    <asp:Label ID="lblProjectIdResult" runat="server"></asp:Label>
+                </td>
+                <td style="width: 280px" class="modal-sm">
+                    <strong>
+                        <asp:Label ID="lblDepartureTime" runat="server" Text="Departure Time:"></asp:Label>
+                    </strong>
+                </td>
+                <td style="width: 389px">
+                    <asp:Label ID="lblDepartureTimeResult" runat="server"></asp:Label>
+                </td>
+                <td>&nbsp;</td>
+            </tr>
             <tr>
                 <td style="width: 576px; height: 18px; padding-left: 20%;">
                     <strong>

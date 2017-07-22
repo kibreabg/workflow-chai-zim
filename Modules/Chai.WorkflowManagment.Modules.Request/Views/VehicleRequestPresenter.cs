@@ -219,11 +219,11 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             if (GetSuperviser(VRS.Approver).IsAssignedJob != true)
             {
-                EmailSender.Send(GetSuperviser(VRS.Approver).Email, "Vehicle Request", CurrentVehicleRequest.AppUser.FullName + "' Request for Vehicle No '" + CurrentVehicleRequest.RequestNo + "'");
+                EmailSender.Send(GetSuperviser(VRS.Approver).Email, "Vehicle Request", (CurrentVehicleRequest.AppUser.FullName).ToUpper() + "' Request for Vehicle No '" + (CurrentVehicleRequest.RequestNo).ToUpper() + "'");
             }
             else
             {
-                EmailSender.Send(GetSuperviser(_controller.GetAssignedJobbycurrentuser(VRS.Approver).AssignedTo).Email, "Vehicle Request", CurrentVehicleRequest.AppUser.FullName + "' Request for Vehicle");
+                EmailSender.Send(GetSuperviser(_controller.GetAssignedJobbycurrentuser(VRS.Approver).AssignedTo).Email, "Vehicle Request", (CurrentVehicleRequest.AppUser.FullName).ToUpper() + "' Request for Vehicle");
             }
         }
         public void Commit()

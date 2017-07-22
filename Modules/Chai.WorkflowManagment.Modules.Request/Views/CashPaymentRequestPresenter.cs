@@ -266,11 +266,11 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             if (GetSuperviser(CPRS.Approver).IsAssignedJob != true)
             {
-                EmailSender.Send(GetSuperviser(CPRS.Approver).Email, "Cash Payment Request", CurrentCashPaymentRequest.AppUser.FullName + "' Request for Cash Payment No '" + CurrentCashPaymentRequest.RequestNo + "'");
+                EmailSender.Send(GetSuperviser(CPRS.Approver).Email, "Cash Payment Request", (CurrentCashPaymentRequest.AppUser.FullName).ToUpper() + "' Request for Cash Payment No '" + (CurrentCashPaymentRequest.RequestNo).ToUpper() + "'");
             }
             else
             {
-                EmailSender.Send(GetSuperviser(_controller.GetAssignedJobbycurrentuser(CPRS.Approver).AssignedTo).Email, "Cash Payment Request", CurrentCashPaymentRequest.AppUser.FullName + "' Request for Cash Payment No '" + CurrentCashPaymentRequest.RequestNo + "'");
+                EmailSender.Send(GetSuperviser(_controller.GetAssignedJobbycurrentuser(CPRS.Approver).AssignedTo).Email, "Cash Payment Request", (CurrentCashPaymentRequest.AppUser.FullName).ToUpper() + "' Request for Cash Payment No '" + (CurrentCashPaymentRequest.RequestNo).ToUpper() + "'");
             }
         }
         public void Commit()

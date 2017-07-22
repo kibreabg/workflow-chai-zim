@@ -175,11 +175,11 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             if (GetSuperviser(ELRS.Approver).IsAssignedJob != true)
             {
-                EmailSender.Send(GetSuperviser(ELRS.Approver).Email, "Payment Reimbursement Request", CurrentCashPaymentRequest.AppUser.FullName + "' Request for Payment Reimbursement for Vocher No. + '" + CurrentCashPaymentRequest.VoucherNo + "'");
+                EmailSender.Send(GetSuperviser(ELRS.Approver).Email, "Payment Reimbursement Request", (CurrentCashPaymentRequest.AppUser.FullName).ToUpper() + "' Request for Payment Reimbursement for Vocher No. + '" + (CurrentCashPaymentRequest.VoucherNo).ToUpper() + "'");
             }
             else
             {
-                EmailSender.Send(GetSuperviser(_controller.GetAssignedJobbycurrentuser(ELRS.Approver).AssignedTo).Email, "Payment Reimbursement Request", CurrentCashPaymentRequest.AppUser.FullName + "' Request for Payment Reimbursement for Vocher No. + '" + CurrentCashPaymentRequest.VoucherNo + "' ");
+                EmailSender.Send(GetSuperviser(_controller.GetAssignedJobbycurrentuser(ELRS.Approver).AssignedTo).Email, "Payment Reimbursement Request", (CurrentCashPaymentRequest.AppUser.FullName).ToUpper() + "' Request for Payment Reimbursement for Vocher No. + '" + (CurrentCashPaymentRequest.VoucherNo).ToUpper() + "' ");
             }
         }
         public void Commit()

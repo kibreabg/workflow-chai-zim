@@ -191,23 +191,23 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             if (_presenter.GetUser(ELRS.Approver).IsAssignedJob != true)
             {
-                EmailSender.Send(_presenter.GetUser(ELRS.Approver).Email, "Expense Liquidation Request", _presenter.CurrentExpenseLiquidationRequest.TravelAdvanceRequest.AppUser.FullName + "' Request for Expense Liquidation  for Travel Advance No. '" + _presenter.CurrentExpenseLiquidationRequest.TravelAdvanceRequest.TravelAdvanceNo + "'");
+                EmailSender.Send(_presenter.GetUser(ELRS.Approver).Email, "Expense Liquidation Request", (_presenter.CurrentExpenseLiquidationRequest.TravelAdvanceRequest.AppUser.FullName).ToUpper() + "' Request for Expense Liquidation  for Travel Advance No. '" + (_presenter.CurrentExpenseLiquidationRequest.TravelAdvanceRequest.TravelAdvanceNo).ToUpper() + "'");
             }
             else
             {
-                EmailSender.Send(_presenter.GetUser(_presenter.GetAssignedJobbycurrentuser(ELRS.Approver).AssignedTo).Email, "Expense Liquidation Request", _presenter.CurrentExpenseLiquidationRequest.TravelAdvanceRequest.AppUser.FullName + "' Request for Expense Liquidation for Travel Advance No. '" + _presenter.CurrentExpenseLiquidationRequest.TravelAdvanceRequest.TravelAdvanceNo + "'");
+                EmailSender.Send(_presenter.GetUser(_presenter.GetAssignedJobbycurrentuser(ELRS.Approver).AssignedTo).Email, "Expense Liquidation Request", (_presenter.CurrentExpenseLiquidationRequest.TravelAdvanceRequest.AppUser.FullName).ToUpper() + "' Request for Expense Liquidation for Travel Advance No. '" + (_presenter.CurrentExpenseLiquidationRequest.TravelAdvanceRequest.TravelAdvanceNo).ToUpper() + "'");
             }
             EmailSender.Send(_presenter.GetUser(ELRS.Approver).Email, "Expense Liquidation Request", "Request for Expense Liquidation");
         }
         private void SendEmailRejected(ExpenseLiquidationRequestStatus ELRS)
         {
-            EmailSender.Send(_presenter.GetUser(_presenter.CurrentExpenseLiquidationRequest.TravelAdvanceRequest.AppUser.Id).Email, "Expense Liquidation Request Rejection", "'" + "' Your Liquidation Request for Travel Advance No. '" + _presenter.CurrentExpenseLiquidationRequest.TravelAdvanceRequest.TravelAdvanceNo + "' was Rejected for this reason '" + ELRS.RejectedReason + "'");
+            EmailSender.Send(_presenter.GetUser(_presenter.CurrentExpenseLiquidationRequest.TravelAdvanceRequest.AppUser.Id).Email, "Expense Liquidation Request Rejection", "'" + "' Your Liquidation Request for Travel Advance No. '" + (_presenter.CurrentExpenseLiquidationRequest.TravelAdvanceRequest.TravelAdvanceNo).ToUpper() + "' was Rejected for this reason '" + (ELRS.RejectedReason).ToUpper() + "'");
 
             if (ELRS.WorkflowLevel > 1)
             {
                 for (int i = 0; i + 1 < ELRS.WorkflowLevel; i++)
                 {
-                    EmailSender.Send(_presenter.GetUser(_presenter.CurrentExpenseLiquidationRequest.ExpenseLiquidationRequestStatuses[i].Approver).Email, "Expense Liquidation Request Rejection", "'" + "' Expense Liquidation Request made by " + _presenter.GetUser(_presenter.CurrentExpenseLiquidationRequest.TravelAdvanceRequest.AppUser.Id).FullName + " for Travel Advance No. '" + _presenter.CurrentExpenseLiquidationRequest.TravelAdvanceRequest.TravelAdvanceNo + "' was Rejected for this reason - '" + ELRS.RejectedReason + "'");
+                    EmailSender.Send(_presenter.GetUser(_presenter.CurrentExpenseLiquidationRequest.ExpenseLiquidationRequestStatuses[i].Approver).Email, "Expense Liquidation Request Rejection", "'" + "' Expense Liquidation Request made by " + (_presenter.GetUser(_presenter.CurrentExpenseLiquidationRequest.TravelAdvanceRequest.AppUser.Id).FullName).ToUpper() + " for Travel Advance No. '" + (_presenter.CurrentExpenseLiquidationRequest.TravelAdvanceRequest.TravelAdvanceNo).ToUpper() + "' was Rejected for this reason - '" + (ELRS.RejectedReason).ToUpper() + "'");
                 }
             }
         }
@@ -245,7 +245,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                         //Adjustments ended
 
                         SendEmailRejected(ELRS);
-                        Log.Info(_presenter.GetUser(ELRS.Approver).FullName + " has " + ELRS.ApprovalStatus + " Expense Liquidation Request made by " + _presenter.CurrentExpenseLiquidationRequest.TravelAdvanceRequest.AppUser.FullName);
+                        Log.Info(_presenter.GetUser(ELRS.Approver).FullName + " has " + (ELRS.ApprovalStatus).ToUpper() + " Expense Liquidation Request made by " + (_presenter.CurrentExpenseLiquidationRequest.TravelAdvanceRequest.AppUser.FullName).ToUpper());
                     }
                     break;
                 }

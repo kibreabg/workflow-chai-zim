@@ -210,22 +210,22 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             if (_presenter.GetUser(CPRS.Approver).IsAssignedJob != true)
             {
-                EmailSender.Send(_presenter.GetUser(CPRS.Approver).Email, "Cost Sharing Payment Approval", " '" + _presenter.CurrentCostSharingRequest.AppUser.FullName + "' Request for Cost Sharing Payment No '" + _presenter.CurrentCostSharingRequest.RequestNo + "'");
+                EmailSender.Send(_presenter.GetUser(CPRS.Approver).Email, "Cost Sharing Payment Approval", " '" + (_presenter.CurrentCostSharingRequest.AppUser.FullName).ToUpper() + "' Request for Cost Sharing Payment No '" + (_presenter.CurrentCostSharingRequest.RequestNo).ToUpper() + "'");
 
             }
             else
             {
-                EmailSender.Send(_presenter.GetUser(_presenter.GetAssignedJobbycurrentuser(CPRS.Approver).AssignedTo).Email, "Cost Sharing Payment Approval", "'" + _presenter.CurrentCostSharingRequest.AppUser.FullName + "' Request for Cost Sharing Payment No '" + _presenter.CurrentCostSharingRequest.RequestNo + "'");
+                EmailSender.Send(_presenter.GetUser(_presenter.GetAssignedJobbycurrentuser(CPRS.Approver).AssignedTo).Email, "Cost Sharing Payment Approval", "'" + (_presenter.CurrentCostSharingRequest.AppUser.FullName).ToUpper() + "' Request for Cost Sharing Payment No '" + (_presenter.CurrentCostSharingRequest.RequestNo).ToUpper() + "'");
             }
 
         }
         private void SendEmailRejected(CostSharingRequestStatus CPRS)
         {
-            EmailSender.Send(_presenter.GetUser(_presenter.CurrentCostSharingRequest.AppUser.Id).Email, "Cost Sharing Payment Request Rejection", " Your Cost Sharing Request with Voucher No." + _presenter.CurrentCostSharingRequest.VoucherNo + " was Rejected for this reason '" + CPRS.RejectedReason + "'");
+            EmailSender.Send(_presenter.GetUser(_presenter.CurrentCostSharingRequest.AppUser.Id).Email, "Cost Sharing Payment Request Rejection", " Your Cost Sharing Request with Voucher No." + (_presenter.CurrentCostSharingRequest.VoucherNo).ToUpper() + " was Rejected for this reason '" + (CPRS.RejectedReason).ToUpper() + "'");
         }
         private void SendEmailToRequester()
         {
-            EmailSender.Send(_presenter.GetUser(_presenter.CurrentCostSharingRequest.AppUser.Id).Email, "Collect your Payment ", "'" + "' Your Payment Request for '" + _presenter.CurrentCostSharingRequest.RequestNo + "' was Completed, Please collect your payment");
+            EmailSender.Send(_presenter.GetUser(_presenter.CurrentCostSharingRequest.AppUser.Id).Email, "Collect your Payment ", "'" + "' Your Payment Request for '" + (_presenter.CurrentCostSharingRequest.RequestNo).ToUpper() + "' was Completed, Please collect your payment");
         }
         private void GetNextApprover()
         {

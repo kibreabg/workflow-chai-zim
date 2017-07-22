@@ -287,11 +287,11 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             if (GetSuperviser(CPRS.Approver).IsAssignedJob != true)
             {
-                EmailSender.Send(GetSuperviser(CPRS.Approver).Email, "Cost Sharing Request", CurrentCostSharingRequest.AppUser.FullName + "' Request for Cost Sharing No '" + CurrentCostSharingRequest.RequestNo + "'");
+                EmailSender.Send(GetSuperviser(CPRS.Approver).Email, "Cost Sharing Request", (CurrentCostSharingRequest.AppUser.FullName).ToUpper() + "' Request for Cost Sharing No '" + (CurrentCostSharingRequest.RequestNo).ToUpper() + "'");
             }
             else
             {
-                EmailSender.Send(GetSuperviser(_controller.GetAssignedJobbycurrentuser(CPRS.Approver).AssignedTo).Email, "Cost Sharing Request", CurrentCostSharingRequest.AppUser.FullName + "' Request for Cost Sharing No '" + CurrentCostSharingRequest.RequestNo + "'");
+                EmailSender.Send(GetSuperviser(_controller.GetAssignedJobbycurrentuser(CPRS.Approver).AssignedTo).Email, "Cost Sharing Request", (CurrentCostSharingRequest.AppUser.FullName).ToUpper() + "' Request for Cost Sharing No '" + (CurrentCostSharingRequest.RequestNo).ToUpper() + "'");
             }
         }
         public void Commit()

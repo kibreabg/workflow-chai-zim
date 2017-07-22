@@ -128,6 +128,7 @@
                                                         <label class="label">Purpose of Advance </label>
                                                         <label class="input">
                                                             <asp:TextBox ID="txtComment" runat="server"></asp:TextBox>
+                                                             <asp:RequiredFieldValidator ID="rfvPurpose" runat="server" ErrorMessage="Purpose of Advance Required" ForeColor="Red" ControlToValidate ="txtComment" ValidationGroup="request"></asp:RequiredFieldValidator>
                                                         </label>
                                                     </section>
                                                 </div>

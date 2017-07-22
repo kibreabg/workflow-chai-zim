@@ -374,10 +374,9 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         protected void btnSave_Click(object sender, EventArgs e)
         {
             try
-            {
-                if (_presenter.CurrentCashPaymentRequest.CashPaymentRequestDetails.Count != 0)
+             and 
                 {
-                    if ((ddlAmountType.SelectedValue == "Estimated Amount") || (ddlAmountType.SelectedValue == "Actual Amount" && _presenter.CurrentCashPaymentRequest.CPRAttachments.Count != 0))
+                    if ((ddlAmountType.SelectedValue == "Estimated Amount" || ddlAmountType.SelectedValue == "Actual Amount") && _presenter.CurrentCashPaymentRequest.CPRAttachments.Count != 0)
                     {
                         _presenter.SaveOrUpdateCashPaymentRequest();
                         BindCashPaymentRequests();

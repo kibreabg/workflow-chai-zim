@@ -577,6 +577,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             lblRequestNoResult.Text = _presenter.CurrentVehicleRequest.RequestNo.ToString();
             lblRequestedDateResult.Text = _presenter.CurrentVehicleRequest.RequestDate.Value.ToShortDateString();
             lblRequesterResult.Text = _presenter.CurrentVehicleRequest.AppUser.FullName;
+            lblProjectIdResult.Text = _presenter.CurrentVehicleRequest.Project.ProjectCode;
+            lblDepartureTimeResult.Text = _presenter.CurrentVehicleRequest.DepartureTime.ToString();
             lblDepartureDateResult.Text = _presenter.CurrentVehicleRequest.DepartureDate.Value.ToShortDateString();
             lblReturningDateResult.Text = _presenter.CurrentVehicleRequest.ReturningDate.Value.ToShortDateString();
             lblPurposeOfTravelResult.Text = _presenter.CurrentVehicleRequest.PurposeOfTravel;
