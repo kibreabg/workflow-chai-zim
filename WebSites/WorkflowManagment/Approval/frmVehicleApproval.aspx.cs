@@ -181,11 +181,11 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             if (_presenter.GetUser(VRS.Approver).IsAssignedJob != true)
             {
-                EmailSender.Send(_presenter.GetUser(VRS.Approver).Email, "Vehicle Request", _presenter.CurrentVehicleRequest.AppUser.FullName + "' is requesting a Vehicle ");
+                EmailSender.Send(_presenter.GetUser(VRS.Approver).Email, "Vehicle Request", (_presenter.CurrentVehicleRequest.AppUser.FullName).ToUpper() +"' Requests for Vehicle for Request No. '" + (_presenter.CurrentVehicleRequest.RequestNo).ToUpper() + "'");
             }
             else
             {
-                EmailSender.Send(_presenter.GetUser(_presenter.GetAssignedJobbycurrentuser(VRS.Approver).AssignedTo).Email, "Vehicle Request", _presenter.CurrentVehicleRequest.AppUser.FullName + "' is requesting a Vehicle ");
+                EmailSender.Send(_presenter.GetUser(_presenter.GetAssignedJobbycurrentuser(VRS.Approver).AssignedTo).Email, "Vehicle Request", (_presenter.CurrentVehicleRequest.AppUser.FullName).ToUpper() + "' Requests for Vehicle for Request No. '" + (_presenter.CurrentVehicleRequest.RequestNo).ToUpper() + "'");
             }
         }
         private void SendEmailRejected(VehicleRequestStatus VRS)
@@ -200,7 +200,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
 
 
 
-                EmailSender.Send(_presenter.GetUser(_presenter.CurrentVehicleRequest.AppUser.Id).Email, "Vehicle Request ", "Your Vehicle Request has been proccessed by " + (_presenter.GetUser(VRS.Approver).FullName).ToUpper() + " and Your assigned Driver is " + assignedVehicle.AppUser.FullName + ". The Car's Vehicle Registration Number is " + (_presenter.CurrentVehicleRequest.VehicleRegistrationNumber).ToUpper());
+                EmailSender.Send(_presenter.GetUser(_presenter.CurrentVehicleRequest.AppUser.Id).Email, "Vehicle Request ", "Your Vehicle Request has been proccessed by " + (_presenter.GetUser(VRS.Approver).FullName).ToUpper() + " and Your assigned Driver is " + (assignedVehicle.AppUser.FullName).ToUpper() + ". The Car's Vehicle Registration Number is " + (_presenter.CurrentVehicleRequest.VehicleRegistrationNumber).ToUpper());
                
                     Log.Info(_presenter.GetUser(VRS.Approver).FullName + " has approved a Vehicle Request made by " +( _presenter.CurrentVehicleRequest.AppUser.FullName).ToUpper() + " and assigned a Car Rental company named " + (_presenter.GetCarRental(assignedVehicle.CarRental.Id).Name).ToUpper());
                
@@ -533,10 +533,12 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     Master.ShowMessage(new AppMessage("Vehicle Request Approval Processed ", Chai.WorkflowManagment.Enums.RMessageType.Info));
                     btnApprove.Enabled = false;
 
-                    pnlApproval_ModalPopupExtender.Show();
-                    PrintTransaction();
+                   
+                   
                     BindSearchVehicleRequestGrid();
+                    pnlApproval_ModalPopupExtender.Show();
                 }
+                PrintTransaction();
             }
             catch (Exception ex)
             {

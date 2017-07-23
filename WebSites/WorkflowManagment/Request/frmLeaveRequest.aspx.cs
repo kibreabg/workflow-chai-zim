@@ -211,11 +211,11 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             if (_presenter.GetSuperviser(LRS.Approver).IsAssignedJob != true)
             {
-                EmailSender.Send(_presenter.GetSuperviser(LRS.Approver).Email, "Leave Request", "'" + _presenter.GetUser(_presenter.CurrentLeaveRequest.Requester).FullName + "' Requests for Leave Approval No. '" + _presenter.CurrentLeaveRequest.RequestNo + "'");
+                EmailSender.Send(_presenter.GetSuperviser(LRS.Approver).Email, "Leave Request", "'" + (_presenter.GetUser(_presenter.CurrentLeaveRequest.Requester).FullName).ToUpper() + "' Requests for Leave Request No. '" + (_presenter.CurrentLeaveRequest.RequestNo).ToUpper() + "'");
             }
             else
             {
-                EmailSender.Send(_presenter.GetSuperviser(_presenter.GetAssignedJobbycurrentuser(LRS.Approver).AssignedTo).Email, "Leave Request", "'" + _presenter.GetUser(_presenter.CurrentLeaveRequest.Requester).FullName + "' Requests for Leave Approval No. '" + _presenter.CurrentLeaveRequest.RequestNo + "' ");
+                EmailSender.Send(_presenter.GetSuperviser(_presenter.GetAssignedJobbycurrentuser(LRS.Approver).AssignedTo).Email, "Leave Request", "'" + (_presenter.GetUser(_presenter.CurrentLeaveRequest.Requester).FullName).ToUpper() + "' Requests for Leave Request No. '" + (_presenter.CurrentLeaveRequest.RequestNo).ToUpper() + "' ");
             }
         }
         public CoreDomain.Request.LeaveRequest LeaveRequest

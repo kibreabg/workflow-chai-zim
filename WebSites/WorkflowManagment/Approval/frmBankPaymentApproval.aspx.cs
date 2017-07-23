@@ -164,7 +164,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             }
             else
             {
-                EmailSender.Send(_presenter.GetUser(_presenter.GetAssignedJobbycurrentuser(BPRS.Approver).AssignedTo).Email, "Bank Payment Approval", (_presenter.CurrentBankPaymentRequest.AppUser.FullName).ToUpper() + "' Requests for payment");
+                EmailSender.Send(_presenter.GetUser(_presenter.GetAssignedJobbycurrentuser(BPRS.Approver).AssignedTo).Email, "Bank Payment Approval", (_presenter.CurrentBankPaymentRequest.AppUser.FullName).ToUpper() + "' Requests for Payment Request No. '" + (_presenter.CurrentBankPaymentRequest.RequestNo).ToUpper() + "'");
             }
 
         }
@@ -176,7 +176,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             {
                 for (int i = 0; i + 1 < BPRS.WorkflowLevel; i++)
                 {
-                    EmailSender.Send(_presenter.GetUser(_presenter.CurrentBankPaymentRequest.BankPaymentRequestStatuses[i].Approver).Email, "Bank Payment Request Rejection", "'" + "' Bank Payment Request with request no. '" + (_presenter.CurrentBankPaymentRequest.RequestNo.ToString()).ToUpper() + "' made by " + (_presenter.GetUser(_presenter.CurrentBankPaymentRequest.AppUser.Id).FullName).ToUpper() + " was Rejected for this reason - '" + BPRS.RejectedReason + "'");
+                    EmailSender.Send(_presenter.GetUser(_presenter.CurrentBankPaymentRequest.BankPaymentRequestStatuses[i].Approver).Email, "Bank Payment Request Rejection", "'" + "' Bank Payment Request with request no. '" + (_presenter.CurrentBankPaymentRequest.RequestNo.ToString()).ToUpper() + "' made by " + (_presenter.GetUser(_presenter.CurrentBankPaymentRequest.AppUser.Id).FullName).ToUpper() + " was Rejected for this reason - '" + (BPRS.RejectedReason).ToUpper() + "'");
                 }
             }
         }

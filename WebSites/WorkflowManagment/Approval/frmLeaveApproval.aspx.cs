@@ -180,11 +180,11 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             if (_presenter.GetUser(LRS.Approver).IsAssignedJob != true)
             {
-                EmailSender.Send(_presenter.GetUser(LRS.Approver).Email, "Leave Request", "'" + (_presenter.GetUser(_presenter.CurrentLeaveRequest.Requester).FullName).ToUpper() + "' Requests for Leave ");
+                EmailSender.Send(_presenter.GetUser(LRS.Approver).Email, "Leave Request", "'" + (_presenter.GetUser(_presenter.CurrentLeaveRequest.Requester).FullName).ToUpper() + "' Request for Leave  Its Leave Request No. '" + (_presenter.CurrentLeaveRequest.RequestNo).ToUpper() + "'");
             }
             else
             {
-                EmailSender.Send(_presenter.GetUser(_presenter.GetAssignedJobbycurrentuser(LRS.Approver).AssignedTo).Email, "Leave Request", "'" + (_presenter.GetUser(_presenter.CurrentLeaveRequest.Requester).FullName).ToUpper() + "' Requests for Leave");
+                EmailSender.Send(_presenter.GetUser(_presenter.GetAssignedJobbycurrentuser(LRS.Approver).AssignedTo).Email, "Leave Request", "'" + (_presenter.GetUser(_presenter.CurrentLeaveRequest.Requester).FullName).ToUpper() + "' Request for Leave  Its Leave Request No. '" + (_presenter.CurrentLeaveRequest.RequestNo).ToUpper() + "'");
             }
 
 
