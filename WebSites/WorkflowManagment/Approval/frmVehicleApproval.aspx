@@ -291,7 +291,7 @@
                 <td>&nbsp;</td>
             </tr>
             <tr>
-                <td style="width: 576px; height: 18px; padding-left: 20%;">
+                <td style="width: 576px; height: 18px; padding-left: 15%;">
                     <strong>
                         <asp:Label ID="lblRequestNo" runat="server" Text="Request No:"></asp:Label>
                     </strong></td>
@@ -308,7 +308,7 @@
                 <td>&nbsp;</td>
             </tr>
             <tr>
-                <td style="width: 576px; height: 18px; padding-left: 20%;">
+                <td style="width: 576px; height: 18px; padding-left: 15%;">
                     <strong>
                         <asp:Label ID="lblRequestedDate" runat="server" Text="Requested Date:"></asp:Label>
                     </strong></td>
@@ -326,7 +326,7 @@
                 <td>&nbsp;</td>
             </tr>
              <tr>
-                <td style="width: 576px; height: 18px;padding-left: 20%; ">
+                <td style="width: 576px; height: 18px;padding-left: 15%; ">
                     <strong>
                         <asp:Label ID="lblProjectId" runat="server" Text="ProjectID:"></asp:Label>
                     </strong></td>
@@ -344,7 +344,7 @@
                 <td>&nbsp;</td>
             </tr>
             <tr>
-                <td style="width: 576px; height: 18px; padding-left: 20%;">
+                <td style="width: 576px; height: 18px; padding-left: 15%;">
                     <strong>
                         <asp:Label ID="lblRequester" runat="server" Text="Requester:"></asp:Label>
                     </strong></td>
@@ -356,7 +356,7 @@
                 <td>&nbsp;</td>
             </tr>
             <tr>
-                <td style="width: 576px; height: 18px; padding-left: 20%;">
+                <td style="width: 576px; height: 18px; padding-left: 15%;">
                     <strong>
                         <asp:Label ID="lblDepartureDate" runat="server" Text="Departure Date:"></asp:Label>
                     </strong>
@@ -373,7 +373,7 @@
                 <td style="height: 18px">&nbsp;</td>
             </tr>
              <tr>
-                <td style="width: 576px; height: 18px; padding-left: 20%;">
+                <td style="width: 576px; height: 18px; padding-left: 15%;">
                     <strong>
                         <asp:Label ID="lblDestination" runat="server" Text="Destination:"></asp:Label>
                     </strong></td>
@@ -391,7 +391,7 @@
                 <td>&nbsp;</td>
             </tr>
             <tr>
-                <td style="width: 576px; height: 18px; padding-left: 20%;">&nbsp;</td>
+                <td style="width: 576px; height: 18px; padding-left: 15%;">&nbsp;</td>
                 <td style="width: 490px; height: 18px;">
                     &nbsp;</td>
                 <td style="width: 280px; height: 18px;">
@@ -401,7 +401,7 @@
                 <td style="height: 18px"></td>
             </tr>
             <tr>
-                <td style="width: 576px; height: 18px; padding-left: 20%;">
+                <td style="width: 576px; height: 18px; padding-left: 15%;">
                     &nbsp;</td>
                 <td style="width: 490px; height: 18px;">
                     &nbsp;</td>
