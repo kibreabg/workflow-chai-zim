@@ -182,7 +182,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             if (_presenter.GetUser(VRS.Approver).IsAssignedJob != true)
             {
-                EmailSender.Send(_presenter.GetUser(VRS.Approver).Email, "Vehicle Request", (_presenter.CurrentVehicleRequest.AppUser.FullName).ToUpper() +" Requests for Vehicle for Request No. '" + (_presenter.CurrentVehicleRequest.RequestNo).ToUpper() + "'");
+                EmailSender.Send(_presenter.GetUser(VRS.Approver).Email, "Vehicle Request", (_presenter.CurrentVehicleRequest.AppUser.FullName).ToUpper() +" Requests for Vehicle for Request No. " + (_presenter.CurrentVehicleRequest.RequestNo).ToUpper() + "'");
             }
             else
             {
@@ -210,7 +210,10 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
 
         private void SendEmailToRequester()
         {
-            EmailSender.Send(_presenter.GetUser(_presenter.CurrentVehicleRequest.AppUser.Id).Email, "Vehicle Request Completion", " Your Vehicle Request for No.'" + (_presenter.CurrentVehicleRequest.RequestNo).ToUpper() + "'" +"was Completed");
+         foreach (VehicleRequestDetail assignedVehicle in _presenter.CurrentVehicleRequest.VehicleRequestDetails)
+         { 
+            EmailSender.Send(_presenter.GetUser(_presenter.CurrentVehicleRequest.AppUser.Id).Email, "Vehicle Request Completion", " Your Vehicle Request was Completed.  and Your assigned Driver is " + (assignedVehicle.AppUser.FullName).ToUpper() + ". The Car's Vehicle Registration Number is " + (_presenter.CurrentVehicleRequest.VehicleRegistrationNumber).ToUpper());
+          } 
         }
         private void SendEmailDriver(VehicleRequestStatus VRS)
         {
