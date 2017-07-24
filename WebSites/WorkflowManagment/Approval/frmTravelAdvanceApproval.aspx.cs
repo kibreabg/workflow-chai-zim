@@ -179,29 +179,29 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             if (_presenter.GetUser(TARS.Approver).IsAssignedJob != true)
             {
-                EmailSender.Send(_presenter.GetSuperviser(TARS.Approver).Email, "Travel Advance Approval",  (_presenter.CurrentTravelAdvanceRequest.AppUser.FullName).ToUpper()+ " Request for Travel Advance No. " + (_presenter.CurrentTravelAdvanceRequest.TravelAdvanceNo).ToUpper() );
+                EmailSender.Send(_presenter.GetSuperviser(TARS.Approver).Email, "Travel Advance Approval",  (_presenter.CurrentTravelAdvanceRequest.AppUser.FullName).ToUpper()+ " Requests for Travel Advance with Travel Advance No. - " + (_presenter.CurrentTravelAdvanceRequest.TravelAdvanceNo).ToUpper() );
             }
             else
             {
-                EmailSender.Send(_presenter.GetSuperviser(_presenter.GetAssignedJobbycurrentuser(TARS.Approver).AssignedTo).Email, "Travel Advance Approval", (_presenter.CurrentTravelAdvanceRequest.AppUser.FullName).ToUpper() + "Request for Travel Advance No." + (_presenter.CurrentTravelAdvanceRequest.TravelAdvanceNo).ToUpper() );
+                EmailSender.Send(_presenter.GetSuperviser(_presenter.GetAssignedJobbycurrentuser(TARS.Approver).AssignedTo).Email, "Travel Advance Approval", (_presenter.CurrentTravelAdvanceRequest.AppUser.FullName).ToUpper() + "Requests for Travel Advance with Travel Advance No. - " + (_presenter.CurrentTravelAdvanceRequest.TravelAdvanceNo).ToUpper());
             }
 
         }
         private void SendEmailRejected(TravelAdvanceRequestStatus TARS)
         {
-            EmailSender.Send(_presenter.GetUser(_presenter.CurrentTravelAdvanceRequest.AppUser.Id).Email, "Travel Advance Request Rejection", "'" + "' Your Travel Advance Request with Travel Advance No. '" + (_presenter.CurrentTravelAdvanceRequest.TravelAdvanceNo).ToUpper() + "' made by " +( _presenter.GetUser(_presenter.CurrentTravelAdvanceRequest.AppUser.Id).FullName).ToUpper() + " was Rejected for this reason - '" + (TARS.RejectedReason).ToUpper() + "'");
+            EmailSender.Send(_presenter.GetUser(_presenter.CurrentTravelAdvanceRequest.AppUser.Id).Email, "Travel Advance Request Rejection", "Your Travel Advance Request with Travel Advance No. - '" + (_presenter.CurrentTravelAdvanceRequest.TravelAdvanceNo).ToUpper() + "' made by " +( _presenter.GetUser(_presenter.CurrentTravelAdvanceRequest.AppUser.Id).FullName).ToUpper() + " was Rejected for this reason - '" + (TARS.RejectedReason).ToUpper() + "'");
 
             if (TARS.WorkflowLevel > 1)
             {
                 for (int i = 0; i + 1 < TARS.WorkflowLevel; i++)
                 {
-                    EmailSender.Send(_presenter.GetUser(_presenter.CurrentTravelAdvanceRequest.TravelAdvanceRequestStatuses[i].Approver).Email, "Travel Advance Request Rejection", "'" + "' Travel Advance Request with Travel Advance No. '" + (_presenter.CurrentTravelAdvanceRequest.TravelAdvanceNo).ToUpper() + "' made by " + (_presenter.GetUser(_presenter.CurrentTravelAdvanceRequest.AppUser.Id).FullName).ToUpper() + " was Rejected for this reason - '" + (TARS.RejectedReason).ToUpper() + "'");
+                    EmailSender.Send(_presenter.GetUser(_presenter.CurrentTravelAdvanceRequest.TravelAdvanceRequestStatuses[i].Approver).Email, "Travel Advance Request Rejection", "Travel Advance Request with Travel Advance No. - '" + (_presenter.CurrentTravelAdvanceRequest.TravelAdvanceNo).ToUpper() + "' made by " + (_presenter.GetUser(_presenter.CurrentTravelAdvanceRequest.AppUser.Id).FullName).ToUpper() + " was Rejected for this reason - '" + (TARS.RejectedReason).ToUpper() + "'");
                 }
             }
         }
         private void SendEmailToRequester()
         {
-            EmailSender.Send(_presenter.GetUser(_presenter.CurrentTravelAdvanceRequest.AppUser.Id).Email, "Tavel Adavnce Completion", "'" + "' Your Travel Advance Request for No.'" + (_presenter.CurrentTravelAdvanceRequest.TravelAdvanceNo).ToUpper() + "' was Completed, Please collect your payment");
+            EmailSender.Send(_presenter.GetUser(_presenter.CurrentTravelAdvanceRequest.AppUser.Id).Email, "Tavel Adavnce Completion", "Your Travel Advance Request with Travel Advance No. - '" + (_presenter.CurrentTravelAdvanceRequest.TravelAdvanceNo).ToUpper() + "' was Completed, Please collect your payment");
         }
         private void GetNextApprover()
         {

@@ -236,11 +236,11 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             {
                 if (_presenter.GetUser(CPRS.Approver).IsAssignedJob != true)
                 {
-                    EmailSender.Send(_presenter.GetUser(CPRS.Approver).Email, "Payment Approval", (_presenter.CurrentCashPaymentRequest.AppUser.FullName).ToUpper() + "Request for Payment No " + (_presenter.CurrentCashPaymentRequest.RequestNo).ToUpper());
+                    EmailSender.Send(_presenter.GetUser(CPRS.Approver).Email, "Payment Approval", (_presenter.CurrentCashPaymentRequest.AppUser.FullName).ToUpper() + " Requests for Payment with Request No. " + (_presenter.CurrentCashPaymentRequest.RequestNo).ToUpper());
                 }
                 else
                 {
-                    EmailSender.Send(_presenter.GetUser(_presenter.GetAssignedJobbycurrentuser(CPRS.Approver).AssignedTo).Email, "Payment Approval",(_presenter.CurrentCashPaymentRequest.AppUser.FullName).ToUpper() + " Request for Payment No " + (_presenter.CurrentCashPaymentRequest.RequestNo).ToUpper());
+                    EmailSender.Send(_presenter.GetUser(_presenter.GetAssignedJobbycurrentuser(CPRS.Approver).AssignedTo).Email, "Payment Approval", (_presenter.CurrentCashPaymentRequest.AppUser.FullName).ToUpper() + " Requests for Payment with Request No. " + (_presenter.CurrentCashPaymentRequest.RequestNo).ToUpper());
                 }
             }
             else
@@ -249,11 +249,11 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 {
                     if(Payer.IsAssignedJob != true)
                     {
-                        EmailSender.Send(Payer.Email, "Payment Approval", " '" + (_presenter.CurrentCashPaymentRequest.AppUser.FullName).ToUpper() + "' Request for Payment No '" + (_presenter.CurrentCashPaymentRequest.RequestNo).ToUpper() + "'");
+                        EmailSender.Send(Payer.Email, "Payment Approval", (_presenter.CurrentCashPaymentRequest.AppUser.FullName).ToUpper() + " Requests for Payment with Request No. " + (_presenter.CurrentCashPaymentRequest.RequestNo).ToUpper());
                     }
                     else
                     {
-                        EmailSender.Send(_presenter.GetUser(_presenter.GetAssignedJobbycurrentuser(Payer.Id).AssignedTo).Email, "Payment Approval", "'" + (_presenter.CurrentCashPaymentRequest.AppUser.FullName).ToUpper() + "' Request for Payment No '" + (_presenter.CurrentCashPaymentRequest.RequestNo).ToUpper() + "'");
+                        EmailSender.Send(_presenter.GetUser(_presenter.GetAssignedJobbycurrentuser(Payer.Id).AssignedTo).Email, "Payment Approval", (_presenter.CurrentCashPaymentRequest.AppUser.FullName).ToUpper() + " Requests for Payment with Request No. '" + (_presenter.CurrentCashPaymentRequest.RequestNo).ToUpper());
                     }
                 }
             }
@@ -261,7 +261,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         private void SendEmailRejected(CashPaymentRequestStatus CPRS)
         {
-            EmailSender.Send(_presenter.GetUser(_presenter.CurrentCashPaymentRequest.AppUser.Id).Email, "Payment Request Rejection", "'" + "' Your Payment Request with Voucher No. " + (_presenter.CurrentCashPaymentRequest.VoucherNo).ToUpper() + " made by " + (_presenter.GetUser(_presenter.CurrentCashPaymentRequest.AppUser.Id).FullName).ToUpper() + " was Rejected for this reason - '" + (CPRS.RejectedReason).ToUpper() + "'");
+            EmailSender.Send(_presenter.GetUser(_presenter.CurrentCashPaymentRequest.AppUser.Id).Email, "Payment Request Rejection", "Your Payment Request with Voucher No. " + (_presenter.CurrentCashPaymentRequest.VoucherNo).ToUpper() + " made by " + (_presenter.GetUser(_presenter.CurrentCashPaymentRequest.AppUser.Id).FullName).ToUpper() + " was Rejected for this reason - '" + (CPRS.RejectedReason).ToUpper() + "'");
 
             if (CPRS.WorkflowLevel > 1)
             {
@@ -274,7 +274,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         private void SendEmailToRequester()
         {
             if (_presenter.CurrentCashPaymentRequest.PaymentReimbursementStatus != "Bank Payment")
-                EmailSender.Send(_presenter.GetUser(_presenter.CurrentCashPaymentRequest.AppUser.Id).Email, "Collect your Payment ", "'" + "' Your Payment Request for '" + (_presenter.CurrentCashPaymentRequest.RequestNo).ToUpper() + "' was Completed, Please collect your payment");
+                EmailSender.Send(_presenter.GetUser(_presenter.CurrentCashPaymentRequest.AppUser.Id).Email, "Collect your Payment ", "Your Payment Request for Payment - '" + (_presenter.CurrentCashPaymentRequest.RequestNo).ToUpper() + "' was Completed, Please collect your payment");
         }
         private void GetNextApprover()
         {

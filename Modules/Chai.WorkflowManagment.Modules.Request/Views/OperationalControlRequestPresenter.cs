@@ -259,11 +259,11 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             if (GetSuperviser(CPRS.Approver).IsAssignedJob != true)
             {
-                EmailSender.Send(GetSuperviser(CPRS.Approver).Email, "Bank Payment Request", (CurrentOperationalControlRequest.AppUser.FullName).ToUpper() + "' Requests for payment");
+                EmailSender.Send(GetSuperviser(CPRS.Approver).Email, "Bank Payment Request", (CurrentOperationalControlRequest.AppUser.FullName).ToUpper() + " Requests for Bank Payment");
             }
             else
             {
-                EmailSender.Send(GetSuperviser(_controller.GetAssignedJobbycurrentuser(CPRS.Approver).AssignedTo).Email, "Bank Payment Request", (CurrentOperationalControlRequest.AppUser.FullName).ToUpper() + "' Requests for payment");
+                EmailSender.Send(GetSuperviser(_controller.GetAssignedJobbycurrentuser(CPRS.Approver).AssignedTo).Email, "Bank Payment Request", (CurrentOperationalControlRequest.AppUser.FullName).ToUpper() + " Requests for Bank Payment");
             }
         }
         public CashPaymentRequest GetCashPaymentRequest(int paymentRequest)

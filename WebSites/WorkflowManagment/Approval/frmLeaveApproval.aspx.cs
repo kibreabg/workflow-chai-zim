@@ -180,11 +180,11 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             if (_presenter.GetUser(LRS.Approver).IsAssignedJob != true)
             {
-                EmailSender.Send(_presenter.GetUser(LRS.Approver).Email, "Leave Request", "'" + (_presenter.GetUser(_presenter.CurrentLeaveRequest.Requester).FullName).ToUpper() + "' Request for Leave  Its Leave Request No. '" + (_presenter.CurrentLeaveRequest.RequestNo).ToUpper() + "'");
+                EmailSender.Send(_presenter.GetUser(LRS.Approver).Email, "Leave Request", (_presenter.GetUser(_presenter.CurrentLeaveRequest.Requester).FullName).ToUpper() + " Requests for Leave with Leave Request No. - '" + (_presenter.CurrentLeaveRequest.RequestNo).ToUpper() + "'");
             }
             else
             {
-                EmailSender.Send(_presenter.GetUser(_presenter.GetAssignedJobbycurrentuser(LRS.Approver).AssignedTo).Email, "Leave Request", "'" + (_presenter.GetUser(_presenter.CurrentLeaveRequest.Requester).FullName).ToUpper() + "' Request for Leave  Its Leave Request No. '" + (_presenter.CurrentLeaveRequest.RequestNo).ToUpper() + "'");
+                EmailSender.Send(_presenter.GetUser(_presenter.GetAssignedJobbycurrentuser(LRS.Approver).AssignedTo).Email, "Leave Request", (_presenter.GetUser(_presenter.CurrentLeaveRequest.Requester).FullName).ToUpper() + " Requests for Leave with Leave Request No. - '" + (_presenter.CurrentLeaveRequest.RequestNo).ToUpper() + "'");
             }
 
 
@@ -193,19 +193,19 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         private void SendEmailRejected(LeaveRequestStatus LRS)
         {
-            EmailSender.Send(_presenter.GetUser(_presenter.CurrentLeaveRequest.Requester).Email, "Leave Request Rejection", "'" + "' Your Leave Request with Request No. " + (_presenter.CurrentLeaveRequest.RequestNo).ToUpper() + " made by " + (_presenter.GetUser(_presenter.CurrentLeaveRequest.Requester).FullName).ToUpper() + " was Rejected for this reason - '" + (LRS.RejectedReason).ToUpper() + "'");
+            EmailSender.Send(_presenter.GetUser(_presenter.CurrentLeaveRequest.Requester).Email, "Leave Request Rejection", "Your Leave Request with Leave Request No. " + (_presenter.CurrentLeaveRequest.RequestNo).ToUpper() + " was Rejected for this reason - '" + (LRS.RejectedReason).ToUpper() + "'");
 
             if (LRS.WorkflowLevel > 1)
             {
                 for (int i = 0; i + 1 < LRS.WorkflowLevel; i++)
                 {
-                    EmailSender.Send(_presenter.GetUser(_presenter.CurrentLeaveRequest.LeaveRequestStatuses[i].Approver).Email, "Leave Request Rejection", "'" + "' Leave Request with Request No. " + (_presenter.CurrentLeaveRequest.RequestNo).ToUpper() + " made by " + (_presenter.GetUser(_presenter.CurrentLeaveRequest.Requester).FullName).ToUpper() + " was Rejected for this reason - '" + (LRS.RejectedReason).ToUpper() + "'");
+                    EmailSender.Send(_presenter.GetUser(_presenter.CurrentLeaveRequest.LeaveRequestStatuses[i].Approver).Email, "Leave Request Rejection", "Leave Request with Leave Request No. - " + (_presenter.CurrentLeaveRequest.RequestNo).ToUpper() + " made by " + (_presenter.GetUser(_presenter.CurrentLeaveRequest.Requester).FullName).ToUpper() + " was Rejected for this reason - '" + (LRS.RejectedReason).ToUpper() + "'");
                 }
             }
         }
         private void SendEmailToRequester()
         {
-            EmailSender.Send(_presenter.GetUser(_presenter.CurrentLeaveRequest.Requester).Email, "Leave Request ", "'" + "' Your Leave Request for '" + (_presenter.CurrentLeaveRequest.RequestNo).ToUpper() + "' was Completed.");
+            EmailSender.Send(_presenter.GetUser(_presenter.CurrentLeaveRequest.Requester).Email, "Leave Request ", "Your Leave Request with Leave Request No. - '" + (_presenter.CurrentLeaveRequest.RequestNo).ToUpper() + "' was Completed.");
         }
         private void GetNextApprover()
         {

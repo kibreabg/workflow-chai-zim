@@ -249,13 +249,13 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         private void SendEmailRejected(PurchaseRequestStatus PRS)
         {
-            EmailSender.Send(_presenter.GetUser(_presenter.CurrentPurchaseRequest.Requester).Email, "Purchase Request Rejection", "'" + "' Your Purchase Request with Request No. '" + _presenter.CurrentPurchaseRequest.RequestNo + "' made by " + _presenter.GetUser(_presenter.CurrentPurchaseRequest.Requester).FullName + " was Rejected for this reason - '" + PRS.RejectedReason + "'");
+            EmailSender.Send(_presenter.GetUser(_presenter.CurrentPurchaseRequest.Requester).Email, "Purchase Request Rejection", "Your Purchase Request with Request No. - '" + _presenter.CurrentPurchaseRequest.RequestNo + "' was Rejected for this reason - '" + PRS.RejectedReason + "'");
 
             if (PRS.WorkflowLevel > 1)
             {
                 for (int i = 0; i + 1 < PRS.WorkflowLevel; i++)
                 {
-                    EmailSender.Send(_presenter.GetUser(_presenter.CurrentPurchaseRequest.PurchaseRequestStatuses[i].Approver).Email, "Purchase Request Rejection", "'" + "' Purchase Request with Request No. '" + _presenter.CurrentPurchaseRequest.RequestNo + "' made by " + _presenter.GetUser(_presenter.CurrentPurchaseRequest.Requester).FullName + " was Rejected for this reason - '" + PRS.RejectedReason + "'");
+                    EmailSender.Send(_presenter.GetUser(_presenter.CurrentPurchaseRequest.PurchaseRequestStatuses[i].Approver).Email, "Purchase Request Rejection", "Purchase Request with Request No. - '" + _presenter.CurrentPurchaseRequest.RequestNo + "' made by " + _presenter.GetUser(_presenter.CurrentPurchaseRequest.Requester).FullName + " was Rejected for this reason - '" + PRS.RejectedReason + "'");
                 }
             }
         }
@@ -279,11 +279,11 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             if (_presenter.GetUser(PRS.Approver).IsAssignedJob != true)
             {
-                EmailSender.Send(_presenter.GetUser(PRS.Approver).Email, "Purchase Request", (_presenter.GetUser(_presenter.CurrentPurchaseRequest.Requester).FullName).ToUpper() + "' Request for Purchase No '" + (_presenter.CurrentPurchaseRequest.RequestNo).ToUpper() + "'");
+                EmailSender.Send(_presenter.GetUser(PRS.Approver).Email, "Purchase Request", (_presenter.GetUser(_presenter.CurrentPurchaseRequest.Requester).FullName).ToUpper() + " Requests for Purchase with Purchase No. - '" + (_presenter.CurrentPurchaseRequest.RequestNo).ToUpper() + "'");
             }
             else
             {
-                EmailSender.Send(_presenter.GetUser(_presenter.GetAssignedJobbycurrentuser(PRS.Approver).AssignedTo).Email, "Purchase Request", (_presenter.GetUser(_presenter.CurrentPurchaseRequest.Requester).FullName).ToUpper() + "' Request for Purchase No '" + (_presenter.CurrentPurchaseRequest.RequestNo).ToUpper() + "'");
+                EmailSender.Send(_presenter.GetUser(_presenter.GetAssignedJobbycurrentuser(PRS.Approver).AssignedTo).Email, "Purchase Request", (_presenter.GetUser(_presenter.CurrentPurchaseRequest.Requester).FullName).ToUpper() + " Requests for Purchase with Purchase No '" + (_presenter.CurrentPurchaseRequest.RequestNo).ToUpper() + "'");
             }
         }
         protected void btnApprove_Click(object sender, EventArgs e)

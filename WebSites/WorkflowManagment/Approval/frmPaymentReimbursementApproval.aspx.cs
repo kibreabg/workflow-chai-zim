@@ -148,11 +148,11 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             if (_presenter.GetUser(PRRS.Approver).IsAssignedJob != true)
             {
-                EmailSender.Send(_presenter.GetUser(PRRS.Approver).Email, "Payment Reimbursement Request", (_presenter.CurrentPaymentReimbursementRequest.CashPaymentRequest.AppUser.FullName).ToUpper() + "' Request for Payment Reimbursement");
+                EmailSender.Send(_presenter.GetUser(PRRS.Approver).Email, "Payment Reimbursement Request", (_presenter.CurrentPaymentReimbursementRequest.CashPaymentRequest.AppUser.FullName).ToUpper() + " Requests for Payment Reimbursement");
             }
             else
             {
-                EmailSender.Send(_presenter.GetUser(_presenter.GetAssignedJobbycurrentuser(PRRS.Approver).AssignedTo).Email, "Payment Reimbursement Request", (_presenter.CurrentPaymentReimbursementRequest.CashPaymentRequest.AppUser.FullName).ToUpper() + "' Request for Payment Reimbursement");
+                EmailSender.Send(_presenter.GetUser(_presenter.GetAssignedJobbycurrentuser(PRRS.Approver).AssignedTo).Email, "Payment Reimbursement Request", (_presenter.CurrentPaymentReimbursementRequest.CashPaymentRequest.AppUser.FullName).ToUpper() + " Requests for Payment Reimbursement");
             }
             EmailSender.Send(_presenter.GetUser(PRRS.Approver).Email, "Payment Reimbursement Request", "Request for Payment Reimbursement");
         }
