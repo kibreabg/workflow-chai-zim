@@ -397,7 +397,9 @@ namespace Chai.WorkflowManagment.Modules.Setting
         }
         public EmployeeLeave GetActiveEmployeeLeaveRequest(int UserId,bool Status)
         {
-            return WorkspaceFactory.CreateReadOnly().Query<EmployeeLeave>(x => x.AppUser.Id == UserId && x.Status == Status).SingleOrDefault();
+            //return WorkspaceFactory.CreateReadOnly().Query<EmployeeLeave>(x => x.AppUser.Id == UserId && x.Status == Status).SingleOrDefault();
+            return _workspace.Single<EmployeeLeave>(x => x.AppUser.Id == UserId && x.Status == Status);
+               // .SingleOrDefault();
         }
         public EmployeeLeave GetActiveEmployeeLeave(int UserId, bool Status)
         {
