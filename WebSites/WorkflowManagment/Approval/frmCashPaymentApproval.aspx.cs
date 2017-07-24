@@ -236,11 +236,11 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             {
                 if (_presenter.GetUser(CPRS.Approver).IsAssignedJob != true)
                 {
-                    EmailSender.Send(_presenter.GetUser(CPRS.Approver).Email, "Payment Approval", " '" + (_presenter.CurrentCashPaymentRequest.AppUser.FullName).ToUpper() + "' Request for Payment No '" + (_presenter.CurrentCashPaymentRequest.RequestNo).ToUpper() + "'");
+                    EmailSender.Send(_presenter.GetUser(CPRS.Approver).Email, "Payment Approval", (_presenter.CurrentCashPaymentRequest.AppUser.FullName).ToUpper() + "Request for Payment No " + (_presenter.CurrentCashPaymentRequest.RequestNo).ToUpper());
                 }
                 else
                 {
-                    EmailSender.Send(_presenter.GetUser(_presenter.GetAssignedJobbycurrentuser(CPRS.Approver).AssignedTo).Email, "Payment Approval", "'" + (_presenter.CurrentCashPaymentRequest.AppUser.FullName).ToUpper() + "' Request for Payment No '" + (_presenter.CurrentCashPaymentRequest.RequestNo).ToUpper() + "'");
+                    EmailSender.Send(_presenter.GetUser(_presenter.GetAssignedJobbycurrentuser(CPRS.Approver).AssignedTo).Email, "Payment Approval",(_presenter.CurrentCashPaymentRequest.AppUser.FullName).ToUpper() + " Request for Payment No " + (_presenter.CurrentCashPaymentRequest.RequestNo).ToUpper());
                 }
             }
             else

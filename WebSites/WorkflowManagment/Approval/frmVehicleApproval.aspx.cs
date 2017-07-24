@@ -175,22 +175,23 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             if (_presenter.CurrentVehicleRequest.CurrentLevel == _presenter.CurrentVehicleRequest.VehicleRequestStatuses.Count)
             {
                 btnPrint.Enabled = true;
+                SendEmailToRequester();
             }
         }
         private void SendEmail(VehicleRequestStatus VRS)
         {
             if (_presenter.GetUser(VRS.Approver).IsAssignedJob != true)
             {
-                EmailSender.Send(_presenter.GetUser(VRS.Approver).Email, "Vehicle Request", (_presenter.CurrentVehicleRequest.AppUser.FullName).ToUpper() +"' Requests for Vehicle for Request No. '" + (_presenter.CurrentVehicleRequest.RequestNo).ToUpper() + "'");
+                EmailSender.Send(_presenter.GetUser(VRS.Approver).Email, "Vehicle Request", (_presenter.CurrentVehicleRequest.AppUser.FullName).ToUpper() +" Requests for Vehicle for Request No. '" + (_presenter.CurrentVehicleRequest.RequestNo).ToUpper() + "'");
             }
             else
             {
-                EmailSender.Send(_presenter.GetUser(_presenter.GetAssignedJobbycurrentuser(VRS.Approver).AssignedTo).Email, "Vehicle Request", (_presenter.CurrentVehicleRequest.AppUser.FullName).ToUpper() + "' Requests for Vehicle for Request No. '" + (_presenter.CurrentVehicleRequest.RequestNo).ToUpper() + "'");
+                EmailSender.Send(_presenter.GetUser(_presenter.GetAssignedJobbycurrentuser(VRS.Approver).AssignedTo).Email, "Vehicle Request", (_presenter.CurrentVehicleRequest.AppUser.FullName).ToUpper() + "Requests for Vehicle for Request No." + (_presenter.CurrentVehicleRequest.RequestNo).ToUpper());
             }
         }
         private void SendEmailRejected(VehicleRequestStatus VRS)
         {
-            EmailSender.Send(_presenter.GetUser(_presenter.CurrentVehicleRequest.AppUser.Id).Email, "Vehicle Request Rejection", "'" + "' Your Vehicle Request with RequestNo. '" + (_presenter.CurrentVehicleRequest.RequestNo).ToUpper() + "' made by " + (_presenter.CurrentVehicleRequest.AppUser.FullName).ToUpper() + " was Rejected for reason '" + (VRS.RejectedReason).ToUpper() + "'");
+            EmailSender.Send(_presenter.GetUser(_presenter.CurrentVehicleRequest.AppUser.Id).Email, "Vehicle Request Rejection", " Your Vehicle Request with RequestNo. '" + (_presenter.CurrentVehicleRequest.RequestNo).ToUpper() + " made by " + (_presenter.CurrentVehicleRequest.AppUser.FullName).ToUpper() + " was Rejected for reason" + (VRS.RejectedReason).ToUpper());
             Log.Info(_presenter.GetUser(VRS.Approver).FullName + " has rejected a Vehicle Request made by " + _presenter.CurrentVehicleRequest.AppUser.FullName);
         }
         private void SendCompletedEmail(VehicleRequestStatus VRS)
@@ -207,7 +208,10 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             }
         }
 
-
+        private void SendEmailToRequester()
+        {
+            EmailSender.Send(_presenter.GetUser(_presenter.CurrentVehicleRequest.AppUser.Id).Email, "Vehicle Request Completion", " Your Vehicle Request for No.'" + (_presenter.CurrentVehicleRequest.RequestNo).ToUpper() + "'" +"was Completed");
+        }
         private void SendEmailDriver(VehicleRequestStatus VRS)
         {
             foreach (VehicleRequestDetail assignedVehicle in _presenter.CurrentVehicleRequest.VehicleRequestDetails)
@@ -264,7 +268,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                                 _presenter.CurrentVehicleRequest.CurrentStatus = VRS.ApprovalStatus;
                                 VRS.Approver = _presenter.CurrentUser().Id;
                                 SendEmailDriver(VRS);
-                                SendCompletedEmail(VRS);
+                              //  SendCompletedEmail(VRS);
                                 
                                 break;
                             }
@@ -537,8 +541,9 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                    
                     BindSearchVehicleRequestGrid();
                     pnlApproval_ModalPopupExtender.Show();
+                    
                 }
-                PrintTransaction();
+               PrintTransaction();
             }
             catch (Exception ex)
             {

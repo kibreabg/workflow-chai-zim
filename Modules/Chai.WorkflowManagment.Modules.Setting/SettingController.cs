@@ -98,7 +98,7 @@ namespace Chai.WorkflowManagment.Modules.Setting
         }
         public ItemAccount GetDefaultItemAccount()
         {
-            return _workspace.Single<ItemAccount>(x => x.AccountCode == "1250");
+            return _workspace.Single<ItemAccount>(x => x.AccountCode == "13110");
         }
         #endregion
         #region Grant

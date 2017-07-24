@@ -257,11 +257,11 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             if (GetSuperviser(VRS.Approver).IsAssignedJob != true)
             {
-                EmailSender.Send(GetSuperviser(VRS.Approver).Email, "Travel Advance Request", (CurrentTravelAdvanceRequest.AppUser.FullName).ToUpper() + "' Request for Item Travel Advance No." + (CurrentTravelAdvanceRequest.TravelAdvanceNo).ToUpper() + "'");
+                EmailSender.Send(GetSuperviser(VRS.Approver).Email, "Travel Advance Request", (CurrentTravelAdvanceRequest.AppUser.FullName).ToUpper() + "' Request for Travel Advance No." + (CurrentTravelAdvanceRequest.TravelAdvanceNo).ToUpper() + "'");
             }
             else
             {
-                EmailSender.Send(GetSuperviser(_controller.GetAssignedJobbycurrentuser(VRS.Approver).AssignedTo).Email, "Travel Advance Request", (CurrentTravelAdvanceRequest.AppUser.FullName).ToUpper() + "' Request for Item Travel Advance No." + (CurrentTravelAdvanceRequest.TravelAdvanceNo).ToUpper() + "'");
+                EmailSender.Send(GetSuperviser(_controller.GetAssignedJobbycurrentuser(VRS.Approver).AssignedTo).Email, "Travel Advance Request", (CurrentTravelAdvanceRequest.AppUser.FullName).ToUpper() + "' Request for Travel Advance No." + (CurrentTravelAdvanceRequest.TravelAdvanceNo).ToUpper() + "'");
             }
         }
         public void Commit()

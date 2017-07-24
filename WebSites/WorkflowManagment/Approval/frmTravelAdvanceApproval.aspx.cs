@@ -179,11 +179,11 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             if (_presenter.GetUser(TARS.Approver).IsAssignedJob != true)
             {
-                EmailSender.Send(_presenter.GetSuperviser(TARS.Approver).Email, "Travel Advance Approval", "'" + (_presenter.CurrentTravelAdvanceRequest.AppUser.FullName).ToUpper()+ "' Request for Travel Advance No. '" + (_presenter.CurrentTravelAdvanceRequest.TravelAdvanceNo).ToUpper() + "'");
+                EmailSender.Send(_presenter.GetSuperviser(TARS.Approver).Email, "Travel Advance Approval",  (_presenter.CurrentTravelAdvanceRequest.AppUser.FullName).ToUpper()+ " Request for Travel Advance No. " + (_presenter.CurrentTravelAdvanceRequest.TravelAdvanceNo).ToUpper() );
             }
             else
             {
-                EmailSender.Send(_presenter.GetSuperviser(_presenter.GetAssignedJobbycurrentuser(TARS.Approver).AssignedTo).Email, "Travel Advance Approval", " '" + (_presenter.CurrentTravelAdvanceRequest.AppUser.FullName).ToUpper() + "' Request for Travel Advance No. '" + (_presenter.CurrentTravelAdvanceRequest.TravelAdvanceNo).ToUpper() + "'");
+                EmailSender.Send(_presenter.GetSuperviser(_presenter.GetAssignedJobbycurrentuser(TARS.Approver).AssignedTo).Email, "Travel Advance Approval", (_presenter.CurrentTravelAdvanceRequest.AppUser.FullName).ToUpper() + "Request for Travel Advance No." + (_presenter.CurrentTravelAdvanceRequest.TravelAdvanceNo).ToUpper() );
             }
 
         }
