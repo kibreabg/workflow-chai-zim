@@ -125,7 +125,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             ddlPayee.Items.Clear();
             ListItem lst = new ListItem();
             lst.Text = " Select Payee ";
-            lst.Value = "0";
+            lst.Value = "";
             ddlPayee.Items.Add(lst);
             ddlPayee.DataSource = _presenter.GetSuppliers();
             ddlPayee.DataBind();
@@ -202,7 +202,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 _presenter.SaveOrUpdateCostSharingRequest();
                 if (_presenter.CurrentCostSharingRequest.CostSharingRequestDetails.Count != 0)
                 {
-                    if ((ddlAmountType.SelectedValue == "Estimated Amount" || (ddlAmountType.SelectedValue == "Actual Amount") && _presenter.CurrentCostSharingRequest.CSRAttachments.Count != 0))
+                    if ((ddlAmountType.SelectedValue == "Estimated Amount" || ddlAmountType.SelectedValue == "Actual Amount") && _presenter.CurrentCostSharingRequest.CSRAttachments.Count != 0)
                     {
                         _presenter.SaveOrUpdateCostSharingRequest(_presenter.CurrentCostSharingRequest);
                         BindCostSharingRequests();

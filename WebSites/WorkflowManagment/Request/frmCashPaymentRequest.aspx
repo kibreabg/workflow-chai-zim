@@ -52,7 +52,7 @@
                             <section class="col col-6">
                                 <label class="label">Payee</label>
                                 <label class="select">
-                                    <asp:DropDownList ID="ddlPayee" runat="server" DataTextField="SupplierName" DataValueField="Id">
+                                    <asp:DropDownList ID="ddlPayee" runat="server" DataTextField="SupplierName" AppendDataBoundItems="true" DataValueField="Id">
                                         <asp:ListItem Value="0">Select Payee</asp:ListItem>
                                     </asp:DropDownList><i></i>
                                 </label>
@@ -338,7 +338,7 @@
                                                     <asp:Label ID="lblDate" runat="server" Text='<%# Eval("RequestDate", "{0:dd/MM/yyyy}")%>'></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-                                            <asp:BoundField DataField="Payee" HeaderText="Payee" SortExpression="Payee" />
+                                            <asp:BoundField DataField="Supplier.SupplierName" HeaderText="Payee" SortExpression="SupplierName" />
                                             <asp:BoundField DataField="TotalAmount" HeaderText="Total Amount" SortExpression="TotalAmount" />
                                             <asp:BoundField DataField="CurrentStatus" HeaderText="Status" SortExpression="CurrentStatus" />
                                             <asp:CommandField ShowSelectButton="True" />

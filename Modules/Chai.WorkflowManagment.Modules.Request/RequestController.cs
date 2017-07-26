@@ -114,7 +114,7 @@ namespace Chai.WorkflowManagment.Modules.Request
         {
             string filterExpression = "";
 
-            filterExpression = "SELECT * FROM CashPaymentRequests Where 1 = Case when '" + RequestNo + "' = '' Then 1 When CashPaymentRequests.VoucherNo = '" + RequestNo + "' Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When CashPaymentRequests.RequestDate = '" + RequestDate + "'  Then 1 END And CashPaymentRequests.AppUser_Id='" + GetCurrentUser().Id + "' ORDER BY CashPaymentRequests.Id Desc";
+            filterExpression = "SELECT * FROM CashPaymentRequests LEFT JOIN Suppliers on CashPaymentRequests.Supplier_Id = Suppliers.Id Where 1 = Case when '" + RequestNo + "' = '' Then 1 When CashPaymentRequests.VoucherNo = '" + RequestNo + "' Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When CashPaymentRequests.RequestDate = '" + RequestDate + "'  Then 1 END And CashPaymentRequests.AppUser_Id='" + GetCurrentUser().Id + "' ORDER BY CashPaymentRequests.Id Desc";
            // return WorkspaceFactory.CreateReadOnly().Queryable<CashPaymentRequest>(filterExpression).ToList();
             return _workspace.SqlQuery<CashPaymentRequest>(filterExpression).ToList();
         }

@@ -139,7 +139,14 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             if (_presenter.CurrentCashPaymentRequest != null)
             {
                 // txtRequestNo.Text = _presenter.CurrentCashPaymentRequest.RequestNo.ToString();
-                ddlPayee.SelectedValue = _presenter.CurrentCashPaymentRequest.Payee;
+                if(_presenter.CurrentCashPaymentRequest.Supplier != null)
+                {
+                    ddlPayee.SelectedValue = _presenter.CurrentCashPaymentRequest.Supplier.Id.ToString();
+                }
+                else
+                {
+                    ddlPayee.SelectedValue = "0";
+                }                
                 txtDescription.Text = _presenter.CurrentCashPaymentRequest.Description;
                 //txtVoucherNo.Text = _presenter.CurrentCashPaymentRequest.VoucherNo.ToString();
                 ddlAmountType.SelectedValue = _presenter.CurrentCashPaymentRequest.AmountType;
