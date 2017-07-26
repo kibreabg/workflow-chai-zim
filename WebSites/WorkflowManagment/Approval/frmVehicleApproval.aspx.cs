@@ -32,6 +32,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 XmlConfigurator.Configure();
                 PopProgressStatus();
                 BindVehicles();
+               
             }
             this._presenter.OnViewLoaded();
             BindSearchVehicleRequestGrid();
@@ -145,6 +146,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             ddlVehicles.DataValueField = "ID";
             ddlVehicles.DataBind();
         }
+
         private void BindSearchVehicleRequestGrid()
         {
             grvVehicleRequestList.DataSource = _presenter.ListVehicleRequests(txtSrchRequestNo.Text, txtSrchRequestDate.Text, ddlSrchProgressStatus.SelectedValue);
@@ -169,6 +171,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             dgVehicles.DataSource = _presenter.CurrentVehicleRequest.VehicleRequestDetails;
             dgVehicles.DataBind();
+           
         }
         private void ShowPrint()
         {
@@ -201,7 +204,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
 
 
 
-                EmailSender.Send(_presenter.GetUser(_presenter.CurrentVehicleRequest.AppUser.Id).Email, "Vehicle Request ", "Your Vehicle Request has been proccessed by " + (_presenter.GetUser(VRS.Approver).FullName).ToUpper() + " and Your assigned Driver is " + (assignedVehicle.AppUser.FullName).ToUpper() + ". The Car's Vehicle Registration Number is " + (_presenter.CurrentVehicleRequest.VehicleRegistrationNumber).ToUpper());
+                EmailSender.Send(_presenter.GetUser(_presenter.CurrentVehicleRequest.AppUser.Id).Email, "Vehicle Request ", "Your Vehicle Request has been proccessed by " + (_presenter.GetUser(VRS.Approver).FullName).ToUpper() + " and Your assigned Driver is " + (assignedVehicle.AppUser.FullName).ToUpper() + ". The Car's Plate Number is " + (assignedVehicle.PlateNo).ToUpper());
                
                     Log.Info(_presenter.GetUser(VRS.Approver).FullName + " has approved a Vehicle Request made by " +( _presenter.CurrentVehicleRequest.AppUser.FullName).ToUpper() + " and assigned a Car Rental company named " + (_presenter.GetCarRental(assignedVehicle.CarRental.Id).Name).ToUpper());
                
@@ -212,14 +215,14 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
          foreach (VehicleRequestDetail assignedVehicle in _presenter.CurrentVehicleRequest.VehicleRequestDetails)
          { 
-            EmailSender.Send(_presenter.GetUser(_presenter.CurrentVehicleRequest.AppUser.Id).Email, "Vehicle Request Completion", " Your Vehicle Request was Completed.  and Your assigned Driver is " + (assignedVehicle.AppUser.FullName).ToUpper() + ". The Car's Vehicle Registration Number is " + (_presenter.CurrentVehicleRequest.VehicleRegistrationNumber).ToUpper());
+            EmailSender.Send(_presenter.GetUser(_presenter.CurrentVehicleRequest.AppUser.Id).Email, "Vehicle Request Completion", " Your Vehicle Request was Completed.  and Your assigned Driver is " + (assignedVehicle.AppUser.FullName).ToUpper() + ". The Car's Plate Number is " + (assignedVehicle.PlateNo).ToUpper());
           } 
         }
         private void SendEmailDriver(VehicleRequestStatus VRS)
         {
             foreach (VehicleRequestDetail assignedVehicle in _presenter.CurrentVehicleRequest.VehicleRequestDetails)
             {
-                EmailSender.Send(_presenter.GetUser(assignedVehicle.AppUser.Id).Email, "Vehicle Request ", "You are assigned to give a drive to " + (_presenter.CurrentVehicleRequest.AppUser.FullName).ToUpper() + " and your assigned Car Vehicle Registration Number is " + (_presenter.CurrentVehicleRequest.VehicleRegistrationNumber).ToUpper() + " and your Fuel Card Number  is " + (_presenter.CurrentVehicleRequest.FuelCardNumber).ToUpper());
+                EmailSender.Send(_presenter.GetUser(assignedVehicle.AppUser.Id).Email, "Vehicle Request ", "You are assigned to give a drive to " + (_presenter.CurrentVehicleRequest.AppUser.FullName).ToUpper() + " and your assigned Car Plate Number is " + (assignedVehicle.PlateNo).ToUpper() + " and your Fuel Card Number  is " + (assignedVehicle.FuelCardNumber).ToUpper());
                 Log.Info(_presenter.GetUser(VRS.Approver).FullName + " has approved a Vehicle Request made by " + _presenter.CurrentVehicleRequest.AppUser.FullName);
 
             }
@@ -251,6 +254,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     VRS.RejectedReason = txtRejectedReason.Text;
                     VRS.AssignedBy = _presenter.GetAssignedJobbycurrentuser(VRS.Approver) != null ? _presenter.GetAssignedJobbycurrentuser(VRS.Approver).AppUser.FullName : "";
                     VRS.Comment = txtComment.Text;
+                   
+                    
                     if (VRS.ApprovalStatus != ApprovalStatus.Rejected.ToString())
                     {
                         foreach (VehicleRequestDetail vehicleReqDet in _presenter.CurrentVehicleRequest.VehicleRequestDetails)
@@ -306,6 +311,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             PopApprovalStatus();
             BindVehicleRequestStatus();
             BindVehicles();
+            lblProjectIDDResult.Text = _presenter.CurrentVehicleRequest.Project.ProjectCode;
+            lblGrantIDResult.Text = _presenter.CurrentVehicleRequest.Grant.GrantCode;
             if (_presenter.CurrentVehicleRequest.ProgressStatus == ProgressStatus.Completed.ToString())
             {
                 btnApprove.Enabled = false;
@@ -313,6 +320,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             }
 
             pnlApproval_ModalPopupExtender.Show();
+          
         }
         protected void grvVehicleRequestList_RowDataBound(object sender, GridViewRowEventArgs e)
         {
@@ -381,6 +389,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 }
                 else { _presenter.CurrentVehicleRequest.VehicleRequestDetails.Remove(vehicle); }
                 BindVehicles();
+                lblProjectIDDResult.Text = _presenter.CurrentVehicleRequest.Project.ProjectCode;
+                lblGrantIDResult.Text = _presenter.CurrentVehicleRequest.Grant.GrantCode;
                 pnlApproval_ModalPopupExtender.Show();
 
                 Master.ShowMessage(new AppMessage("Vehicle Information was Removed Successfully", Chai.WorkflowManagment.Enums.RMessageType.Info));
@@ -401,6 +411,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     Vehicle.AssignedVehicle = ddlAssignedVehicle.SelectedValue;
                     DropDownList ddlFPlateNo = e.Item.FindControl("ddlFPlateNo") as DropDownList;
                     Vehicle.PlateNo = ddlFPlateNo.SelectedItem.Text;
+                    TextBox txtFuelCard = e.Item.FindControl("txtFFuelCard") as TextBox;
+                    Vehicle.FuelCardNumber = txtFuelCard.Text;
                     DropDownList ddlCarRental = e.Item.FindControl("ddlCarRental") as DropDownList;
                     Vehicle.CarRental = _presenter.GetCarRental(Convert.ToInt32(ddlCarRental.SelectedValue));
                     DropDownList ddlDriver = e.Item.FindControl("ddlDriver") as DropDownList;
@@ -410,6 +422,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
 
                     dgVehicles.EditItemIndex = -1;
                     BindVehicles();
+                    lblProjectIDDResult.Text = _presenter.CurrentVehicleRequest.Project.ProjectCode;
+                    lblGrantIDResult.Text = _presenter.CurrentVehicleRequest.Grant.GrantCode;
                     pnlApproval_ModalPopupExtender.Show();
                     Master.ShowMessage(new AppMessage("Vehicle Information Successfully Added", Chai.WorkflowManagment.Enums.RMessageType.Info));
                 }
@@ -423,6 +437,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             this.dgVehicles.EditItemIndex = e.Item.ItemIndex;
             BindVehicles();
+            lblProjectIDDResult.Text = _presenter.CurrentVehicleRequest.Project.ProjectCode;
+            lblGrantIDResult.Text = _presenter.CurrentVehicleRequest.Grant.GrantCode;
             pnlApproval_ModalPopupExtender.Show();
         }
         protected void dgVehicles_ItemDataBound(object sender, DataGridItemEventArgs e)
@@ -435,6 +451,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 PopDrivers(ddlDriver);
                 DropDownList ddlVehicle = e.Item.FindControl("ddlFPlateNo") as DropDownList;
                 PopVehicles(ddlVehicle);
+                TextBox txtFFuelCard = e.Item.FindControl("txtFFuelCard") as TextBox;
+               
             }
             else
             {
@@ -483,6 +501,16 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                                 liI.Selected = true;
                         }
                     }
+
+                    TextBox txtFFuelCard = e.Item.FindControl("txtFuelCard") as TextBox;
+                    if (txtFFuelCard != null)
+                    {
+                       
+                        if (_presenter.CurrentVehicleRequest.VehicleRequestDetails[e.Item.DataSetIndex].FuelCardNumber != null)
+                        {
+                            txtFFuelCard.Text = _presenter.CurrentVehicleRequest.VehicleRequestDetails[e.Item.DataSetIndex].FuelCardNumber;
+                        }
+                    }
                 }
             }
         }
@@ -504,6 +532,9 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
 
                 DropDownList ddlPlateNo = e.Item.FindControl("ddlEdtPlateNo") as DropDownList;
                 vehicle.PlateNo = ddlPlateNo.SelectedItem.Text;
+               
+                TextBox txtEdtFuelCard = e.Item.FindControl("txtFuelCard") as TextBox;
+                vehicle.FuelCardNumber = txtEdtFuelCard.Text;
                 DropDownList ddlEdtCarRental = e.Item.FindControl("ddlEdtCarRental") as DropDownList;
                 vehicle.CarRental = _presenter.GetCarRental(Convert.ToInt32(ddlEdtCarRental.SelectedValue));
                 DropDownList ddlEdtDriver = e.Item.FindControl("ddlEdtDriver") as DropDownList;

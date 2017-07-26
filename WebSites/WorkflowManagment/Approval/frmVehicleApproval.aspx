@@ -212,6 +212,26 @@
                                                         <asp:RequiredFieldValidator ID="rfvddlFPlateNo" runat="server" ControlToValidate="ddlFPlateNo" CssClass="validator" Display="Dynamic" ErrorMessage="Plate No. must be selected" InitialValue=" " SetFocusOnError="true" ValidationGroup="save"></asp:RequiredFieldValidator>
                                                     </FooterTemplate>
                                                 </asp:TemplateColumn>
+                                                 <asp:TemplateColumn HeaderText="Fuel Card Number">
+                                                    <ItemTemplate>
+                                                        <%# DataBinder.Eval(Container.DataItem, "FuelCardNumber")%>
+                                                    </ItemTemplate>
+                                                    <EditItemTemplate>
+                                                        
+                                                       
+                                                        <label class="input">
+                                                        <asp:TextBox ID="txtFuelCard" runat="server" Width="100%"></asp:TextBox>
+                                        </label>
+                                                        <asp:RequiredFieldValidator ID="rfvddlFuelCardNo" runat="server" ControlToValidate="txtFuelCard" CssClass="validator" Display="Dynamic" ErrorMessage="Fuel Card Number Rquired" InitialValue=" " SetFocusOnError="true" ValidationGroup="edit"></asp:RequiredFieldValidator>
+                                                    </EditItemTemplate>
+                                                    <FooterTemplate>
+                                                        
+                                                       <label class="input">
+                                                        <asp:TextBox ID="txtFFuelCard" runat="server" Width="100%"></asp:TextBox>
+                                        </label>
+                                                        <asp:RequiredFieldValidator ID="rfvddlFuelCardNo" runat="server" ControlToValidate="txtFFuelCard" CssClass="validator" Display="Dynamic" ErrorMessage="Fuel Card Number Rquired" InitialValue=" " SetFocusOnError="true" ValidationGroup="edit"></asp:RequiredFieldValidator>
+                                                                                                            </FooterTemplate>
+                                                </asp:TemplateColumn>
                                                 <asp:TemplateColumn HeaderText="Actions">
                                                     <ItemTemplate>
                                                         <asp:LinkButton ID="lnkEdit" runat="server" CommandName="Edit" CssClass="btn btn-xs btn-default"><i class="fa fa-pencil"></i></asp:LinkButton>
@@ -231,11 +251,20 @@
                                     </section>
                                 </div>
                                 <div class="row">
-                                    <section class="col col-sm-12">
+                                    <section class="col col-6">
                                         <asp:Label ID="lblComment" runat="server" Text="Comment" CssClass="label"></asp:Label>
                                         <label class="input">
                                             <asp:TextBox ID="txtComment" runat="server" Width="100%"></asp:TextBox>
                                         </label>
+                                    </section></div>
+                                      <div class="row">
+                                     <section class="col col-6">
+                                        <asp:Label ID="lblProjectIDD" Font-Bold="true" runat="server" Text="Project ID"  CssClass="label"></asp:Label>
+                                        <asp:Label ID="lblProjectIDDResult" Font-Bold="true" runat="server" Text="Project ID" CssClass="label"></asp:Label>
+                                    </section>
+                                       <section class="col col-6">
+                                        <asp:Label ID="lblGrantID" runat="server" Font-Bold="true" Text="Grant ID"  CssClass="label"></asp:Label>
+                                        <asp:Label ID="lblGrantIDResult" Font-Bold="true" runat="server"   CssClass="label"></asp:Label>
                                     </section>
                                 </div>
                                 <div class="row">
@@ -420,6 +449,7 @@
                <%-- <asp:BoundField DataField="AssignedVehicle" HeaderText="Assigned Vehicle" SortExpression="AssignedVehicle" />--%>
                <asp:BoundField DataField="AppUser.FullName" HeaderText="Allocated Driver" SortExpression="AppUser.FullName" />
                 <asp:BoundField DataField="CarRental.Name" HeaderText="Hired Car" SortExpression="CarRental.Name" />
+                <asp:BoundField DataField="FuelCardNumber" HeaderText="Fuel Card No" SortExpression="FuelCardNumber" />
             </Columns>
             <FooterStyle CssClass="FooterStyle" />
             <HeaderStyle CssClass="headerstyle" />

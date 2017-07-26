@@ -130,8 +130,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             VehicleRequest.DepartureDate = View.GetDepartureDate;
             VehicleRequest.ReturningDate = View.GetReturningDate;
             VehicleRequest.DepartureTime = View.GetDepartureTime;
-            VehicleRequest.VehicleRegistrationNumber = View.GetVehicleRegistrationNumber;
-            VehicleRequest.FuelCardNumber = View.GetFuelCardNumber;
+         
             VehicleRequest.PurposeOfTravel = View.GetPurposeOfTravel;
             VehicleRequest.Destination = View.GetDestination;
             VehicleRequest.Comment = View.GetComment;

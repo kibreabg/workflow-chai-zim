@@ -12,6 +12,8 @@ namespace Chai.WorkflowManagment.CoreDomain.Requests
         public int Id { get; set; }
         public string PlateNo { get; set; }
         public string AssignedVehicle { get; set; }
+
+        public string FuelCardNumber { get; set; }
         public virtual CarRental CarRental { get; set; }
         public virtual AppUser AppUser { get; set; }
         public virtual VehicleRequest VehicleRequest { get; set; }
