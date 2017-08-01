@@ -179,7 +179,7 @@ namespace Chai.WorkflowManagment.Modules.Shell
             string filterExpression = "";
 
             filterExpression = " SELECT * FROM ExpenseLiquidationRequests INNER JOIN AppUsers on AppUsers.Id = ExpenseLiquidationRequests.CurrentApprover Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where ExpenseLiquidationRequests.ProgressStatus='InProgress' " +
-                                   " AND  ((ExpenseLiquidationRequests.CurrentApprover = '" + currentUser + "') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) order by ExpenseLiquidationRequests.Id ";
+                                   " AND ExpenseLiquidationRequests.CurrentStatus IS NULL AND ((ExpenseLiquidationRequests.CurrentApprover = '" + currentUser + "') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) order by ExpenseLiquidationRequests.Id ";
 
             return _workspace.SqlQuery<ExpenseLiquidationRequest>(filterExpression).Count();
         }       
