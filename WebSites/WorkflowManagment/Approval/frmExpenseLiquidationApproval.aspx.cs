@@ -234,7 +234,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     else
                     {
                         ELRS.Approver = _presenter.CurrentUser().Id;
-                        _presenter.CurrentExpenseLiquidationRequest.CurrentStatus = null;
+                        _presenter.CurrentExpenseLiquidationRequest.CurrentStatus = ApprovalStatus.Rejected.ToString();
                         //_presenter.CurrentExpenseLiquidationRequest.CurrentStatus = ApprovalStatus.Rejected.ToString();
                         //Make adjustments so that the rejected liquidation can appear to the requester for update and re-request
                         _presenter.CurrentExpenseLiquidationRequest.TravelAdvanceRequest.ExpenseLiquidationStatus = "Completed";
@@ -391,7 +391,6 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 lblTotalActualExp.Text = _totalActualExpenditure.ToString();
             }
         }
-
         protected void ddlApprovalStatus_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (ddlApprovalStatus.SelectedValue == "Rejected")

@@ -45,7 +45,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             ReturnFromBidAnalysis();
             if(_presenter.CurrentPurchaseRequest !=null)
             { 
-            ChangeBidAnalysisLink();
+                //ChangeBidAnalysisLink();
             }
         
         }
@@ -202,7 +202,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 }
                 if (_presenter.CurrentPurchaseRequest.CurrentLevel == _presenter.CurrentPurchaseRequest.PurchaseRequestStatuses.Count && (PRS.ApprovalStatus != null) && _presenter.CurrentPurchaseRequest.ProgressStatus == ProgressStatus.Completed.ToString())
                 {
-                    btnPurchaseOrder.Visible = true;
+                    btnPrint.Visible = true;
                 }
             }
         }
@@ -210,7 +210,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             if (_presenter.CurrentPurchaseRequest.CurrentLevel == _presenter.CurrentPurchaseRequest.PurchaseRequestStatuses.Count && _presenter.CurrentPurchaseRequest.ProgressStatus == ProgressStatus.Completed.ToString())
             {
-                btnPurchaseOrder.Visible = true;
+                btnPrint.Visible = true;
 
             }
 
@@ -339,7 +339,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             BindPurchaseRequestStatus();
             BindBAAttachments();
             pnlApproval_ModalPopupExtender.Show();
-            ChangeBidAnalysisLink();
+            //ChangeBidAnalysisLink();
 
             Session["PurchaseId"] = _presenter.CurrentPurchaseRequest.Id;
 

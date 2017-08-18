@@ -40,7 +40,7 @@
                     </fieldset>
                     <footer>
                         <asp:Button ID="btnPop" runat="server" />
-                         <asp:Button ID="btnPop2" runat="server" />
+                        <asp:Button ID="btnPop2" runat="server" />
                         <asp:Button ID="btnFind" runat="server" Text="Find" OnClick="btnFind_Click" CssClass="btn btn-primary"></asp:Button>
                         <asp:Button ID="btnClosepage" runat="server" Text="Close" data-dismiss="modal" CssClass="btn btn-primary" PostBackUrl="../Default.aspx"></asp:Button>
                     </footer>
@@ -58,25 +58,25 @@
                 <asp:BoundField DataField="RequestNo" HeaderText="Request No" SortExpression="RequestNo" />
                 <asp:BoundField HeaderText="Requester" />
                 <asp:TemplateField HeaderText="Request Date">
-                                            <ItemTemplate>
-                                              <asp:Label ID="lblDate" runat="server" Text='<%# Eval("RequestedDate", "{0:dd/MM/yyyy}")%>' ></asp:Label>
-                                            </ItemTemplate>
-                                            </asp:TemplateField> 
-                                 <asp:TemplateField HeaderText="Required date of delivery">
-                                            <ItemTemplate>
-                                              <asp:Label ID="lblRequireddateofdelivery" runat="server" Text='<%# Eval("Requireddateofdelivery", "{0:dd/MM/yyyy}")%>' ></asp:Label>
-                                            </ItemTemplate>
-                                            </asp:TemplateField> 
+                    <ItemTemplate>
+                        <asp:Label ID="lblDate" runat="server" Text='<%# Eval("RequestedDate", "{0:dd/MM/yyyy}")%>'></asp:Label>
+                    </ItemTemplate>
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="Required date of delivery">
+                    <ItemTemplate>
+                        <asp:Label ID="lblRequireddateofdelivery" runat="server" Text='<%# Eval("Requireddateofdelivery", "{0:dd/MM/yyyy}")%>'></asp:Label>
+                    </ItemTemplate>
+                </asp:TemplateField>
                 <asp:BoundField DataField="SuggestedSupplier" HeaderText="Suggested Supplier" SortExpression="SuggestedSupplier" />
                 <asp:BoundField DataField="Neededfor" HeaderText="Needed for" SortExpression="Neededfor" />
                 <asp:BoundField DataField="TotalPrice" HeaderText="Total Price" SortExpression="TotalPrice" />
                 <asp:ButtonField ButtonType="Button" CommandName="ViewItem" Text="View Item Detail" />
                 <asp:CommandField ButtonType="Button" SelectText="Process Request" ShowSelectButton="True" />
                 <asp:TemplateField>
-                        <ItemTemplate>
+                    <ItemTemplate>
                         <asp:Button runat="server" ID="btnStatus" Text="" BorderStyle="None" />
-                        </ItemTemplate>
-                        </asp:TemplateField>
+                    </ItemTemplate>
+                </asp:TemplateField>
             </Columns>
             <FooterStyle CssClass="FooterStyle" />
             <HeaderStyle CssClass="headerstyle" />
@@ -84,16 +84,19 @@
 
         </asp:GridView>
         <div>
-            <asp:Button runat="server" ID="btnInProgress" Text="" BorderStyle="None"  BackColor="#FFFF6C"/>  <B>In Progress</B><br />
-            <asp:Button runat="server" ID="btnComplete" Text="" BorderStyle="None" BackColor="#FF7251"/>  <B>Completed</B><br />
-            <asp:Button runat="server" ID="btnAuthorized" Text="" BorderStyle="None" BackColor="#112552"/>  <B>Authorized</B>
+            <asp:Button runat="server" ID="btnInProgress" Text="" BorderStyle="None" BackColor="#FFFF6C" />
+            <b>In Progress</b><br />
+            <asp:Button runat="server" ID="btnComplete" Text="" BorderStyle="None" BackColor="#FF7251" />
+            <b>Completed</b><br />
+            <asp:Button runat="server" ID="btnAuthorized" Text="" BorderStyle="None" BackColor="#112552" />
+            <b>Authorized</b>
 
         </div>
         <br />
         <br />
 
-        
-       
+
+
 
     </div>
     <asp:Panel ID="pnlDetail" runat="server">
@@ -209,11 +212,12 @@
 
                                         <div class="row">
                                             <asp:Panel ID="pnlInfo" runat="server" Visible="false">
-            <div class="alert alert-info fade in">
-                
-                <i class="fa-fw fa fa-info"></i>
-                <strong>Info!</strong> Please perform Bid Analysis before Approving Bid.</div>
-        </asp:Panel>
+                                                <div class="alert alert-info fade in">
+
+                                                    <i class="fa-fw fa fa-info"></i>
+                                                    <strong>Info!</strong> Please perform Bid Analysis before Approving Bid.
+                                                </div>
+                                            </asp:Panel>
                                             <section class="col col-6">
                                                 <asp:Label ID="lblApprovalStatus" runat="server" Text="Approval Status" CssClass="label"></asp:Label>
 
@@ -234,54 +238,44 @@
                                         </div>
                                         <div class="row">
                                             <div class="row">
-                                            <section class="col col-12">
-                                                <asp:Label ID="lblAttachments" runat="server" Text="Attachments" CssClass="label"></asp:Label>
-                                                <asp:GridView ID="grvAttachments"
-                                                    runat="server" AutoGenerateColumns="False" DataKeyNames="Id"
-                                                    CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active">
-                                                    <RowStyle CssClass="rowstyle" />
-                                                    <Columns>
-                                                        <asp:BoundField DataField="FilePath" HeaderText="File Name" SortExpression="FilePath" />
-                                                         <asp:TemplateField>
-                                                     <ItemTemplate>
-                                                       <asp:LinkButton ID="lnkDownload" Text = "Download" CommandArgument = '<%# Eval("FilePath") %>' runat="server" OnClick = "DownloadFile"></asp:LinkButton>
-                                                     </ItemTemplate>
-                                                   </asp:TemplateField>
-                                                    </Columns>
-                                                    <FooterStyle CssClass="FooterStyle" />
-                                                    <HeaderStyle CssClass="headerstyle" />
-                                                    <PagerStyle CssClass="PagerStyle" />
-                                                    <RowStyle CssClass="rowstyle" />
-                                                </asp:GridView>
-                                            </section>
-                                        </div>
+                                                <section class="col col-12">
+                                                    <asp:Label ID="lblAttachments" runat="server" Text="Attachments" CssClass="label"></asp:Label>
+                                                    <asp:GridView ID="grvAttachments"
+                                                        runat="server" AutoGenerateColumns="False" DataKeyNames="Id"
+                                                        CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active">
+                                                        <RowStyle CssClass="rowstyle" />
+                                                        <Columns>
+                                                            <asp:BoundField DataField="FilePath" HeaderText="File Name" SortExpression="FilePath" />
+                                                            <asp:TemplateField>
+                                                                <ItemTemplate>
+                                                                    <asp:LinkButton ID="lnkDownload" Text="Download" CommandArgument='<%# Eval("FilePath") %>' runat="server" OnClick="DownloadFile"></asp:LinkButton>
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                        </Columns>
+                                                        <FooterStyle CssClass="FooterStyle" />
+                                                        <HeaderStyle CssClass="headerstyle" />
+                                                        <PagerStyle CssClass="PagerStyle" />
+                                                        <RowStyle CssClass="rowstyle" />
+                                                    </asp:GridView>
+                                                </section>
+                                            </div>
                                         </div>
                                     </fieldset>
                                     <footer>
                                         <asp:Button ID="btnApprove" runat="server" Text="Save" OnClick="btnApprove_Click" Enabled="true" CssClass="btn btn-primary" ValidationGroup="Save"></asp:Button>
                                         <asp:Button ID="btnCancelPopup" runat="server" Text="Close" data-dismiss="modal" CssClass="btn btn-primary" OnClick="btnCancelPopup_Click"></asp:Button>
-                                        <asp:Button ID="btnPurchaseOrder" runat="server" Text="Purchase Order" CssClass="btn btn-primary" Visible="false" OnClick="btnPurchaseOrder_Click"></asp:Button>
-
-
+                                        <asp:Button ID="btnPrint" runat="server" Text="Purchase Order" CssClass="btn btn-primary" Visible="false" OnClick="btnPrint_Click"></asp:Button>
                                     </footer>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
-
-
-
-
-
-
-
             </div>
         </div>
         <!-- /.modal-content -->
     </asp:Panel>
-     <asp:ModalPopupExtender runat="server" BackgroundCssClass="modalBackground"
+    <asp:ModalPopupExtender runat="server" BackgroundCssClass="modalBackground"
         Enabled="True" TargetControlID="btnPop" PopupControlID="pnlApproval" CancelControlID="btnCancelPopup"
         ID="pnlApproval_ModalPopupExtender">
     </asp:ModalPopupExtender>
