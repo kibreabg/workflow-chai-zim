@@ -237,10 +237,20 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             grvAttachments.DataBind();
             PrintTransaction();
             btnPrint.Enabled = true;
+            //This is done so that the user can not ammend a liquidation while it's in an approval process. But one can ammend a rejected liquidation.
             if (_presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.CurrentStatus != null)
             {
-                btnSave.Visible = false;
-                btnDelete.Visible = false;
+                if(_presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.CurrentStatus == ApprovalStatus.Rejected.ToString())
+                {
+                    btnSave.Visible = true;
+                    btnDelete.Visible = true;
+                }
+                else
+                {
+                    btnSave.Visible = false;
+                    btnDelete.Visible = false;
+                }
+                
             }
             else
             {
