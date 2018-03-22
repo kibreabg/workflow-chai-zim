@@ -14,6 +14,7 @@ using Chai.WorkflowManagment.Shared.MailSender;
 using log4net;
 using log4net.Config;
 using Microsoft.Practices.ObjectBuilder;
+using Chai.WorkflowManagment.CoreDomain.Users;
 
 namespace Chai.WorkflowManagment.Modules.Approval.Views
 {
@@ -124,9 +125,26 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     break;
 
                 }
-                else if (_presenter.GetUser(_presenter.CurrentTravelAdvanceRequest.CurrentApprover).EmployeePosition.PositionName == AL.EmployeePosition.PositionName)
+                /*else if (_presenter.GetUser(_presenter.CurrentTravelAdvanceRequest.CurrentApprover).EmployeePosition.PositionName == AL.EmployeePosition.PositionName)
                 {
                     will = AL.Will;
+                }*/
+                else
+                {
+                    try
+                    {
+                        if (_presenter.GetUser(_presenter.CurrentTravelAdvanceRequest.CurrentApprover).EmployeePosition.PositionName == AL.EmployeePosition.PositionName)
+                        {
+                            will = AL.Will;
+                        }
+                    }
+                    catch
+                    {
+                        if (_presenter.CurrentTravelAdvanceRequest.CurrentApproverPosition == AL.EmployeePosition.Id)
+                        {
+                            will = AL.Will;
+                        }
+                    }
                 }
 
             }
@@ -177,14 +195,32 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         private void SendEmail(TravelAdvanceRequestStatus TARS)
         {
-            if (_presenter.GetUser(TARS.Approver).IsAssignedJob != true)
+            if (TARS.Approver != 0)
             {
-                EmailSender.Send(_presenter.GetSuperviser(TARS.Approver).Email, "Travel Advance Approval",  (_presenter.CurrentTravelAdvanceRequest.AppUser.FullName).ToUpper()+ " Requests for Travel Advance with Travel Advance No. - " + (_presenter.CurrentTravelAdvanceRequest.TravelAdvanceNo).ToUpper() );
+                if (_presenter.GetUser(TARS.Approver).IsAssignedJob != true)
+                {
+                    EmailSender.Send(_presenter.GetSuperviser(TARS.Approver).Email, "Travel Advance Approval", (_presenter.CurrentTravelAdvanceRequest.AppUser.FullName).ToUpper() + " Requests for Travel Advance with Travel Advance No. - " + (_presenter.CurrentTravelAdvanceRequest.TravelAdvanceNo).ToUpper());
+                }
+                else
+                {
+                    EmailSender.Send(_presenter.GetSuperviser(_presenter.GetAssignedJobbycurrentuser(TARS.Approver).AssignedTo).Email, "Travel Advance Approval", (_presenter.CurrentTravelAdvanceRequest.AppUser.FullName).ToUpper() + " Requests for Travel Advance with Travel Advance No. - " + (_presenter.CurrentTravelAdvanceRequest.TravelAdvanceNo).ToUpper());
+                }
             }
             else
             {
-                EmailSender.Send(_presenter.GetSuperviser(_presenter.GetAssignedJobbycurrentuser(TARS.Approver).AssignedTo).Email, "Travel Advance Approval", (_presenter.CurrentTravelAdvanceRequest.AppUser.FullName).ToUpper() + "Requests for Travel Advance with Travel Advance No. - " + (_presenter.CurrentTravelAdvanceRequest.TravelAdvanceNo).ToUpper());
+                foreach (AppUser Payer in _presenter.GetAppUsersByEmployeePosition(TARS.ApproverPosition))
+                {
+                    if (Payer.IsAssignedJob != true)
+                    {
+                        EmailSender.Send(Payer.Email, "Travel Advance Approval", (_presenter.CurrentTravelAdvanceRequest.AppUser.FullName).ToUpper() + " Requests for Travel Advance with Travel Advance No. - " + (_presenter.CurrentTravelAdvanceRequest.TravelAdvanceNo).ToUpper());
+                    }
+                    else
+                    {
+                        EmailSender.Send(_presenter.GetUser(_presenter.GetAssignedJobbycurrentuser(Payer.Id).AssignedTo).Email, "Travel Advance Approval", (_presenter.CurrentTravelAdvanceRequest.AppUser.FullName).ToUpper() + " Requests for Travel Advance with Travel Advance No. - " + (_presenter.CurrentTravelAdvanceRequest.TravelAdvanceNo).ToUpper());
+                    }
+                }
             }
+
 
         }
         private void SendEmailRejected(TravelAdvanceRequestStatus TARS)
@@ -209,6 +245,12 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             {
                 if (TARS.ApprovalStatus == null)
                 {
+                    if (TARS.Approver == 0)
+                    {
+                        //This is to handle multiple Finance Officers responding to this request
+                        //SendEmailToFinanceOfficers;
+                        _presenter.CurrentTravelAdvanceRequest.CurrentApproverPosition = TARS.ApproverPosition;
+                    }
                     SendEmail(TARS);
                     _presenter.CurrentTravelAdvanceRequest.CurrentApprover = TARS.Approver;
                     _presenter.CurrentTravelAdvanceRequest.CurrentLevel = TARS.WorkflowLevel;
@@ -248,7 +290,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             foreach (TravelAdvanceRequestStatus TARS in _presenter.CurrentTravelAdvanceRequest.TravelAdvanceRequestStatuses)
             {
-                if ((TARS.Approver == _presenter.CurrentUser().Id || _presenter.CurrentUser().Id == (_presenter.GetAssignedJobbycurrentuser(TARS.Approver) != null ? _presenter.GetAssignedJobbycurrentuser(TARS.Approver).AssignedTo : 0)) && TARS.WorkflowLevel == _presenter.CurrentTravelAdvanceRequest.CurrentLevel)
+                if ((TARS.Approver == _presenter.CurrentUser().Id || (TARS.ApproverPosition == _presenter.CurrentUser().EmployeePosition.Id) || _presenter.CurrentUser().Id == (_presenter.GetAssignedJobbycurrentuser(TARS.Approver) != null ? _presenter.GetAssignedJobbycurrentuser(TARS.Approver).AssignedTo : 0)) && TARS.WorkflowLevel == _presenter.CurrentTravelAdvanceRequest.CurrentLevel)
                 {
                     TARS.ApprovalStatus = ddlApprovalStatus.SelectedValue;
                     TARS.Date = Convert.ToDateTime(DateTime.Today.ToShortDateString());

@@ -22,10 +22,9 @@ namespace Chai.WorkflowManagment.CoreDomain.Requests
         public string Comments { get; set; }
         public decimal TotalTravelAdvance { get; set; }
         public int CurrentApprover { get; set; }
+        public int CurrentApproverPosition { get; set; }
         public int CurrentLevel { get; set; }
-        public string CurrentStatus { get; set; }
-
-        
+        public string CurrentStatus { get; set; }        
         public string ProgressStatus { get; set; }
         public string ExpenseLiquidationStatus { get; set; }
         public string ExportStatus { get; set; }
