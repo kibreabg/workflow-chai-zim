@@ -101,7 +101,16 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     else
                     {
                         if (Approver(AL.EmployeePosition.Id) != null)
-                            CSRS.Approver = Approver(AL.EmployeePosition.Id).Id;
+                        {
+                            if (AL.EmployeePosition.PositionName == "Finance Officer")
+                            {
+                                CSRS.ApproverPosition = AL.EmployeePosition.Id; //So that we can entertain more than one finance manager to handle the request
+                            }
+                            else
+                            {
+                                CSRS.Approver = Approver(AL.EmployeePosition.Id).Id;
+                            }
+                        }
                         else
                             CSRS.Approver = 0;
                     }

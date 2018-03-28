@@ -24,6 +24,7 @@ namespace Chai.WorkflowManagment.CoreDomain.Requests
         public decimal EstimatedTotalAmount { get; set; }
         public decimal ActualTotalAmount { get; set; }
         public int CurrentApprover { get; set; }
+        public int CurrentApproverPosition { get; set; }
         public int CurrentLevel { get; set; }
         public string CurrentStatus { get; set; }
        

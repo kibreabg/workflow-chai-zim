@@ -385,7 +385,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             {
                 if (e.Row.RowType == DataControlRowType.DataRow)
                 {
-                    e.Row.Cells[1].Text = _presenter.GetUser(_presenter.CurrentTravelAdvanceRequest.TravelAdvanceRequestStatuses[e.Row.RowIndex].Approver).FullName;
+                    if (_presenter.CurrentTravelAdvanceRequest.TravelAdvanceRequestStatuses[e.Row.RowIndex].Approver != 0)
+                        e.Row.Cells[1].Text = _presenter.GetUser(_presenter.CurrentTravelAdvanceRequest.TravelAdvanceRequestStatuses[e.Row.RowIndex].Approver).FullName;
                 }
             }
         }

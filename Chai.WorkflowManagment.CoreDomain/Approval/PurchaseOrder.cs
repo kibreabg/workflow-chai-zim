@@ -1,4 +1,4 @@
-﻿using Chai.WorkflowManagment.CoreDomain.Requests;
+﻿using Chai.WorkflowManagment.CoreDomain.Request;
 using Chai.WorkflowManagment.CoreDomain.Setting;
 using System;
 using System.Collections.Generic;
@@ -18,9 +18,8 @@ namespace Chai.WorkflowManagment.CoreDomain.Approval
         }
 
         public int Id { get; set; }
-       [Required]
-        public virtual BidAnalysisRequest BidAnalysisRequest { get; set; }
-      
+        [Required]
+        public virtual PurchaseRequest PurchaseRequest { get; set; }
         public DateTime PODate { get; set; }
         public Supplier Supplier { get; set; }
         public string PoNumber { get; set; }

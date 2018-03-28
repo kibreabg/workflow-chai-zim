@@ -146,9 +146,15 @@ namespace Chai.WorkflowManagment.Modules.Shell
         {
             currentUser = GetCurrentUser().Id;
             string filterExpression = "";
-
-            filterExpression = " SELECT * FROM CostSharingRequests INNER JOIN AppUsers on AppUsers.Id = CostSharingRequests.CurrentApprover Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where CostSharingRequests.ProgressStatus='InProgress' " +
-                                   " AND  ((CostSharingRequests.CurrentApprover = '" + currentUser + "') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) order by CostSharingRequests.Id ";
+            
+            filterExpression = " SELECT * FROM CostSharingRequests " +
+                                    " LEFT JOIN AppUsers on AppUsers.Id = CostSharingRequests.CurrentApprover " +
+                                    " LEFT JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 " +
+                                    " WHERE CostSharingRequests.ProgressStatus = 'InProgress'" +
+                                        " AND ((CostSharingRequests.CurrentApprover = '" + currentUser + "')" +
+                                        " OR (CostSharingRequests.CurrentApproverPosition = '" + GetCurrentUser().EmployeePosition.Id + "')" +
+                                        " OR (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "'))" +
+                                        " ORDER BY CostSharingRequests.Id";
 
             return _workspace.SqlQuery<CostSharingRequest>(filterExpression).Count();
         }
@@ -156,10 +162,15 @@ namespace Chai.WorkflowManagment.Modules.Shell
         {
             currentUser = GetCurrentUser().Id;
             string filterExpression = "";
-
-            filterExpression = " SELECT * FROM TravelAdvanceRequests INNER JOIN AppUsers on AppUsers.Id = TravelAdvanceRequests.CurrentApprover Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where TravelAdvanceRequests.ProgressStatus='InProgress' " +
-                                   " AND  ((TravelAdvanceRequests.CurrentApprover = '" + currentUser + "') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) order by TravelAdvanceRequests.RequestDate ";
-
+            
+            filterExpression = " SELECT * FROM TravelAdvanceRequests " +
+                                    " LEFT JOIN AppUsers on AppUsers.Id = TravelAdvanceRequests.CurrentApprover " +
+                                    " LEFT JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 " +
+                                    " WHERE TravelAdvanceRequests.ProgressStatus = 'InProgress'" +
+                                        " AND ((TravelAdvanceRequests.CurrentApprover = '" + currentUser + "')" +
+                                        " OR (TravelAdvanceRequests.CurrentApproverPosition = '" + GetCurrentUser().EmployeePosition.Id + "')" +
+                                        " OR (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "'))" +
+                                        " ORDER BY TravelAdvanceRequests.RequestDate";
             return _workspace.SqlQuery<TravelAdvanceRequest>(filterExpression).Count();
         }
         public int GetPurchaseRequestsTasks()

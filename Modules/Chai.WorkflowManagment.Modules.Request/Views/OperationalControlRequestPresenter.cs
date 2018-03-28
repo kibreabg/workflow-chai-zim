@@ -101,7 +101,20 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     else
                     {
                         if (Approver(AL.EmployeePosition.Id) != null)
-                            CPRS.Approver = Approver(AL.EmployeePosition.Id).Id;
+                        {
+                            //var strName = System.Configuration.ConfigurationManager.AppSettings["Shiella"];
+                            //This code is to handle choosing a specific finance officer to do this task from the available finance officers. 
+                            //Only the finance officer named in the web config can handle this task. Other wise the approver is set to 0
+                            string userName = System.Configuration.ConfigurationManager.AppSettings["FinanceManager"];
+                            if (AL.EmployeePosition.PositionName == "Finance Officer")
+                            {
+                                CPRS.Approver = _settingController.GetUserByUserName(userName).Id;
+                            }
+                            else
+                            {
+                                CPRS.Approver = Approver(AL.EmployeePosition.Id).Id;
+                            }
+                        }
                         else
                             CPRS.Approver = 0;
                     }
@@ -196,7 +209,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             return _adminController.GetUser(id);
         }
-       
+
         public ItemAccount GetItemAccount(int ItemAccountId)
         {
             return _settingController.GetItemAccount(ItemAccountId);
@@ -242,7 +255,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             return _settingController.GetBeneficiary(id);
         }
-        
+
         public AppUser CurrentUser()
         {
             return _controller.GetCurrentUser();
@@ -275,7 +288,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             return _controller.GetCostSharingRequest(paymentRequest);
         }
         #region Beneficary
-       
+
 
         public void SaveOrUpdateBeneficiary(Beneficiary beneficiary)
         {

@@ -15,6 +15,7 @@ using log4net.Config;
 using Microsoft.Practices.ObjectBuilder;
 using System.IO;
 using System.Reflection;
+using Chai.WorkflowManagment.CoreDomain.Users;
 
 namespace Chai.WorkflowManagment.Modules.Approval.Views
 {
@@ -64,7 +65,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 return "{9C411111-6AD3-4C19-BEED-CC6020DB6B7C}";
             }
         }
-      
+
         #region Field Getters
         public int GetCostSharingRequestId
         {
@@ -121,9 +122,26 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     will = "Approve";
                     break;
                 }
-                else if (_presenter.GetUser(_presenter.CurrentCostSharingRequest.CurrentApprover).EmployeePosition.PositionName == AL.EmployeePosition.PositionName)
+                /*else if (_presenter.GetUser(_presenter.CurrentCostSharingRequest.CurrentApprover).EmployeePosition.PositionName == AL.EmployeePosition.PositionName)
                 {
                     will = AL.Will;
+                }*/
+                else
+                {
+                    try
+                    {
+                        if (_presenter.GetUser(_presenter.CurrentCostSharingRequest.CurrentApprover).EmployeePosition.PositionName == AL.EmployeePosition.PositionName)
+                        {
+                            will = AL.Will;
+                        }
+                    }
+                    catch
+                    {
+                        if (_presenter.CurrentCostSharingRequest.CurrentApproverPosition == AL.EmployeePosition.Id)
+                        {
+                            will = AL.Will;
+                        }
+                    }
                 }
 
             }
@@ -141,7 +159,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
 
             ddlSrchProgressStatus.Items.Add(new ListItem("Not Retired", "Not Retired"));
             ddlSrchProgressStatus.Items.Add(new ListItem("Retired", "Retired"));
-            
+
         }
         private void BindSearchCostSharingRequestGrid()
         {
@@ -150,18 +168,18 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         private void BindCostSharingRequestStatus()
         {
-            foreach (CostSharingRequestStatus CPRS in _presenter.CurrentCostSharingRequest.CostSharingRequestStatuses)
+            foreach (CostSharingRequestStatus CSRS in _presenter.CurrentCostSharingRequest.CostSharingRequestStatuses)
             {
-                if (CPRS.Approver == _presenter.CurrentUser().Id && CPRS.WorkflowLevel == _presenter.CurrentCostSharingRequest.CurrentLevel && _presenter.CurrentCostSharingRequest.ProgressStatus != ProgressStatus.Completed.ToString())
+                if (CSRS.WorkflowLevel == _presenter.CurrentCostSharingRequest.CurrentLevel && _presenter.CurrentCostSharingRequest.ProgressStatus != ProgressStatus.Completed.ToString())
                 {
                     btnApprove.Enabled = true;
                 }
-                
-                if (_presenter.CurrentCostSharingRequest.CurrentLevel == _presenter.CurrentCostSharingRequest.CostSharingRequestStatuses.Count && CPRS.ApprovalStatus != null)
+
+                if (_presenter.CurrentCostSharingRequest.CurrentLevel == _presenter.CurrentCostSharingRequest.CostSharingRequestStatuses.Count && CSRS.ApprovalStatus != null)
                 {
                     btnPrint.Enabled = true;
                     btnApprove.Enabled = false;
-                    
+
                 }
                 else
                     btnPrint.Enabled = false;
@@ -174,7 +192,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 lblAccount.Visible = true;
                 lblAccountdd.Visible = true;
             }
-            
+
         }
         private void BindProject(DropDownList ddlProject)
         {
@@ -202,26 +220,43 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             if (_presenter.CurrentCostSharingRequest.CurrentLevel == _presenter.CurrentCostSharingRequest.CostSharingRequestStatuses.Count && _presenter.CurrentCostSharingRequest.ProgressStatus == ProgressStatus.Completed.ToString())
             {
                 btnPrint.Enabled = true;
-         
+
                 SendEmailToRequester();
             }
         }
-        private void SendEmail(CostSharingRequestStatus CPRS)
+        private void SendEmail(CostSharingRequestStatus CSRS)
         {
-            if (_presenter.GetUser(CPRS.Approver).IsAssignedJob != true)
+            if (CSRS.Approver != 0)
             {
-                EmailSender.Send(_presenter.GetUser(CPRS.Approver).Email, "Cost Sharing Payment Approval", (_presenter.CurrentCostSharingRequest.AppUser.FullName).ToUpper() + " Requests for Cost Sharing with Request No. '" + (_presenter.CurrentCostSharingRequest.RequestNo).ToUpper() + "'");
+                if (_presenter.GetUser(CSRS.Approver).IsAssignedJob != true)
+                {
+                    EmailSender.Send(_presenter.GetUser(CSRS.Approver).Email, "Cost Sharing Payment Approval", (_presenter.CurrentCostSharingRequest.AppUser.FullName).ToUpper() + " Requests for Cost Sharing with Request No. '" + (_presenter.CurrentCostSharingRequest.RequestNo).ToUpper() + "'");
 
+                }
+                else
+                {
+                    EmailSender.Send(_presenter.GetUser(_presenter.GetAssignedJobbycurrentuser(CSRS.Approver).AssignedTo).Email, "Cost Sharing Payment Approval", (_presenter.CurrentCostSharingRequest.AppUser.FullName).ToUpper() + " Requests for Cost Sharing with Request No. '" + (_presenter.CurrentCostSharingRequest.RequestNo).ToUpper() + "'");
+                }
             }
             else
             {
-                EmailSender.Send(_presenter.GetUser(_presenter.GetAssignedJobbycurrentuser(CPRS.Approver).AssignedTo).Email, "Cost Sharing Payment Approval", (_presenter.CurrentCostSharingRequest.AppUser.FullName).ToUpper() + " Requests for Cost Sharing Request No. '" + (_presenter.CurrentCostSharingRequest.RequestNo).ToUpper() + "'");
+                foreach (AppUser Payer in _presenter.GetAppUsersByEmployeePosition(CSRS.ApproverPosition))
+                {
+                    if (Payer.IsAssignedJob != true)
+                    {
+                        EmailSender.Send(Payer.Email, "Cost Sharing Payment Approval", (_presenter.CurrentCostSharingRequest.AppUser.FullName).ToUpper() + " Requests for Cost Sharing with Request No. " + (_presenter.CurrentCostSharingRequest.RequestNo).ToUpper());
+                    }
+                    else
+                    {
+                        EmailSender.Send(_presenter.GetUser(_presenter.GetAssignedJobbycurrentuser(Payer.Id).AssignedTo).Email, "Cost Sharing Payment Approval", (_presenter.CurrentCostSharingRequest.AppUser.FullName).ToUpper() + " Requests for Cost Sharing with Request No. '" + (_presenter.CurrentCostSharingRequest.RequestNo).ToUpper());
+                    }
+                }
             }
 
         }
-        private void SendEmailRejected(CostSharingRequestStatus CPRS)
+        private void SendEmailRejected(CostSharingRequestStatus CSRS)
         {
-            EmailSender.Send(_presenter.GetUser(_presenter.CurrentCostSharingRequest.AppUser.Id).Email, "Cost Sharing Payment Request Rejection", "Your Cost Sharing Request with Request No. " + (_presenter.CurrentCostSharingRequest.VoucherNo).ToUpper() + " was Rejected for this reason '" + (CPRS.RejectedReason).ToUpper() + "'");
+            EmailSender.Send(_presenter.GetUser(_presenter.CurrentCostSharingRequest.AppUser.Id).Email, "Cost Sharing Payment Request Rejection", "Your Cost Sharing Request with Request No. " + (_presenter.CurrentCostSharingRequest.VoucherNo).ToUpper() + " was Rejected for this reason '" + (CSRS.RejectedReason).ToUpper() + "'");
         }
         private void SendEmailToRequester()
         {
@@ -229,14 +264,20 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         private void GetNextApprover()
         {
-            foreach (CostSharingRequestStatus CPRS in _presenter.CurrentCostSharingRequest.CostSharingRequestStatuses)
+            foreach (CostSharingRequestStatus CSRS in _presenter.CurrentCostSharingRequest.CostSharingRequestStatuses)
             {
-                if (CPRS.ApprovalStatus == null)
+                if (CSRS.ApprovalStatus == null)
                 {
-                    SendEmail(CPRS);
-                    _presenter.CurrentCostSharingRequest.CurrentApprover = CPRS.Approver;
-                    _presenter.CurrentCostSharingRequest.CurrentLevel = CPRS.WorkflowLevel;
-                    _presenter.CurrentCostSharingRequest.CurrentStatus = CPRS.ApprovalStatus;
+                    if (CSRS.Approver == 0)
+                    {
+                        //This is to handle multiple Finance Officers responding to this request
+                        //SendEmailToFinanceOfficers;
+                        _presenter.CurrentCostSharingRequest.CurrentApproverPosition = CSRS.ApproverPosition;
+                    }
+                    SendEmail(CSRS);
+                    _presenter.CurrentCostSharingRequest.CurrentApprover = CSRS.Approver;
+                    _presenter.CurrentCostSharingRequest.CurrentLevel = CSRS.WorkflowLevel;
+                    _presenter.CurrentCostSharingRequest.CurrentStatus = CSRS.ApprovalStatus;
                     _presenter.CurrentCostSharingRequest.ProgressStatus = ProgressStatus.InProgress.ToString();
                     break;
                 }
@@ -244,38 +285,39 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         private void SaveCostSharingRequestStatus()
         {
-            foreach (CostSharingRequestStatus CPRS in _presenter.CurrentCostSharingRequest.CostSharingRequestStatuses)
+            foreach (CostSharingRequestStatus CSRS in _presenter.CurrentCostSharingRequest.CostSharingRequestStatuses)
             {
-                if ((CPRS.Approver == _presenter.CurrentUser().Id || _presenter.CurrentUser().Id == (_presenter.GetAssignedJobbycurrentuser(CPRS.Approver) != null ? _presenter.GetAssignedJobbycurrentuser(CPRS.Approver).AssignedTo : 0)) && CPRS.WorkflowLevel == _presenter.CurrentCostSharingRequest.CurrentLevel)
+                if ((CSRS.Approver == _presenter.CurrentUser().Id || (CSRS.ApproverPosition == _presenter.CurrentUser().EmployeePosition.Id) || _presenter.CurrentUser().Id == (_presenter.GetAssignedJobbycurrentuser(CSRS.Approver) != null ? _presenter.GetAssignedJobbycurrentuser(CSRS.Approver).AssignedTo : 0)) && CSRS.WorkflowLevel == _presenter.CurrentCostSharingRequest.CurrentLevel)
                 {
-                    CPRS.ApprovalStatus = ddlApprovalStatus.SelectedValue;
-                    CPRS.RejectedReason = txtRejectedReason.Text;
-                    CPRS.Date = DateTime.Now;
-                    CPRS.PaymentType = ddlAccount.SelectedValue;
-                    CPRS.AssignedBy = _presenter.GetAssignedJobbycurrentuser(CPRS.Approver) != null ? _presenter.GetAssignedJobbycurrentuser(CPRS.Approver).AppUser.FullName : "";
-                    if (CPRS.ApprovalStatus != ApprovalStatus.Rejected.ToString())
+                    CSRS.ApprovalStatus = ddlApprovalStatus.SelectedValue;
+                    CSRS.RejectedReason = txtRejectedReason.Text;
+                    CSRS.Date = DateTime.Now;
+                    CSRS.PaymentType = ddlAccount.SelectedValue;
+                    CSRS.AssignedBy = _presenter.GetAssignedJobbycurrentuser(CSRS.Approver) != null ? _presenter.GetAssignedJobbycurrentuser(CSRS.Approver).AppUser.FullName : "";
+                    if (CSRS.ApprovalStatus != ApprovalStatus.Rejected.ToString())
                     {
                         if (_presenter.CurrentCostSharingRequest.CurrentLevel == _presenter.CurrentCostSharingRequest.CostSharingRequestStatuses.Count)
                         {
                             _presenter.CurrentCostSharingRequest.ProgressStatus = ProgressStatus.Completed.ToString();
-                            
+
                         }
                         GetNextApprover();
-                        CPRS.Approver = _presenter.CurrentUser().Id;
-                        if (CPRS.PaymentType.Contains("Bank Payment"))
+                        CSRS.Approver = _presenter.CurrentUser().Id;
+                        _presenter.CurrentCostSharingRequest.CurrentStatus = CSRS.ApprovalStatus;
+                        if (CSRS.PaymentType.Contains("Bank Payment"))
                         {
                             btnBankPayment.Visible = true;
                             _presenter.CurrentCostSharingRequest.PaymentReimbursementStatus = "Bank Payment";
-                            ;
                         }
-                        Log.Info(_presenter.GetUser(CPRS.Approver).FullName + " has " + CPRS.ApprovalStatus + " Cost Sharing Payment Request made by " + _presenter.CurrentCostSharingRequest.AppUser.FullName);
+                        Log.Info(_presenter.GetUser(CSRS.Approver).FullName + " has " + CSRS.ApprovalStatus + " Cost Sharing Payment Request made by " + _presenter.CurrentCostSharingRequest.AppUser.FullName);
                     }
                     else
                     {
                         _presenter.CurrentCostSharingRequest.ProgressStatus = ProgressStatus.Completed.ToString();
-                        CPRS.Approver = _presenter.CurrentUser().Id;
-                        SendEmailRejected(CPRS);
-                        Log.Info(_presenter.GetUser(CPRS.Approver).FullName + " has " + CPRS.ApprovalStatus + " Cost Sharing Request made by " + _presenter.CurrentCostSharingRequest.AppUser.FullName);
+                        _presenter.CurrentCostSharingRequest.CurrentStatus = ApprovalStatus.Rejected.ToString();
+                        CSRS.Approver = _presenter.CurrentUser().Id;
+                        SendEmailRejected(CSRS);
+                        Log.Info(_presenter.GetUser(CSRS.Approver).FullName + " has " + CSRS.ApprovalStatus + " Cost Sharing Request made by " + _presenter.CurrentCostSharingRequest.AppUser.FullName);
                     }
                     break;
                 }
@@ -366,32 +408,32 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         protected void grvCostSharingRequestList_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             Button btnStatus = e.Row.FindControl("btnStatus") as Button;
-             CostSharingRequest CSR = e.Row.DataItem as CostSharingRequest;
-             if (CSR != null)
-             {
-             if (e.Row.RowType == DataControlRowType.DataRow)
-             {
-                 
-                     if (e.Row.RowType == DataControlRowType.DataRow)
-                     {
-                         if (CSR.CurrentLevel == CSR.CostSharingRequestStatuses.Count && CSR.ProgressStatus == "Completed")
-                             e.Row.Cells[9].Visible = true;
-                         else
-                             e.Row.Cells[9].Visible = false;
-                     }
+            CostSharingRequest CSR = e.Row.DataItem as CostSharingRequest;
+            if (CSR != null)
+            {
+                if (e.Row.RowType == DataControlRowType.DataRow)
+                {
 
-                     if (CSR.ProgressStatus == ProgressStatus.InProgress.ToString())
-                     {
-                         btnStatus.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFFF6C");
+                    if (e.Row.RowType == DataControlRowType.DataRow)
+                    {
+                        if (CSR.CurrentLevel == CSR.CostSharingRequestStatuses.Count && CSR.ProgressStatus == "Completed")
+                            e.Row.Cells[9].Visible = true;
+                        else
+                            e.Row.Cells[9].Visible = false;
+                    }
 
-                     }
-                     else if (CSR.ProgressStatus == ProgressStatus.Completed.ToString())
-                     {
-                         btnStatus.BackColor = System.Drawing.ColorTranslator.FromHtml("#FF7251");
+                    if (CSR.ProgressStatus == ProgressStatus.InProgress.ToString())
+                    {
+                        btnStatus.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFFF6C");
 
-                     }
-                 }
-             }
+                    }
+                    else if (CSR.ProgressStatus == ProgressStatus.Completed.ToString())
+                    {
+                        btnStatus.BackColor = System.Drawing.ColorTranslator.FromHtml("#FF7251");
+
+                    }
+                }
+            }
         }
         protected void grvCostSharingRequestList_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -421,9 +463,9 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 if (_presenter.CurrentCostSharingRequest.ProgressStatus != ProgressStatus.Completed.ToString())
                 {
                     SaveCostSharingRequestStatus();
-                    if(ddlAccount.SelectedValue != "0")
-                        
-                    _presenter.SaveOrUpdateCostSharingRequest(_presenter.CurrentCostSharingRequest);
+                    if (ddlAccount.SelectedValue != "0")
+
+                        _presenter.SaveOrUpdateCostSharingRequest(_presenter.CurrentCostSharingRequest);
                     ShowPrint();
                     if (ddlApprovalStatus.SelectedValue != "Rejected")
                     {
@@ -457,7 +499,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             lblApprovalStatusResult.Text = _presenter.CurrentCostSharingRequest.ProgressStatus.ToString();
             lblDescResult.Text = _presenter.CurrentCostSharingRequest.Description;
             lblAccountNameResult.Text = _presenter.CurrentCostSharingRequest.ItemAccount.AccountCode;
-            lblActualExpendtureRes.Text = _presenter.CurrentCostSharingRequest.ActualTotalAmount != null ?_presenter.CurrentCostSharingRequest.ActualTotalAmount.ToString() : "";
+            lblActualExpendtureRes.Text = _presenter.CurrentCostSharingRequest.ActualTotalAmount != null ? _presenter.CurrentCostSharingRequest.ActualTotalAmount.ToString() : "";
             lblReimbersestatusRes.Text = _presenter.CurrentCostSharingRequest.PaymentReimbursementStatus;
             grvDetails.DataSource = _presenter.CurrentCostSharingRequest.CostSharingRequestDetails;
             grvDetails.DataBind();
@@ -467,27 +509,27 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         protected void btnCancelPopup2_Click(object sender, EventArgs e)
         {
-            
+
         }
-      
+
         protected void grvAttachments_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (_presenter.CurrentCostSharingRequest != null)
             {
                 int attachmentId = Convert.ToInt32(grvAttachments.SelectedDataKey.Value);
                 CSRAttachment attachment = _presenter.GetAttachment(attachmentId);
-                
+
                 string Filename = attachment.FilePath;
 
-               
+
 
 
                 System.Web.HttpContext context = System.Web.HttpContext.Current;
                 context.Response.Clear();
                 context.Response.ClearHeaders();
                 context.Response.ClearContent();
-               // context.Response.AppendHeader("content-length", FileData.Length.ToString());
-              //  context.Response.ContentType = GetMimeTypeByFileName(Filename);
+                // context.Response.AppendHeader("content-length", FileData.Length.ToString());
+                //  context.Response.ContentType = GetMimeTypeByFileName(Filename);
                 context.Response.AppendHeader("content-disposition", "attachment; filename=" + Filename);
                 //context.Response.BinaryWrite(FileData);
 
@@ -500,7 +542,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             {
                 if (e.Row.RowType == DataControlRowType.DataRow)
                 {
-                    e.Row.Cells[1].Text = _presenter.GetUser(_presenter.CurrentCostSharingRequest.CostSharingRequestStatuses[e.Row.RowIndex].Approver).FullName;
+                    if (_presenter.CurrentCostSharingRequest.CostSharingRequestStatuses[e.Row.RowIndex].Approver != 0)
+                        e.Row.Cells[1].Text = _presenter.GetUser(_presenter.CurrentCostSharingRequest.CostSharingRequestStatuses[e.Row.RowIndex].Approver).FullName;
                 }
             }
         }
@@ -575,10 +618,10 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             {
                 cprd.CostSharingRequest = _presenter.CurrentCostSharingRequest;
                 TextBox txtEdtAccountCode = e.Item.FindControl("txtEdtAccountCode") as TextBox;
-                
+
                 DropDownList ddlProject = e.Item.FindControl("ddlEdtProject") as DropDownList;
                 cprd.Project = _presenter.GetProject(Convert.ToInt32(ddlProject.SelectedValue));
-            
+
 
                 dgCostSharingRequestDetail.EditItemIndex = -1;
                 dgCostSharingRequestDetail.DataSource = _presenter.CurrentCostSharingRequest.CostSharingRequestDetails;
@@ -609,7 +652,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         protected void btnBankPayment_Click(object sender, EventArgs e)
         {
-            Response.Redirect(String.Format("../Request/frmOperationalControlRequest.aspx?paymentId={0}&Page={1}", Convert.ToInt32(Session["PaymentId"]),"CostSharing"));
+            Response.Redirect(String.Format("../Request/frmOperationalControlRequest.aspx?paymentId={0}&Page={1}", Convert.ToInt32(Session["PaymentId"]), "CostSharing"));
         }
         protected void btnReimburse_Click(object sender, EventArgs e)
         {
@@ -635,14 +678,15 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
 
                 PrintTransaction();
             }
-            catch(Exception ex) {
-                Master.ShowMessage(new AppMessage("Error,'"+ex.Message+"'", Chai.WorkflowManagment.Enums.RMessageType.Error));
+            catch (Exception ex)
+            {
+                Master.ShowMessage(new AppMessage("Error,'" + ex.Message + "'", Chai.WorkflowManagment.Enums.RMessageType.Error));
             }
 
         }
         public void SaveCostSharingDetail()
         {
-            
+
             RemoveCostSharingDetail();
             IList<CostSharingSetting> costsharingsettings = _presenter.GetCostSharingSettings();
             if (costsharingsettings != null)
@@ -650,7 +694,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 foreach (CostSharingSetting CSS in costsharingsettings)
                 {
                     CostSharingRequestDetail detail = new CostSharingRequestDetail();
-                    detail.CostSharingRequest =_presenter.CurrentCostSharingRequest;
+                    detail.CostSharingRequest = _presenter.CurrentCostSharingRequest;
                     detail.Project = CSS.Project;
                     detail.SharedAmount = (CSS.Percentage / 100) * _presenter.CurrentCostSharingRequest.EstimatedTotalAmount;
                     _presenter.CurrentCostSharingRequest.CostSharingRequestDetails.Add(detail);
@@ -663,7 +707,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             foreach (CostSharingRequestDetail CSRD in _presenter.CurrentCostSharingRequest.CostSharingRequestDetails)
             {
                 _presenter.CurrentCostSharingRequest.RemoveCostSharingRequestDetails(CSRD.Id);
-                
+
                 _presenter.DeleteCostSharingsetting(CSRD);
             }
         }
@@ -683,14 +727,14 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 context.Response.Clear();
                 context.Response.ClearHeaders();
                 context.Response.ClearContent();
-               // context.Response.AppendHeader("content-length", FileData.Length.ToString());
-               // context.Response.ContentType = GetMimeTypeByFileName(Filename);
+                // context.Response.AppendHeader("content-length", FileData.Length.ToString());
+                // context.Response.ContentType = GetMimeTypeByFileName(Filename);
                 context.Response.AppendHeader("content-disposition", "attachment; filename=" + Filename);
-               // context.Response.BinaryWrite(FileData);
+                // context.Response.BinaryWrite(FileData);
 
                 context.ApplicationInstance.CompleteRequest();
             }
             pnlReimbursement_ModalPopupExtender.Show();
         }
-}
+    }
 }

@@ -37,7 +37,6 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             }
             CurrentCostSharingRequest = _controller.CurrentObject as CostSharingRequest;
         }
-
         public override void OnViewInitialized()
         {
             if (_costSharingRequest == null)
@@ -102,6 +101,10 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             return _controller.GetCurrentUser();
         }
+        public IList<AppUser> GetAppUsersByEmployeePosition(int employeePosition)
+        {
+            return _settingController.GetAppUsersByEmployeePosition(employeePosition);
+        }
         public IList<Project> ListProjects()
         {
             return _settingController.GetProjects();
@@ -145,8 +148,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         public int GetAssignedUserbycurrentuser()
         {
             return _controller.GetAssignedUserbycurrentuser();
-        }
-       
+        }       
         public void Commit()
         {
             _controller.Commit();

@@ -59,6 +59,10 @@ namespace Chai.WorkflowManagment.Modules.Setting
         {
             return _workspace.Single<AppUser>(x => x.Id == userid, x => x.AppUserRoles.Select(y => y.Role));
         }
+        public AppUser GetUserByUserName(string userName)
+        {
+            return _workspace.Single<AppUser>(x => x.UserName == userName, x => x.AppUserRoles.Select(y => y.Role));
+        }
         #endregion
         #region Account
         public Account GetAccount(int AccountId)
