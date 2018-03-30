@@ -255,7 +255,9 @@
                                                                 <asp:TemplateColumn HeaderText="Actual Expenditure">
                                                                     <ItemTemplate>
                                                                         <asp:TextBox ID="txtActualExpenditure" runat="server" CssClass="form-control" AutoPostBack="true" OnTextChanged="txtActualExpenditure_TextChanged" Text='<%# DataBinder.Eval(Container.DataItem, "ActualExpenditure")%>'></asp:TextBox>
-                                                                        <cc1:FilteredTextBoxExtender runat="server" Enabled="True" TargetControlID="txtActualExpenditure" ID="txtActualExpenditure_FilteredTextBoxExtender" FilterType="Custom,Numbers" ValidChars="."></cc1:FilteredTextBoxExtender>
+                                                                        <asp:RegularExpressionValidator runat="server" ValidationExpression="((\d+)((\.\d{1,2})?))$" ControlToValidate="txtActualExpenditure" CssClass="validator" ValidationGroup="request" ErrorMessage="Please enter a decimal value"></asp:RegularExpressionValidator>
+                                                                        <%--<cc1:FilteredTextBoxExtender runat="server" Enabled="True" TargetControlID="txtActualExpenditure" ID="txtActualExpenditure_FilteredTextBoxExtender" FilterType="Custom,Numbers" ValidChars="."></cc1:FilteredTextBoxExtender>--%>
+                                                                        <%--<cc1:MaskedEditExtender runat="server" TargetControlID="txtActualExpenditure" Mask="9{9}.99" MaskType="Number" ClearMaskOnLostFocus="false"></cc1:MaskedEditExtender>--%>
                                                                         <asp:RequiredFieldValidator ID="rfvActualExpenditure" runat="server" ControlToValidate="txtActualExpenditure" CssClass="validator" ErrorMessage="Actual Expenditure is required" ValidationGroup="request" InitialValue="-1"></asp:RequiredFieldValidator>
                                                                     </ItemTemplate>
                                                                     <FooterTemplate>
