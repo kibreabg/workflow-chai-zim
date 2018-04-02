@@ -27,6 +27,14 @@
                 $('#searchModal').modal('show');
             });
         }
+
+        function IsOneDecimalPoint(evt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode; // restrict user to type only one . point in number
+            var parts = evt.srcElement.value.split('.');
+            if (parts.length > 1 && charCode == 46)
+                return false;
+            return true;
+        }
     </script>
     <div class="jarviswidget" id="wid-id-8" data-widget-editbutton="false" data-widget-custombutton="false">
         <header>
@@ -254,9 +262,9 @@
                                                                 </asp:TemplateColumn>
                                                                 <asp:TemplateColumn HeaderText="Actual Expenditure">
                                                                     <ItemTemplate>
-                                                                        <asp:TextBox ID="txtActualExpenditure" runat="server" CssClass="form-control" AutoPostBack="true" OnTextChanged="txtActualExpenditure_TextChanged" Text='<%# DataBinder.Eval(Container.DataItem, "ActualExpenditure")%>'></asp:TextBox>
-                                                                        <asp:RegularExpressionValidator runat="server" ValidationExpression="((\d+)((\.\d{1,2})?))$" ControlToValidate="txtActualExpenditure" CssClass="validator" ValidationGroup="request" ErrorMessage="Please enter a decimal value"></asp:RegularExpressionValidator>
-                                                                        <%--<cc1:FilteredTextBoxExtender runat="server" Enabled="True" TargetControlID="txtActualExpenditure" ID="txtActualExpenditure_FilteredTextBoxExtender" FilterType="Custom,Numbers" ValidChars="."></cc1:FilteredTextBoxExtender>--%>
+                                                                        <asp:TextBox ID="txtActualExpenditure" runat="server" CssClass="form-control" AutoPostBack="true" onkeypress="return IsOneDecimalPoint(event);" OnTextChanged="txtActualExpenditure_TextChanged" Text='<%# DataBinder.Eval(Container.DataItem, "ActualExpenditure")%>'></asp:TextBox>
+                                                                        <%--<asp:RegularExpressionValidator runat="server" ValidationExpression="((\d+)((\.\d{1,2})?))$" ControlToValidate="txtActualExpenditure" CssClass="validator" ValidationGroup="request" ErrorMessage="Please enter a decimal value"></asp:RegularExpressionValidator>--%>
+                                                                        <cc1:FilteredTextBoxExtender runat="server" Enabled="True" TargetControlID="txtActualExpenditure" ID="txtActualExpenditure_FilteredTextBoxExtender" FilterType="Custom" ValidChars="0123456789."></cc1:FilteredTextBoxExtender>
                                                                         <%--<cc1:MaskedEditExtender runat="server" TargetControlID="txtActualExpenditure" Mask="9{9}.99" MaskType="Number" ClearMaskOnLostFocus="false"></cc1:MaskedEditExtender>--%>
                                                                         <asp:RequiredFieldValidator ID="rfvActualExpenditure" runat="server" ControlToValidate="txtActualExpenditure" CssClass="validator" ErrorMessage="Actual Expenditure is required" ValidationGroup="request" InitialValue="-1"></asp:RequiredFieldValidator>
                                                                     </ItemTemplate>

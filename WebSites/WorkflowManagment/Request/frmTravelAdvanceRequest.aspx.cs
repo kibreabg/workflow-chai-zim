@@ -46,7 +46,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     btnPrint.Enabled = true;
                 }
             }
-            
+
         }
         [CreateNew]
         public TravelAdvanceRequestPresenter Presenter
@@ -118,7 +118,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         #endregion
         private string AutoNumber()
         {
-           return "TR-" + (_presenter.GetLastTravelAdvanceRequestId() + 1).ToString();
+            return "TR-" + (_presenter.GetLastTravelAdvanceRequestId() + 1).ToString();
         }
         private void CheckApprovalSettings()
         {
@@ -144,7 +144,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             ddlExpenseType.DataSource = _presenter.GetExpenseTypes();
             ddlExpenseType.DataBind();
-        
+
 
             //ddlAccountDescription.Items.Insert(0, new ListItem("---Select Account Description---", "0"));
             //ddlAccountDescription.SelectedIndex = 0;
@@ -328,7 +328,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             {
                 if (e.Row.RowType == DataControlRowType.DataRow)
                 {
-                    e.Row.Cells[1].Text = _presenter.GetUser(_presenter.CurrentTravelAdvanceRequest.TravelAdvanceRequestStatuses[e.Row.RowIndex].Approver).FullName;
+                    if (_presenter.CurrentTravelAdvanceRequest.TravelAdvanceRequestStatuses[e.Row.RowIndex].Approver != 0)
+                        e.Row.Cells[1].Text = _presenter.GetUser(_presenter.CurrentTravelAdvanceRequest.TravelAdvanceRequestStatuses[e.Row.RowIndex].Approver).FullName;
                 }
             }
         }
@@ -470,14 +471,14 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             int TACId = (int)dgTravelAdvanceRequestDetail.DataKeys[dgTravelAdvanceRequestDetail.SelectedItem.ItemIndex];
             int Id = dgTravelAdvanceRequestDetail.SelectedItem.ItemIndex;
-               
+
 
             if (TACId > 0)
                 Session["tac"] = _presenter.CurrentTravelAdvanceRequest.GetTravelAdvanceRequestDetail(TACId);
             else
                 Session["tac"] = _presenter.CurrentTravelAdvanceRequest.TravelAdvanceRequestDetails[dgTravelAdvanceRequestDetail.SelectedItem.ItemIndex];
 
-             
+
             int recordId = (int)dgTravelAdvanceRequestDetail.SelectedIndex;
             if (_presenter.CurrentTravelAdvanceRequest.Id > 0)
             {
@@ -517,8 +518,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     txtTotal.Text = _presenter.CurrentTravelAdvanceRequest.TotalTravelAdvance.ToString();
                     _presenter.SaveOrUpdateTARequest(_presenter.CurrentTravelAdvanceRequest);
                 }
-                else { 
-                    
+                else {
+
                     _presenter.CurrentTravelAdvanceRequest.GetTravelAdvanceRequestDetail(Convert.ToInt32(hfDetailId.Value)).TravelAdvanceCosts.Remove(taco);
                     _presenter.CurrentTravelAdvanceRequest.TotalTravelAdvance = _presenter.CurrentTravelAdvanceRequest.TotalTravelAdvance - taco.Total;
                     txtTotal.Text = _presenter.CurrentTravelAdvanceRequest.TotalTravelAdvance.ToString();
@@ -573,10 +574,10 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     _presenter.CurrentTravelAdvanceRequest.TotalTravelAdvance = _presenter.CurrentTravelAdvanceRequest.TotalTravelAdvance + taCost.Total;
                     txtTotal.Text = (_presenter.CurrentTravelAdvanceRequest.TotalTravelAdvance).ToString();
                     if (_presenter.CurrentTravelAdvanceRequest.Id > 0)
-                       _presenter.CurrentTravelAdvanceRequest.GetTravelAdvanceRequestDetail(Convert.ToInt32(hfDetailId.Value)).TravelAdvanceCosts.Add(taCost);
+                        _presenter.CurrentTravelAdvanceRequest.GetTravelAdvanceRequestDetail(Convert.ToInt32(hfDetailId.Value)).TravelAdvanceCosts.Add(taCost);
                     else
-                       _presenter.CurrentTravelAdvanceRequest.TravelAdvanceRequestDetails[Convert.ToInt32(hfDetailId.Value)].TravelAdvanceCosts.Add(taCost);
-                    
+                        _presenter.CurrentTravelAdvanceRequest.TravelAdvanceRequestDetails[Convert.ToInt32(hfDetailId.Value)].TravelAdvanceCosts.Add(taCost);
+
                     dgTravelAdvanceRequestCost.EditItemIndex = -1;
                     BindCostsGrid(taCost.TravelAdvanceRequestDetail);
                     pnlTACost_ModalPopupExtender.Show();
