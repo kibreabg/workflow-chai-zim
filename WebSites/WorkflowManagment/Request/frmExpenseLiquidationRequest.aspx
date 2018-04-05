@@ -136,7 +136,7 @@
                                                         <label class="label">Purpose of Advance </label>
                                                         <label class="input">
                                                             <asp:TextBox ID="txtComment" runat="server"></asp:TextBox>
-                                                             <asp:RequiredFieldValidator ID="rfvPurpose" runat="server" ErrorMessage="Purpose of Advance Required" ForeColor="Red" ControlToValidate ="txtComment" ValidationGroup="request"></asp:RequiredFieldValidator>
+                                                            <asp:RequiredFieldValidator ID="rfvPurpose" runat="server" ErrorMessage="Purpose of Advance Required" ForeColor="Red" ControlToValidate="txtComment" ValidationGroup="request"></asp:RequiredFieldValidator>
                                                         </label>
                                                     </section>
                                                 </div>
@@ -404,6 +404,7 @@
                                         CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active">
                                         <RowStyle CssClass="rowstyle" />
                                         <Columns>
+                                            <asp:BoundField HeaderText="Travel Advance No" SortExpression="TravelAdvanceNo" />
                                             <asp:BoundField DataField="RequestDate" HeaderText="Request Date" SortExpression="RequestDate" />
                                             <asp:BoundField DataField="ExpenseType" HeaderText="Expense Type" SortExpression="ExpenseType" />
                                             <asp:CommandField ShowSelectButton="True" />
@@ -413,6 +414,13 @@
                                         <PagerStyle CssClass="PagerStyle" />
                                         <RowStyle CssClass="rowstyle" />
                                     </asp:GridView>
+                                    <div class="alert alert-info fade in">
+                                        <button class="close" data-dismiss="alert">
+                                            ×
+                                        </button>
+                                        <i class="fa-fw fa fa-info"></i>
+                                        <strong>Info!</strong> Rejected Expense Liquidations are highlighted in <span style="color:red">Red Color</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>

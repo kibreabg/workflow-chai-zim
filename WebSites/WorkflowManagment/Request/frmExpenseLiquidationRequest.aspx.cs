@@ -240,7 +240,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             //This is done so that the user can not ammend a liquidation while it's in an approval process. But one can ammend a rejected liquidation.
             if (_presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.CurrentStatus != null)
             {
-                if(_presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.CurrentStatus == ApprovalStatus.Rejected.ToString())
+                if (_presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.CurrentStatus == ApprovalStatus.Rejected.ToString())
                 {
                     btnSave.Visible = true;
                     btnDelete.Visible = true;
@@ -250,7 +250,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     btnSave.Visible = false;
                     btnDelete.Visible = false;
                 }
-                
+
             }
             else
             {
@@ -260,10 +260,16 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         protected void grvExpenseLiquidationRequestList_RowDataBound(object sender, GridViewRowEventArgs e)
         {
+            ExpenseLiquidationRequest liquidation = e.Row.DataItem as ExpenseLiquidationRequest;
             if (e.Row.RowType == DataControlRowType.DataRow)
-            {
-                //LinkButton db = (LinkButton)e.Row.Cells[5].Controls[0];
-                //db.OnClientClick = "return confirm('Are you sure you want to delete this Recieve?');";
+            {               
+                e.Row.Cells[0].Text = liquidation.TravelAdvanceRequest.TravelAdvanceNo;
+                //The Rejected Expense Liquidation appears on the search grid of the requester as a Red colored row
+                if(liquidation.CurrentStatus == ApprovalStatus.Rejected.ToString())
+                {
+                    e.Row.ForeColor = System.Drawing.Color.Red;
+                }
+
             }
         }
         protected void grvExpenseLiquidationRequestList_PageIndexChanging(object sender, GridViewPageEventArgs e)
@@ -486,7 +492,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.TotalActualExpenditure = 0;
                 _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.TotalTravelAdvance = 0;
                 foreach (ExpenseLiquidationRequestDetail detail in _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestDetails)
-                {                    
+                {
                     _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.TotalActualExpenditure = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.TotalActualExpenditure + detail.ActualExpenditure;
                     _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.TotalTravelAdvance = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.TotalTravelAdvance + detail.AmountAdvanced;
                     txtTotActual.Text = (_presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.TotalActualExpenditure).ToString();

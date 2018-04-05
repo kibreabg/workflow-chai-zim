@@ -235,16 +235,17 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     {
                         ELRS.Approver = _presenter.CurrentUser().Id;
                         _presenter.CurrentExpenseLiquidationRequest.CurrentStatus = ApprovalStatus.Rejected.ToString();
-                        //_presenter.CurrentExpenseLiquidationRequest.CurrentStatus = ApprovalStatus.Rejected.ToString();
+
                         //Make adjustments so that the rejected liquidation can appear to the requester for update and re-request
                         _presenter.CurrentExpenseLiquidationRequest.TravelAdvanceRequest.ExpenseLiquidationStatus = "Completed";
                         _presenter.CurrentExpenseLiquidationRequest.CurrentLevel = 1;
                         _presenter.CurrentExpenseLiquidationRequest.CurrentApprover = GetFirstApprover();
+                        Log.Info(_presenter.GetUser(ELRS.Approver).FullName + " has " + (ELRS.ApprovalStatus).ToUpper() + " Expense Liquidation Request made by " + (_presenter.CurrentExpenseLiquidationRequest.TravelAdvanceRequest.AppUser.FullName).ToUpper());
                         NullifyLiquidationStatuses();
                         //Adjustments ended
 
                         SendEmailRejected(ELRS);
-                        Log.Info(_presenter.GetUser(ELRS.Approver).FullName + " has " + (ELRS.ApprovalStatus).ToUpper() + " Expense Liquidation Request made by " + (_presenter.CurrentExpenseLiquidationRequest.TravelAdvanceRequest.AppUser.FullName).ToUpper());
+                        
                     }
                     break;
                 }
