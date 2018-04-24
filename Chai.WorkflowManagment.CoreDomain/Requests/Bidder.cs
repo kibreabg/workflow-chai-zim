@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Chai.WorkflowManagment.CoreDomain.Approval
+namespace Chai.WorkflowManagment.CoreDomain.Requests
 {
     public partial class Bidder : IEntity
     {
@@ -15,13 +15,19 @@ namespace Chai.WorkflowManagment.CoreDomain.Approval
         }
 
         public int Id { get; set; }
-        public virtual BidAnalysis BidAnalisis { get; set; }
+        public virtual BidAnalysisRequest BidAnalysisRequest { get; set; }
         public string LeadTimefromSupplier { get; set; }
         public string HistoricalPerformance { get; set; }
         public string SpecialTermsDelivery { get; set; }
         public int Rank { get; set; }
         public virtual Supplier Supplier { get; set; }
         public virtual SupplierType SupplierType { get; set; }
+     //   public virtual ItemAccount ItemAccount { get; set; }
+
+    //    public int Qty { get; set; }
+
+      //  public decimal UnitCost { get; set; }
+      //  public decimal TotalCost { get; set; }    
         public virtual IList<BidderItemDetail> BidderItemDetails { get; set; }
 
         #region Bidder

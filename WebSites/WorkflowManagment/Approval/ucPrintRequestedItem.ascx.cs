@@ -1,4 +1,5 @@
 ﻿using Chai.WorkflowManagment.CoreDomain.Request;
+using Chai.WorkflowManagment.CoreDomain.Requests;
 using Microsoft.Practices.ObjectBuilder;
 using System;
 using System.Collections.Generic;
@@ -38,7 +39,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             }
         }
 
-        public PurchaseRequest PurchaseRequest
+        public BidAnalysisRequest BidAnalysisRequest
         {
             get
             {
@@ -60,7 +61,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             get { throw new NotImplementedException(); }
         }
 
-        public int PurchaseRequestId
+        public int BidAnalysisRequestId
         {
             get { throw new NotImplementedException(); }
         }

@@ -8,19 +8,18 @@ using System.Text;
 
 namespace Chai.WorkflowManagment.CoreDomain.Approval
 {
-    [Table("PurchaseOrders")]
-    public partial class PurchaseOrder : IEntity
+    [Table("PurchaseOrderSoleVendors")]
+    public partial class PurchaseOrderSoleVendor : IEntity
     {
 
-        public PurchaseOrder()
+        public PurchaseOrderSoleVendor()
         {
-            this.PurchaseOrderDetails = new List<PurchaseOrderDetail>();
+            this.PurchaseOrderSoleVendorDetails = new List<PurchaseOrderSoleVendorDetail>();
         }
 
         public int Id { get; set; }
-       [Required]
-        public virtual BidAnalysisRequest BidAnalysisRequest { get; set; }
-      
+        [Required]
+        public virtual SoleVendorRequest SoleVendorRequest { get; set; }
         public DateTime PODate { get; set; }
         public Supplier Supplier { get; set; }
         public string PoNumber { get; set; }
@@ -30,13 +29,13 @@ namespace Chai.WorkflowManagment.CoreDomain.Approval
         public string PaymentTerms { get; set; }
         public string Status { get; set; }
         public decimal TotalPrice { get; set; }
-        public IList<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
+        public IList<PurchaseOrderSoleVendorDetail> PurchaseOrderSoleVendorDetails { get; set; }
 
-        #region PurchaseOrderDetail
-        public virtual PurchaseOrderDetail GetPurchaseOrderDetail(int Id)
+        #region PurchaseOrderSoleVendorDetail
+        public virtual PurchaseOrderSoleVendorDetail GetPurchaseOrderSoleVendorDetail(int Id)
         {
 
-            foreach (PurchaseOrderDetail detail in PurchaseOrderDetails)
+            foreach (PurchaseOrderSoleVendorDetail detail in PurchaseOrderSoleVendorDetails)
             {
                 if (detail.Id == Id)
                     return detail;
@@ -46,13 +45,13 @@ namespace Chai.WorkflowManagment.CoreDomain.Approval
         }
 
 
-        public virtual void RemovePurchaseOrderDetail(int Id)
+        public virtual void RemovePurchaseOrderSoleVendorDetail(int Id)
         {
 
-            foreach (PurchaseOrderDetail detail in PurchaseOrderDetails)
+            foreach (PurchaseOrderSoleVendorDetail detail in PurchaseOrderSoleVendorDetails)
             {
                 if (detail.Id == Id)
-                    PurchaseOrderDetails.Remove(detail);
+                    PurchaseOrderSoleVendorDetails.Remove(detail);
                 break;
             }
 

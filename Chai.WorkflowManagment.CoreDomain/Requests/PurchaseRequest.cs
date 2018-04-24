@@ -1,5 +1,6 @@
 ﻿using Chai.WorkflowManagment.CoreDomain.Approval;
 using Chai.WorkflowManagment.CoreDomain.Setting;
+using Chai.WorkflowManagment.CoreDomain.Users;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -36,11 +37,12 @@ namespace Chai.WorkflowManagment.CoreDomain.Request
         public int CurrentLevel { get; set; }
         public string CurrentStatus { get; set; }
         public string ProgressStatus { get; set; }
-        
-        public virtual BidAnalysis BidAnalysises { get; set; }
+
+     
+     //   public virtual  BidAnalysises { get; set; }
         public virtual IList<PurchaseRequestStatus> PurchaseRequestStatuses { get; set; }
         public virtual IList<PurchaseRequestDetail> PurchaseRequestDetails { get; set; }
-        public virtual PurchaseOrder PurchaseOrders { get; set; }
+       // public virtual PurchaseOrder PurchaseOrders { get; set; }
          
       
         #region PurchaseRequestStatus

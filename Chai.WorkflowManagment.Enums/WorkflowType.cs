@@ -17,6 +17,8 @@ namespace Chai.WorkflowManagment.Enums
         ExpenseLiquidation_Request,
         BankPayment_Request,
         CostSharing_Request,
+        SoleVendor_Request,
+        Bid_Analysis_Request,
     }
    public enum ProgressStatus
     {

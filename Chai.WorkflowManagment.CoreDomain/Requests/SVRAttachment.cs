@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Chai.WorkflowManagment.CoreDomain.Approval
+namespace Chai.WorkflowManagment.CoreDomain.Requests
 {
-    public partial class BAAttachment : IEntity
+    public partial class SVRAttachment : IEntity
     {
         public int Id { get; set; }
         public string FilePath { get; set; }
-        public virtual BidAnalysis BidAnalisis { get; set; }
+       
+        public virtual SoleVendorRequest SoleVendorRequest { get; set; }
     }
 }

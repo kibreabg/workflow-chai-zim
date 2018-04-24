@@ -6,12 +6,12 @@ using System.Text;
 
 namespace Chai.WorkflowManagment.Modules.Approval.Views
 {
-    public interface IPurchaseApprovalDetailView
+    public interface ISoleVendorApprovalView
     {
-      //  PurchaseRequest PurchaseRequest { get; set; }
-    //    string RequestNo { get; }
-   //     string RequestDate { get; }
-        int PurchaseRequestId { get; }
+        SoleVendorRequest SoleVendorRequest { get; set; }
+        string RequestNo { get; }
+        string RequestDate { get; }
+        int SoleVendorRequestId { get; }
     }
 }
 

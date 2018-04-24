@@ -8,10 +8,11 @@ using Chai.WorkflowManagment.CoreDomain.Users;
 using Chai.WorkflowManagment.Shared;
 using Chai.WorkflowManagment.CoreDomain.Setting;
 using Chai.WorkflowManagment.CoreDomain.Approval;
+using Chai.WorkflowManagment.CoreDomain.Requests;
 
 namespace Chai.WorkflowManagment.Modules.Approval.Views
 {
-    public class PurchaseApprovalPresenter : Presenter<IPurchaseApprovalView>
+    public class BidAnalysisApprovalPresenter : Presenter<IBidAnalysisView>
     {
 
         // NOTE: Uncomment the following code if you want ObjectBuilder to inject the module controller
@@ -20,8 +21,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
          private Chai.WorkflowManagment.Modules.Approval.ApprovalController _controller;
         private Chai.WorkflowManagment.Modules.Setting.SettingController _settingcontroller;
         private Chai.WorkflowManagment.Modules.Admin.AdminController _admincontroller;
-        private PurchaseRequest _purchaserequest;
-        public PurchaseApprovalPresenter([CreateNew] Chai.WorkflowManagment.Modules.Approval.ApprovalController controller, [CreateNew] Chai.WorkflowManagment.Modules.Setting.SettingController settingcontroller, [CreateNew] Chai.WorkflowManagment.Modules.Admin.AdminController admincontroller)
+        private BidAnalysisRequest _bidanalysisrequest;
+        public BidAnalysisApprovalPresenter([CreateNew] Chai.WorkflowManagment.Modules.Approval.ApprovalController controller, [CreateNew] Chai.WorkflowManagment.Modules.Setting.SettingController settingcontroller, [CreateNew] Chai.WorkflowManagment.Modules.Admin.AdminController admincontroller)
          {
              _controller = controller;
              _settingcontroller = settingcontroller;
@@ -30,39 +31,39 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
     
          public override void OnViewLoaded()
          {
-             if (View.PurchaseRequestId > 0)
+             if (View.BidAnalysisRequestId > 0)
              {
-                 _controller.CurrentObject = _controller.GetLeaveRequest(View.PurchaseRequestId);
+                 _controller.CurrentObject = _controller.GetBidAnalysisRequest(View.BidAnalysisRequestId);
              }
-             CurrentPurchaseRequest = _controller.CurrentObject as PurchaseRequest;
+             CurrentBidAnalysisRequest = _controller.CurrentObject as BidAnalysisRequest;
          }
          public override void OnViewInitialized()
          {
-             if (_purchaserequest == null)
+             if (_bidanalysisrequest == null)
              {
-                 int id = View.PurchaseRequestId;
+                 int id = View.BidAnalysisRequestId;
                  if (id > 0)
-                     _controller.CurrentObject = _controller.GetPurchaseRequest(id);
+                     _controller.CurrentObject = _controller.GetBidAnalysisRequest(id);
                  else
-                     _controller.CurrentObject = new PurchaseRequest();
+                     _controller.CurrentObject = new BidAnalysisRequest();
              }
          }
        
-         public PurchaseRequest CurrentPurchaseRequest
+         public BidAnalysisRequest CurrentBidAnalysisRequest
          {
              get
              {
-                 if (_purchaserequest == null)
+                 if (_bidanalysisrequest == null)
                  {
-                     int id = View.PurchaseRequestId;
+                     int id = View.BidAnalysisRequestId;
                      if (id > 0)
-                         _purchaserequest = _controller.GetPurchaseRequest(id);
+                         _bidanalysisrequest = _controller.GetBidAnalysisRequest(id);
                      else
-                         _purchaserequest = new PurchaseRequest();
+                         _bidanalysisrequest = new BidAnalysisRequest();
                  }
-                 return _purchaserequest;
+                 return _bidanalysisrequest;
              }
-             set { _purchaserequest = value; }
+             set { _bidanalysisrequest = value; }
          }
 
          public BAAttachment GetBAAttachment(int attachmentId)
@@ -81,9 +82,9 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
          {
              return _controller.GetAssignedJobbycurrentuser();
          }
-         public void SaveOrUpdatePurchaseRequest(PurchaseRequest PurchaseRequest)
+         public void SaveOrUpdateBidAnalysisRequest(BidAnalysisRequest BidAnalysisRequest)
          {
-             _controller.SaveOrUpdateEntity(PurchaseRequest);
+             _controller.SaveOrUpdateEntity(BidAnalysisRequest);
          }
          
          public void CancelPage()
@@ -96,18 +97,18 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
              _controller.DeleteEntity(PurchaseRequest);
          }
 
-         public PurchaseRequest GetPurchaseRequestById(int id)
+         public BidAnalysisRequest GetBidAnalysisRequestById(int id)
          {
-             return _controller.GetPurchaseRequest(id);
+             return _controller.GetBidAnalysisRequest(id);
          }
 
          public ApprovalSetting GetApprovalSetting(string RequestType, int value)
          {
              return _settingcontroller.GetApprovalSettingforProcess(RequestType, value);
          }
-         public IList<PurchaseRequest> ListPurchaseRequests(string requestNo,string RequestDate,string ProgressStatus)
+         public IList<BidAnalysisRequest> ListBidAnalysisRequests(string requestNo, string RequestDate, string ProgressStatus)
          {
-             return _controller.ListPurchaseRequests(requestNo, RequestDate, ProgressStatus);
+             return _controller.ListBidAnalysisRequests(requestNo, RequestDate, ProgressStatus);
 
          }
          

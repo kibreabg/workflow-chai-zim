@@ -12,7 +12,7 @@ using Chai.WorkflowManagment.CoreDomain.Requests;
 
 namespace Chai.WorkflowManagment.Modules.Approval.Views
 {
-    public class PurchaseOrderPresenter : Presenter<IPurchaseOrderView>
+    public class PurchaseOrderSoleVendorPresenter : Presenter<IPurchaseOrderSoleVendorView>
     {
 
         // NOTE: Uncomment the following code if you want ObjectBuilder to inject the module controller
@@ -21,9 +21,9 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         private Chai.WorkflowManagment.Modules.Approval.ApprovalController _controller;
         private Chai.WorkflowManagment.Modules.Setting.SettingController _settingcontroller;
         private Chai.WorkflowManagment.Modules.Admin.AdminController _admincontroller;
-        private BidAnalysisRequest _purchaserequest;
-      
-        public PurchaseOrderPresenter([CreateNew] Chai.WorkflowManagment.Modules.Approval.ApprovalController controller, [CreateNew] Chai.WorkflowManagment.Modules.Setting.SettingController settingcontroller, [CreateNew] Chai.WorkflowManagment.Modules.Admin.AdminController admincontroller)
+    
+        private SoleVendorRequest _solevendorrequest;
+        public PurchaseOrderSoleVendorPresenter([CreateNew] Chai.WorkflowManagment.Modules.Approval.ApprovalController controller, [CreateNew] Chai.WorkflowManagment.Modules.Setting.SettingController settingcontroller, [CreateNew] Chai.WorkflowManagment.Modules.Admin.AdminController admincontroller)
          {
              _controller = controller;
              _settingcontroller = settingcontroller;
@@ -33,42 +33,42 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
          public override void OnViewLoaded()
          {
             
-                 if (View.BidAnalysisRequestId > 0)
+                 if (View.SoleVendorRequestId > 0)
                  {
-                     _controller.CurrentObject = _controller.GetBidAnalysisRequest(View.BidAnalysisRequestId);
+                     _controller.CurrentObject = _controller.GetSoleVendorRequest(View.SoleVendorRequestId);
                  }
-                 CurrentBidAnalysisRequest = _controller.CurrentObject as BidAnalysisRequest;
+                 CurrentSoleVendorRequest = _controller.CurrentObject as SoleVendorRequest;
             
          }
-         public BidAnalysisRequest CurrentBidAnalysisRequest
+      
+         public SoleVendorRequest CurrentSoleVendorRequest
          {
              get
              {
-                 if (_purchaserequest == null)
+                 if (_solevendorrequest == null)
                  {
-                     int id = View.BidAnalysisRequestId;
+                     int id = View.SoleVendorRequestId;
                      if (id > 0)
-                         _purchaserequest = _controller.GetBidAnalysisRequest(id);
+                         _solevendorrequest = _controller.GetSoleVendorRequest(id);
                      else
-                         _purchaserequest = new BidAnalysisRequest();
+                         _solevendorrequest = new SoleVendorRequest();
                  }
-                 return _purchaserequest;
+                 return _solevendorrequest;
              }
-             set { _purchaserequest = value; }
+             set { _solevendorrequest = value; }
          }
-        
          public override void OnViewInitialized()
          {
             
-                 if (_purchaserequest == null)
+                 if (_solevendorrequest == null)
                  {
-                     int id = View.BidAnalysisRequestId;
+                     int id = View.SoleVendorRequestId;
                      if (id > 0)
-                         _controller.CurrentObject = _controller.GetBidAnalysisRequest(id);
+                         _controller.CurrentObject = _controller.GetSoleVendorRequest(id);
                      else
-                         _controller.CurrentObject = new BidAnalysisRequest();
-                 }
-            
+                         _controller.CurrentObject = new SoleVendorRequest();
+                
+             }
          }
          public IList<ItemAccount> GetItemAccounts()
          {
@@ -89,21 +89,18 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
          {
              return _admincontroller.GetUser(UserId);
          }
-         public void SaveOrUpdatePurchaseRequest(BidAnalysisRequest PurchaseRequest)
+     
+         public void SaveOrUpdateSoleVendorRequest(SoleVendorRequest SoleVendorRequest)
          {
-             _controller.SaveOrUpdateEntity(PurchaseRequest);
+             _controller.SaveOrUpdateEntity(SoleVendorRequest);
          }
-        
          
          public void CancelPage()
          {
              _controller.Navigate(String.Format("~/Setting/Default.aspx?{0}=3", AppConstants.TABID));
          }
 
-         public void DeletePurchaseRequest(PurchaseRequest PurchaseRequest)
-         {
-             _controller.DeleteEntity(PurchaseRequest);
-         }
+      
          public void DeleteSoleVendorRequest(SoleVendorRequest SoleVendorRequest)
          {
              _controller.DeleteEntity(SoleVendorRequest);
@@ -113,17 +110,20 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
          {
              return _controller.GetBidAnalysisRequest(id);
          }
-      
+         public SoleVendorRequest GetSoleVendorRequestById(int id)
+         {
+             return _controller.GetSoleVendorRequest(id);
+         }
          public ApprovalSetting GetApprovalSetting(string RequestType, int value)
          {
              return _settingcontroller.GetApprovalSettingforProcess(RequestType, value);
          }
-         public IList<BidAnalysisRequest> ListPurchaseRequests(string requestNo, string RequestDate, string ProgressStatus)
+        
+         public IList<SoleVendorRequest> ListSoleVendorRequests(string requestNo, string RequestDate, string ProgressStatus)
          {
-             return _controller.ListBidAnalysisRequests(requestNo, RequestDate, ProgressStatus);
+             return _controller.ListSoleVendorRequests(requestNo, RequestDate, ProgressStatus);
 
          }
-         
          public IList<Supplier> GetSuppliers()
          {
             return _settingcontroller.GetSuppliers();
@@ -140,7 +140,10 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
          {
              _controller.DeleteEntity(BidAnalysis);
          }
-       
+         public void DeleteSoleVendor(SoleVendorRequest SoleVendor)
+         {
+             _controller.DeleteEntity(SoleVendor);
+         }
          public void DeleteBidder(Bidder Bidder)
          {
              _controller.DeleteEntity(Bidder);

@@ -212,42 +212,6 @@ namespace Chai.WorkflowManagment.Modules.Approval
             return _workspace.SqlQuery<LeaveRequest>(filterExpression).ToList();
         }
         #endregion
-        #region PurchaseApproval
-
-        public PurchaseRequest GetPurchaseRequest(int PurchaseRequestId)
-        {
-            return _workspace.Single<PurchaseRequest>(x => x.Id == PurchaseRequestId, x => x.PurchaseRequestDetails.Select(y => y.ItemAccount), x => x.PurchaseRequestDetails.Select(z => z.project), x => x.BidAnalysises.Bidders.Select(z => z.Supplier), x => x.BidAnalysises.Bidders.Select(z => z.BidderItemDetails.Select(y => y.ItemAccount)),x=>x.PurchaseOrders.PurchaseOrderDetails);
-        }
-        public IList<PurchaseRequest> ListPurchaseRequests(string RequestNo, string RequestDate, string ProgressStatus)
-        {
-            string filterExpression = "";
-
-            if (ProgressStatus != "Completed")
-            {
-                filterExpression = " SELECT  *  FROM PurchaseRequests INNER JOIN AppUsers on AppUsers.Id=PurchaseRequests.CurrentApprover  Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where 1 = Case when '" + RequestNo + "' = '' Then 1 When PurchaseRequests.RequestNo = '" + RequestNo + "'  Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When PurchaseRequests.RequestedDate = '" + RequestDate + "'  Then 1 END AND PurchaseRequests.ProgressStatus='" + ProgressStatus + "' " +
-                                       " AND  ((PurchaseRequests.CurrentApprover = '" + CurrentUser().Id + "') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) order by PurchaseRequests.Id DESC";
-            }
-            else
-            {
-                filterExpression = " SELECT  *  FROM PurchaseRequests INNER JOIN AppUsers on AppUsers.Id=PurchaseRequests.CurrentApprover INNER JOIN PurchaseRequestStatuses on PurchaseRequestStatuses.PurchaseRequest_Id = PurchaseRequests.Id Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where 1 = Case when '" + RequestNo + "' = '' Then 1 When PurchaseRequests.RequestNo = '" + RequestNo + "'  Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When PurchaseRequests.RequestedDate = '" + RequestDate + "'  Then 1 END AND PurchaseRequests.ProgressStatus='" + ProgressStatus + "' AND " + 
-                                           "   (PurchaseRequestStatuses.ApprovalStatus Is not null AND (PurchaseRequestStatuses.Approver = '" + CurrentUser().Id + "') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) order by PurchaseRequests.Id DESC ";
-            }
-            return _workspace.SqlQuery<PurchaseRequest>(filterExpression).ToList();
-
-        }
-        public BAAttachment GetBAAttachment(int attachmentId)
-        {
-            return _workspace.Single<BAAttachment>(x => x.Id == attachmentId);
-        }
-        public int GetLastPurchaseOrderId()
-        {
-            if (_workspace.Last<PurchaseOrder>() != null)
-            {
-                return _workspace.Last<PurchaseOrder>().Id;
-            }
-            else { return 0; }
-        }
-        #endregion
         #region AssignJob
         public int GetAssignedUserbycurrentuser()
         {
@@ -290,6 +254,92 @@ namespace Chai.WorkflowManagment.Modules.Approval
             { return null; }
         }
         #endregion
+        #region BidAnalysisApproval
+
+        public BidAnalysisRequest GetBidAnalysisRequest(int BidAnalysisId)
+        {
+            return _workspace.Single<BidAnalysisRequest>(x => x.Id == BidAnalysisId);
+            //x => x.Bidders.Select(y => y.ItemAccount), x => x.PurchaseRequestDetails.Select(z => z.project), x => x.Bidders.Select(z => z.Supplier), x => x.BidAnalysises.Bidders.Select(z => z.BidderItemDetails.Select(y => y.ItemAccount)), x => x.PurchaseOrders.PurchaseOrderDetails);
+        }
+        public IList<BidAnalysisRequest> ListBidAnalysisRequests(string RequestNo, string RequestDate, string ProgressStatus)
+        {
+            string filterExpression = "";
+
+            if (ProgressStatus != "Completed")
+            {
+                filterExpression = " SELECT  *  FROM BidAnalysisRequests INNER JOIN AppUsers on AppUsers.Id=BidAnalysisRequests.CurrentApprover  Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where 1 = Case when '" + RequestNo + "' = '' Then 1 When BidAnalysisRequests.RequestNo = '" + RequestNo + "'  Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When BidAnalysisRequests.RequestDate = '" + RequestDate + "'  Then 1 END AND BidAnalysisRequests.ProgressStatus='" + ProgressStatus + "' " +
+                                       " AND  ((BidAnalysisRequests.CurrentApprover = '" + CurrentUser().Id + "') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) order by BidAnalysisRequests.Id DESC";
+            }
+            else
+            {
+                filterExpression = " SELECT  *  FROM BidAnalysisRequests INNER JOIN AppUsers on AppUsers.Id=BidAnalysisRequests.CurrentApprover INNER JOIN BidAnalysisRequestStatuses on BidAnalysisRequestStatuses.BidAnalysisRequest_Id = BidAnalysisRequests.Id Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where 1 = Case when '" + RequestNo + "' = '' Then 1 When BidAnalysisRequests.RequestNo = '" + RequestNo + "'  Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When BidAnalysisRequests.RequestDate = '" + RequestDate + "'  Then 1 END AND BidAnalysisRequests.ProgressStatus='" + ProgressStatus + "' AND " +
+                                           "   (BidAnalysisRequestStatuses.ApprovalStatus Is not null AND (BidAnalysisRequestStatuses.Approver = '" + CurrentUser().Id + "') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) order by BidAnalysisRequests.Id DESC ";
+            }
+            return _workspace.SqlQuery<BidAnalysisRequest>(filterExpression).ToList();
+
+        }
+        public BAAttachment GetBAAttachment(int attachmentId)
+        {
+            return _workspace.Single<BAAttachment>(x => x.Id == attachmentId);
+        }
+        public int GetLastPurchaseOrderId()
+        {
+            if (_workspace.Last<PurchaseOrder>() != null)
+            {
+                return _workspace.Last<PurchaseOrder>().Id;
+            }
+            else { return 0; }
+        }
+        #endregion
+        #region PurchaseApproval
+
+        public PurchaseRequest GetPurchaseRequest(int PurchaseId)
+        {
+            return _workspace.Single<PurchaseRequest>(x => x.Id == PurchaseId);
+            //x => x.Bidders.Select(y => y.ItemAccount), x => x.PurchaseRequestDetails.Select(z => z.project), x => x.Bidders.Select(z => z.Supplier), x => x.BidAnalysises.Bidders.Select(z => z.BidderItemDetails.Select(y => y.ItemAccount)), x => x.PurchaseOrders.PurchaseOrderDetails);
+        }
+        public IList<PurchaseRequest> ListPurchaseRequests(string RequestNo, string RequestDate, string ProgressStatus)
+        {
+            string filterExpression = "";
+
+            if (ProgressStatus != "Completed")
+            {
+                filterExpression = " SELECT  *  FROM PurchaseRequests INNER JOIN AppUsers on AppUsers.Id=PurchaseRequests.CurrentApprover  Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where 1 = Case when '" + RequestNo + "' = '' Then 1 When PurchaseRequests.RequestNo = '" + RequestNo + "'  Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When PurchaseRequests.RequestedDate = '" + RequestDate + "'  Then 1 END AND PurchaseRequests.ProgressStatus='" + ProgressStatus + "' " +
+                                       " AND  ((PurchaseRequests.CurrentApprover = '" + CurrentUser().Id + "') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) order by PurchaseRequests.Id DESC";
+            }
+            else
+            {
+                filterExpression = " SELECT  *  FROM PurchaseRequests INNER JOIN AppUsers on AppUsers.Id=PurchaseRequests.CurrentApprover INNER JOIN PurchaseRequestStatuses on PurchaseRequestStatuses.PurchaseRequest_Id = PurchaseRequests.Id Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where 1 = Case when '" + RequestNo + "' = '' Then 1 When PurchaseRequests.RequestNo = '" + RequestNo + "'  Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When PurchaseRequests.RequestedDate = '" + RequestDate + "'  Then 1 END AND PurchaseRequests.ProgressStatus='" + ProgressStatus + "' AND " +
+                                           "   (PurchaseRequestStatuses.ApprovalStatus Is not null AND (PurchaseRequestStatuses.Approver = '" + CurrentUser().Id + "') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) order by PurchaseRequests.Id DESC ";
+            }
+            return _workspace.SqlQuery<PurchaseRequest>(filterExpression).ToList();
+
+        }
+
+        #endregion
+        #region SoleVendorApproval
+        public SoleVendorRequest GetSoleVendorRequest(int SoleVendorRequestId)
+        {
+            return _workspace.Single<SoleVendorRequest>(x => x.Id == SoleVendorRequestId);
+        }
+        public IList<SoleVendorRequest> ListSoleVendorRequests(string RequestNo, string RequestDate, string ProgressStatus)
+        {
+            string filterExpression = "";
+            if (ProgressStatus != "Completed")
+            {
+                filterExpression = " SELECT  *  FROM SoleVendorRequests INNER JOIN AppUsers on AppUsers.Id=SoleVendorRequests.CurrentApprover  Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where 1 = Case when '" + RequestNo + "' = '' Then 1 When SoleVendorRequests.RequestNo = '" + RequestNo + "'  Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When SoleVendorRequests.RequestDate = '" + RequestDate + "'  Then 1 END AND SoleVendorRequests.ProgressStatus='" + ProgressStatus + "' " +
+                                       " AND  ((SoleVendorRequests.CurrentApprover = '" + CurrentUser().Id + "') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) order by SoleVendorRequests.Id DESC ";
+            }
+            else
+            {
+                filterExpression = " SELECT  *  FROM SoleVendorRequests INNER JOIN AppUsers on AppUsers.Id=SoleVendorRequests.CurrentApprover INNER JOIN SoleVendorRequestStatuses on SoleVendorRequestStatuses.SoleVendorRequest_Id = SoleVendorRequests.Id Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where 1 = Case when '" + RequestNo + "' = '' Then 1 When SoleVendorRequests.RequestNo = '" + RequestNo + "'  Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When SoleVendorRequests.RequestDate = '" + RequestDate + "'  Then 1 END AND SoleVendorRequests.ProgressStatus='" + ProgressStatus + "'  " +
+                                          " AND  ( SoleVendorRequestStatuses.ApprovalStatus Is not null AND (SoleVendorRequestStatuses.Approver = '" + CurrentUser().Id + "') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) order by SoleVendorRequests.Id DESC ";
+            }
+
+            return _workspace.SqlQuery<SoleVendorRequest>(filterExpression).ToList();
+        }
+        #endregion
+
         #region Entity Manipulation
         public void SaveOrUpdateEntity<T>(T item) where T : class
         {

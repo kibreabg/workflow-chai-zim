@@ -8,6 +8,7 @@ using Chai.WorkflowManagment.CoreDomain.Users;
 using Chai.WorkflowManagment.Shared;
 using Chai.WorkflowManagment.CoreDomain.Setting;
 using Chai.WorkflowManagment.CoreDomain.Approval;
+using Chai.WorkflowManagment.CoreDomain.Requests;
 
 namespace Chai.WorkflowManagment.Modules.Approval.Views
 {
@@ -60,7 +61,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                  if (id > 0)
                      _controller.CurrentObject = _controller.GetPurchaseRequest(id);
                  else
-                     _controller.CurrentObject = new PurchaseRequest();
+                     _controller.CurrentObject = new BidAnalysisRequest();
              }
          }
          public IList<ItemAccount> GetItemAccounts()
@@ -86,6 +87,14 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
          {
              _controller.SaveOrUpdateEntity(PurchaseRequest);
          }
+         public AssignJob GetAssignedJobbycurrentuser(int userId)
+         {
+             return _controller.GetAssignedJobbycurrentuser(userId);
+         }
+         public int GetAssignedUserbycurrentuser()
+         {
+             return _controller.GetAssignedUserbycurrentuser();
+         }
          
          public void CancelPage()
          {
@@ -106,7 +115,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
          {
              return _settingcontroller.GetApprovalSettingforProcess(RequestType, value);
          }
-         public IList<PurchaseRequest> ListPurchaseRequests(string requestNo,string RequestDate,string ProgressStatus)
+         public IList<PurchaseRequest> ListPurchaseRequests(string requestNo, string RequestDate, string ProgressStatus)
          {
              return _controller.ListPurchaseRequests(requestNo, RequestDate, ProgressStatus);
 
@@ -135,18 +144,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
          {
              return _controller.GetCurrentUser();
          }
-         public void DeleteBidAnalysis(BidAnalysis BidAnalysis)
-         {
-             _controller.DeleteEntity(BidAnalysis);
-         }
-         public void DeleteBidder(Bidder Bidder)
-         {
-             _controller.DeleteEntity(Bidder);
-         }
-         public void DeleteBidderItemDetail(BidderItemDetail BidderItemDetail)
-         {
-             _controller.DeleteEntity(BidderItemDetail);
-         }
+        
+        
          public void Commit()
          {
              _controller.Commit();

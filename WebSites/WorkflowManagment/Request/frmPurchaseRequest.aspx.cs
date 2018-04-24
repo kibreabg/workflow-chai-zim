@@ -123,13 +123,13 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 _presenter.CurrentPurchaseRequest.Requireddateofdelivery = Convert.ToDateTime(txtdeliveryDate.Text);
                 _presenter.CurrentPurchaseRequest.ConditionsofOrder = txtConditionofOrder.Text;
                 _presenter.CurrentPurchaseRequest.Budgeted = chkBudgeted.Checked;
-                //if (_presenter.CurrentPurchaseRequest.PurchaseRequestDetails.Count > 0)
-                //{
-                //    foreach (PurchaseRequestDetail detail in _presenter.CurrentPurchaseRequest.PurchaseRequestDetails)
-                //    {
-                //        _presenter.CurrentPurchaseRequest.TotalPrice = _presenter.CurrentPurchaseRequest.TotalPrice + detail.EstimatedCost;
-                //    }
-                //}
+                if (_presenter.CurrentPurchaseRequest.PurchaseRequestDetails.Count > 0)
+                {
+                  foreach (PurchaseRequestDetail detail in _presenter.CurrentPurchaseRequest.PurchaseRequestDetails)
+                   {
+                      _presenter.CurrentPurchaseRequest.TotalPrice = _presenter.CurrentPurchaseRequest.TotalPrice + detail.EstimatedCost;
+                   }
+                }
                 SavePurchaseRequestStatus();
                 GetCurrentApprover();
             }
@@ -151,10 +151,10 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             if (_presenter.CurrentPurchaseRequest.Id <= 0)
             {
-                if (_presenter.GetApprovalSettingforPurchaseProcess(RequestType.Purchase_Request.ToString().Replace('_', ' '), _presenter.CurrentPurchaseRequest.TotalPrice) != null)
+                if (_presenter.GetApprovalSettingforPurchaseProcess(RequestType.Purchase_Request.ToString().Replace('_', ' '), 0) != null)
                 {
                     int i = 1;
-                    foreach (ApprovalLevel AL in _presenter.GetApprovalSettingforPurchaseProcess(RequestType.Purchase_Request.ToString().Replace('_', ' '), _presenter.CurrentPurchaseRequest.TotalPrice).ApprovalLevels)
+                    foreach (ApprovalLevel AL in _presenter.GetApprovalSettingforPurchaseProcess(RequestType.Purchase_Request.ToString().Replace('_', ' '),0).ApprovalLevels)
                     {
                         PurchaseRequestStatus PRS = new PurchaseRequestStatus();
                         PRS.PurchaseRequest = _presenter.CurrentPurchaseRequest;

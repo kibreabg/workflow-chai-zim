@@ -72,11 +72,10 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Approval\BidAnalysis.cs" />
-    <Compile Include="Approval\Bidder.cs" />
-    <Compile Include="Approval\BidderItemDetail.cs" />
     <Compile Include="Approval\PurchaseOrder.cs" />
     <Compile Include="Approval\PurchaseOrderDetail.cs" />
+    <Compile Include="Approval\PurchaseOrderSoleVendor.cs" />
+    <Compile Include="Approval\PurchaseOrderSoleVendorDetail.cs" />
     <Compile Include="DataAccess\ReportDao.cs" />
     <Compile Include="Admins\Node.cs" />
     <Compile Include="Admins\NodeRole.cs" />
@@ -103,10 +102,15 @@
     <Compile Include="Report\PurchaseReport.cs" />
     <Compile Include="Report\TravelAdvanceReport.cs" />
     <Compile Include="Report\VehicleReport.cs" />
+    <Compile Include="Requests\BAAttachment.cs" />
     <Compile Include="Requests\BankPaymentRequest.cs" />
     <Compile Include="Requests\BankPaymentRequestDetail.cs" />
     <Compile Include="Requests\BankPaymentRequestStatus.cs" />
-    <Compile Include="Approval\BAAttachment.cs" />
+    <Compile Include="Requests\BidAnalysisRequest.cs" />
+    <Compile Include="Requests\BidAnalysisRequestDetail.cs" />
+    <Compile Include="Requests\BidAnalysisRequestStatus.cs" />
+    <Compile Include="Requests\Bidder.cs" />
+    <Compile Include="Requests\BidderItemDetail.cs" />
     <Compile Include="Requests\CostSharingRequestStatus.cs" />
     <Compile Include="Requests\CostSharingRequestDetail.cs" />
     <Compile Include="Requests\CostSharingRequest.cs" />
@@ -131,6 +135,10 @@
     <Compile Include="Requests\PurchaseRequest.cs" />
     <Compile Include="Requests\PurchaseRequestDetail.cs" />
     <Compile Include="Requests\PurchaseRequestStatus.cs" />
+    <Compile Include="Requests\SoleVendorRequest.cs" />
+    <Compile Include="Requests\SoleVendorRequestDetail.cs" />
+    <Compile Include="Requests\SoleVendorRequestStatus.cs" />
+    <Compile Include="Requests\SVRAttachment.cs" />
     <Compile Include="Requests\TravelAdvanceCost.cs" />
     <Compile Include="Requests\TravelAdvanceRequest.cs" />
     <Compile Include="Requests\TravelAdvanceRequestDetail.cs" />

@@ -170,11 +170,7 @@
                     <td></td><td></td>
                     <td></td><td></td>
                 </tr>
-                <tr>
-                     <td>Historical Performance</td><td></td><td></td><td></td>
-                    <td></td><td></td>
-                    <td></td><td></td>
-                </tr>
+                
                 <tr>
                      <td>Special Terms & Delivery</td><td></td><td></td><td></td>
                     <td></td><td></td>

@@ -38,10 +38,15 @@ namespace Chai.WorkflowManagment.Modules.Request
         {
             return _workspace.Single<AppUser>(x => x.Id == superviser);
         }
+        public AppUser CurrentUser()
+        {
+            return GetCurrentUser();
+        }
         public AppUser Approver(int position)
         {
             return _workspace.SqlQuery<AppUser>("SELECT * FROM AppUsers WHERE EmployeePosition_Id = " + position).ToList().Last<AppUser>();
         }
+
         #region CurrenrObject
         public object CurrentObject
         {
@@ -366,6 +371,27 @@ namespace Chai.WorkflowManagment.Modules.Request
             else { return 0; }
         }
         #endregion
+        #region AssignJob
+        public AssignJob GetAssignedJobbycurrentuser()
+        {
+            int userId = GetCurrentUser().Id;
+            return _workspace.Single<AssignJob>(x => x.AppUser.Id == userId && x.Status == true);
+        }
+        public AssignJob GetAssignedJobbycurrentuser(int UserId)
+        {
+            //int userId = GetCurrentUser().Id;
+            return _workspace.Single<AssignJob>(x => x.AppUser.Id == UserId && x.Status == true);
+        }
+        public int GetAssignedUserbycurrentuser()
+        {
+            int userId = GetCurrentUser().Id;
+            IList<AssignJob> AJ = _workspace.All<AssignJob>(x => x.AssignedTo == userId && x.Status == true).ToList();
+            if (AJ.Count != 0)
+            { return AJ[0].AssignedTo; }
+            else
+                return 0;
+        }
+        #endregion
         #region PurchaseRequest
 
         public IList<PurchaseRequest> GetPurchaseRequests()
@@ -389,6 +415,23 @@ namespace Chai.WorkflowManagment.Modules.Request
             return _workspace.SqlQuery<PurchaseRequest>(filterExpression).ToList();
 
         }
+        public IList<PurchaseRequest> ListPurchaseRequestForBids(string RequestNo, string RequestDate, string ProgressStatus)
+        {
+            string filterExpression = "";
+
+            if (ProgressStatus != "Completed")
+            {
+                filterExpression = " SELECT  *  FROM PurchaseRequests INNER JOIN AppUsers on AppUsers.Id=PurchaseRequests.CurrentApprover  Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where 1 = Case when '" + RequestNo + "' = '' Then 1 When PurchaseRequests.RequestNo = '" + RequestNo + "'  Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When PurchaseRequests.RequestedDate = '" + RequestDate + "'  Then 1 END AND PurchaseRequests.ProgressStatus='" + ProgressStatus + "' " +
+                                       " AND  ((PurchaseRequests.CurrentApprover = '" + CurrentUser().Id + "') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) order by PurchaseRequests.Id DESC";
+            }
+            else
+            {
+                filterExpression = " SELECT  *  FROM PurchaseRequests INNER JOIN AppUsers on AppUsers.Id=PurchaseRequests.CurrentApprover INNER JOIN PurchaseRequestStatuses on PurchaseRequestStatuses.PurchaseRequest_Id = PurchaseRequests.Id Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where 1 = Case when '" + RequestNo + "' = '' Then 1 When PurchaseRequests.RequestNo = '" + RequestNo + "'  Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When PurchaseRequests.RequestedDate = '" + RequestDate + "'  Then 1 END AND PurchaseRequests.ProgressStatus='" + ProgressStatus + "' AND " +
+                                           "   (PurchaseRequestStatuses.ApprovalStatus Is not null AND (PurchaseRequestStatuses.Approver = '" + CurrentUser().Id + "') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) order by PurchaseRequests.Id DESC ";
+            }
+            return _workspace.SqlQuery<PurchaseRequest>(filterExpression).ToList();
+
+        }
         public int GetLastPurchaseRequestId()
         {
             if (_workspace.Last<PurchaseRequest>() != null)
@@ -400,17 +443,65 @@ namespace Chai.WorkflowManagment.Modules.Request
         }
 
         #endregion
-        #region AssignJob
-        public AssignJob GetAssignedJobbycurrentuser()
+        #region Sole Vendor Requests
+        public IList<SoleVendorRequest> GetSoleVendorRequests()
         {
-            int userId = GetCurrentUser().Id;
-            return _workspace.Single<AssignJob>(x => x.AppUser.Id == userId && x.Status == true);
+            return WorkspaceFactory.CreateReadOnly().Query<SoleVendorRequest>(null).ToList();
         }
-        public AssignJob GetAssignedJobbycurrentuser(int UserId)
+        public SoleVendorRequest GetSoleVendorRequest(int id)
         {
-            //int userId = GetCurrentUser().Id;
-            return _workspace.Single<AssignJob>(x => x.AppUser.Id == UserId && x.Status == true);
+            return _workspace.Single<SoleVendorRequest>(x => x.Id == id);
         }
+        public IList<SoleVendorRequest> ListSoleVendorRequests(string RequestNo, string RequestDate)
+        {
+            string filterExpression = "";
+
+            filterExpression = "SELECT * FROM SoleVendorRequests Where 1 = Case when '" + RequestNo + "' = '' Then 1 When SoleVendorRequests.RequestNo = '" + RequestNo + "'  Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When SoleVendorRequests.RequestDate = '" + RequestDate + "'  Then 1 END And SoleVendorRequests.AppUser_Id='" + GetCurrentUser().Id + "' order by SoleVendorRequests.Id Desc ";
+
+            return _workspace.SqlQuery<SoleVendorRequest>(filterExpression).ToList();
+
+        }
+        public SoleVendorRequestDetail GetSoleVendorRequestDetail(int id)
+        {
+            return _workspace.Single<SoleVendorRequestDetail>(x => x.Id == id);
+        }
+        public int GetLastSoleVendorRequestId()
+        {
+            if (_workspace.Last<SoleVendorRequest>() != null)
+            {
+                return _workspace.Last<SoleVendorRequest>().Id;
+            }
+            else { return 0; }
+        }
+
+        #endregion
+        #region Bid Analysis Requests
+        public IList<BidAnalysisRequest> GetBidAnalysisRequests()
+        {
+            return WorkspaceFactory.CreateReadOnly().Query<BidAnalysisRequest>(null).ToList();
+        }
+        public BidAnalysisRequest GetBidAnalysisRequest(int id)
+        {
+            return _workspace.Single<BidAnalysisRequest>(x => x.Id == id);
+        }
+        public IList<BidAnalysisRequest> ListBidAnalysisRequests(string RequestNo, string RequestDate)
+        {
+            string filterExpression = "";
+
+            filterExpression = "SELECT * FROM BidAnalysisRequests Where 1 = Case when '" + RequestNo + "' = '' Then 1 When BidAnalysisRequests.RequestNo = '" + RequestNo + "'  Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When BidAnalysisRequests.RequestDate = '" + RequestDate + "'  Then 1 END And BidAnalysisRequests.AppUser_Id='" + GetCurrentUser().Id + "' order by BidAnalysisRequests.Id Desc ";
+
+            return _workspace.SqlQuery<BidAnalysisRequest>(filterExpression).ToList();
+
+        }
+        public int GetLastBidAnalysisRequestId()
+        {
+            if (_workspace.Last<BidAnalysisRequest>() != null)
+            {
+                return _workspace.Last<BidAnalysisRequest>().Id;
+            }
+            else { return 0; }
+        }
+
         #endregion
 
         #region Entity Manipulation

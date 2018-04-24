@@ -18,7 +18,7 @@ namespace Chai.WorkflowManagment.CoreDomain.DataAccess
     public class WorkflowManagmentDbContext : BaseDbContext
     {
         public WorkflowManagmentDbContext(bool disableProxy)
-            : base("WorkflowManagment")
+            : base("WorkflowManagmentTest")
         {
             if (disableProxy)
                 ObjContext().ContextOptions.ProxyCreationEnabled = false;
@@ -90,12 +90,16 @@ namespace Chai.WorkflowManagment.CoreDomain.DataAccess
         public DbSet<ExpenseLiquidationRequestDetail> ExpenseLiquidationRequestDetails { get; set; }        
         public DbSet<ELRAttachment> ELRAttachments { get; set; }
         public DbSet<LeaveRequest> LeaveRequests { get; set; }
-
         public DbSet<LeaveRequestStatus> LeaveRequestStatuses { get; set; }
+
+        public DbSet<SoleVendorRequestStatus> SoleVendorRequestStatuses { get; set; }
+        public DbSet<SoleVendorRequest> SoleVendorRequests { get; set; }
+        public DbSet<BidAnalysisRequestStatus> BidAnalysisRequestStatuses { get; set; }
+        public DbSet<BidAnalysisRequest> BidAnalysisRequests { get; set; }
         public DbSet<PurchaseRequest> PurchaseRequests { get; set; }
         public DbSet<PurchaseRequestDetail> PurchaseRequestDetail { get; set; }
         public DbSet<PurchaseRequestStatus> PurchaseRequestStatuses { get; set; }
-        public DbSet<BidAnalysis> BidAnalisises { get; set; }
+        public DbSet<BidAnalysisRequestDetail> BidAnalysisRequestDetail { get; set; }
         public DbSet<BAAttachment> BAAttachments { get; set; }
         public DbSet<Bidder> Bidders { get; set; }
         public DbSet<BidderItemDetail> BidderItemDetails { get; set; }

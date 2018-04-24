@@ -5,12 +5,16 @@ using System.Text;
 
 namespace Chai.WorkflowManagment.Modules.Approval.Views
 {
-    public interface IPrintRequestedItemView
+    public interface IPurchaseOrderSoleVendorView
     {
-        BidAnalysisRequest BidAnalysisRequest { get; set; }
+       
+        SoleVendorRequest SoleVendorRequest { get; set; }
+        string RequestType { get;  }
         string RequestNo { get; }
         string RequestDate { get; }
-        int BidAnalysisRequestId { get; }
+     
+
+        int SoleVendorRequestId { get; }
     }
 }
 

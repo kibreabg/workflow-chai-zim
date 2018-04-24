@@ -4,22 +4,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Chai.WorkflowManagment.CoreDomain.Approval
+namespace Chai.WorkflowManagment.CoreDomain.Requests
 {
-    public partial class PurchaseOrderDetail : IEntity
+    public partial class SoleVendorRequestDetail : IEntity
     {
 
-        public PurchaseOrderDetail()
+        public SoleVendorRequestDetail()
         { 
         
         }
 
         public int Id { get; set; }
-        public virtual PurchaseOrder PurchaseOrder { get; set; }
-        public virtual ItemAccount ItemAccount { get; set; }
+        public virtual SoleVendorRequest SoleVendorRequest { get; set; }
+        public ItemAccount ItemAccount { get; set; }
         public int Qty { get; set; }
         public decimal UnitCost { get; set; }
         public decimal TotalCost { get; set; }
-        public decimal Vat { get; set; }
+        
     }
 }

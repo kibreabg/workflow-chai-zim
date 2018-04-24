@@ -510,12 +510,13 @@
                 <Columns>
                     <asp:BoundField DataField="Bidder.SupplierType.SupplierTypeName" HeaderText="AccountName" SortExpression="Bidder.ItemAccount.AccountName" />
                     <asp:BoundField DataField="Bidder.Supplier.SupplierName" HeaderText="Supplier" SortExpression="Bidder.Supplier.SupplierName" />
-                    <asp:BoundField DataField="Bidder.HistoricalPerformance" HeaderText="Historical Performance" SortExpression="Bidder.HistoricalPerformance" />
+                    
+                    <asp:BoundField DataField="Bidder.Rank" HeaderText="Rank" SortExpression="Bidder.Rank" />
                     <asp:BoundField DataField="ItemAccount.AccountName" HeaderText="ItemAccount.AccountName" />
                     <asp:BoundField DataField="Qty" HeaderText="Qty" />
                     <asp:BoundField DataField="UnitCost" HeaderText="UnitCost" />
                     <asp:BoundField DataField="TotalCost" HeaderText="TotalCost" />
-                    <asp:BoundField DataField="Bidder.Rank" HeaderText="Rank" SortExpression="Bidder.Rank" />
+                    
                 </Columns>
                 <FooterStyle CssClass="FooterStyle" />
                 <HeaderStyle CssClass="headerstyle" />
