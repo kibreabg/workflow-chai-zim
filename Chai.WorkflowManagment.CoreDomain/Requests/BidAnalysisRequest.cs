@@ -43,6 +43,7 @@ namespace Chai.WorkflowManagment.CoreDomain.Requests
         public Nullable<int> CurrentLevel { get; set; }
         public string CurrentStatus { get; set; }
         public string ProgressStatus { get; set; }
+        public virtual PurchaseRequest PurchaseRequest { get; set; }
         public virtual AppUser AppUser { get; set; }
         public virtual Project Project { get; set; }
         public virtual Grant Grant { get; set; }
