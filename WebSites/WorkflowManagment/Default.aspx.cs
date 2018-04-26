@@ -117,7 +117,7 @@ public partial class ShellDefault : Microsoft.Practices.CompositeWeb.Web.UI.Page
         {
             lblpurchaserequest.Text = _presenter.GetPurchaseRequestsTasks().ToString();
             lnkPurchaseRequest.Enabled = true;
-            lnkPurchaseRequest.PostBackUrl = ResolveUrl("Approval/frmPurchaseApproval.aspx");
+            lnkPurchaseRequest.PostBackUrl = ResolveUrl("Approval/frmPurchaseApprovalDetail.aspx");
         }
         else { lblpurchaserequest.Text = Convert.ToString(0); }
 
