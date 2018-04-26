@@ -77,7 +77,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             AppUser CurrentUser = _presenter.CurrentUser();
             txtRequester.Text = CurrentUser.FirstName + " " + CurrentUser.LastName;
-            
+
             if (_presenter.CurrentPurchaseRequest.Id <= 0)
             {
                 AutoNumber();
@@ -94,7 +94,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 
             if (_presenter.CurrentPurchaseRequest.Id > 0)
             {
-               // txtRequestNo.Text = _presenter.CurrentPurchaseRequest.RequestNo;
+                // txtRequestNo.Text = _presenter.CurrentPurchaseRequest.RequestNo;
                 txtRequestDate.Text = _presenter.CurrentPurchaseRequest.RequestedDate.ToShortDateString();
                 txtComment.Text = _presenter.CurrentPurchaseRequest.Comment.ToString();
                 txtDeliverto.Text = _presenter.CurrentPurchaseRequest.DeliverTo.ToString();
@@ -104,6 +104,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 txtneededfor.Text = _presenter.CurrentPurchaseRequest.SpecialNeed.ToString();
                 txtConditionofOrder.Text = _presenter.CurrentPurchaseRequest.ConditionsofOrder;
                 chkBudgeted.Checked = _presenter.CurrentPurchaseRequest.Budgeted;
+                txtTotal.Text = _presenter.CurrentPurchaseRequest.TotalPrice.ToString();
 
             }
         }
@@ -123,13 +124,18 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 _presenter.CurrentPurchaseRequest.Requireddateofdelivery = Convert.ToDateTime(txtdeliveryDate.Text);
                 _presenter.CurrentPurchaseRequest.ConditionsofOrder = txtConditionofOrder.Text;
                 _presenter.CurrentPurchaseRequest.Budgeted = chkBudgeted.Checked;
+                //Determine total cost
+                decimal cost = 0;
                 if (_presenter.CurrentPurchaseRequest.PurchaseRequestDetails.Count > 0)
                 {
-                  foreach (PurchaseRequestDetail detail in _presenter.CurrentPurchaseRequest.PurchaseRequestDetails)
-                   {
-                      _presenter.CurrentPurchaseRequest.TotalPrice = _presenter.CurrentPurchaseRequest.TotalPrice + detail.EstimatedCost;
-                   }
+                    
+                    foreach (PurchaseRequestDetail detail in _presenter.CurrentPurchaseRequest.PurchaseRequestDetails)
+                    {
+                        cost = cost + detail.EstimatedCost;
+                    }
                 }
+                _presenter.CurrentPurchaseRequest.TotalPrice = cost;
+                //Determine total cost end
                 SavePurchaseRequestStatus();
                 GetCurrentApprover();
             }
@@ -154,7 +160,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 if (_presenter.GetApprovalSettingforPurchaseProcess(RequestType.Purchase_Request.ToString().Replace('_', ' '), 0) != null)
                 {
                     int i = 1;
-                    foreach (ApprovalLevel AL in _presenter.GetApprovalSettingforPurchaseProcess(RequestType.Purchase_Request.ToString().Replace('_', ' '),0).ApprovalLevels)
+                    foreach (ApprovalLevel AL in _presenter.GetApprovalSettingforPurchaseProcess(RequestType.Purchase_Request.ToString().Replace('_', ' '), 0).ApprovalLevels)
                     {
                         PurchaseRequestStatus PRS = new PurchaseRequestStatus();
                         PRS.PurchaseRequest = _presenter.CurrentPurchaseRequest;
@@ -172,9 +178,9 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                         }
                         else if (AL.EmployeePosition.PositionName == "Program Manager")
                         {
-                            if (_presenter.CurrentPurchaseRequest.PurchaseRequestDetails[0].project.Id != 0)
+                            if (_presenter.CurrentPurchaseRequest.PurchaseRequestDetails[0].Project.Id != 0)
                             {
-                                PRS.Approver = _presenter.GetProject(_presenter.CurrentPurchaseRequest.PurchaseRequestDetails[0].project.Id).AppUser.Id;
+                                PRS.Approver = _presenter.GetProject(_presenter.CurrentPurchaseRequest.PurchaseRequestDetails[0].Project.Id).AppUser.Id;
                             }
 
                         }
@@ -216,7 +222,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             }
             else
             {
-                
+
                 EmailSender.Send(_presenter.GetSuperviser(_presenter.GetAssignedJobbycurrentuser(PRS.Approver).AssignedTo).Email, "Purchase Request", _presenter.GetUser(_presenter.CurrentPurchaseRequest.Requester).FullName + "' Request for Item procurment No. '" + _presenter.CurrentPurchaseRequest.RequestNo + "'");
             }
 
@@ -423,10 +429,22 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     TextBox txtFPriceperunit = e.Item.FindControl("txtFPriceperunit") as TextBox;
                     Detail.Priceperunit = Convert.ToDecimal(txtFPriceperunit.Text);
                     Detail.EstimatedCost = Convert.ToInt32(txtFQty.Text) * Convert.ToDecimal(txtFPriceperunit.Text);
+                    //Determine total cost
+                    decimal cost = 0;
+                    if (_presenter.CurrentPurchaseRequest.PurchaseRequestDetails.Count > 0)
+                    {
+
+                        foreach (PurchaseRequestDetail detail in _presenter.CurrentPurchaseRequest.PurchaseRequestDetails)
+                        {
+                            cost = cost + detail.EstimatedCost;
+                        }
+                    }
+                    _presenter.CurrentPurchaseRequest.TotalPrice = cost;
+                    //Determine total cost end
                     _presenter.CurrentPurchaseRequest.TotalPrice = _presenter.CurrentPurchaseRequest.TotalPrice + Detail.EstimatedCost;
                     txtTotal.Text = (_presenter.CurrentPurchaseRequest.TotalPrice).ToString();
                     DropDownList ddlFProject = e.Item.FindControl("ddlFProject") as DropDownList;
-                    Detail.project = _presenter.GetProject(int.Parse(ddlFProject.SelectedValue));
+                    Detail.Project = _presenter.GetProject(int.Parse(ddlFProject.SelectedValue));
                     DropDownList ddlFGrant = e.Item.FindControl("ddlFGrant") as DropDownList;
                     Detail.Grant = _presenter.GetGrant(int.Parse(ddlFGrant.SelectedValue));
                     Detail.PurchaseRequest = _presenter.CurrentPurchaseRequest;
@@ -483,9 +501,9 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     {
                         BindProject(ddlProject);
 
-                        if (_presenter.CurrentPurchaseRequest.PurchaseRequestDetails[e.Item.DataSetIndex].project != null)
+                        if (_presenter.CurrentPurchaseRequest.PurchaseRequestDetails[e.Item.DataSetIndex].Project != null)
                         {
-                            ListItem li = ddlProject.Items.FindByValue(_presenter.CurrentPurchaseRequest.PurchaseRequestDetails[e.Item.DataSetIndex].project.Id.ToString());
+                            ListItem li = ddlProject.Items.FindByValue(_presenter.CurrentPurchaseRequest.PurchaseRequestDetails[e.Item.DataSetIndex].Project.Id.ToString());
                             if (li != null)
                                 li.Selected = true;
                         }
@@ -512,7 +530,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             int id = (int)dgPurchaseRequestDetail.DataKeys[e.Item.ItemIndex];
             PurchaseRequestDetail Detail;
-            decimal pretacost = 0;
             if (id > 0)
                 Detail = _presenter.CurrentPurchaseRequest.GetPurchaseRequestDetail(id);
             else
@@ -532,11 +549,22 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 
                 //TextBox txtEstimatedCost = e.Item.FindControl("txtEstimatedCost") as TextBox;
                 Detail.EstimatedCost = Convert.ToInt32(txtQty.Text) * Convert.ToDecimal(txtPriceperunit.Text);
-                pretacost = Detail.EstimatedCost;
-                _presenter.CurrentPurchaseRequest.TotalPrice = (_presenter.CurrentPurchaseRequest.TotalPrice + Detail.EstimatedCost) - pretacost;
+                //Determine total cost
+                decimal cost = 0;
+                if (_presenter.CurrentPurchaseRequest.PurchaseRequestDetails.Count > 0)
+                {
+
+                    foreach (PurchaseRequestDetail detail in _presenter.CurrentPurchaseRequest.PurchaseRequestDetails)
+                    {
+                        cost = cost + detail.EstimatedCost;
+                    }
+                }
+                _presenter.CurrentPurchaseRequest.TotalPrice = cost;
+                //Determine total cost end
+                //_presenter.CurrentPurchaseRequest.TotalPrice = _presenter.CurrentPurchaseRequest.TotalPrice + Detail.EstimatedCost;
                 txtTotal.Text = (_presenter.CurrentPurchaseRequest.TotalPrice).ToString();
                 DropDownList ddlProject = e.Item.FindControl("ddlProject") as DropDownList;
-                Detail.project = _presenter.GetProject(int.Parse(ddlProject.SelectedValue));
+                Detail.Project = _presenter.GetProject(int.Parse(ddlProject.SelectedValue));
                 DropDownList ddlGrant = e.Item.FindControl("ddlGrant") as DropDownList;
                 Detail.Grant = _presenter.GetGrant(int.Parse(ddlGrant.SelectedValue));
                 Detail.PurchaseRequest = _presenter.CurrentPurchaseRequest;

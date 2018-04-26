@@ -10,13 +10,12 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
     {
         IList<BidAnalysisRequest> BidAnalysisRequests { get; set; }
         int GetBidAnalysisRequestId { get; }
-
+        int GetPurchaseRequestId { get; }
         string GetRequestNo { get; }
         DateTime GetRequestDate { get; }
         DateTime GetAnalysedDate { get; }
         string GetNeededFor { get; }
-        string GetSpecialNeed { get; }
-     
+        string GetSpecialNeed { get; }     
         int GetProjectId { get; }
         int GetGrantId { get; }
       

@@ -58,7 +58,7 @@
                         <asp:Button ID="btnpop" runat="server" />
                         <asp:Button ID="btnFind" runat="server" Text="Find" CssClass="btn btn-primary" OnClick="btnFind_Click"></asp:Button>
                         <asp:Button ID="btnClosepage" runat="server" Text="Close" data-dismiss="modal" CssClass="btn btn-primary" PostBackUrl="../Default.aspx"></asp:Button>
-                    
+
                     </footer>
                 </div>
             </div>
@@ -85,7 +85,7 @@
                 <asp:BoundField DataField="Neededfor" HeaderText="Needed for" SortExpression="VisitingTeam" />
                 <asp:BoundField DataField="SuggestedSupplier" HeaderText="SuggestedSupplier" SortExpression="PurposeOfTravel" />
                 <asp:BoundField DataField="TotalPrice" HeaderText="TotalPrice" SortExpression="TotalTravelAdvance" />
-                
+
                 <asp:ButtonField ButtonType="Button" CommandName="ViewItem" Text="View Item Detail" />
                 <asp:CommandField ButtonType="Button" SelectText="Process Request" ShowSelectButton="True" />
                 <asp:TemplateField>
@@ -100,8 +100,10 @@
             <RowStyle CssClass="rowstyle" />
         </asp:GridView>
         <div>
-            <asp:Button runat="server" ID="btnInProgress" Text="" BorderStyle="None"  BackColor="#FFFF6C"/>  <B>In Progress</B><br />
-            <asp:Button runat="server" ID="btnComplete" Text="" BorderStyle="None" BackColor="#FF7251"/>  <B>Completed</B>
+            <asp:Button runat="server" ID="btnInProgress" Text="" BorderStyle="None" BackColor="#FFFF6C" />
+            <b>In Progress</b><br />
+            <asp:Button runat="server" ID="btnComplete" Text="" BorderStyle="None" BackColor="#FF7251" />
+            <b>Completed</b>
 
         </div>
         <br />
@@ -139,7 +141,12 @@
                                                 </label>
                                             </section>
                                         </div>
-                                       
+                                        <div class="row">
+                                            <section class="col col-6">
+                                                <asp:LinkButton runat="server" ID="lnkBidRequest" Visible="false" Text="Prepare Bid Analysis" OnClick="lnkBidRequest_Click" CssClass="btn btn-primary"></asp:LinkButton><br />
+                                                <asp:LinkButton runat="server" ID="lnkSoleVendor" Visible="false" Text="Prepare Sole Vendor Verification" OnClick="lnkSoleVendor_Click" CssClass="btn btn-primary"></asp:LinkButton>
+                                            </section>
+                                        </div>
                                     </fieldset>
                                     <footer>
                                         <asp:Button ID="btnApprove" runat="server" ValidationGroup="save" Text="Save" OnClick="btnApprove_Click" Enabled="true" CssClass="btn btn-primary"></asp:Button>
@@ -159,18 +166,18 @@
         TargetControlID="btnPop" CancelControlID="btnCancelPopup" ID="pnlApproval_ModalPopupExtender">
     </asp:ModalPopupExtender>
     <div id="divprint" style="display: none;">
-           <table style="width: 100%;">
-                <tr>
-                    <td style="width: 17%; text-align:left;">
-                        <img src="../img/CHAI%20Logo.png" width="70" height="50" /></td>
-                    <td style="font-size: large; text-align: center;">
-                        <strong>CHAI ZIMBABWE
-                            <br />
-                            PURCHASE REQUEST FORM</strong></td>
-                </tr>
-            </table>
         <table style="width: 100%;">
-         
+            <tr>
+                <td style="width: 17%; text-align: left;">
+                    <img src="../img/CHAI%20Logo.png" width="70" height="50" /></td>
+                <td style="font-size: large; text-align: center;">
+                    <strong>CHAI ZIMBABWE
+                            <br />
+                        PURCHASE REQUEST FORM</strong></td>
+            </tr>
+        </table>
+        <table style="width: 100%;">
+
             <tr>
                 <td align="right" style="width: 576px">&nbsp;</td>
                 <td align="right" style="width: 490px" class="modal-sm">&nbsp;</td>
@@ -186,7 +193,7 @@
                 <td style="width: 490px" class="modal-sm">
                     <asp:Label ID="lblRequestNoResult" runat="server"></asp:Label>
                 </td>
-                
+
                 <td style="width: 389px">
                     <asp:Label ID="lblRequireddateofdeliveryResult" runat="server"></asp:Label>
                 </td>
@@ -210,7 +217,7 @@
                 </td>
                 <td>&nbsp;</td>
             </tr>
-             <tr>
+            <tr>
                 <td style="width: 576px; height: 18px; padding-left: 15%;">
                     <strong>
                         <asp:Label ID="lblSpecialNeed" runat="server" Text="Special Need:"></asp:Label>
@@ -228,7 +235,7 @@
                 </td>
                 <td>&nbsp;</td>
             </tr>
-           
+
             <tr>
                 <td style="width: 576px; height: 18px; padding-left: 15%;">
                     <strong>
@@ -250,9 +257,9 @@
                 <td style="width: 490px; height: 18px;">
                     <asp:Label ID="lblReqDateResult" runat="server"></asp:Label>
                 </td>
-               
+
             </tr>
-             <tr>
+            <tr>
                 <td style="width: 576px; height: 18px; padding-left: 15%;">
                     <strong>
                         <asp:Label ID="lblConditionsofOrder" runat="server" Text="Conditions Of Order:"></asp:Label>
@@ -260,24 +267,19 @@
                 <td style="width: 490px" class="modal-sm">
                     <asp:Label ID="lblConditionsofOrderResult" runat="server"></asp:Label>
                 </td>
-               
-             
+
+
             </tr>
             <tr>
                 <td style="width: 576px; height: 18px; padding-left: 15%;">&nbsp;</td>
-                <td style="width: 490px; height: 18px;">
-                    &nbsp;</td>
-                <td style="width: 280px; height: 18px;">
-                    &nbsp;</td>
-                <td style="width: 389px; height: 18px;">
-                    &nbsp;</td>
+                <td style="width: 490px; height: 18px;">&nbsp;</td>
+                <td style="width: 280px; height: 18px;">&nbsp;</td>
+                <td style="width: 389px; height: 18px;">&nbsp;</td>
                 <td style="height: 18px"></td>
             </tr>
             <tr>
-                <td style="width: 576px; height: 18px; padding-left: 15%;">
-                    &nbsp;</td>
-                <td style="width: 490px; height: 18px;">
-                    &nbsp;</td>
+                <td style="width: 576px; height: 18px; padding-left: 15%;">&nbsp;</td>
+                <td style="width: 490px; height: 18px;">&nbsp;</td>
                 <td style="height: 18px; width: 280px;">&nbsp;</td>
                 <td></td>
                 <td></td>
@@ -285,21 +287,21 @@
         </table>
         <br />
         <asp:GridView ID="grvVehcles" CellPadding="5" CellSpacing="3"
-            runat="server" AutoGenerateColumns="False" DataKeyNames="Id" 
+            runat="server" AutoGenerateColumns="False" DataKeyNames="Id"
             CssClass="table table-striped table-bordered table-hover">
             <RowStyle CssClass="rowstyle" />
             <Columns>
-               
-               <%-- <asp:BoundField DataField="AssignedVehicle" HeaderText="Assigned Vehicle" SortExpression="AssignedVehicle" />--%>
-              
+
+                <%-- <asp:BoundField DataField="AssignedVehicle" HeaderText="Assigned Vehicle" SortExpression="AssignedVehicle" />--%>
+
                 <asp:BoundField DataField="Priceperunit" HeaderText="Price Per Unit" SortExpression="Priceperunit" />
-                 <asp:BoundField DataField="Qty" HeaderText="Qty" SortExpression="Qty" />
+                <asp:BoundField DataField="Qty" HeaderText="Qty" SortExpression="Qty" />
                 <asp:BoundField DataField="EstimatedCost" HeaderText="Estimated Cost" SortExpression="EstimatedCost" />
-                 <asp:BoundField DataField="ItemAccount.AccountName" HeaderText="AccountName" SortExpression="ItemAccount.AccountName" />
-                    <asp:BoundField DataField="ItemAccount.AccountCode" HeaderText="Account Code" SortExpression="ItemAccount.AccountCode" />
-                     <asp:BoundField DataField="Project.ProjectCode" HeaderText="Project Code" />
-                    <asp:BoundField DataField="Grant.GrantCode" HeaderText="Grant Code" />
-                
+                <asp:BoundField DataField="ItemAccount.AccountName" HeaderText="AccountName" SortExpression="ItemAccount.AccountName" />
+                <asp:BoundField DataField="ItemAccount.AccountCode" HeaderText="Account Code" SortExpression="ItemAccount.AccountCode" />
+                <asp:BoundField DataField="Project.ProjectCode" HeaderText="Project Code" />
+                <asp:BoundField DataField="Grant.GrantCode" HeaderText="Grant Code" />
+
             </Columns>
             <FooterStyle CssClass="FooterStyle" />
             <HeaderStyle CssClass="headerstyle" />
@@ -311,17 +313,17 @@
             runat="server" AutoGenerateColumns="False" DataKeyNames="Id"
             CssClass="table table-striped table-bordered table-hover" OnRowDataBound="grvStatuses_RowDataBound">
             <RowStyle CssClass="rowstyle" />
-          <Columns>
-                    <asp:TemplateField HeaderText="Date">
-                                            <ItemTemplate>
-                                              <asp:Label ID="lblDate" runat="server" Text='<%# Eval("ApprovalDate", "{0:dd/MM/yyyy}")%>' ></asp:Label>
-                                            </ItemTemplate>
-                                            </asp:TemplateField>
-                
-                <asp:BoundField HeaderText="Approver"  />
+            <Columns>
+                <asp:TemplateField HeaderText="Date">
+                    <ItemTemplate>
+                        <asp:Label ID="lblDate" runat="server" Text='<%# Eval("ApprovalDate", "{0:dd/MM/yyyy}")%>'></asp:Label>
+                    </ItemTemplate>
+                </asp:TemplateField>
+
+                <asp:BoundField HeaderText="Approver" />
                 <asp:BoundField DataField="AssignedBy" HeaderText="Assignee Approver" SortExpression="AssignedBy" />
-                 <asp:BoundField DataField="ApprovalStatus" HeaderText="Approval Status" SortExpression="ApprovalStatus" />
-            
+                <asp:BoundField DataField="ApprovalStatus" HeaderText="Approval Status" SortExpression="ApprovalStatus" />
+
             </Columns>
             <FooterStyle CssClass="FooterStyle" />
             <HeaderStyle CssClass="headerstyle" />

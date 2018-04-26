@@ -16,7 +16,7 @@ namespace Chai.WorkflowManagment.CoreDomain.Request
         public decimal EstimatedCost { get; set; }
         public ItemAccount ItemAccount { get; set; }
         public string AccountCode { get; set; }
-        public Project project { get; set; }
+        public Project Project { get; set; }
         public Grant Grant { get; set; }
      
         public PurchaseRequest PurchaseRequest { get; set; }
