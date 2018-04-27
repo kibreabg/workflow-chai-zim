@@ -97,7 +97,7 @@ namespace Chai.WorkflowManagment.Modules.Approval
             if (ProgressStatus == "InProgress")
             {
                 filterExpression = " SELECT * FROM CostSharingRequests INNER JOIN AppUsers ON (AppUsers.Id = CostSharingRequests.CurrentApprover) OR (AppUsers.EmployeePosition_Id = CostSharingRequests.CurrentApproverPosition AND AppUsers.Id = '" + CurrentUser().Id + "') Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where 1 = Case when '" + RequestNo + "' = '' Then 1 When CostSharingRequests.VoucherNo = '" + RequestNo + "'  Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When CostSharingRequests.RequestDate = '" + RequestDate + "'  Then 1 END AND CostSharingRequests.ProgressStatus='" + ProgressStatus + "' " +
-                                       " AND  (CostSharingRequests.CurrentApprover = '" + CurrentUser().Id + "') or (CostSharingRequests.CurrentApproverPosition = '" + CurrentUser().EmployeePosition.Id + "') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "') order by CostSharingRequests.Id DESC ";
+                                       " AND  ((CostSharingRequests.CurrentApprover = '" + CurrentUser().Id + "') or (CostSharingRequests.CurrentApproverPosition = '" + CurrentUser().EmployeePosition.Id + "') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) order by CostSharingRequests.Id DESC ";
             }
             else if (ProgressStatus == "Not Retired" || ProgressStatus == "Retired")
 
