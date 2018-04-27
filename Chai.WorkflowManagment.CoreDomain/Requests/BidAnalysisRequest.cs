@@ -39,6 +39,7 @@ namespace Chai.WorkflowManagment.CoreDomain.Requests
         public virtual AppUser AppUser { get; set; }
         public virtual Project Project { get; set; }
         public virtual Grant Grant { get; set; }
+        [Required]
         public virtual PurchaseRequest PurchaseRequest { get; set; }
         public virtual IList<BidAnalysisRequestStatus> BidAnalysisRequestStatuses { get; set; }
         public virtual PurchaseOrder PurchaseOrders { get; set; }        

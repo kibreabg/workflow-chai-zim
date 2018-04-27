@@ -32,14 +32,13 @@ namespace Chai.WorkflowManagment.CoreDomain.Requests
         public int CurrentApprover { get; set; }
         public Nullable<int> CurrentLevel { get; set; }
         public string CurrentStatus { get; set; }
-        public string ProgressStatus { get; set; }
-        public virtual PurchaseRequest PurchaseRequest { get; set; }
+        public string ProgressStatus { get; set; }        
         public virtual AppUser AppUser { get; set; }
         public virtual Project Project { get; set; }
         public virtual Grant Grant { get; set; }
-
         public virtual Supplier Supplier { get; set; }
-     
+        [Required]
+        public virtual PurchaseRequest PurchaseRequest { get; set; }
         public virtual PurchaseOrderSoleVendor PurchaseOrderSoleVendors { get; set; }
         public virtual IList<SoleVendorRequestDetail> SoleVendorRequestDetails { get; set; }
         public virtual IList<SoleVendorRequestStatus> SoleVendorRequestStatuses { get; set; }
