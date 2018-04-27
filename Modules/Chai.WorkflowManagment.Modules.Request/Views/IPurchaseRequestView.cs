@@ -1,4 +1,4 @@
-﻿using Chai.WorkflowManagment.CoreDomain.Request;
+﻿using Chai.WorkflowManagment.CoreDomain.Requests;
 using System;
 using System.Collections.Generic;
 using System.Text;

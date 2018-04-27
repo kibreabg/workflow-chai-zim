@@ -63,10 +63,10 @@
                 </div>
             </div>
         </div>
-        <asp:GridView ID="grvTravelAdvanceRequestList"
-            runat="server" AutoGenerateColumns="False" DataKeyNames="Id" OnRowCommand="grvTravelAdvanceRequestList_RowCommand"
-            OnRowDataBound="grvTravelAdvanceRequestList_RowDataBound" OnSelectedIndexChanged="grvTravelAdvanceRequestList_SelectedIndexChanged"
-            AllowPaging="True" OnPageIndexChanging="grvTravelAdvanceRequestList_PageIndexChanging"
+        <asp:GridView ID="grvPurchaseRequestList"
+            runat="server" AutoGenerateColumns="False" DataKeyNames="Id" OnRowCommand="grvPurchaseRequestList_RowCommand"
+            OnRowDataBound="grvPurchaseRequestList_RowDataBound" OnSelectedIndexChanged="grvPurchaseRequestList_SelectedIndexChanged"
+            AllowPaging="True" OnPageIndexChanging="grvPurchaseRequestList_PageIndexChanging"
             CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" PageSize="30">
             <RowStyle CssClass="rowstyle" />
             <Columns>
@@ -84,7 +84,7 @@
                 </asp:TemplateField>
                 <asp:BoundField DataField="Neededfor" HeaderText="Needed for" SortExpression="VisitingTeam" />
                 <asp:BoundField DataField="SuggestedSupplier" HeaderText="SuggestedSupplier" SortExpression="PurposeOfTravel" />
-                <asp:BoundField DataField="TotalPrice" HeaderText="TotalPrice" SortExpression="TotalTravelAdvance" />
+                <asp:BoundField DataField="TotalPrice" HeaderText="TotalPrice" SortExpression="TotalPurchase" />
 
                 <asp:ButtonField ButtonType="Button" CommandName="ViewItem" Text="View Item Detail" />
                 <asp:CommandField ButtonType="Button" SelectText="Process Request" ShowSelectButton="True" />
@@ -149,9 +149,9 @@
                                         </div>
                                     </fieldset>
                                     <footer>
-                                        <asp:Button ID="btnApprove" runat="server" ValidationGroup="save" Text="Save" OnClick="btnApprove_Click" Enabled="true" CssClass="btn btn-primary"></asp:Button>
+                                        <asp:Button ID="btnApprove" runat="server" ValidationGroup="save" Text="Save" OnClick="btnApprove_Click" Enabled="false" CssClass="btn btn-primary"></asp:Button>
                                         <asp:Button ID="btnCancelPopup" runat="server" Text="Close" CssClass="btn btn-primary" OnClick="btnCancelPopup_Click"></asp:Button>
-                                        <asp:Button ID="btnPrint" runat="server" Text="Print" CssClass="btn btn-primary" Enabled="true" OnClientClick="javascript:Clickheretoprint('divprint')"></asp:Button>
+                                        <asp:Button ID="btnPrint" runat="server" Text="Print" CssClass="btn btn-primary" Enabled="false" OnClientClick="javascript:Clickheretoprint('divprint')"></asp:Button>
                                     </footer>
                                 </div>
                             </div>

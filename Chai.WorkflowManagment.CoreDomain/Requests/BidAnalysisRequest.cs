@@ -6,7 +6,6 @@ using Chai.WorkflowManagment.CoreDomain.Setting;
 using Chai.WorkflowManagment.CoreDomain.Users;
 using System.ComponentModel.DataAnnotations;
 using Chai.WorkflowManagment.CoreDomain.Approval;
-using Chai.WorkflowManagment.CoreDomain.Request;
 
 
 namespace Chai.WorkflowManagment.CoreDomain.Requests
@@ -19,17 +18,13 @@ namespace Chai.WorkflowManagment.CoreDomain.Requests
             this.BAAttachments = new List<BAAttachment>();
             this.Bidders = new List<Bidder>();
             this.BidAnalysisRequestDetails = new List<BidAnalysisRequestDetail>();
-           
-        }
 
-         
-	 
+        }
         public int Id { get; set; }
         public string RequestNo { get; set; }
         public Nullable<DateTime> RequestDate { get; set; }
         public DateTime AnalyzedDate { get; set; }
         public string Neededfor { get; set; }
-
         public string SpecialNeed { get; set; }
         // [ForeignKey("SupplierSelected_Id")]
         public virtual Supplier Supplier { get; set; }
@@ -37,83 +32,16 @@ namespace Chai.WorkflowManagment.CoreDomain.Requests
         public string ReasonforSelection { get; set; }
         public int SelectedBy { get; set; }
         public string Status { get; set; }
-    
         public int CurrentApprover { get; set; }
-
         public Nullable<int> CurrentLevel { get; set; }
         public string CurrentStatus { get; set; }
-        public string ProgressStatus { get; set; }
-        public virtual PurchaseRequest PurchaseRequest { get; set; }
+        public string ProgressStatus { get; set; }        
         public virtual AppUser AppUser { get; set; }
         public virtual Project Project { get; set; }
         public virtual Grant Grant { get; set; }
-
-
-
+        public virtual PurchaseRequest PurchaseRequest { get; set; }
         public virtual IList<BidAnalysisRequestStatus> BidAnalysisRequestStatuses { get; set; }
-
-        public virtual PurchaseOrder PurchaseOrders { get; set; }
-
-        #region BidAnalysisRequestStatus
-        public virtual BidAnalysisRequestStatus GetBidAnalysisRequestStatus(int Id)
-        {
-
-            foreach (BidAnalysisRequestStatus SVRS in BidAnalysisRequestStatuses)
-            {
-                if (SVRS.Id == Id)
-                    return SVRS;
-
-            }
-            return null;
-        }
-        public virtual BidAnalysisRequestStatus GetBidAnalysisRequestStatusworkflowLevel(int workflowLevel)
-        {
-
-            foreach (BidAnalysisRequestStatus LRS in BidAnalysisRequestStatuses)
-            {
-                if (LRS.WorkflowLevel == workflowLevel)
-                    return LRS;
-
-            }
-            return null;
-        }
-        public virtual IList<BidAnalysisRequestStatus> GetBidAnalysisRequestStatusByRequestId(int RequestId)
-        {
-            IList<BidAnalysisRequestStatus> VRS = new List<BidAnalysisRequestStatus>();
-            foreach (BidAnalysisRequestStatus VR in BidAnalysisRequestStatuses)
-            {
-                if (VR.BidAnalysisRequest.Id == RequestId)
-                    VRS.Add(VR);
-
-            }
-            return VRS;
-        }
-        public virtual void RemoveBidAnalysisRequestStatus(int Id)
-        {
-
-            foreach (BidAnalysisRequestStatus VRS in BidAnalysisRequestStatuses)
-            {
-                if (VRS.Id == Id)
-                    BidAnalysisRequestStatuses.Remove(VRS);
-                break;
-            }
-
-        }
-        #endregion
-        #region BAAttachment
-
-        public virtual void RemoveBAAttachment(string FilePath)
-        {
-            foreach (BAAttachment cpa in BAAttachments)
-            {
-                if (cpa.FilePath == FilePath)
-                {
-                    BAAttachments.Remove(cpa);
-                    break;
-                }
-            }
-        }
-        #endregion
+        public virtual PurchaseOrder PurchaseOrders { get; set; }        
         public virtual IList<Bidder> Bidders { get; set; }
         public virtual IList<BAAttachment> BAAttachments { get; set; }
         public virtual IList<BidAnalysisRequestDetail> BidAnalysisRequestDetails { get; set; }
@@ -162,7 +90,7 @@ namespace Chai.WorkflowManagment.CoreDomain.Requests
             }
 
         }
-       
+
         public IList<BidderItemDetail> GetAllBidderItemDetails()
         {
             IList<BidderItemDetail> details = new List<BidderItemDetail>();
@@ -176,7 +104,6 @@ namespace Chai.WorkflowManagment.CoreDomain.Requests
             return details;
         }
         #endregion
-     
         #region BidAnalysisRequestDetail
         public virtual BidAnalysisRequestDetail GetBidAnalysisRequestDetail(int Id)
         {
@@ -213,6 +140,65 @@ namespace Chai.WorkflowManagment.CoreDomain.Requests
 
         }
 
+        #endregion
+        #region BidAnalysisRequestStatus
+        public virtual BidAnalysisRequestStatus GetBidAnalysisRequestStatus(int Id)
+        {
+
+            foreach (BidAnalysisRequestStatus SVRS in BidAnalysisRequestStatuses)
+            {
+                if (SVRS.Id == Id)
+                    return SVRS;
+
+            }
+            return null;
+        }
+        public virtual BidAnalysisRequestStatus GetBidAnalysisRequestStatusworkflowLevel(int workflowLevel)
+        {
+
+            foreach (BidAnalysisRequestStatus LRS in BidAnalysisRequestStatuses)
+            {
+                if (LRS.WorkflowLevel == workflowLevel)
+                    return LRS;
+
+            }
+            return null;
+        }
+        public virtual IList<BidAnalysisRequestStatus> GetBidAnalysisRequestStatusByRequestId(int RequestId)
+        {
+            IList<BidAnalysisRequestStatus> VRS = new List<BidAnalysisRequestStatus>();
+            foreach (BidAnalysisRequestStatus VR in BidAnalysisRequestStatuses)
+            {
+                if (VR.BidAnalysisRequest.Id == RequestId)
+                    VRS.Add(VR);
+
+            }
+            return VRS;
+        }
+        public virtual void RemoveBidAnalysisRequestStatus(int Id)
+        {
+
+            foreach (BidAnalysisRequestStatus VRS in BidAnalysisRequestStatuses)
+            {
+                if (VRS.Id == Id)
+                    BidAnalysisRequestStatuses.Remove(VRS);
+                break;
+            }
+
+        }
+        #endregion
+        #region BAAttachment
+        public virtual void RemoveBAAttachment(string FilePath)
+        {
+            foreach (BAAttachment cpa in BAAttachments)
+            {
+                if (cpa.FilePath == FilePath)
+                {
+                    BAAttachments.Remove(cpa);
+                    break;
+                }
+            }
+        }
         #endregion
     }
 }

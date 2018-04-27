@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 
-namespace Chai.WorkflowManagment.CoreDomain.Request
+namespace Chai.WorkflowManagment.CoreDomain.Requests
 {
     public partial class PurchaseRequest : IEntity
     {
@@ -17,7 +17,7 @@ namespace Chai.WorkflowManagment.CoreDomain.Request
             this.PurchaseRequestStatuses = new List<PurchaseRequestStatus>();
             this.PurchaseRequestDetails = new List<PurchaseRequestDetail>();
             //this.PurchaseOrders = new List<PurchaseOrder>();
-          //  this.BidAnalysises = new BidAnalysis();
+            //  this.BidAnalysises = new BidAnalysis();
         }
         public int Id { get; set; }
         public string RequestNo { get; set; }
@@ -30,21 +30,18 @@ namespace Chai.WorkflowManagment.CoreDomain.Request
         public bool Budgeted { get; set; }
         public string SuggestedSupplier { get; set; }
         public decimal TotalPrice { get; set; }
-       // public Program Program { get; set; }
+        // public Program Program { get; set; }
         public string Comment { get; set; }
         public string ConditionsofOrder { get; set; }
         public int CurrentApprover { get; set; }
         public int CurrentLevel { get; set; }
         public string CurrentStatus { get; set; }
         public string ProgressStatus { get; set; }
-
-     
-     //   public virtual  BidAnalysises { get; set; }
+        public virtual BidAnalysisRequest BidAnalysisRequest { get; set; }
+        public virtual SoleVendorRequest SoleVendorRequest { get; set; }
         public virtual IList<PurchaseRequestStatus> PurchaseRequestStatuses { get; set; }
         public virtual IList<PurchaseRequestDetail> PurchaseRequestDetails { get; set; }
-       // public virtual PurchaseOrder PurchaseOrders { get; set; }
-         
-      
+        // public virtual PurchaseOrder PurchaseOrders { get; set; }
         #region PurchaseRequestStatus
         public virtual PurchaseRequestStatus GetPurchaseRequestStatus(int Id)
         {
@@ -104,7 +101,6 @@ namespace Chai.WorkflowManagment.CoreDomain.Request
             }
             return null;
         }
-       
         public virtual IList<PurchaseRequestDetail> GetPurchaseRequestDetailByPurchaseId(int PurchaseId)
         {
             IList<PurchaseRequestDetail> LRS = new List<PurchaseRequestDetail>();
@@ -127,9 +123,8 @@ namespace Chai.WorkflowManagment.CoreDomain.Request
             }
 
         }
-
         #endregion
-        
+
 
     }
 }

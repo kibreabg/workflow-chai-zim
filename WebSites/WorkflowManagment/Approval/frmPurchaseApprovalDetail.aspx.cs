@@ -16,6 +16,7 @@ using Chai.WorkflowManagment.Shared.MailSender;
 using log4net;
 using log4net.Config;
 using Microsoft.Practices.ObjectBuilder;
+using Chai.WorkflowManagment.CoreDomain.Request;
 
 namespace Chai.WorkflowManagment.Modules.Approval.Views
 {
@@ -74,9 +75,9 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             get
             {
-                if (grvTravelAdvanceRequestList.SelectedDataKey != null)
+                if (grvPurchaseRequestList.SelectedDataKey != null)
                 {
-                    return Convert.ToInt32(grvTravelAdvanceRequestList.SelectedDataKey.Value);
+                    return Convert.ToInt32(grvPurchaseRequestList.SelectedDataKey.Value);
                 }
                 else
                 {
@@ -117,22 +118,33 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         private void BindSearchVehicleRequestGrid()
         {
-            grvTravelAdvanceRequestList.DataSource = _presenter.ListPurchaseRequests(txtSrchRequestNo.Text, txtSrchRequestDate.Text, ddlSrchProgressStatus.SelectedValue);
-            grvTravelAdvanceRequestList.DataBind();
+            grvPurchaseRequestList.DataSource = _presenter.ListPurchaseRequests(txtSrchRequestNo.Text, txtSrchRequestDate.Text, ddlSrchProgressStatus.SelectedValue);
+            grvPurchaseRequestList.DataBind();
         }
         private void BindPurchaseRequestStatus()
         {
-            // VehicleApprovalPresenter _presenterm = new   VehicleApprovalPresenter;
-            foreach (Chai.WorkflowManagment.CoreDomain.Request.PurchaseRequestStatus VRS in _presenter.CurrentPurchaseRequest.PurchaseRequestStatuses)
+            foreach (PurchaseRequestStatus VRS in _presenter.CurrentPurchaseRequest.PurchaseRequestStatuses)
             {
                 if (VRS.WorkflowLevel == _presenter.CurrentPurchaseRequest.CurrentLevel && _presenter.CurrentPurchaseRequest.ProgressStatus != ProgressStatus.Completed.ToString())
                 {
-                    //btnApprove.Enabled = true;
+                    btnApprove.Enabled = true;
                 }
+
                 if (_presenter.CurrentPurchaseRequest.CurrentLevel == _presenter.CurrentPurchaseRequest.PurchaseRequestStatuses.Count && !String.IsNullOrEmpty(VRS.ApprovalStatus))
                 {
                     btnPrint.Enabled = true;
+                    btnApprove.Enabled = false;
                 }
+                else
+                {
+                    btnPrint.Enabled = false;
+                    btnApprove.Enabled = true;
+                }
+            }
+            if (_presenter.CurrentUser().EmployeePosition.PositionName == "Admin/HR Assisitance (Driver)" && _presenter.CurrentPurchaseRequest.CurrentStatus != ApprovalStatus.Rejected.ToString() && _presenter.CurrentPurchaseRequest.BidAnalysisRequest != null)
+            {
+                lnkBidRequest.Visible = true;
+                lnkSoleVendor.Visible = true;
             }
         }
         private void BindVehicles()
@@ -198,7 +210,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
           }*/
         private void GetNextApprover()
         {
-            foreach (Chai.WorkflowManagment.CoreDomain.Request.PurchaseRequestStatus VRS in _presenter.CurrentPurchaseRequest.PurchaseRequestStatuses)
+            foreach (PurchaseRequestStatus VRS in _presenter.CurrentPurchaseRequest.PurchaseRequestStatuses)
             {
                 if (VRS.ApprovalStatus == null)
                 {
@@ -213,7 +225,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         private void SavePurchaseRequestStatus()
         {
-            foreach (Chai.WorkflowManagment.CoreDomain.Request.PurchaseRequestStatus PRRS in _presenter.CurrentPurchaseRequest.PurchaseRequestStatuses)
+            foreach (PurchaseRequestStatus PRRS in _presenter.CurrentPurchaseRequest.PurchaseRequestStatuses)
             {
                 if ((PRRS.Approver == _presenter.CurrentUser().Id || _presenter.CurrentUser().Id == (_presenter.GetAssignedJobbycurrentuser(PRRS.Approver) != null ? _presenter.GetAssignedJobbycurrentuser(PRRS.Approver).AssignedTo : 0)) && PRRS.WorkflowLevel == _presenter.CurrentPurchaseRequest.CurrentLevel)
                 {
@@ -322,7 +334,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     Master.ShowMessage(new AppMessage("Purchase Approval Processed", Chai.WorkflowManagment.Enums.RMessageType.Info));
                     btnApprove.Enabled = false;
                     BindSearchVehicleRequestGrid();
-                    if(_presenter.CurrentUser().EmployeePosition.PositionName == "Admin/HR Assisitance (Driver)" && _presenter.CurrentPurchaseRequest.CurrentStatus != ApprovalStatus.Rejected.ToString())
+                    if (_presenter.CurrentUser().EmployeePosition.PositionName == "Admin/HR Assisitance (Driver)" && _presenter.CurrentPurchaseRequest.CurrentStatus != ApprovalStatus.Rejected.ToString())
                     {
                         lnkBidRequest.Visible = true;
                         lnkSoleVendor.Visible = true;
@@ -335,11 +347,11 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
 
             }
         }
-        protected void grvTravelAdvanceRequestList_RowCommand(object sender, GridViewCommandEventArgs e)
+        protected void grvPurchaseRequestList_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             if (e.CommandName == "ViewItem")
             {
-                reqID = (int)grvTravelAdvanceRequestList.DataKeys[Convert.ToInt32(e.CommandArgument)].Value;
+                reqID = (int)grvPurchaseRequestList.DataKeys[Convert.ToInt32(e.CommandArgument)].Value;
                 _presenter.CurrentPurchaseRequest = _presenter.GetPurchaseRequestById(reqID);
                 _presenter.OnViewLoaded();
                 grvVehcles.DataSource = _presenter.CurrentPurchaseRequest.PurchaseRequestDetails;
@@ -347,7 +359,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 pnlApproval.Visible = true;
             }
         }
-        protected void grvTravelAdvanceRequestList_SelectedIndexChanged(object sender, EventArgs e)
+        protected void grvPurchaseRequestList_SelectedIndexChanged(object sender, EventArgs e)
         {
             //grvPaymentReimbursementRequestList.SelectedDataKey.Value
             _presenter.OnViewLoaded();
@@ -376,10 +388,10 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             ddlApprovalStatus.Items.Add(new ListItem(ApprovalStatus.Rejected.ToString().Replace('_', ' '), ApprovalStatus.Rejected.ToString().Replace('_', ' ')));
 
         }
-        protected void grvTravelAdvanceRequestList_RowDataBound(object sender, GridViewRowEventArgs e)
+        protected void grvPurchaseRequestList_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             Button btnStatus = e.Row.FindControl("btnStatus") as Button;
-            CoreDomain.Request.PurchaseRequest CSR = e.Row.DataItem as CoreDomain.Request.PurchaseRequest;
+            PurchaseRequest CSR = e.Row.DataItem as PurchaseRequest;
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
                 if (CSR.ProgressStatus == ProgressStatus.InProgress.ToString())
@@ -408,9 +420,9 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             }
             pnlApproval_ModalPopupExtender.Show();
         }
-        protected void grvTravelAdvanceRequestList_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        protected void grvPurchaseRequestList_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
-            grvTravelAdvanceRequestList.PageIndex = e.NewPageIndex;
+            grvPurchaseRequestList.PageIndex = e.NewPageIndex;
             btnFind_Click(sender, e);
         }
         protected void grvStatuses_RowDataBound(object sender, GridViewRowEventArgs e)

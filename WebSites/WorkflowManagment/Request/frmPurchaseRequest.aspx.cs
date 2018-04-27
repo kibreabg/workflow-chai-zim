@@ -1,4 +1,4 @@
-﻿using Chai.WorkflowManagment.CoreDomain.Request;
+﻿using Chai.WorkflowManagment.CoreDomain.Requests;
 using Chai.WorkflowManagment.CoreDomain.Setting;
 using Chai.WorkflowManagment.CoreDomain.Users;
 using Chai.WorkflowManagment.Enums;
@@ -228,7 +228,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 
 
         }
-        public CoreDomain.Request.PurchaseRequest PurchaseRequest
+        public PurchaseRequest PurchaseRequest
         {
             get
             {

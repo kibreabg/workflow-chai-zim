@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 
-namespace Chai.WorkflowManagment.CoreDomain.Request
+namespace Chai.WorkflowManagment.CoreDomain.Requests
 {
     [Table("PurchaseRequestDetails")]
     public partial class PurchaseRequestDetail : IEntity
