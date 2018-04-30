@@ -276,7 +276,7 @@ namespace Chai.WorkflowManagment.Modules.Setting
 
             return _workspace.SqlQuery<Grant>(filterExpression).ToList();
 
-        }
+        }        
         public IList<Project> ListProjects(string ProjectCode)
         {
             string filterExpression = "";

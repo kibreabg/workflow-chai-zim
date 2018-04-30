@@ -13,7 +13,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         DateTime GetRequestDate { get; }
         string GetCommodityServicePurchasedby { get; }
         decimal GetProposedPurchasedPrice { get; }
-
+        int GetPurchaseRequestId { get; }
         int GetProposedSupplier { get; }
       
         string GetSoleSourceJustificationPreparedBy { get; }

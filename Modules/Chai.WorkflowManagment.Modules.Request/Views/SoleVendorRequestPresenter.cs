@@ -138,7 +138,10 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         public void SaveOrUpdateSoleVendorRequest()
         {
+           
             SoleVendorRequest SoleVendorRequest = CurrentSoleVendorRequest;
+            SoleVendorRequest.PurchaseRequest = _controller.GetPurchaseRequest(View.GetPurchaseRequestId);
+            
             SoleVendorRequest.RequestNo = View.GetRequestNo;
             SoleVendorRequest.RequestDate = Convert.ToDateTime(DateTime.Today);
             SoleVendorRequest.CommodityServicePurchasedby = View.GetCommodityServicePurchasedby;
@@ -154,6 +157,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 SoleVendorRequest.Project = _settingController.GetProject(View.GetProjectId);
             if (View.GetGrantId != 0)
                 SoleVendorRequest.Grant = _settingController.GetGrant(View.GetGrantId);
+                    //_settingController.GetGrant(View.GetGrantId);
             SoleVendorRequest.AppUser = _adminController.GetUser(CurrentUser().Id);
 
             if (CurrentSoleVendorRequest.SoleVendorRequestStatuses.Count == 0)
@@ -178,6 +182,10 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         public void DeleteSoleVendorRequest(SoleVendorRequest SoleVendorRequest)
         {
             _controller.DeleteEntity(SoleVendorRequest);
+        }
+        public PurchaseRequest GetPurchaseRequest(int purchaseRequestId)
+        {
+            return _controller.GetPurchaseRequest(purchaseRequestId);
         }
         public SoleVendorRequest GetSoleVendorRequest(int id)
         {

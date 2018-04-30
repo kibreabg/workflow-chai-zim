@@ -21,12 +21,16 @@ namespace Chai.WorkflowManagment.CoreDomain.Requests
 
         }
         public int Id { get; set; }
+    
+     
+      
+      
         public string RequestNo { get; set; }
         public Nullable<DateTime> RequestDate { get; set; }
         public DateTime AnalyzedDate { get; set; }
-        public string Neededfor { get; set; }
+  
         public string SpecialNeed { get; set; }
-        // [ForeignKey("SupplierSelected_Id")]
+        
         public virtual Supplier Supplier { get; set; }
         public decimal TotalPrice { get; set; }
         public string ReasonforSelection { get; set; }
@@ -41,6 +45,7 @@ namespace Chai.WorkflowManagment.CoreDomain.Requests
         public virtual Grant Grant { get; set; }
         [Required]
         public virtual PurchaseRequest PurchaseRequest { get; set; }
+      
         public virtual IList<BidAnalysisRequestStatus> BidAnalysisRequestStatuses { get; set; }
         public virtual PurchaseOrder PurchaseOrders { get; set; }        
         public virtual IList<Bidder> Bidders { get; set; }

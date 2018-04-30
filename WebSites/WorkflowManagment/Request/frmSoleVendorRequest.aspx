@@ -65,9 +65,7 @@
                                     <asp:TextBox ID="txtRequestDate" ReadOnly="true" runat="server"></asp:TextBox>
                                 </label>
                             </section>
-                       
-                      
-                            <section class="col col-6">
+                        <section class="col col-6">
                                 <label class="label">Commodity Service Purchasedby</label>
                                  <label class="input">
                                     <asp:TextBox ID="txtCommodityServicePurchasedby" runat="server"></asp:TextBox>
@@ -76,6 +74,20 @@
                                 </label>
                                
                             </section></div>  
+                      <div class="row">                            
+                            <section class="col col-6">
+                            
+                             
+                                <asp:GridView ID="GridView1" runat="server" Enabled="False" HorizontalAlign="Left" Width="430px" AutoGenerateColumns="True" DataKeyNames="Id"   CssClass="table table-striped table-bordered table-hover">
+                <RowStyle CssClass="rowstyle" />
+               
+                <FooterStyle CssClass="FooterStyle" />
+                <HeaderStyle CssClass="headerstyle" />
+                <PagerStyle CssClass="PagerStyle" />
+                <RowStyle CssClass="rowstyle" />  
+                             </asp:GridView>
+                            </section></div>
+                           
                               <div class="row">
                                   <div>
                             <section class="col col-6">
@@ -111,14 +123,14 @@
                                         SetFocusOnError="true" ControlToValidate="ddlProject"></asp:RequiredFieldValidator>
                                 </label>
                             </section>
-                            <section class="col col-6">
+                             <section class="col col-6">
                                 <label class="label">Grant</label>
                                 <label class="select">
                                     <asp:DropDownList ID="ddlGrant" runat="server" DataValueField="Id" DataTextField="GrantCode">
                                     </asp:DropDownList><i></i>
                                     <asp:RequiredFieldValidator
                                         ID="rfvGrant" runat="server" ErrorMessage="Grant is required" Display="Dynamic"
-                                        CssClass="validator" ValidationGroup="save" InitialValue="0"
+                                        CssClass="validator" ValidationGroup="saveMain" InitialValue="0"
                                         SetFocusOnError="true" ControlToValidate="ddlGrant"></asp:RequiredFieldValidator>
                                 </label>
                             </section>

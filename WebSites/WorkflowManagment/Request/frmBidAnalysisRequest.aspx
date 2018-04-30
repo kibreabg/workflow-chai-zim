@@ -65,7 +65,7 @@
                              
                             <section class="col col-4">
                                 <label id="lblRequestDate" runat="server" class="label" visible="true">
-                                    Requested Date</label>
+                                   Purchase Requested Date</label>
                                 <label class="input">
                                     <i class="icon-append fa fa-calendar"></i>
                                     <asp:TextBox ID="txtRequestDate" runat="server" Visible="true" CssClass="form-control datepicker" Enabled="False"></asp:TextBox>
@@ -74,7 +74,7 @@
                            
                             <section class="col col-4">
                                 <label class="label">
-                                    Analyzed Date</label>
+                                     Date</label>
                                 <label class="input">
                                     <i class="icon-append fa fa-calendar"></i>
                                     <asp:TextBox ID="txtAnalyzedDate" runat="server" Visible="true" CssClass="form-control datepicker" data-dateformat="mm/dd/yy"></asp:TextBox>
@@ -82,6 +82,19 @@
                                 </label>
                             </section>
                         </div>
+                           <div class="row">                            
+                            <section class="col col-6">
+                            
+                             
+                                <asp:GridView ID="GridView1" runat="server" Enabled="False" HorizontalAlign="Left" Width="430px" AutoGenerateColumns="False" DataKeyNames="Id"   CssClass="table table-striped table-bordered table-hover">
+                <RowStyle CssClass="rowstyle" />
+               
+                <FooterStyle CssClass="FooterStyle" />
+                <HeaderStyle CssClass="headerstyle" />
+                <PagerStyle CssClass="PagerStyle" />
+                <RowStyle CssClass="rowstyle" />  
+                             </asp:GridView>
+                            </section></div>
                           <div class="row">                            
                             <section class="col col-6">
                                 <label class="label">Project</label>
@@ -94,7 +107,7 @@
                                         SetFocusOnError="true" ControlToValidate="ddlProject"></asp:RequiredFieldValidator>
                                 </label>
                             </section>
-                            <section class="col col-6">
+                             <section class="col col-6">
                                 <label class="label">Grant</label>
                                 <label class="select">
                                     <asp:DropDownList ID="ddlGrant" runat="server" DataValueField="Id" DataTextField="GrantCode">
@@ -206,6 +219,20 @@
                                     <%# DataBinder.Eval(Container.DataItem, "Supplier.SupplierName")%>
                                 </ItemTemplate>
                             </asp:TemplateColumn>
+                             <asp:TemplateColumn HeaderText="Contact Details">
+                                <ItemTemplate>
+                                    <%# DataBinder.Eval(Container.DataItem, "ContactDetails")%>
+                                </ItemTemplate>
+                                <EditItemTemplate>
+                                    <asp:TextBox ID="txtContactDetails" runat="server" CssClass="form-control" Text=' <%# DataBinder.Eval(Container.DataItem, "ContactDetails")%>'></asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="RfvContactDetails" runat="server" CssClass="validator" ControlToValidate="txtContactDetails" ErrorMessage="Contact Details of Supplier Required" ValidationGroup="proedit">*</asp:RequiredFieldValidator>
+                                </EditItemTemplate>
+                                <FooterTemplate>
+                                    <asp:TextBox ID="txtFContactDetails" runat="server" CssClass="form-control"></asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="RfvFContactDetails" runat="server" CssClass="validator" ControlToValidate="txtFContactDetails" ErrorMessage="Contact Details of Supplier Required" ValidationGroup="proadd">*</asp:RequiredFieldValidator>
+                                </FooterTemplate>
+                            </asp:TemplateColumn>
+                          
                             <asp:TemplateColumn HeaderText="Lead Time from Supplier">
                                 <ItemTemplate>
                                     <%# DataBinder.Eval(Container.DataItem, "LeadTimefromSupplier")%>
@@ -229,8 +256,8 @@
                                     <asp:RequiredFieldValidator ID="RfvSpecialTermsDelivery" runat="server" CssClass="validator" ControlToValidate="txtSpecialTermsDelivery" ErrorMessage="Special Terms Delivery Required" ValidationGroup="proedit">*</asp:RequiredFieldValidator>
                                 </EditItemTemplate>
                                 <FooterTemplate>
-                                    <asp:TextBox ID="txtFSpecialTermsDelivery" runat="server" CssClass="form-control"></asp:TextBox>
-                                    <asp:RequiredFieldValidator ID="RfvFSpecialTermsDelivery" runat="server" CssClass="validator" ControlToValidate="txtFSpecialTermsDelivery" ErrorMessage="Special Terms Delivery Supplier Required" ValidationGroup="proadd">*</asp:RequiredFieldValidator>
+                                    <asp:TextBox ID="txtFSpecialTermsDeliveryy" runat="server" CssClass="form-control"></asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="RfvFSpecialTermsDelivery" runat="server" CssClass="validator" ControlToValidate="txtFSpecialTermsDeliveryy" ErrorMessage="Special Terms Delivery Supplier Required" ValidationGroup="proadd">*</asp:RequiredFieldValidator>
                                 </FooterTemplate>
                             </asp:TemplateColumn>
                             <asp:TemplateColumn HeaderText="Rank">
@@ -560,8 +587,8 @@
                             <div class="widget-body no-padding">
                                 <div class="smart-form">
 
-                                    <asp:DataGrid ID="dgItemDetail" runat="server" AlternatingRowStyle-CssClass="" AutoGenerateColumns="False" CellPadding="0"
-                                        CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" DataKeyField="Id"
+                                    <asp:DataGrid ID="dgItemDetail" runat="server" AlternatingRowStyle-CssClass="" CellPadding="0"
+                                        CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" DataKeyField="Id" AutoGenerateColumns="false"
                                         GridLines="None" OnItemDataBound="dgItemDetail_ItemDataBound" ShowFooter="True" OnCancelCommand="dgItemDetail_CancelCommand" OnDeleteCommand="dgItemDetail_DeleteCommand" OnItemCommand="dgItemDetail_ItemCommand" OnUpdateCommand="dgItemDetail_UpdateCommand">
 
 

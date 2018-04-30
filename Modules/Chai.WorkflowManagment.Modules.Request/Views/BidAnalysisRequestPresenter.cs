@@ -150,10 +150,11 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         public void SaveOrUpdateBidAnalysisRequest()
         {
             BidAnalysisRequest BidAnalysisRequest = CurrentBidAnalysisRequest;
+            BidAnalysisRequest.PurchaseRequest = _controller.GetPurchaseRequest(View.GetPurchaseRequestId); 
             BidAnalysisRequest.RequestNo = View.GetRequestNo;
             BidAnalysisRequest.RequestDate = Convert.ToDateTime(DateTime.Today.ToShortDateString());
             BidAnalysisRequest.AnalyzedDate = Convert.ToDateTime(View.GetAnalysedDate);
-            BidAnalysisRequest.Neededfor = View.GetNeededFor;
+          //  BidAnalysisRequest.Neededfor = View.GetNeededFor;
             BidAnalysisRequest.SpecialNeed = View.GetSpecialNeed;
 
 
@@ -235,6 +236,10 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         public IList<Grant> GetGrantbyprojectId(int projectId)
         {
             return _settingController.GetProjectGrantsByprojectId(projectId);
+        }
+        public Grant GetGrantprojectId(int projectId)
+        {
+            return _settingController.GetGrant(projectId);
         }
         public ApprovalSetting GetApprovalSetting(string RequestType, decimal value)
         {

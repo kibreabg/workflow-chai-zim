@@ -28,7 +28,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 this._presenter.OnViewInitialized();
                 XmlConfigurator.Configure();
                 CheckApprovalSettings();
-             
+                PurchaseRequest purchaseRequest = _presenter.GetPurchaseRequest(GetPurchaseRequestId);
+                _presenter.CurrentSoleVendorRequest.PurchaseRequest = purchaseRequest;
                 PopProjects();
                 BindSoleVendorRequests();
                 PopSoleVendorRequesters();
@@ -84,6 +85,19 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 
             
         }
+
+        }
+
+        public int GetPurchaseRequestId
+        {
+            get
+            {
+                if (Convert.ToInt32(Request.QueryString["PurchaseRequestId"]) != 0)
+                {
+                    return Convert.ToInt32(Request.QueryString["PurchaseRequestId"]);
+                }
+                return 0;
+            }
         }
         public string GetRequestNo
         {
@@ -219,6 +233,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 txtSoleVendorJustificationType.Text = _presenter.CurrentSoleVendorRequest.SoleVendorJustificationType.ToString();
 
                 ddlProject.SelectedValue = _presenter.CurrentSoleVendorRequest.Project.Id.ToString();
+
                 PopGrants(Convert.ToInt32(ddlProject.SelectedValue));
                 ddlGrant.SelectedValue = _presenter.CurrentSoleVendorRequest.Grant.Id.ToString();
                 BindSoleVendorRequests();
@@ -356,6 +371,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     grvAttachments.DataBind();
 
 
+
                 }
                 else
                 {
@@ -371,7 +387,41 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         private void PopSoleVendorRequesters()
         {
             txtSoleSource.Text = _presenter.CurrentUser().FirstName + " " + _presenter.CurrentUser().LastName;
+
+          
+       
+            txtRequestDate.Text = _presenter.CurrentSoleVendorRequest.PurchaseRequest.RequestedDate.ToShortDateString();
+
+
+            ddlProject.SelectedValue = _presenter.CurrentSoleVendorRequest.PurchaseRequest.PurchaseRequestDetails[0].Project.Id.ToString();
+            var y = ddlProject.SelectedValue;
+            ddlGrant.DataSource = _presenter.GetGrantbyprojectId(Convert.ToInt32(ddlProject.SelectedValue));
+            ddlGrant.DataBind();
+            ddlGrant.SelectedValue = _presenter.CurrentSoleVendorRequest.PurchaseRequest.PurchaseRequestDetails[0].Grant.Id.ToString();
+           
+            ////foreach (PurchaseRequestDetail prd in _presenter.CurrentSoleVendorRequest.PurchaseRequest.PurchaseRequestDetails)
+            ////{
+
+
+
+            ////    GridView grid = this.GridView1;
+
+            ////    foreach (GridViewRow ro in grid.Rows)
+            ////    {
+            ////        ro.Cells[0].Text = prd.ItemAccount.AccountName;
+            ////        ro.Cells[1].Text = prd.AccountCode;
+            ////        ro.Cells[2].Text = prd.EstimatedCost.ToString();
+                    
+            ////    }
+  
+    
+            //// }
+          //  ddlGrant.SelectedValue = _presenter.CurrentBidAnalysisRequest.PurchaseRequest.GetPurchaseRequestDetail(Convert.ToInt32(ddlProject.SelectedValue)).Grant.Id.ToString();
+          GridView1.DataSource = _presenter.CurrentSoleVendorRequest.PurchaseRequest.PurchaseRequestDetails;
+           GridView1.DataBind();
         }
+
+       
 
 
 
