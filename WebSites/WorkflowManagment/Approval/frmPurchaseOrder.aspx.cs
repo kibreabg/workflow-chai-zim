@@ -331,7 +331,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 //    lblDeliverToResult.Text = _presenter.CurrentBidAnalysisRequest..DeliverTo;
                 lblPurchaseOrderNo.Text = _presenter.CurrentBidAnalysisRequest.PurchaseOrders.PoNumber;
                 //  lblDeliveryDateresult.Text = _presenter.CurrentBidAnalysisRequest..Requireddateofdelivery.ToString();
-                lblPurposeResult.Text = _presenter.CurrentBidAnalysisRequest.Neededfor;
+             //   lblPurposeResult.Text = _presenter.CurrentBidAnalysisRequest.Neededfor;
                 lblBillToResult.Text = _presenter.CurrentBidAnalysisRequest.PurchaseOrders.Billto;
                 lblShipToResult.Text = _presenter.CurrentBidAnalysisRequest.PurchaseOrders.ShipTo;
                 lblPaymentTerms.Text = _presenter.CurrentBidAnalysisRequest.PurchaseOrders.PaymentTerms;
