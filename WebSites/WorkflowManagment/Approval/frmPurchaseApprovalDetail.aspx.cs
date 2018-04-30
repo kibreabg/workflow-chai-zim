@@ -141,7 +141,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     btnApprove.Enabled = true;
                 }
             }
-            if (_presenter.CurrentUser().EmployeePosition.PositionName == "Admin/HR Assisitance (Driver)" && _presenter.CurrentPurchaseRequest.CurrentStatus != ApprovalStatus.Rejected.ToString() && _presenter.CurrentPurchaseRequest.BidAnalysisRequest != null)
+            if (_presenter.CurrentUser().EmployeePosition.PositionName == "Admin/HR Assisitance (Driver)" && _presenter.CurrentPurchaseRequest.CurrentStatus != ApprovalStatus.Rejected.ToString() && _presenter.CurrentPurchaseRequest.BidAnalysisRequest == null && _presenter.CurrentPurchaseRequest.SoleVendorRequest == null)
             {
                 lnkBidRequest.Visible = true;
                 lnkSoleVendor.Visible = true;
