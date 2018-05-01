@@ -77,7 +77,7 @@
                                      Date</label>
                                 <label class="input">
                                     <i class="icon-append fa fa-calendar"></i>
-                                    <asp:TextBox ID="txtAnalyzedDate" runat="server" Visible="true" CssClass="form-control datepicker" data-dateformat="mm/dd/yy"></asp:TextBox>
+                                    <asp:TextBox ID="txtAnalyzedDate" runat="server" Visible="true" CssClass="form-control datepicker" data-dateformat="mm/dd/yy" Enabled="False"></asp:TextBox>
                                     <asp:RequiredFieldValidator ID="RfvAnalyzedDate" runat="server" CssClass="validator" ControlToValidate="txtAnalyzedDate" ErrorMessage="Analyzed Date Required" InitialValue="" SetFocusOnError="True" ValidationGroup="Save">*</asp:RequiredFieldValidator>
                                 </label>
                             </section>
@@ -86,15 +86,22 @@
                             <section class="col col-6">
                             
                              
-                                <asp:GridView ID="GridView1" runat="server" Enabled="False" HorizontalAlign="Left" Width="430px" AutoGenerateColumns="False" DataKeyNames="Id"   CssClass="table table-striped table-bordered table-hover">
-                <RowStyle CssClass="rowstyle" />
+                                <asp:GridView ID="GridView1" runat="server" HorizontalAlign="Left" Width="430px" DataKeyNames="Id"   CssClass="table table-striped table-bordered table-hover" AutoGenerateColumns="False">
+                <RowStyle CssClass="rowstyle" />  
+                                    <Columns>
+                                        <asp:BoundField DataField="AccountCode" HeaderText="Account Code" />
+                                        <asp:BoundField DataField="ItemAccount.AccountName" HeaderText="Account Name" />
+                                        <asp:BoundField DataField="EstimatedCost" HeaderText="Estimated Cost" />
+                                    </Columns>
                
                 <FooterStyle CssClass="FooterStyle" />
                 <HeaderStyle CssClass="headerstyle" />
                 <PagerStyle CssClass="PagerStyle" />
-                <RowStyle CssClass="rowstyle" />  
+                <RowStyle CssClass="rowstyle" />
+               
                              </asp:GridView>
-                            </section></div>
+                              </section>
+                           </div>
                           <div class="row">                            
                             <section class="col col-6">
                                 <label class="label">Project</label>
@@ -621,6 +628,20 @@
                                                     <%# DataBinder.Eval(Container.DataItem, "ItemAccount.AccountName")%>
                                                 </ItemTemplate>
                                             </asp:TemplateColumn>
+                                           
+                                            <asp:TemplateColumn HeaderText="Item Description">
+                                <ItemTemplate>
+                                    <%# DataBinder.Eval(Container.DataItem, "ItemDescription")%>
+                                </ItemTemplate>
+                                <EditItemTemplate>
+                                    <asp:TextBox ID="txtDescription" runat="server" CssClass="form-control" Text=' <%# DataBinder.Eval(Container.DataItem, "ItemDescription")%>'></asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="RfvDescription" runat="server" CssClass="validator" ControlToValidate="txtDescription" ErrorMessage="Item Description Required" ValidationGroup="proedit">*</asp:RequiredFieldValidator>
+                                </EditItemTemplate>
+                                <FooterTemplate>
+                                    <asp:TextBox ID="txtFDescription" runat="server" CssClass="form-control"></asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="RfvFDescription" runat="server" CssClass="validator" ControlToValidate="txtFDescription" ErrorMessage="Item Description Required" ValidationGroup="proadd">*</asp:RequiredFieldValidator>
+                                </FooterTemplate>
+                            </asp:TemplateColumn>
                                             <asp:TemplateColumn HeaderText="Qty">
                                                 <ItemTemplate>
                                                     <%# DataBinder.Eval(Container.DataItem, "Qty")%>
@@ -739,4 +760,6 @@
         </div>
         <!-- /.modal-content -->
     </asp:Panel>
+                        </div>
+
 </asp:Content>

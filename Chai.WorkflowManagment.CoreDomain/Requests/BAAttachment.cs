@@ -9,6 +9,6 @@ namespace Chai.WorkflowManagment.CoreDomain.Requests
     {
         public int Id { get; set; }
         public string FilePath { get; set; }
-        public virtual BidAnalysisRequest BidAnalisis { get; set; }
+        public virtual BidAnalysisRequest BidAnalysisRequest { get; set; }
     }
 }

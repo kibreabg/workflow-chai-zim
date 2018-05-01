@@ -374,6 +374,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 txtSpecialNeed.Text = _presenter.CurrentBidAnalysisRequest.SpecialNeed;
                 txtselectionfor.Text = _presenter.CurrentBidAnalysisRequest.ReasonforSelection;
                 txtTotal.Text = Convert.ToDecimal(_presenter.CurrentBidAnalysisRequest.TotalPrice).ToString();
+
                 ddlProject.SelectedValue = _presenter.CurrentBidAnalysisRequest.Project.Id.ToString();
                 
                 PopGrants(Convert.ToInt32(ddlProject.SelectedValue));
@@ -680,30 +681,11 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             ddlGrant.DataSource = _presenter.GetGrantbyprojectId(Convert.ToInt32(ddlProject.SelectedValue));
             ddlGrant.DataBind();
             ddlGrant.SelectedValue = _presenter.CurrentBidAnalysisRequest.PurchaseRequest.PurchaseRequestDetails[0].Grant.Id.ToString();
-           // ddlGrant.SelectedValue = _presenter.CurrentBidAnalysisRequest.PurchaseRequest.PurchaseRequestDetails[0].Grant.Id.ToString();
-            foreach(PurchaseRequestDetail prd in _presenter.CurrentBidAnalysisRequest.PurchaseRequest.PurchaseRequestDetails)
-            {
-                GridView grid = this.GridView1;
-
-                foreach (GridViewRow ro in grid.Rows)
-                {
-                
-                    ro.Cells[0].Text=prd.ItemAccount.AccountName;
-                    ro.Cells[1].Text=prd.AccountCode ;
-                    ro.Cells[2].Text=prd.EstimatedCost.ToString();
-                    
-                }
-
-
-
-                List<string> list = new List<string>();
-               
-                // Code to add dropdownlist items to gridview:
-              
-             }
-          //  ddlGrant.SelectedValue = _presenter.CurrentBidAnalysisRequest.PurchaseRequest.GetPurchaseRequestDetail(Convert.ToInt32(ddlProject.SelectedValue)).Grant.Id.ToString();
-          //  GridView1.DataSource = _presenter.CurrentBidAnalysisRequest.PurchaseRequest.PurchaseRequestDetails[].ItemAccount;
-          //  GridView1.DataBind();
+           
+            GridView1.DataSource = _presenter.CurrentBidAnalysisRequest.PurchaseRequest.PurchaseRequestDetails;
+            GridView1.DataBind();
+            
+        
         }
         private void PopProjects()
         {
@@ -855,6 +837,9 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     biditemdet.Bidder = bidd;
                     DropDownList ddlItem = e.Item.FindControl("ddlFItemAcc") as DropDownList;
                     biditemdet.ItemAccount = _presenter.GetItemAccount(Convert.ToInt32(ddlItem.SelectedValue));
+
+                    TextBox txtItemDescription = e.Item.FindControl("txtFDescription") as TextBox;
+                    biditemdet.ItemDescription = txtItemDescription.Text;
                     TextBox txtQty = e.Item.FindControl("txtQty") as TextBox;
                     biditemdet.Qty = Convert.ToInt32(txtQty.Text);
                     TextBox txtUnitCost = e.Item.FindControl("txtUnitCost") as TextBox;
@@ -886,6 +871,9 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             {
                 DropDownList ddlItem = e.Item.FindControl("ddlItemAcc") as DropDownList;
                 detail.ItemAccount = _presenter.GetItemAccount(Convert.ToInt32(ddlItem.SelectedValue));
+
+                TextBox txtItemDescription = e.Item.FindControl("txtDescription") as TextBox;
+                detail.ItemDescription = txtItemDescription.Text;
                 TextBox txtQty = e.Item.FindControl("txtEdtQty") as TextBox;
                 detail.Qty = Convert.ToInt32(txtQty.Text);
                 TextBox txtUnitCost = e.Item.FindControl("txtEdtUnitCost") as TextBox;
@@ -927,5 +915,27 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             PopGrants(Convert.ToInt32(ddlProject.SelectedValue));
         }
-    }
+       
+
+        protected void DataGrid1_ItemDataBound(object sender, DataGridItemEventArgs e)
+        {
+            foreach (PurchaseRequestDetail prd in _presenter.CurrentBidAnalysisRequest.PurchaseRequest.PurchaseRequestDetails)
+            {
+
+
+
+                Label lbl = e.Item.FindControl("lblName") as Label;
+                prd.ItemAccount.AccountName = lbl.Text;
+                Label lbl1 = e.Item.FindControl("lblName1") as Label;
+                prd.AccountCode = lbl1.Text;
+                Label lbl2 = e.Item.FindControl("lblName2") as Label;
+                prd.EstimatedCost = Convert.ToDecimal(lbl2.Text);
+
+
+
+
+
+            }
+        }
+}
 }
