@@ -100,8 +100,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 txtDeliverto.Text = _presenter.CurrentPurchaseRequest.DeliverTo.ToString();
                 txtdeliveryDate.Text = _presenter.CurrentPurchaseRequest.Requireddateofdelivery.ToShortDateString();
                 txtSuggestedSupplier.Text = _presenter.CurrentPurchaseRequest.SuggestedSupplier.ToString();
-                txtneededfor.Text = _presenter.CurrentPurchaseRequest.Neededfor.ToString();
-                txtneededfor.Text = _presenter.CurrentPurchaseRequest.SpecialNeed.ToString();
+                txtSpecialNeed.Text = _presenter.CurrentPurchaseRequest.SpecialNeed.ToString();
                 txtConditionofOrder.Text = _presenter.CurrentPurchaseRequest.ConditionsofOrder;
                 chkBudgeted.Checked = _presenter.CurrentPurchaseRequest.Budgeted;
                 txtTotal.Text = _presenter.CurrentPurchaseRequest.TotalPrice.ToString();
@@ -119,7 +118,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 _presenter.CurrentPurchaseRequest.DeliverTo = txtDeliverto.Text;
                 _presenter.CurrentPurchaseRequest.Comment = txtComment.Text;
                 _presenter.CurrentPurchaseRequest.SuggestedSupplier = txtSuggestedSupplier.Text;
-                _presenter.CurrentPurchaseRequest.Neededfor = txtneededfor.Text;
+              
                 _presenter.CurrentPurchaseRequest.SpecialNeed = txtSpecialNeed.Text;
                 _presenter.CurrentPurchaseRequest.Requireddateofdelivery = Convert.ToDateTime(txtdeliveryDate.Text);
                 _presenter.CurrentPurchaseRequest.ConditionsofOrder = txtConditionofOrder.Text;

@@ -215,6 +215,30 @@ namespace Chai.WorkflowManagment.Modules.Shell
 
             return _workspace.SqlQuery<OperationalControlRequest>(filterExpression).Count();
         }
+
+
+        public int GetBidAnalysisTasks()
+        {
+            currentUser = GetCurrentUser().Id;
+            string filterExpression = "";
+
+            filterExpression = " SELECT * FROM BidAnalysisRequests INNER JOIN AppUsers on AppUsers.Id = BidAnalysisRequests.CurrentApprover Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where BidAnalysisRequests.ProgressStatus='InProgress' " +
+                                  " AND  ((BidAnalysisRequests.CurrentApprover = '" + currentUser + "') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) order by BidAnalysisRequests.Id ";
+
+            return _workspace.SqlQuery<BidAnalysisRequest>(filterExpression).Count();
+        }
+
+        public int GetSoleVendorTasks()
+        {
+            currentUser = GetCurrentUser().Id;
+            string filterExpression = "";
+
+            filterExpression = " SELECT * FROM SoleVendorRequests INNER JOIN AppUsers on AppUsers.Id = SoleVendorRequests.CurrentApprover Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where SoleVendorRequests.ProgressStatus='InProgress' " +
+                                  " AND  ((SoleVendorRequests.CurrentApprover = '" + currentUser + "') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) order by SoleVendorRequests.Id ";
+
+            return _workspace.SqlQuery<SoleVendorRequest>(filterExpression).Count();
+        }
+
     
         #endregion
         #region MyRequests
@@ -337,6 +361,19 @@ namespace Chai.WorkflowManagment.Modules.Shell
             currentUser = GetCurrentUser().Id;
             IList<BankPaymentRequest> bankPaymentRequests = WorkspaceFactory.CreateReadOnly().Query<BankPaymentRequest>(x => x.AppUser.Id == currentUser && x.ProgressStatus == "InProgress").ToList();
             return bankPaymentRequests;
+        }
+
+        public IList<BidAnalysisRequest> GetBidAnalysisInProgress()
+        {
+            currentUser = GetCurrentUser().Id;
+            IList<BidAnalysisRequest> bidAnalyisRequests = WorkspaceFactory.CreateReadOnly().Query<BidAnalysisRequest>(x => x.AppUser.Id == currentUser && x.ProgressStatus == "InProgress").ToList();
+            return bidAnalyisRequests;
+        }
+        public IList<SoleVendorRequest> GetSoleVendorInProgress()
+        {
+            currentUser = GetCurrentUser().Id;
+            IList<SoleVendorRequest> soleVendorRequests = WorkspaceFactory.CreateReadOnly().Query<SoleVendorRequest>(x => x.AppUser.Id == currentUser && x.ProgressStatus == "InProgress").ToList();
+            return soleVendorRequests;
         }
 
         public IList<LeaveRequest> GetLeaveInProgress()

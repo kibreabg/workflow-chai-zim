@@ -159,6 +159,29 @@ public partial class ShellDefault : Microsoft.Practices.CompositeWeb.Web.UI.Page
         {
             lblbankpayment.Text = Convert.ToString(0);
         }
+
+        if (_presenter.GetBidAnalysisRequestsTasks() != 0)
+        {
+            lblBidAnalysis.Text = _presenter.GetBidAnalysisRequestsTasks().ToString();
+            lnkBidAnalysis.Enabled = true;
+            lnkBidAnalysis.PostBackUrl = ResolveUrl("Approval/frmBidAnalysisApproval.aspx");
+
+        }
+        else
+        {
+            lblBidAnalysis.Text = Convert.ToString(0);
+        }
+        if (_presenter.GetSoleVendorRequestsTasks() != 0)
+        {
+            lblSolVendor.Text = _presenter.GetSoleVendorRequestsTasks().ToString();
+            lnkSoleVendor.Enabled = true;
+            lnkSoleVendor.PostBackUrl = ResolveUrl("Approval/frmSoleVendorApproval.aspx");
+
+        }
+        else
+        {
+            lblSolVendor.Text = Convert.ToString(0);
+        }
     }
     private void MyRequests()
     {
@@ -344,6 +367,28 @@ public partial class ShellDefault : Microsoft.Practices.CompositeWeb.Web.UI.Page
             {
                 if (_presenter.ListBankPaymentApprovalProgress()[e.Row.RowIndex].CurrentApprover != 0)
                     e.Row.Cells[2].Text = _presenter.GetUser(_presenter.ListBankPaymentApprovalProgress()[e.Row.RowIndex].CurrentApprover).FullName;
+            }
+        }
+    }
+    protected void grvBidAnalysisProgress_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (_presenter.ListBidAnalysisApprovalProgress() != null)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                if (_presenter.ListBidAnalysisApprovalProgress()[e.Row.RowIndex].CurrentApprover != 0)
+                    e.Row.Cells[2].Text = _presenter.GetUser(_presenter.ListBidAnalysisApprovalProgress()[e.Row.RowIndex].CurrentApprover).FullName;
+            }
+        }
+    }
+    protected void grvSoleVendorProgress_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (_presenter.ListSoleVendorApprovalProgress() != null)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                if (_presenter.ListSoleVendorApprovalProgress()[e.Row.RowIndex].CurrentApprover != 0)
+                    e.Row.Cells[2].Text = _presenter.GetUser(_presenter.ListSoleVendorApprovalProgress()[e.Row.RowIndex].CurrentApprover).FullName;
             }
         }
     }

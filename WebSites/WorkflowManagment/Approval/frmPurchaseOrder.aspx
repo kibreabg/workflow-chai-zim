@@ -143,7 +143,7 @@
          GridLines="None" ShowFooter="True">
    
         <Columns>
-            <asp:TemplateColumn HeaderText="Item Description">
+            <asp:TemplateColumn HeaderText="Item">
                     
                      <ItemTemplate>
                          <%# DataBinder.Eval(Container.DataItem, "ItemAccount.AccountName")%>
@@ -322,7 +322,7 @@
                        <td>
                           Unit Cost 
                        </td>
-                       <td>Total Cost (USD)</td>
+                       <td></td>
                       </tr>
             </HeaderTemplate>
             <ItemTemplate>
@@ -376,7 +376,7 @@
                 <tr>
                    <td></td>
                     <td></td>
-                    <td>Total:</td>
+                    <td>Total Cost (USD):</td>
                     <td>  <asp:Label ID="lblTotalP" runat="server" Text=""></asp:Label></td>
                
                 </tr>
@@ -386,7 +386,7 @@
                                 Authorized by:
                             </td>
                             <td>
-                                <asp:Label ID="lblAuthorizedBy" runat="server" Text=""></asp:Label>
+                                <asp:Label ID="lblAuthorizedByP" runat="server" Text=""></asp:Label>
                             </td>
                             <td>
                               

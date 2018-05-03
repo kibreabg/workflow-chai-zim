@@ -83,7 +83,7 @@
                         <asp:Label ID="lblDateDelivery" runat="server" Text='<%# Eval("Requireddateofdelivery", "{0:dd/MM/yyyy}")%>'></asp:Label>
                     </ItemTemplate>
                 </asp:TemplateField>
-                <asp:BoundField DataField="Neededfor" HeaderText="Needed for" SortExpression="VisitingTeam" />
+              
                 <asp:BoundField DataField="SuggestedSupplier" HeaderText="SuggestedSupplier" SortExpression="PurposeOfTravel" />
                 <asp:BoundField DataField="TotalPrice" HeaderText="TotalPrice" SortExpression="TotalPurchase" />
 

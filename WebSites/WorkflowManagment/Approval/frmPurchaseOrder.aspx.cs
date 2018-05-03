@@ -156,17 +156,31 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 lblPaymentTermsP.Text = _presenter.CurrentBidAnalysisRequest.PurchaseOrders.PaymentTerms;
                 Label lblDeliveryFeesP = Repeater1.Controls[Repeater1.Controls.Count - 1].FindControl("lblDeliveryFeesP") as Label;
                 lblDeliveryFeesP.Text = Convert.ToString(_presenter.CurrentBidAnalysisRequest.PurchaseOrders.DeliveryFees);
-                Label lblItemTotalP = Repeater1.Controls[Repeater1.Controls.Count - 1].FindControl("lblItemTotalP") as Label;
+                Label lblItemTotalP = Repeater1.Controls[Repeater1.Controls.Count - 1].FindControl("lblTotalP") as Label;
                 Label lblVatP = Repeater1.Controls[Repeater1.Controls.Count - 1].FindControl("lblVatP") as Label;
+               
                 Label lblTotalP = Repeater1.Controls[Repeater1.Controls.Count - 1].FindControl("lblTotalP") as Label;
-                foreach (PurchaseOrderDetail POD in _presenter.CurrentBidAnalysisRequest.PurchaseOrders.PurchaseOrderDetails)
+                foreach (BidderItemDetail detail in _presenter.CurrentBidAnalysisRequest.GetBidderbyRank().BidderItemDetails)
                 {
-                    lblItemTotalP.Text = ((lblItemTotalP.Text != "" ? Convert.ToDecimal(lblItemTotalP.Text) : 0) + POD.TotalCost).ToString();
+                    PurchaseOrderDetail POD = new PurchaseOrderDetail();
+                    POD.ItemAccount = _presenter.GetItemAccount(detail.ItemAccount.Id);
+                    POD.Qty = detail.Qty;
+                    POD.UnitCost = detail.UnitCost;
+                    POD.TotalCost = detail.TotalCost;
+                    _presenter.CurrentBidAnalysisRequest.PurchaseOrders.PurchaseOrderDetails.Add(POD);
+               
+                   lblItemTotalP.Text = ((lblItemTotalP.Text != "" ? Convert.ToDecimal(lblItemTotalP.Text) : 0) + POD.TotalCost).ToString();
                 }
-                lblVatP.Text = Convert.ToString(0);
-                lblTotalP.Text = Convert.ToString(Convert.ToDecimal(lblItemTotalP.Text) + Convert.ToDecimal(lblVatP.Text) + Convert.ToDecimal(lblDeliveryFeesP.Text));
 
-            
+                lblTotalP.Text = Convert.ToString((!String.IsNullOrEmpty(lblItemTotalP.Text) ? Convert.ToDecimal(lblItemTotalP.Text) : 0) + (!String.IsNullOrEmpty(lblVatP.Text) ? Convert.ToDecimal(lblVatP.Text) : 0) + (!String.IsNullOrEmpty(lblDeliveryFeesP.Text) ? Convert.ToDecimal(lblDeliveryFeesP.Text) : 0));
+                Label lblAuthorizedBy = Repeater1.Controls[Repeater1.Controls.Count - 1].FindControl("lblAuthorizedByP") as Label;
+                foreach (BidAnalysisRequestStatus detail in _presenter.CurrentBidAnalysisRequest.BidAnalysisRequestStatuses)
+                {
+                    if (detail.ApprovalStatus == ApprovalStatus.Authorized.ToString())
+                    {
+                        lblAuthorizedBy.Text = _presenter.GetUser(detail.Approver).FullName;
+                    }
+                }
             //lblAuthorizedBy.
         }
         private void AutoNumber()
@@ -178,9 +192,9 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             this._presenter.OnViewLoaded();
             txtDate.Text = DateTime.Today.ToString();
 
-           
 
-                txtRequester.Text = _presenter.GetUser(_presenter.CurrentBidAnalysisRequest.AppUser.Id).FullName;
+
+            txtRequester.Text = _presenter.GetUser(_presenter.CurrentBidAnalysisRequest.AppUser.Id).FullName;
                 if (_presenter.CurrentBidAnalysisRequest != null)
                 {
                     Bidder bider = _presenter.CurrentBidAnalysisRequest.GetBidderbyRank();
@@ -213,7 +227,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     }
                 }
 
-                AddPurchasingItem();
+                BindPODetail();
             
 
         }
@@ -234,6 +248,10 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 {
                     _presenter.CurrentBidAnalysisRequest.PurchaseOrders.Supplier = _presenter.CurrentBidAnalysisRequest.GetBidderbyRank().Supplier;
                 }
+
+                AddPurchasingItem();
+
+                
                 //_presenter.CurrentBidAnalysisRequest.PurchaseOrders.Status = "Completed";       
                 Master.ShowMessage(new AppMessage("Purchase Order Successfully Approved", Chai.WorkflowManagment.Enums.RMessageType.Info));
             }
@@ -251,7 +269,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         private void BindPODetail()
         {
 
-            dgPODetail.DataSource = _presenter.CurrentBidAnalysisRequest.PurchaseOrders.PurchaseOrderDetails;
+            dgPODetail.DataSource = _presenter.CurrentBidAnalysisRequest.Bidders[0].BidderItemDetails;
             dgPODetail.DataBind();
 
         }
@@ -292,7 +310,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 }
             }
 
-            BindPODetail();
+            //BindPODetail();
         }
 
 
@@ -304,17 +322,25 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 try
                 {
                     SavePurchaseOrder();
-                    _presenter.SaveOrUpdatePurchaseRequest(_presenter.CurrentBidAnalysisRequest);
+                    _presenter.SaveOrUpdateBidAnalysisRequest(_presenter.CurrentBidAnalysisRequest);
                     BindRepeater();
                     PrintTransaction();
                     btnPrintPurchaseOrder.Enabled = true;
                     btnPrintPurchaseForm.Enabled = true;
                     // Response.Redirect(String.Format("frmPurchaseApproval.aspx?PurchaseRequestId={0}&PnlStatus={1}", _presenter.CurrentBidAnalysisRequest.Id, "Enabled"));
                 }
-                catch (Exception ex)
+               
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null)
                 {
-                    Master.ShowMessage(new AppMessage("Unable to save Purchase order", Chai.WorkflowManagment.Enums.RMessageType.Error));
+                    if (ex.InnerException.InnerException.Message.Contains("Violation of UNIQUE KEY"))
+                    {
+                        Master.ShowMessage(new AppMessage("Please Click Request button Again,There is a duplicate Number", Chai.WorkflowManagment.Enums.RMessageType.Error));
+                        //AutoNumber();
+                    }
                 }
+            }
             
             
         }
@@ -336,7 +362,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 lblShipToResult.Text = _presenter.CurrentBidAnalysisRequest.PurchaseOrders.ShipTo;
                 lblPaymentTerms.Text = _presenter.CurrentBidAnalysisRequest.PurchaseOrders.PaymentTerms;
                 lblDeliveryFeesResult.Text = _presenter.CurrentBidAnalysisRequest.PurchaseOrders.DeliveryFees.ToString();
-
+            
                 lblSuggestedSupplierResult.Text = _presenter.CurrentBidAnalysisRequest.GetBidderbyRank().Supplier.SupplierName;
                 if (_presenter.CurrentBidAnalysisRequest != null)
                 {

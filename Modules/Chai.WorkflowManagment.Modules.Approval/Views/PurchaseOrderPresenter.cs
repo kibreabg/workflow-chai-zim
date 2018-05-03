@@ -89,9 +89,9 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
          {
              return _admincontroller.GetUser(UserId);
          }
-         public void SaveOrUpdatePurchaseRequest(BidAnalysisRequest PurchaseRequest)
+         public void SaveOrUpdateBidAnalysisRequest(BidAnalysisRequest BidAnalysisRequest)
          {
-             _controller.SaveOrUpdateEntity(PurchaseRequest);
+             _controller.SaveOrUpdateEntity(BidAnalysisRequest);
          }
         
          

@@ -277,7 +277,7 @@
                                     <asp:RequiredFieldValidator ID="RfvRank" runat="server" CssClass="validator" ControlToValidate="txtRank" ErrorMessage="Rank Required" ValidationGroup="proedit">*</asp:RequiredFieldValidator>
                                 </EditItemTemplate>
                                 <FooterTemplate>
-                                    <asp:TextBox ID="txtFRank" runat="server" CssClass="form-control">1</asp:TextBox>
+                                    <asp:TextBox ID="txtFRank" runat="server" CssClass="form-control"></asp:TextBox>
                                   
                                     <asp:RequiredFieldValidator ID="RfvFRank" runat="server" CssClass="validator" ControlToValidate="txtFRank" ErrorMessage="Rank Required" ValidationGroup="proadd">*</asp:RequiredFieldValidator>
                                 </FooterTemplate>
@@ -408,9 +408,6 @@
                                     <asp:Label ID="lblApprovedBy" runat="server" Text=""></asp:Label>
                                 </td>
 
-                                <td>
-                                    <asp:Label ID="lblneededfor" runat="server" Text=""></asp:Label>
-                                </td>
 
                                 <td>
                                     <asp:Label ID="lblSpecialNeed" runat="server" Text=""></asp:Label>
