@@ -206,6 +206,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         // }
         private void BindItemDetails()
         {
+            Session["bidder"] = bidd;
             /*  if (bidder.BidderItemDetails.Count == 0)
               {
                   BindBidAnalysisRequests();
@@ -413,14 +414,14 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 _presenter.CurrentBidAnalysisRequest.SpecialNeed = txtSpecialNeed.Text;
                 _presenter.CurrentBidAnalysisRequest.ReasonforSelection = txtselectionfor.Text;
 
-                foreach (Bidder bider in _presenter.CurrentBidAnalysisRequest.Bidders)
-                {
-                    foreach (BidderItemDetail detail in bider.BidderItemDetails)
-                    {
-                        totalamaount = totalamaount + detail.TotalCost;
-                    }
-                    totalamaount = Convert.ToDecimal(txtTotal.Text);
-                }
+                //foreach (Bidder bider in _presenter.CurrentBidAnalysisRequest.Bidders)
+                //{
+                //    foreach (BidderItemDetail detail in bider.BidderItemDetails)
+                //    {
+                //        totalamaount = totalamaount + detail.TotalCost;
+                //    }
+                //    totalamaount = Convert.ToDecimal(txtTotal.Text);
+                //}
                 _presenter.CurrentBidAnalysisRequest.TotalPrice = totalamaount;
                 _presenter.CurrentBidAnalysisRequest.SelectedBy = _presenter.CurrentUser().Id;
                 if (_presenter.CurrentBidAnalysisRequest.GetBidderbyRank().Supplier != null)
@@ -578,6 +579,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     if (_presenter.CurrentBidAnalysisRequest.BidAnalysisRequestStatuses.Count != 0 && _presenter.CurrentBidAnalysisRequest.BAAttachments.Count != 0)
                     {
                         BindBidAnalysisRequests();
+                        
                         Master.ShowMessage(new AppMessage("Successfully did a Bid Analysis  Request, Reference No - <b>'" + _presenter.CurrentBidAnalysisRequest.RequestNo + "'</b>", Chai.WorkflowManagment.Enums.RMessageType.Info));
                         Log.Info(_presenter.CurrentUser().FullName + " has requested a For a Sole Vendor");
                         //btnSave.Visible = false;
@@ -586,17 +588,23 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     {
                         Master.ShowMessage(new AppMessage("Please Attach Bid Analysis Quotation", Chai.WorkflowManagment.Enums.RMessageType.Error));
                     }
-                //}
-                //catch (Exception ex)
-                //{
-                //    if (ex.InnerException != null)
-                //    {
-                //        if (ex.InnerException.InnerException.Message.Contains("Violation of UNIQUE KEY"))
-                //        {
-                //            Master.ShowMessage(new AppMessage("Please Click Request button Again,There is a duplicate Number", Chai.WorkflowManagment.Enums.RMessageType.Error));
-                //            //AutoNumber();
-                //        }
-                //    }
+                    decimal price = 0;
+                    foreach (Bidder bider in _presenter.CurrentBidAnalysisRequest.Bidders)
+                    {
+
+
+                        if (_presenter.CurrentBidAnalysisRequest.GetBidderbyRank().Rank == 1)
+                        {
+
+                            foreach (BidderItemDetail biditemdet in bider.BidderItemDetails)
+                            {
+
+                                price = price + biditemdet.TotalCost;
+                            }
+                        }
+                        txtTotal.Text = price.ToString();
+                        break;
+                    }
                 }
                 catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)  
                          {  
@@ -672,19 +680,27 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         private void PopBidAnalysisRequesters()
         {
-            int x = 0;
+            if (_presenter.CurrentBidAnalysisRequest.PurchaseRequest != null)
+            { 
+          
             txtRequester.Text = _presenter.CurrentUser().FirstName + " " + _presenter.CurrentUser().LastName;
-            txtRequestDate.Text = _presenter.CurrentBidAnalysisRequest.PurchaseRequest.RequestedDate.ToShortDateString();
+            
+                      txtRequestDate.Text = _presenter.CurrentBidAnalysisRequest.PurchaseRequest.RequestedDate.ToShortDateString();
+            
             txtAnalyzedDate.Text = DateTime.Now.ToShortDateString();
+
             ddlProject.SelectedValue = _presenter.CurrentBidAnalysisRequest.PurchaseRequest.PurchaseRequestDetails[0].Project.Id.ToString();
-          //  var y= _presenter.GetGrantprojectId(Convert.ToInt32(ddlProject.SelectedValue)).ToString();
+            if(_presenter.CurrentBidAnalysisRequest.TotalPrice!=0)
+            { 
+            txtTotal.Text = _presenter.CurrentBidAnalysisRequest.TotalPrice.ToString();
+            }
             ddlGrant.DataSource = _presenter.GetGrantbyprojectId(Convert.ToInt32(ddlProject.SelectedValue));
             ddlGrant.DataBind();
             ddlGrant.SelectedValue = _presenter.CurrentBidAnalysisRequest.PurchaseRequest.PurchaseRequestDetails[0].Grant.Id.ToString();
            
             GridView1.DataSource = _presenter.CurrentBidAnalysisRequest.PurchaseRequest.PurchaseRequestDetails;
             GridView1.DataBind();
-            
+            }
         
         }
         private void PopProjects()
@@ -850,8 +866,13 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     //  _presenter.CurrentBidAnalysisRequest.GetBidder(Convert.ToInt32(hfDetailId.Value)).BidderItemDetails.Add(biditemdet);
                     // else
                     //  _presenter.CurrentBidAnalysisRequest.Bidders[Convert.ToInt32(hfDetailId.Value)].BidderItemDetails.Add(biditemdet);
+
+                  
+                    
                     dgItemDetail.EditItemIndex = -1;
                     bidd.BidderItemDetails.Add(biditemdet);
+
+                   
                     BindItemdetailGrid(biditemdet.Bidder);
 
                     // PnlShowBidder_ModalPopupExtender.Show();
@@ -880,6 +901,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 detail.UnitCost = Convert.ToDecimal(txtUnitCost.Text);
                 TextBox txtTotalCost = e.Item.FindControl("txtEdtTotalCost") as TextBox;
                 detail.TotalCost = Convert.ToDecimal(txtTotalCost.Text);
+                txtTotal.Text = (_presenter.CurrentBidAnalysisRequest.TotalPrice).ToString();
                 bidd.BidderItemDetails.Add(detail);
             }
             catch (Exception ex)

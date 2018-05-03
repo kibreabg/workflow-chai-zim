@@ -70,14 +70,7 @@
                         </div>
 
                         <div class="row">
-                            <section class="col col-4">
-                                <label class="label">
-                                    Purpose</label>
-                                <label class="input">
-                                    <asp:TextBox ID="txtneededfor" runat="server" Visible="true"></asp:TextBox>
-                                    <asp:RequiredFieldValidator ID="Rfvneededfor" runat="server" CssClass="validator" ControlToValidate="txtneededfor" ErrorMessage="Purpose is required" InitialValue="" SetFocusOnError="True" ValidationGroup="Save">*</asp:RequiredFieldValidator>
-                                </label>
-                            </section>
+                           
                             <section class="col col-4">
                                 <label class="label">
                                     Required date of delivery</label>

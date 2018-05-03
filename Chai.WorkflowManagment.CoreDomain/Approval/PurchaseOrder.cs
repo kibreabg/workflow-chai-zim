@@ -21,7 +21,8 @@ namespace Chai.WorkflowManagment.CoreDomain.Approval
        [Required]
         public virtual BidAnalysisRequest BidAnalysisRequest { get; set; }
       
-        public DateTime PODate { get; set; }
+       
+        public Nullable<DateTime> PODate { get; set; }
         public Supplier Supplier { get; set; }
         public string PoNumber { get; set; }
         public string Billto { get; set; }

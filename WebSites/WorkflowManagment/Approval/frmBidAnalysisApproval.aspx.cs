@@ -37,14 +37,14 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     if (_presenter.CurrentBidAnalysisRequest.Id > 0)
                     {
                         PopApprovalStatus();
-                        PrintTransaction();
+                        BindBidAnalysisRequestforprint();
                     }
                 }
             }
             this._presenter.OnViewLoaded();
             BindSearchPurchaseRequestGrid();
             ReturnFromBidAnalysis();
-           
+            BindBidAnalysisRequestforprint();
         
         }
         protected void BindJS()
@@ -288,6 +288,39 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 EmailSender.Send(_presenter.GetUser(_presenter.GetAssignedJobbycurrentuser(PRS.Approver).AssignedTo).Email, "Purchase Request", (_presenter.GetUser(_presenter.CurrentBidAnalysisRequest.AppUser.Id).FullName).ToUpper() + " Requests for Purchase with Purchase No '" + (_presenter.CurrentBidAnalysisRequest.RequestNo).ToUpper() + "'");
             }
         }
+
+
+        private void EnableControls()
+        {
+            if (_presenter.CurrentBidAnalysisRequest.CurrentLevel == _presenter.CurrentBidAnalysisRequest.BidAnalysisRequestStatuses.Count)
+            {
+                btnPurchaseOrder.Enabled = true;
+                // SendEmailToRequester();
+                btnPrint0.Enabled = true;
+            }
+        }
+
+
+        private void BindBidAnalysisRequestforprint()
+        {
+            if (_presenter.CurrentBidAnalysisRequest.Id > 0)
+            {
+                lblRequestNoResult.Text = _presenter.CurrentBidAnalysisRequest.RequestNo;
+                lblRequestedDateResult.Text = _presenter.CurrentBidAnalysisRequest.RequestDate.ToString();
+                lblRequesterResult.Text = _presenter.GetUser(_presenter.CurrentBidAnalysisRequest.AppUser.Id).FullName; 
+                lblTotalPriceResult.Text = _presenter.CurrentBidAnalysisRequest.TotalPrice.ToString();
+                lblEmpNoResult.Text = _presenter.GetUser(_presenter.CurrentBidAnalysisRequest.AppUser.Id).EmployeeNo;
+                lblCommentResult.Text = _presenter.CurrentBidAnalysisRequest.ReasonforSelection;
+                lblRequireddateofdeliveryResult.Text = _presenter.CurrentBidAnalysisRequest.SpecialNeed;
+
+                lblApprovalStatusResult.Text = _presenter.CurrentBidAnalysisRequest.CurrentStatus;
+                
+
+
+                grvStatuses.DataSource = _presenter.CurrentBidAnalysisRequest.BidAnalysisRequestStatuses;
+                grvStatuses.DataBind();
+            }
+        }
         protected void btnApprove_Click(object sender, EventArgs e)
         {
             try
@@ -296,7 +329,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 if (_presenter.CurrentBidAnalysisRequest.ProgressStatus != ProgressStatus.Completed.ToString())
                 {
                     SavePurchaseRequestStatus();
-                    Session["PurchaseId"] = _presenter.CurrentBidAnalysisRequest.Id;
+                    Session["PurchaseId"] = _presenter.CurrentBidAnalysisRequest.PurchaseRequest.Id;
                     _presenter.SaveOrUpdateBidAnalysisRequest(_presenter.CurrentBidAnalysisRequest);
                     ShowPrint();
                     EnableControls();
@@ -312,12 +345,34 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     BindSearchPurchaseRequestGrid();
                     pnlApproval_ModalPopupExtender.Show();
                 }
+
+                BindBidAnalysisRequestforprint();
+                   }
+                catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)  
+                         {  
+                     Exception raise = dbEx;  
+             foreach (var validationErrors in dbEx.EntityValidationErrors)  
+                      {  
+                foreach (var validationError in validationErrors.ValidationErrors)  
+                          {  
+                string message = string.Format("{0}:{1}",  
+                    validationErrors.Entry.Entity.ToString(),  
+                    validationError.ErrorMessage);  
+                // raise a new exception nesting  
+                // the current instance as InnerException  
+                raise = new InvalidOperationException(message, raise);  
+                         }  
+                       }  
+        throw raise;  
+                  }  
+
+
                 
-            }
-            catch (Exception ex)
-            {
-                Master.ShowMessage(new AppMessage("There is an error approving Purchase Request", Chai.WorkflowManagment.Enums.RMessageType.Error));
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Master.ShowMessage(new AppMessage("There is an error approving Purchase Request", Chai.WorkflowManagment.Enums.RMessageType.Error));
+            //}
 
 
         }
@@ -430,59 +485,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             }
             pnlApproval_ModalPopupExtender.Show();
         }
-   /*     private void ChangeBidAnalysisLink()
-        {
-            if (_presenter.CurrentBidAnalysisRequest.TotalPrice > 500)
-            {
-                //lnkbidanalysis.Visible = true;
-                if (_presenter.CurrentUser().EmployeePosition.PositionName == "Admin/HR Assisitance (Driver)" || _presenter.CurrentUser().EmployeePosition.PositionName == "Admin Officer" || _presenter.CurrentUser().EmployeePosition.PositionName == "Operational Manager" || _presenter.CurrentUser().EmployeePosition.PositionName == "Country Director" || _presenter.CurrentUser().EmployeePosition.PositionName == "Finance Officer" || _presenter.CurrentUser().EmployeePosition.PositionName == "Finance Manager" || _presenter.GetUser(_presenter.CurrentPurchaseRequest.CurrentApprover).IsAssignedJob ==true)
-                {
-                    if (String.IsNullOrEmpty(_presenter.CurrentBidAnalysisRequest.BidAnalysisRequestStatuses[0].ApprovalStatus))
-                    {
-                        lnkbidanalysis.Visible = false;
-                    }
-                    else
-                    {
-                        lnkbidanalysis.Visible = true;
-                    }
-
-                    if (_presenter.CurrentUser().EmployeePosition.PositionName == "Admin Officer" || _presenter.CurrentUser().EmployeePosition.PositionName == "Operational Manager" || _presenter.CurrentUser().EmployeePosition.PositionName == "Country Director" || _presenter.CurrentUser().EmployeePosition.PositionName == "Finance Officer" || _presenter.CurrentUser().EmployeePosition.PositionName == "Finance Manager")
-                    {
-                        lnkbidanalysis.Text = "Review Bid Analysis";
-
-                    }
-                    else
-                    {
-                        lnkbidanalysis.Text = "Prepare Bid Analysis";
-                    }
-                }
-                else
-                {
-
-                    lnkbidanalysis.Visible = false;
-                }
-
-                if (_presenter.CurrentPurchaseRequest.BidAnalysises == null && _presenter.CurrentUser().EmployeePosition.PositionName == "Admin/HR Assisitance (Driver)")
-                {
-                    pnlInfo.Visible = true;
-                    btnApprove.Enabled = false;
-                }
-
-            }
-            else
-            {
-                lnkbidanalysis.Visible = false;
-            }
-            if (_presenter.CurrentPurchaseRequest.CurrentLevel == _presenter.CurrentPurchaseRequest.PurchaseRequestStatuses.Count)
-            {
-                lnkbidanalysis.Visible = false;
-            }
-            if (_presenter.CurrentUser().EmployeePosition.PositionName == "Admin/HR Assisitance (Driver)")
-            {
-                lblApprovalStatus.Text = "Bid Status";
-            }
-
-        }*/
+   /*    
         protected void btnPrint_Click(object sender, EventArgs e)
         {
 
@@ -548,8 +551,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         protected void btnPurchaseOrder_Click(object sender, EventArgs e)
         {
-           // Response.Redirect(String.Format("frmPurchaseOrder.aspx?BidAnalysisRequestId={0}", Convert.ToInt32(Session["PurchaseId"])));
-             Response.Redirect(String.Format("frmPurchaseOrder.aspx?BidAnalysisRequestId={0}", Convert.ToInt32(Session["PurchaseId"])));
+            int purchaseId = _presenter.CurrentBidAnalysisRequest.PurchaseRequest.Id;
+                Response.Redirect(String.Format("frmPurchaseOrder.aspx?BidAnalysisRequestId={0}", purchaseId));
         }
         protected void DownloadFile(object sender, EventArgs e)
         {
@@ -561,31 +564,54 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         private void PrintTransaction()
         {
-            pnlApproval_ModalPopupExtender.Hide();
-
-            lblRequestNoResult.Text = _presenter.CurrentBidAnalysisRequest.RequestNo.ToString();
-            lblRequestedDateResult.Text = _presenter.CurrentBidAnalysisRequest.RequestDate.ToString();
-            lblRequesterResult.Text = _presenter.GetUser(_presenter.CurrentBidAnalysisRequest.AppUser.Id).FullName;
-            lblCommentResult.Text = _presenter.CurrentBidAnalysisRequest.SelectedBy.ToString();
-            lblApprovalStatusResult.Text = _presenter.CurrentBidAnalysisRequest.ProgressStatus.ToString();
-            lblRequireddateofdeliveryResult.Text = _presenter.CurrentBidAnalysisRequest.SpecialNeed;
-            lblTotalPriceResult.Text = _presenter.CurrentBidAnalysisRequest.TotalPrice.ToString();
-            IList<BidderItemDetail> biddetail= new List<BidderItemDetail>(); 
-            foreach (Bidder bider in _presenter.CurrentBidAnalysisRequest.Bidders)
+            if (_presenter.CurrentBidAnalysisRequest.Id > 0)
             {
-                foreach(BidderItemDetail biderdetail in bider.BidderItemDetails)
-                {
-                biddetail.Add(biderdetail);
-                }
-                
-                
-            }
-            dgPurchaseRequestDetail.DataSource = biddetail;
-            dgPurchaseRequestDetail.DataBind();
+                pnlApproval_ModalPopupExtender.Hide();
 
+                lblRequestNoResult.Text = _presenter.CurrentBidAnalysisRequest.RequestNo.ToString();
+                lblRequestedDateResult.Text = _presenter.CurrentBidAnalysisRequest.RequestDate.ToString();
+                lblRequesterResult.Text = _presenter.GetUser(_presenter.CurrentBidAnalysisRequest.AppUser.Id).FullName;
+                lblCommentResult.Text = _presenter.CurrentBidAnalysisRequest.SelectedBy.ToString();
+                lblApprovalStatusResult.Text = _presenter.CurrentBidAnalysisRequest.ProgressStatus.ToString();
+                lblRequireddateofdeliveryResult.Text = _presenter.CurrentBidAnalysisRequest.SpecialNeed;
+                lblTotalPriceResult.Text = _presenter.CurrentBidAnalysisRequest.TotalPrice.ToString();
+
+                grvStatuses.DataSource = _presenter.CurrentBidAnalysisRequest.BidAnalysisRequestStatuses;
+                grvStatuses.DataBind();
+                IList<BidderItemDetail> biddetail = new List<BidderItemDetail>();
+                foreach (Bidder bider in _presenter.CurrentBidAnalysisRequest.Bidders)
+                {
+                    foreach (BidderItemDetail biderdetail in bider.BidderItemDetails)
+                    {
+                        biddetail.Add(biderdetail);
+                    }
+
+
+                }
+
+                dgPurchaseRequestDetail.DataSource = biddetail;
+                dgPurchaseRequestDetail.DataBind();
+            }
            // grvStatuses.DataSource = _presenter.CurrentPaymentReimbursementRequest.PaymentReimbursementRequestStatuses;
             //grvStatuses.DataBind();
         }
-               
+
+        protected void dgPurchaseRequestDetail_ItemDataBound(object sender, DataGridItemEventArgs e)
+        {
+
+        }
+        protected void grvStatuses_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (_presenter.CurrentBidAnalysisRequest.BidAnalysisRequestStatuses != null)
+            {
+                if (e.Row.RowType == DataControlRowType.DataRow)
+                {
+                    if (_presenter.GetUser(_presenter.CurrentBidAnalysisRequest.BidAnalysisRequestStatuses[e.Row.RowIndex].Approver) != null)
+                    {
+                        e.Row.Cells[1].Text = _presenter.GetUser(_presenter.CurrentBidAnalysisRequest.BidAnalysisRequestStatuses[e.Row.RowIndex].Approver).FullName;
+                    }
+                }
+            }
+        }
 }
 }

@@ -94,10 +94,10 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         private void SaveBidAnalysisRequestStatus()
         {
-            if (GetApprovalSetting(RequestType.Bid_Analysis_Request.ToString().Replace('_', ' '), Totalamount) != null)
+            if (GetApprovalSetting(RequestType.Bid_Analysis_Request.ToString().Replace('_', ' '), CurrentBidAnalysisRequest.TotalPrice) != null)
             {
                 int i = 1;
-                foreach (ApprovalLevel AL in GetApprovalSetting(RequestType.Bid_Analysis_Request.ToString().Replace('_', ' '), Totalamount).ApprovalLevels)
+                foreach (ApprovalLevel AL in GetApprovalSetting(RequestType.Bid_Analysis_Request.ToString().Replace('_', ' '), CurrentBidAnalysisRequest.TotalPrice).ApprovalLevels)
                 {
                     BidAnalysisRequestStatus BARS = new BidAnalysisRequestStatus();
                     BARS.BidAnalysisRequest = CurrentBidAnalysisRequest;
@@ -169,21 +169,43 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 BidAnalysisRequest.Grant = _settingController.GetGrant(View.GetGrantId);
             BidAnalysisRequest.AppUser = _adminController.GetUser(CurrentUser().Id);
 
-            if (CurrentBidAnalysisRequest.BidAnalysisRequestStatuses.Count == 0)
+            decimal price = 0;
+            foreach (Bidder bider in CurrentBidAnalysisRequest.Bidders)
+            {
+
+
+                if (CurrentBidAnalysisRequest.GetBidderbyRank().Rank == 1)
+                {
+
+                    foreach (BidderItemDetail biditemdet in bider.BidderItemDetails)
+                    {
+
+                        price = price + biditemdet.TotalCost;
+                    }
+                }
+               BidAnalysisRequest.TotalPrice  = price;
+                break;
+            }
+          
+            SaveBidAnalysisRequestStatus();
+            GetCurrentApprover();
+
+            _controller.SaveOrUpdateEntity(BidAnalysisRequest);
+            _controller.CurrentObject = null;
+            if (CurrentBidAnalysisRequest.BidAnalysisRequestStatuses.Count == 0 && CurrentBidAnalysisRequest.GetBidderbyRank().Rank == 1)
                 foreach (Bidder bider in CurrentBidAnalysisRequest.Bidders)
                 {
+
+
+
+
                     foreach (BidderItemDetail detail in bider.BidderItemDetails)
                     {
                         Totalamount = Totalamount + detail.TotalCost;
                     }
 
                 }
-            BidAnalysisRequest.TotalPrice = Totalamount;
-            SaveBidAnalysisRequestStatus();
-            GetCurrentApprover();
 
-            _controller.SaveOrUpdateEntity(BidAnalysisRequest);
-            _controller.CurrentObject = null;
         }
         public void CancelPage()
         {

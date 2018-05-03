@@ -138,6 +138,14 @@ namespace Chai.WorkflowManagment.Modules.Shell.MasterPages
         {
             return _controller.GetBankPaymentTasks();
         }
+        public int GetBidAnalysisRequestsTasks()
+        {
+            return _controller.GetBidAnalysisTasks();
+        }
+        public int GetSoleVendorRequestsTasks()
+        {
+            return _controller.GetSoleVendorTasks();
+        }
         #endregion
         #region MyRequests
         public int GetLeaveMyRequest()
@@ -199,6 +207,14 @@ namespace Chai.WorkflowManagment.Modules.Shell.MasterPages
         public IList<BankPaymentRequest> ListBankPaymentApprovalProgress()
         {
             return _controller.GetBankPaymentInProgress();
+        }
+        public IList<BidAnalysisRequest> ListBidAnalysisApprovalProgress()
+        {
+            return _controller.GetBidAnalysisInProgress();
+        }
+        public IList<SoleVendorRequest> ListSoleVendorApprovalProgress()
+        {
+            return _controller.GetSoleVendorInProgress();
         }
         #endregion
         public AppUser GetUser(int UserId)
