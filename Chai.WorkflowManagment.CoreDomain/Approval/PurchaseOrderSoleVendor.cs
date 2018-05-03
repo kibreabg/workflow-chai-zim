@@ -20,8 +20,7 @@ namespace Chai.WorkflowManagment.CoreDomain.Approval
         public int Id { get; set; }
         [Required]
         public virtual SoleVendorRequest SoleVendorRequest { get; set; }
-        public DateTime PODate { get; set; }
-        public Supplier Supplier { get; set; }
+        public DateTime PODate { get; set; }        
         public string PoNumber { get; set; }
         public string Billto { get; set; }
         public string ShipTo { get; set; }
@@ -29,7 +28,8 @@ namespace Chai.WorkflowManagment.CoreDomain.Approval
         public string PaymentTerms { get; set; }
         public string Status { get; set; }
         public decimal TotalPrice { get; set; }
-        public IList<PurchaseOrderSoleVendorDetail> PurchaseOrderSoleVendorDetails { get; set; }
+        public virtual Supplier Supplier { get; set; }
+        public virtual IList<PurchaseOrderSoleVendorDetail> PurchaseOrderSoleVendorDetails { get; set; }
 
         #region PurchaseOrderSoleVendorDetail
         public virtual PurchaseOrderSoleVendorDetail GetPurchaseOrderSoleVendorDetail(int Id)

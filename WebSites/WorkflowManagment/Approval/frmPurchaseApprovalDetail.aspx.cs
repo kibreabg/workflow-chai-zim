@@ -33,8 +33,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 this._presenter.OnViewInitialized();
                 XmlConfigurator.Configure();
                 PopProgressStatus();
-                //  BindVehicles();
-                BindSearchVehicleRequestGrid();
+                //  BindPurchases();
+                BindSearchPurchaseRequestGrid();
 
             }
             this._presenter.OnViewLoaded();
@@ -90,6 +90,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             string[] s = Enum.GetNames(typeof(ProgressStatus));
 
+            ddlSrchProgressStatus.Items.Clear();
             for (int i = 0; i < s.Length; i++)
             {
                 ddlSrchProgressStatus.Items.Add(new ListItem(s[i].Replace('_', ' '), s[i].Replace('_', ' ')));
@@ -116,21 +117,21 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             }
             return will;
         }
-        private void BindSearchVehicleRequestGrid()
+        private void BindSearchPurchaseRequestGrid()
         {
             grvPurchaseRequestList.DataSource = _presenter.ListPurchaseRequests(txtSrchRequestNo.Text, txtSrchRequestDate.Text, ddlSrchProgressStatus.SelectedValue);
             grvPurchaseRequestList.DataBind();
         }
         private void BindPurchaseRequestStatus()
         {
-            foreach (PurchaseRequestStatus VRS in _presenter.CurrentPurchaseRequest.PurchaseRequestStatuses)
+            foreach (PurchaseRequestStatus PRS in _presenter.CurrentPurchaseRequest.PurchaseRequestStatuses)
             {
-                if (VRS.WorkflowLevel == _presenter.CurrentPurchaseRequest.CurrentLevel && _presenter.CurrentPurchaseRequest.ProgressStatus != ProgressStatus.Completed.ToString())
+                if (PRS.WorkflowLevel == _presenter.CurrentPurchaseRequest.CurrentLevel && _presenter.CurrentPurchaseRequest.ProgressStatus != ProgressStatus.Completed.ToString())
                 {
                     btnApprove.Enabled = true;
                 }
 
-                if (_presenter.CurrentPurchaseRequest.CurrentLevel == _presenter.CurrentPurchaseRequest.PurchaseRequestStatuses.Count && !String.IsNullOrEmpty(VRS.ApprovalStatus))
+                if (_presenter.CurrentPurchaseRequest.CurrentLevel == _presenter.CurrentPurchaseRequest.PurchaseRequestStatuses.Count && !String.IsNullOrEmpty(PRS.ApprovalStatus))
                 {
                     btnPrint.Enabled = true;
                     btnApprove.Enabled = false;
@@ -141,16 +142,16 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     btnApprove.Enabled = true;
                 }
             }
-            if (_presenter.CurrentUser().EmployeePosition.PositionName == "Admin/HR Assisitance (Driver)" && _presenter.CurrentPurchaseRequest.CurrentStatus != ApprovalStatus.Rejected.ToString() && _presenter.CurrentPurchaseRequest.BidAnalysisRequest == null && _presenter.CurrentPurchaseRequest.SoleVendorRequest == null)
+            if (_presenter.CurrentUser().EmployeePosition.PositionName == "Admin/HR Assisitance (Driver)" && _presenter.CurrentPurchaseRequest.CurrentStatus != ApprovalStatus.Rejected.ToString() && _presenter.CurrentPurchaseRequest.ProgressStatus == ProgressStatus.Completed.ToString())
             {
                 lnkBidRequest.Visible = true;
                 lnkSoleVendor.Visible = true;
             }
         }
-        private void BindVehicles()
+        private void BindPurchaseRequestDetails()
         {
-            grvVehcles.DataSource = _presenter.CurrentPurchaseRequest.PurchaseRequestDetails;
-            grvVehcles.DataBind();
+            grvPurchaseRequestDetails.DataSource = _presenter.CurrentPurchaseRequest.PurchaseRequestDetails;
+            grvPurchaseRequestDetails.DataBind();
 
         }
         private void ShowPrint()
@@ -158,65 +159,42 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             if (_presenter.CurrentPurchaseRequest.CurrentLevel == _presenter.CurrentPurchaseRequest.PurchaseRequestStatuses.Count)
             {
                 btnPrint.Enabled = true;
-                //// SendEmailToRequester();
             }
         }
-        // private void SendEmail(Chai.WorkflowManagment.CoreDomain.Request.PurchaseRequestStatus VRS)
-        //{
-        //  if (_presenter.GetUser(VRS.Approver).IsAssignedJob != true)
-        // {
-        //   EmailSender.Send(_presenter.GetUser(VRS.Approver).Email, "Purchase Request", (_presenter.CurrentPurchaseRequest.Requester) + " Requests for  Purchase  for Request No. " + (_presenter.CurrentPurchaseRequest.RequestNo).ToUpper());
-        //}
-        //  else
-        //  {
-        //    EmailSender..Send(_presenter.GetUser(_presenter.GetAssignedJobbycurrentuser(VRS.Approver).AssignedTo).Email, "Purchase Request", _presenter.CurrentPurchaseRequest.Requester) + "Requests for  Purchase  for Request No." + (_presenter.CurrentVehicleRequest.RequestNo).ToUpper());
-        //  }
-        // }
-        /*
-        private void SendEmailRejected(VehicleRequestStatus VRS)
+        private void SendEmail(PurchaseRequestStatus PRS)
         {
-            EmailSender.Send(_presenter.GetUser(_presenter.CurrentVehicleRequest.AppUser.Id).Email, "Vehicle Request Rejection", " Your Vehicle Request with RequestNo." + (_presenter.CurrentVehicleRequest.RequestNo).ToUpper() + " made by " + (_presenter.CurrentVehicleRequest.AppUser.FullName).ToUpper() + " was Rejected for reason" + (VRS.RejectedReason).ToUpper());
-            Log.Info(_presenter.GetUser(VRS.Approver).FullName + " has rejected a Vehicle Request made by " + _presenter.CurrentVehicleRequest.AppUser.FullName);
-        }
-        private void SendCompletedEmail(VehicleRequestStatus VRS)
-        {
-            foreach (VehicleRequestDetail assignedVehicle in _presenter.CurrentVehicleRequest.VehicleRequestDetails)
+            if (_presenter.GetUser(PRS.Approver).IsAssignedJob != true)
             {
-
-
-
-                EmailSender.Send(_presenter.GetUser(_presenter.CurrentVehicleRequest.AppUser.Id).Email, "Vehicle Request ", "Your Vehicle Request has been proccessed by " + (_presenter.GetUser(VRS.Approver).FullName).ToUpper() + " and Your assigned Driver is " + (assignedVehicle.AppUser.FullName).ToUpper() + ". The Car's Plate Number is " + (assignedVehicle.PlateNo).ToUpper());
-               
-                    Log.Info(_presenter.GetUser(VRS.Approver).FullName + " has approved a Vehicle Request made by " +( _presenter.CurrentVehicleRequest.AppUser.FullName).ToUpper() + " and assigned a Car Rental company named " + (_presenter.GetCarRental(assignedVehicle.CarRental.Id).Name).ToUpper());
-               
+                EmailSender.Send(_presenter.GetUser(PRS.Approver).Email, "Purchase Request", _presenter.GetUser(_presenter.CurrentPurchaseRequest.Requester).FullName + " Requests for Purchase with Request No. " + (_presenter.CurrentPurchaseRequest.RequestNo).ToUpper());
             }
-        }*/
+            else
+            {
+                EmailSender.Send(_presenter.GetUser(_presenter.GetAssignedJobbycurrentuser(PRS.Approver).AssignedTo).Email, "Purchase Request", _presenter.GetUser(_presenter.CurrentPurchaseRequest.Requester).FullName + "Requests for Purchase with Request No." + (_presenter.CurrentPurchaseRequest.RequestNo).ToUpper());
+            }
+        }
 
-        /*  private void SendEmailToRequester()
-          {
-           foreach (VehicleRequestDetail assignedVehicle in _presenter.CurrentVehicleRequest.VehicleRequestDetails)
-           { 
-              EmailSender.Send(_presenter.GetUser(_presenter.CurrentVehicleRequest.AppUser.Id).Email, "Vehicle Request Completion", " Your Vehicle Request was Completed.  and Your assigned Driver is " + (assignedVehicle.AppUser.FullName).ToUpper() + ". The Car's Plate Number is " + (assignedVehicle.PlateNo).ToUpper());
-            } 
-          }
-          private void SendEmailDriver(VehicleRequestStatus VRS)
-          {
-              foreach (VehicleRequestDetail assignedVehicle in _presenter.CurrentVehicleRequest.VehicleRequestDetails)
-              {
-                  EmailSender.Send(_presenter.GetUser(assignedVehicle.AppUser.Id).Email, "Vehicle Request ", "You are assigned to give a drive to " + (_presenter.CurrentVehicleRequest.AppUser.FullName).ToUpper() + " and your assigned Car Plate Number is " + (assignedVehicle.PlateNo).ToUpper() + " and your Fuel Card Number  is " + (assignedVehicle.FuelCardNumber).ToUpper());
-                  Log.Info(_presenter.GetUser(VRS.Approver).FullName + " has approved a Vehicle Request made by " + _presenter.CurrentVehicleRequest.AppUser.FullName);
+        private void SendEmailRejected(PurchaseRequestStatus PRS)
+        {
+            EmailSender.Send(_presenter.GetUser(_presenter.CurrentPurchaseRequest.Requester).Email, "Purchase Request Rejection", "Your Purchase Request with Request No. - '" + (_presenter.CurrentPurchaseRequest.RequestNo.ToString()).ToUpper() + " was Rejected by " + _presenter.CurrentUser().FullName + " for this reason - '" + (PRS.RejectedReason).ToUpper() + "'");
 
-              }
-          }*/
+            if (PRS.WorkflowLevel > 1)
+            {
+                for (int i = 0; i + 1 < PRS.WorkflowLevel; i++)
+                {
+                    EmailSender.Send(_presenter.GetUser(_presenter.CurrentPurchaseRequest.PurchaseRequestStatuses[i].Approver).Email, "Purchase Request Rejection", "Purchase Request with Request No. - '" + (_presenter.CurrentPurchaseRequest.RequestNo.ToString()).ToUpper() + "' made by " + (_presenter.GetUser(_presenter.CurrentPurchaseRequest.Requester).FullName).ToUpper() + " was Rejected by " + _presenter.CurrentUser().FullName + " for this reason - '" + (PRS.RejectedReason).ToUpper() + "'");
+                }
+            }
+        }
+        
         private void GetNextApprover()
         {
-            foreach (PurchaseRequestStatus VRS in _presenter.CurrentPurchaseRequest.PurchaseRequestStatuses)
+            foreach (PurchaseRequestStatus PRS in _presenter.CurrentPurchaseRequest.PurchaseRequestStatuses)
             {
-                if (VRS.ApprovalStatus == null)
+                if (PRS.ApprovalStatus == null)
                 {
-                    // SendEmail(VRS);
-                    _presenter.CurrentPurchaseRequest.CurrentApprover = VRS.Approver;
-                    _presenter.CurrentPurchaseRequest.CurrentLevel = VRS.WorkflowLevel;
+                    // SendEmail(PRS);
+                    _presenter.CurrentPurchaseRequest.CurrentApprover = PRS.Approver;
+                    _presenter.CurrentPurchaseRequest.CurrentLevel = PRS.WorkflowLevel;
                     _presenter.CurrentPurchaseRequest.ProgressStatus = ProgressStatus.InProgress.ToString();
                     break;
 
@@ -235,9 +213,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     if (PRRS.ApprovalStatus != ApprovalStatus.Rejected.ToString())
                     {
                         _presenter.CurrentPurchaseRequest.ProgressStatus = ProgressStatus.Completed.ToString();
-                        /////   _presenter.CurrentPurchaseRequest.PurchaseRequestStatuses = "Finished";
                         GetNextApprover();
-
                     }
                     else
                     {
@@ -247,36 +223,6 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 }
 
             }
-        }
-        protected void grvVehicleRequestList_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //grvVehicleRequestList.SelectedDataKey.Value            
-
-
-        }
-        protected void grvVehicleRequestList_RowCommand(Object sender, GridViewCommandEventArgs e)
-        {
-            /*  if (e.CommandName != "Page")
-              {
-                  // If multiple ButtonField column fields are used, use the
-                  // CommandName property to determine which button was clicked.
-                  if (e.CommandName == "TravelLog")
-                  {
-                      // Convert the row index stored in the CommandArgument
-                      // property to an Integer.
-                      int index = Convert.ToInt32(e.CommandArgument);
-
-                      int rowID = Convert.ToInt32(grvVehicleRequestList.DataKeys[index].Value);
-                      string url = String.Format("~/Request/frmTravelLog.aspx?requestId={0}", rowID);
-                      _presenter.navigate(url);
-                  }
-              }*/
-
-        }
-        protected void grvVehicleRequestList_PageIndexChanging(object sender, GridViewPageEventArgs e)
-        {
-            // grvVehicleRequestList.PageIndex = e.NewPageIndex;
-            // btnFind_Click(sender, e);
         }
         protected void lnkBidRequest_Click(object sender, EventArgs e)
         {
@@ -288,7 +234,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         protected void btnFind_Click(object sender, EventArgs e)
         {
-            BindSearchVehicleRequestGrid();
+            BindSearchPurchaseRequestGrid();
         }
         protected void btnCancelPopup_Click(object sender, EventArgs e)
         {
@@ -299,19 +245,13 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             lblRequestNoResult.Text = _presenter.CurrentPurchaseRequest.RequestNo.ToString();
             lblRequestedDateResult.Text = _presenter.CurrentPurchaseRequest.RequestedDate.ToShortDateString();
             lblRequesterResult.Text = _presenter.GetUser(_presenter.CurrentPurchaseRequest.Requester).FullName;
-
-
-
-
             lblSuggestedSupplierResult.Text = _presenter.CurrentPurchaseRequest.SuggestedSupplier.ToString();
             lblSpecialNeedResult.Text = _presenter.CurrentPurchaseRequest.SpecialNeed;
-
             lblDelivertoResult.Text = _presenter.CurrentPurchaseRequest.DeliverTo;
             lblConditionsofOrderResult.Text = _presenter.CurrentPurchaseRequest.ConditionsofOrder;
             lblReqDateResult.Text = _presenter.CurrentPurchaseRequest.Requireddateofdelivery.ToShortDateString();
-
-            grvVehcles.DataSource = _presenter.CurrentPurchaseRequest.PurchaseRequestDetails;
-            grvVehcles.DataBind();
+            grvPurchaseRequestDetails.DataSource = _presenter.CurrentPurchaseRequest.PurchaseRequestDetails;
+            grvPurchaseRequestDetails.DataBind();
 
             grvStatuses.DataSource = _presenter.CurrentPurchaseRequest.PurchaseRequestStatuses;
             grvStatuses.DataBind();
@@ -333,13 +273,13 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     ShowPrint();
                     Master.ShowMessage(new AppMessage("Purchase Approval Processed", Chai.WorkflowManagment.Enums.RMessageType.Info));
                     btnApprove.Enabled = false;
-                    BindSearchVehicleRequestGrid();
-                    if (_presenter.CurrentUser().EmployeePosition.PositionName == "Admin/HR Assisitance (Driver)" && _presenter.CurrentPurchaseRequest.CurrentStatus != ApprovalStatus.Rejected.ToString())
+                    BindSearchPurchaseRequestGrid();
+                    if (_presenter.CurrentUser().EmployeePosition.PositionName == "Admin/HR Assisitance (Driver)" && _presenter.CurrentPurchaseRequest.CurrentStatus != ApprovalStatus.Rejected.ToString() && _presenter.CurrentPurchaseRequest.ProgressStatus == ProgressStatus.Completed.ToString())
                     {
                         lnkBidRequest.Visible = true;
                         lnkSoleVendor.Visible = true;
-                        pnlApproval_ModalPopupExtender.Show();
                     }
+                    pnlApproval_ModalPopupExtender.Show();
                 }
             }
             catch (Exception ex)
@@ -353,10 +293,10 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             {
                 reqID = (int)grvPurchaseRequestList.DataKeys[Convert.ToInt32(e.CommandArgument)].Value;
                 _presenter.CurrentPurchaseRequest = _presenter.GetPurchaseRequestById(reqID);
-                _presenter.OnViewLoaded();
-                grvVehcles.DataSource = _presenter.CurrentPurchaseRequest.PurchaseRequestDetails;
-                grvVehcles.DataBind();
-                pnlApproval.Visible = true;
+                //_presenter.OnViewLoaded();
+                grvPurchaseRequestDetails.DataSource = _presenter.CurrentPurchaseRequest.PurchaseRequestDetails;
+                grvPurchaseRequestDetails.DataBind();
+                pnlDetail_ModalPopupExtender.Show();
             }
         }
         protected void grvPurchaseRequestList_SelectedIndexChanged(object sender, EventArgs e)
@@ -368,13 +308,11 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             //grvAttachments.DataBind();
             BindPurchaseRequestStatus();
             pnlApproval_ModalPopupExtender.Show();
-
-
-
-
         }
         private void PopApprovalStatus()
         {
+            ddlApprovalStatus.Items.Clear();
+            ddlApprovalStatus.Items.Add(new ListItem("Select Status", "0"));
             string[] s = Enum.GetNames(typeof(ApprovalStatus));
 
             for (int i = 0; i < s.Length; i++)
@@ -436,7 +374,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 }
             }
         }
-        /*  protected void grvVehcles_RowDataBound(object sender, GridViewRowEventArgs e)
+        /*  protected void grvPurchaseRequestDetails_RowDataBound(object sender, GridViewRowEventArgs e)
           {
               if (_presenter.CurrentPurchaseRequest.PurchaseRequestStatuses != null)
               {

@@ -71,6 +71,7 @@
             <Columns>
                 <asp:BoundField DataField="TravelAdvanceNo" HeaderText="Travel Advance No" SortExpression="TravelAdvanceNo" />
                 <asp:BoundField DataField="AppUser.FullName" HeaderText="Requester" SortExpression="AppUser.FullName" />
+                <asp:BoundField DataField="Comments" HeaderText="Comments" SortExpression="Comments" />
                 <asp:TemplateField HeaderText="Request Date">
                     <ItemTemplate>
                         <asp:Label ID="lblDate" runat="server" Text='<%# Eval("RequestDate", "{0:dd/MM/yyyy}")%>'></asp:Label>
@@ -150,6 +151,7 @@
                                                 <asp:Label ID="lblRejectedReason" runat="server" Text="Rejected Reason" Visible="false" CssClass="label"></asp:Label>
                                                 <label class="input">
                                                     <asp:TextBox ID="txtRejectedReason" Visible="false" runat="server"></asp:TextBox>
+                                                    <asp:RequiredFieldValidator ID="rfvRejectedReason" runat="server" Enabled="false" CssClass="validator" ValidationGroup="save" ErrorMessage="Must Enter Rejection Reason" ControlToValidate="txtRejectedReason"></asp:RequiredFieldValidator>
                                                 </label>
                                             </section>
                                         </div>

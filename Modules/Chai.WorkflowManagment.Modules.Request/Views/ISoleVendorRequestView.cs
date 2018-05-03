@@ -11,14 +11,13 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         int GetSoleVendorRequestId { get; }
         string GetRequestNo { get; }        
         DateTime GetRequestDate { get; }
-        string GetCommodityServicePurchasedby { get; }
+        string GetContactPersonNumber { get; }
         decimal GetProposedPurchasedPrice { get; }
         int GetPurchaseRequestId { get; }
         int GetProposedSupplier { get; }
-      
+        string GetComment { get; }
         string GetSoleSourceJustificationPreparedBy { get; }
-        string GetSoleVendorJustificationType { get; }
-    
+        string GetSoleVendorJustificationType { get; }    
         int GetProjectId { get; }
         int GetGrantId { get; }
      

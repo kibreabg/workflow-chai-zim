@@ -148,10 +148,9 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
          {
              _controller.DeleteEntity(Bidder);
          }
-
-         public int GetLastPurchaseOrderId()
+         public int GetLastPurchaseOrderSoleVendorId()
          {
-            return  _controller.GetLastPurchaseOrderId();
+            return  _controller.GetLastPurchaseOrderSoleVendorId();
          }
          public void DeleteBidderItemDetail(BidderItemDetail BidderItemDetail)
          {

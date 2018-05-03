@@ -256,7 +256,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         private void SendEmailRejected(CostSharingRequestStatus CSRS)
         {
-            EmailSender.Send(_presenter.GetUser(_presenter.CurrentCostSharingRequest.AppUser.Id).Email, "Cost Sharing Payment Request Rejection", "Your Cost Sharing Request with Request No. " + (_presenter.CurrentCostSharingRequest.VoucherNo).ToUpper() + " was Rejected for this reason '" + (CSRS.RejectedReason).ToUpper() + "'");
+            EmailSender.Send(_presenter.GetUser(_presenter.CurrentCostSharingRequest.AppUser.Id).Email, "Cost Sharing Payment Request Rejection", "Your Cost Sharing Request with Request No. " + (_presenter.CurrentCostSharingRequest.VoucherNo).ToUpper() + " was Rejected by " + _presenter.CurrentUser().FullName + " for this reason '" + (CSRS.RejectedReason).ToUpper() + "'");
         }
         private void SendEmailToRequester()
         {

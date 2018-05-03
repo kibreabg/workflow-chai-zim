@@ -14,14 +14,11 @@ namespace Chai.WorkflowManagment.CoreDomain.Requests
         public int Qty { get; set; }
         public decimal Priceperunit { get; set; }
         public decimal EstimatedCost { get; set; }
-        public ItemAccount ItemAccount { get; set; }
-        public string AccountCode { get; set; }
-
-     
-        public Project Project { get; set; }
-        public Grant Grant { get; set; }
-     
-        public PurchaseRequest PurchaseRequest { get; set; }
+        public virtual ItemAccount ItemAccount { get; set; }
+        public string AccountCode { get; set; }     
+        public virtual Project Project { get; set; }
+        public virtual Grant Grant { get; set; }     
+        public virtual PurchaseRequest PurchaseRequest { get; set; }
 
     }
 }

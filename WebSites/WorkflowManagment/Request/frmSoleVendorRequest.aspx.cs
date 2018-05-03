@@ -71,8 +71,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         #region Field Getters
         public int GetSoleVendorRequestId
         {
-          
-        
             get
             {
                 if (Convert.ToInt32(Request.QueryString["SoleVendorRequestId"]) != 0)
@@ -80,14 +78,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     return Convert.ToInt32(Request.QueryString["SoleVendorRequestId"]);
                 }
                 return 0;
-
-
-
-            
+            }
         }
-
-        }
-
         public int GetPurchaseRequestId
         {
             get
@@ -103,43 +95,35 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             get { return AutoNumber(); }
         }
-
-     
-      
         public DateTime GetRequestDate
         {
             get { return Convert.ToDateTime(txtRequestDate.Text); }
         }
-     
-        public string GetCommodityServicePurchasedby
+        public string GetContactPersonNumber
         {
-            get { return txtCommodityServicePurchasedby.Text; }
+            get { return txtContactPersonNumber.Text; }
         }
         public decimal GetProposedPurchasedPrice
         {
             get { return Convert.ToDecimal(txtProposedPurchasedPrice.Text); }
         }
-
         public int GetProposedSupplier
         {
-            get {  return int.Parse(ddlSupplier.SelectedValue); }
-               
-        }
-       
+            get { return int.Parse(ddlSupplier.SelectedValue); }
 
+        }
         public string GetSoleSourceJustificationPreparedBy
         {
             get { return txtSoleSource.Text; }
         }
         public string GetSoleVendorJustificationType
         {
-            get { return txtSoleVendorJustificationType.Text; }
+            get { return ddlSoleVendorJustification.SelectedValue; }
         }
-
-    
-      
-     
-      
+        public string GetComment
+        {
+            get { return txtComment.Text; }
+        }
         public int GetProjectId
         {
             get { return Convert.ToInt32(ddlProject.SelectedValue); }
@@ -148,7 +132,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             get { return Convert.ToInt32(ddlGrant.SelectedValue); }
         }
-      
         public IList<SoleVendorRequest> SoleVendorRequests
         {
             get
@@ -160,11 +143,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 _SoleVendorRequests = value;
             }
         }
-       
-        
-
-     
-     
         #endregion
         private string AutoNumber()
         {
@@ -204,13 +182,11 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             ddlSupplier.DataBind();
         }
         private void ClearFormFields()
-        { 
-            txtCommodityServicePurchasedby.Text=String.Empty;
-            txtProposedPurchasedPrice.Text=String.Empty;
-           
-            txtSoleVendorJustificationType.Text = String.Empty;
+        {
+            txtContactPersonNumber.Text = String.Empty;
+            txtProposedPurchasedPrice.Text = String.Empty;
             txtSoleSource.Text = String.Empty;
-           
+
         }
         private void BindSoleVendorRequests()
         {
@@ -225,15 +201,13 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             if (_presenter.CurrentSoleVendorRequest != null)
             {
                 txtRequestDate.Text = _presenter.CurrentSoleVendorRequest.RequestDate.Value.ToShortDateString();
-                txtCommodityServicePurchasedby.Text = _presenter.CurrentSoleVendorRequest.CommodityServicePurchasedby;
+                txtContactPersonNumber.Text = _presenter.CurrentSoleVendorRequest.ContactPersonNumber;
                 txtProposedPurchasedPrice.Text = _presenter.CurrentSoleVendorRequest.ProposedPurchasedPrice.ToString();
                 ddlSupplier.SelectedValue = _presenter.CurrentSoleVendorRequest.Supplier.Id.ToString();
-              
-              //  txtSoleSource.Text = _presenter.CurrentSoleVendorRequest.SoleSourceJustificationPreparedBy.ToString();
-                txtSoleVendorJustificationType.Text = _presenter.CurrentSoleVendorRequest.SoleVendorJustificationType.ToString();
-
+                //  txtSoleSource.Text = _presenter.CurrentSoleVendorRequest.SoleSourceJustificationPreparedBy.ToString();
+                ddlSoleVendorJustification.SelectedValue = _presenter.CurrentSoleVendorRequest.SoleVendorJustificationType.ToString();
+                txtComment.Text = _presenter.CurrentSoleVendorRequest.Comment;
                 ddlProject.SelectedValue = _presenter.CurrentSoleVendorRequest.Project.Id.ToString();
-
                 PopGrants(Convert.ToInt32(ddlProject.SelectedValue));
                 ddlGrant.SelectedValue = _presenter.CurrentSoleVendorRequest.Grant.Id.ToString();
                 BindSoleVendorRequests();
@@ -323,11 +297,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             Response.Redirect("frmSoleVendorRequest.aspx");
         }
-        protected void ddlProject_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            PopGrants(Convert.ToInt32(ddlProject.SelectedValue));
-        }
-
         protected void btnUpload_Click(object sender, EventArgs e)
         {
             UploadFile();
@@ -348,8 +317,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             grvAttachments.DataSource = _presenter.CurrentSoleVendorRequest.SVRAttachments;
             grvAttachments.DataBind();
             //Response.Redirect(Request.Url.AbsoluteUri);
-
-
         }
         private void UploadFile()
         {
@@ -358,9 +325,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             {
                 if (fileName != String.Empty)
                 {
-
-
-
                     SVRAttachment attachment = new SVRAttachment();
                     attachment.FilePath = "~/SVUploads/" + fileName;
                     fuReciept.PostedFile.SaveAs(Server.MapPath("~/SVUploads/") + fileName);
@@ -369,9 +333,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 
                     grvAttachments.DataSource = _presenter.CurrentSoleVendorRequest.SVRAttachments;
                     grvAttachments.DataBind();
-
-
-
                 }
                 else
                 {
@@ -387,55 +348,19 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         private void PopSoleVendorRequesters()
         {
             txtSoleSource.Text = _presenter.CurrentUser().FirstName + " " + _presenter.CurrentUser().LastName;
-
-          
-       
             txtRequestDate.Text = _presenter.CurrentSoleVendorRequest.PurchaseRequest.RequestedDate.ToShortDateString();
-
-
             ddlProject.SelectedValue = _presenter.CurrentSoleVendorRequest.PurchaseRequest.PurchaseRequestDetails[0].Project.Id.ToString();
-            var y = ddlProject.SelectedValue;
             ddlGrant.DataSource = _presenter.GetGrantbyprojectId(Convert.ToInt32(ddlProject.SelectedValue));
             ddlGrant.DataBind();
             ddlGrant.SelectedValue = _presenter.CurrentSoleVendorRequest.PurchaseRequest.PurchaseRequestDetails[0].Grant.Id.ToString();
-           
-            ////foreach (PurchaseRequestDetail prd in _presenter.CurrentSoleVendorRequest.PurchaseRequest.PurchaseRequestDetails)
-            ////{
-
-
-
-            ////    GridView grid = this.GridView1;
-
-            ////    foreach (GridViewRow ro in grid.Rows)
-            ////    {
-            ////        ro.Cells[0].Text = prd.ItemAccount.AccountName;
-            ////        ro.Cells[1].Text = prd.AccountCode;
-            ////        ro.Cells[2].Text = prd.EstimatedCost.ToString();
-                    
-            ////    }
-  
-    
-            //// }
-          //  ddlGrant.SelectedValue = _presenter.CurrentBidAnalysisRequest.PurchaseRequest.GetPurchaseRequestDetail(Convert.ToInt32(ddlProject.SelectedValue)).Grant.Id.ToString();
-          GridView1.DataSource = _presenter.CurrentSoleVendorRequest.PurchaseRequest.PurchaseRequestDetails;
-           GridView1.DataBind();
+            //Items from Purchase Request
+            grvPurchaseItems.DataSource = _presenter.CurrentSoleVendorRequest.PurchaseRequest.PurchaseRequestDetails;
+            grvPurchaseItems.DataBind();
         }
-
-       
-
-
-
-
-
-
-
-
-
-
         protected void dgItemDetail_PageIndexChanged(object source, DataGridPageChangedEventArgs e)
         {
 
-         
+
         }
         protected void txtUnitCost_TextChanged(object sender, EventArgs e)
         {
@@ -455,8 +380,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             {
                 DropDownList ddlFItemAcc = e.Item.FindControl("ddlFItemAcc") as DropDownList;
                 BindItems(ddlFItemAcc);
-
-
                 /* if ((_presenter.CurrentBidAnalysisRequest.Bidders[e.Item.DataSetIndex].BidderItemDetails != null))
                  {
                      DropDownList ddlItemAcc = e.Item.FindControl("ddlFItemAcc") as DropDownList;
@@ -486,7 +409,9 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     detail.SoleVendorRequest = _presenter.CurrentSoleVendorRequest;
                     DropDownList ddlItem = e.Item.FindControl("ddlFItemAcc") as DropDownList;
                     detail.ItemAccount = _presenter.GetItemAccount(Convert.ToInt32(ddlItem.SelectedValue));
-                    TextBox txtQty= e.Item.FindControl("txtQty") as TextBox;
+                    TextBox txtItemDescription = e.Item.FindControl("txtFDescription") as TextBox;
+                    detail.ItemDescription = txtItemDescription.Text;
+                    TextBox txtQty = e.Item.FindControl("txtQty") as TextBox;
                     detail.Qty = Convert.ToInt32(txtQty.Text);
                     TextBox txtUnitCost = e.Item.FindControl("txtUnitCost") as TextBox;
                     detail.UnitCost = Convert.ToDecimal(txtUnitCost.Text);
@@ -502,7 +427,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     Master.ShowMessage(new AppMessage("Error: Unable to Update Bidder " + ex.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
                 }
             }
-                    
+
         }
         protected void dgItemDetail_UpdateCommand(object source, DataGridCommandEventArgs e)
         {
@@ -513,13 +438,15 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             {
                 DropDownList ddlItem = e.Item.FindControl("ddlItemAcc") as DropDownList;
                 detail.ItemAccount = _presenter.GetItemAccount(Convert.ToInt32(ddlItem.SelectedValue));
+                TextBox txtItemDescription = e.Item.FindControl("txtDescription") as TextBox;
+                detail.ItemDescription = txtItemDescription.Text;
                 TextBox txtQty = e.Item.FindControl("txtEdtQty") as TextBox;
                 detail.Qty = Convert.ToInt32(txtQty.Text);
                 TextBox txtUnitCost = e.Item.FindControl("txtEdtUnitCost") as TextBox;
                 detail.UnitCost = Convert.ToDecimal(txtUnitCost.Text);
                 TextBox txtTotalCost = e.Item.FindControl("txtEdtTotalCost") as TextBox;
                 detail.TotalCost = Convert.ToDecimal(txtTotalCost.Text);
-                 _presenter.CurrentSoleVendorRequest.SoleVendorRequestDetails.Add(detail);
+                _presenter.CurrentSoleVendorRequest.SoleVendorRequestDetails.Add(detail);
                 dgItemDetail.EditItemIndex = -1;
                 BindSoleVendorRequests();
             }
@@ -548,7 +475,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     _presenter.SaveOrUpdateSoleVendorRequest(_presenter.CurrentSoleVendorRequest);
                 }
                 else { _presenter.CurrentSoleVendorRequest.SoleVendorRequestDetails.Remove(tard); }
-               
+
 
                 Master.ShowMessage(new AppMessage("Sole Vendor Request Detail was Removed Successfully", Chai.WorkflowManagment.Enums.RMessageType.Info));
             }
@@ -557,5 +484,5 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 Master.ShowMessage(new AppMessage("Error: Unable to delete Sole Vendor Request Detail. " + ex.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
             }
         }
-}
+    }
 }

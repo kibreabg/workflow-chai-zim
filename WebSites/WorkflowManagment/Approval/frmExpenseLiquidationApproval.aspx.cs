@@ -200,13 +200,13 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         private void SendEmailRejected(ExpenseLiquidationRequestStatus ELRS)
         {
-            EmailSender.Send(_presenter.GetUser(_presenter.CurrentExpenseLiquidationRequest.TravelAdvanceRequest.AppUser.Id).Email, "Expense Liquidation Request Rejection", "Your Liquidation Request for Travel Advance No. '" + (_presenter.CurrentExpenseLiquidationRequest.TravelAdvanceRequest.TravelAdvanceNo).ToUpper() + "' was Rejected for this reason '" + (ELRS.RejectedReason).ToUpper() + "'");
+            EmailSender.Send(_presenter.GetUser(_presenter.CurrentExpenseLiquidationRequest.TravelAdvanceRequest.AppUser.Id).Email, "Expense Liquidation Request Rejection", "Your Liquidation Request for Travel Advance No. '" + (_presenter.CurrentExpenseLiquidationRequest.TravelAdvanceRequest.TravelAdvanceNo).ToUpper() + "' was Rejected by " + _presenter.CurrentUser().FullName + " for this reason '" + (ELRS.RejectedReason).ToUpper() + "'");
 
             if (ELRS.WorkflowLevel > 1)
             {
                 for (int i = 0; i + 1 < ELRS.WorkflowLevel; i++)
                 {
-                    EmailSender.Send(_presenter.GetUser(_presenter.CurrentExpenseLiquidationRequest.ExpenseLiquidationRequestStatuses[i].Approver).Email, "Expense Liquidation Request Rejection", "Expense Liquidation Request made by " + (_presenter.GetUser(_presenter.CurrentExpenseLiquidationRequest.TravelAdvanceRequest.AppUser.Id).FullName).ToUpper() + " for Travel Advance No. '" + (_presenter.CurrentExpenseLiquidationRequest.TravelAdvanceRequest.TravelAdvanceNo).ToUpper() + "' was Rejected for this reason - '" + (ELRS.RejectedReason).ToUpper() + "'");
+                    EmailSender.Send(_presenter.GetUser(_presenter.CurrentExpenseLiquidationRequest.ExpenseLiquidationRequestStatuses[i].Approver).Email, "Expense Liquidation Request Rejection", "Expense Liquidation Request made by " + (_presenter.GetUser(_presenter.CurrentExpenseLiquidationRequest.TravelAdvanceRequest.AppUser.Id).FullName).ToUpper() + " for Travel Advance No. '" + (_presenter.CurrentExpenseLiquidationRequest.TravelAdvanceRequest.TravelAdvanceNo).ToUpper() + "' was Rejected by " + _presenter.CurrentUser().FullName + " for this reason - '" + (ELRS.RejectedReason).ToUpper() + "'");
                 }
             }
         }

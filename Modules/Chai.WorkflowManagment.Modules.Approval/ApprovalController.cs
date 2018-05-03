@@ -338,6 +338,14 @@ namespace Chai.WorkflowManagment.Modules.Approval
 
             return _workspace.SqlQuery<SoleVendorRequest>(filterExpression).ToList();
         }
+        public int GetLastPurchaseOrderSoleVendorId()
+        {
+            if (_workspace.Last<PurchaseOrderSoleVendor>() != null)
+            {
+                return _workspace.Last<PurchaseOrderSoleVendor>().Id;
+            }
+            else { return 0; }
+        }
         #endregion
 
         #region Entity Manipulation

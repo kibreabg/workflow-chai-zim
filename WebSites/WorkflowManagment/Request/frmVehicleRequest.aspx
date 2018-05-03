@@ -13,7 +13,7 @@
             });
         }
     </script>
-    <div class="jarviswidget" id="wid-id-8" data-widget-editbutton="false" data-widget-custombutton="false">
+    <div class="jarviswidget" id="wid-id-8" data-widget-editbutton="true" data-widget-custombutton="false">
         <header>
             <span class="widget-icon"><i class="fa fa-edit"></i></span>
             <h2>Vehicle Request</h2>

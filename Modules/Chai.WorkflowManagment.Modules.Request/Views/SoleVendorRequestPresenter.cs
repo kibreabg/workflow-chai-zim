@@ -144,14 +144,13 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             
             SoleVendorRequest.RequestNo = View.GetRequestNo;
             SoleVendorRequest.RequestDate = Convert.ToDateTime(DateTime.Today);
-            SoleVendorRequest.CommodityServicePurchasedby = View.GetCommodityServicePurchasedby;
+            SoleVendorRequest.ContactPersonNumber = View.GetContactPersonNumber;
             SoleVendorRequest.ProposedPurchasedPrice = View.GetProposedPurchasedPrice;
           //  if (View.GetProposedSupplier != 0)
-            SoleVendorRequest.Supplier =  _settingController.GetSupplier(View.GetProposedSupplier);
-
-          
+            SoleVendorRequest.Supplier =  _settingController.GetSupplier(View.GetProposedSupplier);          
             SoleVendorRequest.SoleSourceJustificationPreparedBy = View.GetSoleSourceJustificationPreparedBy;
             SoleVendorRequest.SoleVendorJustificationType = View.GetSoleVendorJustificationType;
+            SoleVendorRequest.Comment = View.GetComment;
             SoleVendorRequest.ProgressStatus = ProgressStatus.InProgress.ToString();
             if (View.GetProjectId != 0)
                 SoleVendorRequest.Project = _settingController.GetProject(View.GetProjectId);

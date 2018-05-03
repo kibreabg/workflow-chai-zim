@@ -56,6 +56,7 @@
                     </fieldset>
                     <footer>
                         <asp:Button ID="btnpop" runat="server" />
+                        <asp:Button ID="btnPop2" runat="server" />
                         <asp:Button ID="btnFind" runat="server" Text="Find" CssClass="btn btn-primary" OnClick="btnFind_Click"></asp:Button>
                         <asp:Button ID="btnClosepage" runat="server" Text="Close" data-dismiss="modal" CssClass="btn btn-primary" PostBackUrl="../Default.aspx"></asp:Button>
 
@@ -164,6 +165,48 @@
     </asp:Panel>
     <asp:ModalPopupExtender runat="server" BackgroundCssClass="modalBackground" Enabled="True" PopupControlID="pnlApproval"
         TargetControlID="btnPop" CancelControlID="btnCancelPopup" ID="pnlApproval_ModalPopupExtender">
+    </asp:ModalPopupExtender>
+    <asp:Panel ID="pnlDetail" runat="server">
+        <div class="modal-body no-padding">
+            <div class="jarviswidget" data-widget-editbutton="false" data-widget-custombutton="false">
+                <header>
+                    <span class="widget-icon"><i class="fa fa-edit"></i></span>
+                    <h2>Purchase Request Details</h2>
+                </header>
+                <div>
+                    <div class="jarviswidget-editbox"></div>
+                    <div class="widget-body no-padding">
+                        <div class="smart-form">
+                            <asp:GridView ID="grvPurchaseRequestDetails" CellPadding="5" CellSpacing="3"
+                                runat="server" AutoGenerateColumns="False" DataKeyNames="Id"
+                                CssClass="table table-striped table-bordered table-hover">
+                                <RowStyle CssClass="rowstyle" />
+                                <Columns>
+                                    <asp:BoundField DataField="Priceperunit" HeaderText="Price Per Unit" SortExpression="Priceperunit" />
+                                    <asp:BoundField DataField="Qty" HeaderText="Qty" SortExpression="Qty" />
+                                    <asp:BoundField DataField="EstimatedCost" HeaderText="Estimated Cost" SortExpression="EstimatedCost" />
+                                    <asp:BoundField DataField="ItemAccount.AccountName" HeaderText="AccountName" SortExpression="ItemAccount.AccountName" />
+                                    <asp:BoundField DataField="ItemAccount.AccountCode" HeaderText="Account Code" SortExpression="ItemAccount.AccountCode" />
+                                    <asp:BoundField DataField="Project.ProjectCode" HeaderText="Project Code" />
+                                    <asp:BoundField DataField="Grant.GrantCode" HeaderText="Grant Code" />
+                                </Columns>
+                                <FooterStyle CssClass="FooterStyle" />
+                                <HeaderStyle CssClass="headerstyle" />
+                                <PagerStyle CssClass="PagerStyle" />
+                                <RowStyle CssClass="rowstyle" />
+                            </asp:GridView>
+                            <footer>
+                                <asp:Button ID="btnCancelPopup2" runat="server" Text="Close" data-dismiss="modal" CssClass="btn btn-primary"></asp:Button>
+                            </footer>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </asp:Panel>
+    <asp:ModalPopupExtender runat="server" BackgroundCssClass="modalBackground"
+        Enabled="True" TargetControlID="btnPop2" PopupControlID="pnlDetail" CancelControlID="btnCancelPopup2"
+        ID="pnlDetail_ModalPopupExtender">
     </asp:ModalPopupExtender>
     <div id="divprint" style="display: none;">
         <table style="width: 100%;">
@@ -285,29 +328,6 @@
                 <td></td>
             </tr>
         </table>
-        <br />
-        <asp:GridView ID="grvVehcles" CellPadding="5" CellSpacing="3"
-            runat="server" AutoGenerateColumns="False" DataKeyNames="Id"
-            CssClass="table table-striped table-bordered table-hover">
-            <RowStyle CssClass="rowstyle" />
-            <Columns>
-
-                <%-- <asp:BoundField DataField="AssignedVehicle" HeaderText="Assigned Vehicle" SortExpression="AssignedVehicle" />--%>
-
-                <asp:BoundField DataField="Priceperunit" HeaderText="Price Per Unit" SortExpression="Priceperunit" />
-                <asp:BoundField DataField="Qty" HeaderText="Qty" SortExpression="Qty" />
-                <asp:BoundField DataField="EstimatedCost" HeaderText="Estimated Cost" SortExpression="EstimatedCost" />
-                <asp:BoundField DataField="ItemAccount.AccountName" HeaderText="AccountName" SortExpression="ItemAccount.AccountName" />
-                <asp:BoundField DataField="ItemAccount.AccountCode" HeaderText="Account Code" SortExpression="ItemAccount.AccountCode" />
-                <asp:BoundField DataField="Project.ProjectCode" HeaderText="Project Code" />
-                <asp:BoundField DataField="Grant.GrantCode" HeaderText="Grant Code" />
-
-            </Columns>
-            <FooterStyle CssClass="FooterStyle" />
-            <HeaderStyle CssClass="headerstyle" />
-            <PagerStyle CssClass="PagerStyle" />
-            <RowStyle CssClass="rowstyle" />
-        </asp:GridView>
         <br />
         <asp:GridView ID="grvStatuses" CellPadding="5" CellSpacing="3"
             runat="server" AutoGenerateColumns="False" DataKeyNames="Id"

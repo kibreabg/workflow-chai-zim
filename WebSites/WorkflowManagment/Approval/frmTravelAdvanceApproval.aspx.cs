@@ -225,19 +225,20 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         private void SendEmailRejected(TravelAdvanceRequestStatus TARS)
         {
-            EmailSender.Send(_presenter.GetUser(_presenter.CurrentTravelAdvanceRequest.AppUser.Id).Email, "Travel Advance Request Rejection", "Your Travel Advance Request with Travel Advance No. - '" + (_presenter.CurrentTravelAdvanceRequest.TravelAdvanceNo).ToUpper() + "' made by " +( _presenter.GetUser(_presenter.CurrentTravelAdvanceRequest.AppUser.Id).FullName).ToUpper() + " was Rejected for this reason - '" + (TARS.RejectedReason).ToUpper() + "'");
+            EmailSender.Send(_presenter.GetUser(_presenter.CurrentTravelAdvanceRequest.AppUser.Id).Email, "Travel Advance Request Rejection", "Your Travel Advance Request with Travel Advance No. - '" + (_presenter.CurrentTravelAdvanceRequest.TravelAdvanceNo).ToUpper() + "' made by " + (_presenter.GetUser(_presenter.CurrentTravelAdvanceRequest.AppUser.Id).FullName).ToUpper() + " was Rejected by " + _presenter.CurrentUser().FullName + " for this reason - '" + (TARS.RejectedReason).ToUpper() + "'");
 
             if (TARS.WorkflowLevel > 1)
             {
                 for (int i = 0; i + 1 < TARS.WorkflowLevel; i++)
                 {
-                    EmailSender.Send(_presenter.GetUser(_presenter.CurrentTravelAdvanceRequest.TravelAdvanceRequestStatuses[i].Approver).Email, "Travel Advance Request Rejection", "Travel Advance Request with Travel Advance No. - '" + (_presenter.CurrentTravelAdvanceRequest.TravelAdvanceNo).ToUpper() + "' made by " + (_presenter.GetUser(_presenter.CurrentTravelAdvanceRequest.AppUser.Id).FullName).ToUpper() + " was Rejected for this reason - '" + (TARS.RejectedReason).ToUpper() + "'");
+                    EmailSender.Send(_presenter.GetUser(_presenter.CurrentTravelAdvanceRequest.TravelAdvanceRequestStatuses[i].Approver).Email, "Travel Advance Request Rejection", "Travel Advance Request with Travel Advance No. - '" + (_presenter.CurrentTravelAdvanceRequest.TravelAdvanceNo).ToUpper() + "' made by " + (_presenter.GetUser(_presenter.CurrentTravelAdvanceRequest.AppUser.Id).FullName).ToUpper() + " was Rejected by " + _presenter.CurrentUser().FullName + " for this reason - '" + (TARS.RejectedReason).ToUpper() + "'");
                 }
             }
         }
         private void SendEmailToRequester()
         {
-            EmailSender.Send(_presenter.GetUser(_presenter.CurrentTravelAdvanceRequest.AppUser.Id).Email, "Tavel Adavnce Completion", "Your Travel Advance Request with Travel Advance No. - '" + (_presenter.CurrentTravelAdvanceRequest.TravelAdvanceNo).ToUpper() + "' was Completed, Please collect your payment");
+            if (_presenter.CurrentTravelAdvanceRequest.CurrentStatus != ApprovalStatus.Rejected.ToString())
+                EmailSender.Send(_presenter.GetUser(_presenter.CurrentTravelAdvanceRequest.AppUser.Id).Email, "Tavel Adavnce Completion", "Your Travel Advance Request with Travel Advance No. - '" + (_presenter.CurrentTravelAdvanceRequest.TravelAdvanceNo).ToUpper() + "' was Completed, Please collect your payment");
         }
         private void GetNextApprover()
         {
@@ -372,6 +373,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             PopApprovalStatus();
             BindTravelAdvanceRequestStatus();
             BindAccounts();
+            txtRejectedReason.Visible = false;
+            rfvRejectedReason.Enabled = false;
             pnlApproval_ModalPopupExtender.Show();
         }
         protected void grvTravelAdvanceRequestList_PageIndexChanging(object sender, GridViewPageEventArgs e)
@@ -438,7 +441,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             {
                 lblRejectedReason.Visible = true;
                 txtRejectedReason.Visible = true;
-
+                rfvRejectedReason.Enabled = true;
             }
             pnlApproval_ModalPopupExtender.Show();
         }

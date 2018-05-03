@@ -82,13 +82,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
          public void SaveOrUpdateSoleVendorRequest(SoleVendorRequest SoleVendorRequest)
          {
              _controller.SaveOrUpdateEntity(SoleVendorRequest);
-            // CalculateLeaveTaken();
-             _controller.CurrentObject = null;
          }
-        // public void SaveOrUpdateEmployeeLeave(EmployeeLeave EmployeeLeave)
-         //{
-          //   _controller.SaveOrUpdateEntity(EmployeeLeave);
-        // }
        
          public void CancelPage()
          {
