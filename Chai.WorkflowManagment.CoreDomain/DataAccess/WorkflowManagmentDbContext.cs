@@ -105,6 +105,9 @@ namespace Chai.WorkflowManagment.CoreDomain.DataAccess
         public DbSet<BidderItemDetail> BidderItemDetails { get; set; }
         public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
         public DbSet<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
+        public DbSet<PurchaseOrderSoleVendor> PurchaseOrderSoleVendors { get; set; }
+        public DbSet<PurchaseOrderSoleVendorDetail> PurchaseOrderSoleVendorDetails { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             //modelBuilder.Entity<AppUser>().HasMany(p => p.AppUserRoles).WithMany();
