@@ -319,6 +319,29 @@ namespace Chai.WorkflowManagment.Modules.Shell
                 return 0;
 
         }
+
+        public int GetBidAnalysisRequestsMyRequest()
+        {
+            currentUser = GetCurrentUser().Id;
+            int Count = 0;
+            Count = WorkspaceFactory.CreateReadOnly().Count<BidAnalysisRequest>(x => x.AppUser.Id == currentUser && x.ProgressStatus == "InProgress");
+            if (Count != 0)
+                return Count;
+            else
+                return 0;
+
+        }
+        public int GetSoleVendorRequestsMyRequest()
+        {
+            currentUser = GetCurrentUser().Id;
+            int Count = 0;
+            Count = WorkspaceFactory.CreateReadOnly().Count<SoleVendorRequest>(x => x.AppUser.Id == currentUser && x.ProgressStatus == "InProgress");
+            if (Count != 0)
+                return Count;
+            else
+                return 0;
+
+        }
         #endregion
         #region MyProgresses
         public IList<VehicleRequest> GetVehicleInProgress()

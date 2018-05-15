@@ -130,7 +130,14 @@
 
                                     <asp:DataGrid ID="dgPurchaseRequestDetail" runat="server" AlternatingRowStyle-CssClass="" AutoGenerateColumns="False" CellPadding="0" CssClass="table table-striped table-bordered table-hover" DataKeyField="Id" GridLines="None" OnItemDataBound="dgPurchaseRequestDetail_ItemDataBound" PagerStyle-CssClass="paginate_button active" ShowFooter="True">
                                         <Columns>
-                                            <asp:TemplateColumn HeaderText="Account Description">
+                                            <asp:TemplateColumn HeaderText="Supplier">
+
+
+                                                <ItemTemplate>
+                                                    <%# DataBinder.Eval(Container.DataItem, "Bidder.Supplier.SupplierName")%>
+                                                </ItemTemplate>
+                                            </asp:TemplateColumn>
+                                              <asp:TemplateColumn HeaderText="Item">
 
 
                                                 <ItemTemplate>
@@ -140,6 +147,11 @@
                                             <asp:TemplateColumn HeaderText="Rank">
                                                 <ItemTemplate>
                                                     <%# DataBinder.Eval(Container.DataItem, "Bidder.Rank")%>
+                                                </ItemTemplate>
+                                           </asp:TemplateColumn>
+                                              <asp:TemplateColumn HeaderText="Reason For Selection">
+                                                <ItemTemplate>
+                                                    <%# DataBinder.Eval(Container.DataItem, "Bidder.BidAnalysisRequest.ReasonforSelection")%>
                                                 </ItemTemplate>
                                            </asp:TemplateColumn>
                                             <asp:TemplateColumn HeaderText="Qty">

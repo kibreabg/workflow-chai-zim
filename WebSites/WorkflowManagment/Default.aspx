@@ -136,7 +136,7 @@
                                         <asp:Label ID="lblBidAnalysisRequestMyRequest" runat="server" Text="Bid Analysis Request" CssClass="label"></asp:Label>-
                                             <asp:Label ID="lblBidAnalysisStatus" runat="server" Text="No Request"></asp:Label>
                                     </p>
-                                    <a data-toggle="modal" runat="server" id="A9" href="#bankModal">Progress Detail</a>
+                                    <a data-toggle="modal" runat="server" id="A9" href="#bidModal">Progress Detail</a>
                                 </li>
                                 <li class="">
                                     <span class="handle" style="display: none"></span>
@@ -144,7 +144,7 @@
                                         <asp:Label ID="lblSoleVendorRequestMyRequest" runat="server" Text="Sole Vendor Request" CssClass="label"></asp:Label>-
                                             <asp:Label ID="lblSoleVendorStatus" runat="server" Text="No Request"></asp:Label>
                                     </p>
-                                    <a data-toggle="modal" runat="server" id="A10" href="#bankModal">Progress Detail</a>
+                                    <a data-toggle="modal" runat="server" id="A10" href="#soleVendorModal">Progress Detail</a>
                                 </li>
                             </ul>
 
@@ -566,7 +566,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="BidModal" tabindex="-1" role="dialog">
+    <div class="modal fade" id="bidModal" tabindex="-1" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -606,7 +606,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="SoleVendorModal" tabindex="-1" role="dialog">
+    <div class="modal fade" id="soleVendorModal" tabindex="-1" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">

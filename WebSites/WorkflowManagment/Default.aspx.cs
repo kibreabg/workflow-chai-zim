@@ -30,6 +30,8 @@ public partial class ShellDefault : Microsoft.Practices.CompositeWeb.Web.UI.Page
             BindTravelAdvanceRequests();
             BindPurchaseRequests();
             BindBankPaymentRequests();
+            BindBidAnalysisRequests();
+            BindSoleVendorRequests();
         }
         this._presenter.OnViewLoaded();
         MyTasks();
@@ -229,6 +231,18 @@ public partial class ShellDefault : Microsoft.Practices.CompositeWeb.Web.UI.Page
             lblBankRequestStatus.ForeColor = System.Drawing.Color.Green;
 
         }
+        if (_presenter.GetBidAnalysisRequestsMyRequest() != 0)
+        {
+            lblBidAnalysisStatus.Text = ProgressStatus.InProgress.ToString();
+            lblBidAnalysisStatus.ForeColor = System.Drawing.Color.Green;
+
+        }
+        if (_presenter.GetSoleVendorRequestsMyRequest() != 0)
+        {
+            lblSoleVendorStatus.Text = ProgressStatus.InProgress.ToString();
+            lblSoleVendorStatus.ForeColor = System.Drawing.Color.Green;
+
+        }
 
     }
     private void ReimbersmentStatus()
@@ -288,6 +302,19 @@ public partial class ShellDefault : Microsoft.Practices.CompositeWeb.Web.UI.Page
         grvBankProgress.DataSource = _presenter.ListBankPaymentApprovalProgress();
         grvBankProgress.DataBind();
     }
+
+    private void BindBidAnalysisRequests()
+    {
+        grvBidAnalysisProgress.DataSource = _presenter.ListBidAnalysisApprovalProgress();
+        grvBidAnalysisProgress.DataBind();
+    }
+
+    private void BindSoleVendorRequests()
+    {
+        grvSoleVendorProgress.DataSource = _presenter.ListSoleVendorApprovalProgress();
+        grvSoleVendorProgress.DataBind();
+    }
+
     protected void grvLeaveProgress_RowDataBound(object sender, GridViewRowEventArgs e)
     {
         if (_presenter.ListLeaveApprovalProgress() != null)

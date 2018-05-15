@@ -176,6 +176,16 @@ namespace Chai.WorkflowManagment.Modules.Shell.MasterPages
             return _controller.GetPurchaseRequestsMyRequest();
 
         }
+        public int GetSoleVendorRequestsMyRequest()
+        {
+            return _controller.GetSoleVendorRequestsMyRequest();
+
+        }
+        public int GetBidAnalysisRequestsMyRequest()
+        {
+            return _controller.GetBidAnalysisRequestsMyRequest();
+
+        }
         public int GetBankRequestsMyRequest()
         {
             return _controller.GetBankRequestsMyRequest();
