@@ -354,8 +354,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             ddlGrant.DataBind();
             ddlGrant.SelectedValue = _presenter.CurrentSoleVendorRequest.PurchaseRequest.PurchaseRequestDetails[0].Grant.Id.ToString();
             //Items from Purchase Request
-            grvPurchaseItems.DataSource = _presenter.CurrentSoleVendorRequest.PurchaseRequest.PurchaseRequestDetails;
-            grvPurchaseItems.DataBind();
+            txtItems.Text = _presenter.CurrentSoleVendorRequest.PurchaseRequest.ConditionsofOrder;
         }
         protected void dgItemDetail_PageIndexChanged(object source, DataGridPageChangedEventArgs e)
         {

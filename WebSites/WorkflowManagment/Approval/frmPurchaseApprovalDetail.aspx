@@ -139,6 +139,7 @@
                                                 <asp:Label ID="lblRejectedReason" runat="server" Text="Rejected Reason" Visible="false" CssClass="label"></asp:Label>
                                                 <label class="input">
                                                     <asp:TextBox ID="txtRejectedReason" Visible="false" runat="server"></asp:TextBox>
+                                                    <asp:RequiredFieldValidator ID="rfvRejectedReason" runat="server" Enabled="false" CssClass="validator" ValidationGroup="save" ErrorMessage="Must Enter Rejection Reason" ControlToValidate="txtRejectedReason"></asp:RequiredFieldValidator>
                                                 </label>
                                             </section>
                                         </div>
@@ -328,6 +329,26 @@
                 <td></td>
             </tr>
         </table>
+        <br />
+        <asp:GridView ID="grvDetails"
+                runat="server" AutoGenerateColumns="False" DataKeyNames="Id"
+                CssClass="table table-striped table-bordered table-hover">
+                <RowStyle CssClass="rowstyle" />
+                <Columns>
+                    <asp:BoundField DataField="ItemAccount.AccountName" HeaderText="AccountName" SortExpression="ItemAccount.AccountName" />
+                    <asp:BoundField DataField="ItemAccount.AccountCode" HeaderText="Account Code" SortExpression="ItemAccount.AccountCode" />
+                    <asp:BoundField DataField="Qty" HeaderText="Quantity" SortExpression="Qty" />
+                    <asp:BoundField DataField="Priceperunit" HeaderText="Price Per Unit" SortExpression="Priceperunit" />
+                    <asp:BoundField DataField="EstimatedCost" HeaderText="Estimated Cost" SortExpression="EstimatedCost" />
+                    <asp:BoundField DataField="Project.ProjectCode" HeaderText="Project Code" />
+                    <asp:BoundField DataField="Grant.GrantCode" HeaderText="Grant Code" />
+                </Columns>
+                <FooterStyle CssClass="FooterStyle" />
+                <HeaderStyle CssClass="headerstyle" />
+                <PagerStyle CssClass="PagerStyle" />
+                <RowStyle CssClass="rowstyle" />
+            </asp:GridView>
+            <br />
         <br />
         <asp:GridView ID="grvStatuses" CellPadding="5" CellSpacing="3"
             runat="server" AutoGenerateColumns="False" DataKeyNames="Id"

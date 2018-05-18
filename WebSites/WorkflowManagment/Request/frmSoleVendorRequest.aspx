@@ -72,23 +72,23 @@
                                 <label class="label">Project</label>
                                 <label class="select">
                                     <asp:DropDownList ID="ddlProject" runat="server" DataValueField="Id" DataTextField="ProjectCode" Enabled="false">
-                                    </asp:DropDownList><i></i>                                    
+                                    </asp:DropDownList><i></i>
                                 </label>
                                 <asp:RequiredFieldValidator
-                                        ID="rfvddlProject" runat="server" ErrorMessage="Project is required" Display="Dynamic"
-                                        CssClass="validator" ValidationGroup="save" InitialValue="0"
-                                        SetFocusOnError="true" ControlToValidate="ddlProject"></asp:RequiredFieldValidator>
+                                    ID="rfvddlProject" runat="server" ErrorMessage="Project is required" Display="Dynamic"
+                                    CssClass="validator" ValidationGroup="save" InitialValue="0"
+                                    SetFocusOnError="true" ControlToValidate="ddlProject"></asp:RequiredFieldValidator>
                             </section>
                             <section class="col col-6">
                                 <label class="label">Grant</label>
                                 <label class="select">
                                     <asp:DropDownList ID="ddlGrant" runat="server" DataValueField="Id" DataTextField="GrantCode" Enabled="false">
-                                    </asp:DropDownList><i></i>                                    
+                                    </asp:DropDownList><i></i>
                                 </label>
                                 <asp:RequiredFieldValidator
-                                        ID="rfvGrant" runat="server" ErrorMessage="Grant is required" Display="Dynamic"
-                                        CssClass="validator" ValidationGroup="saveMain" InitialValue="0"
-                                        SetFocusOnError="true" ControlToValidate="ddlGrant"></asp:RequiredFieldValidator>
+                                    ID="rfvGrant" runat="server" ErrorMessage="Grant is required" Display="Dynamic"
+                                    CssClass="validator" ValidationGroup="saveMain" InitialValue="0"
+                                    SetFocusOnError="true" ControlToValidate="ddlGrant"></asp:RequiredFieldValidator>
                             </section>
                         </div>
                         <div class="row">
@@ -119,18 +119,9 @@
                         <div class="row">
                             <section class="col col-6">
                                 <label class="label">Commodity / Service Required</label>
-                                <asp:GridView ID="grvPurchaseItems" runat="server" Enabled="False" HorizontalAlign="Left" Width="430px" AutoGenerateColumns="False" DataKeyNames="Id" CssClass="table table-striped table-bordered table-hover">
-                                    <Columns>
-                                        <asp:BoundField DataField="ItemAccount.AccountName" HeaderText="Account Name" />
-                                        <asp:BoundField DataField="AccountCode" HeaderText="Account Code" />
-                                        <asp:BoundField DataField="EstimatedCost" HeaderText="Estimated Cost" />
-                                    </Columns>
-                                    <RowStyle CssClass="rowstyle" />
-                                    <FooterStyle CssClass="FooterStyle" />
-                                    <HeaderStyle CssClass="headerstyle" />
-                                    <PagerStyle CssClass="PagerStyle" />
-                                    <RowStyle CssClass="rowstyle" />
-                                </asp:GridView>
+                                <label class="input">
+                                    <asp:TextBox ID="txtItems" runat="server"></asp:TextBox>
+                                </label>
                             </section>
                             <section class="col col-6">
                                 <label class="label">Comment</label>

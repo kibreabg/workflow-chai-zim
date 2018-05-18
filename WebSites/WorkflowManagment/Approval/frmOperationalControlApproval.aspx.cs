@@ -289,8 +289,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             Response.AppendHeader("Content-Disposition", "attachment; filename=" + Path.GetFileName(filePath));
             Response.WriteFile(filePath);
             Response.End();
-        }
-        
+        }        
         protected void grvOperationalControlRequestList_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             Button btnStatus = e.Row.FindControl("btnStatus") as Button;
@@ -321,12 +320,13 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 PrintTransaction();
             }
             
-            PopApprovalStatus();
-            
+            PopApprovalStatus();           
             
             btnApprove.Enabled = true;
             ShowPrint();
             BindOperationalControlRequestStatus();
+            txtRejectedReason.Visible = false;
+            rfvRejectedReason.Enabled = false;
             pnlApproval_ModalPopupExtender.Show();
         }
         
@@ -410,11 +410,13 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             {
                 lblRejectedReason.Visible = true;
                 txtRejectedReason.Visible = true;
+                rfvRejectedReason.Enabled = true;
             }
             else
             {
                 lblRejectedReason.Visible = false;
                 txtRejectedReason.Visible = false;
+                rfvRejectedReason.Enabled = false;
             }
             pnlApproval_ModalPopupExtender.Show();
         }

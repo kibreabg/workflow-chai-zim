@@ -29,7 +29,6 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 if (_presenter.CurrentSoleVendorRequest.PurchaseOrderSoleVendors == null)
                 {
                     _presenter.CurrentSoleVendorRequest.PurchaseOrderSoleVendors = new PurchaseOrderSoleVendor();
-
                 }
                 BindPurchaseOrder();
                 btnPrintPurchaseForm.Enabled = true;
@@ -166,6 +165,17 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             txtSupplierName.Text = _presenter.CurrentSoleVendorRequest.Supplier.SupplierName;
             txtSupplierAddress.Text = _presenter.CurrentSoleVendorRequest.Supplier.SupplierAddress;
             txtSupplierContact.Text = _presenter.CurrentSoleVendorRequest.Supplier.SupplierContact;
+            if(_presenter.CurrentSoleVendorRequest.PurchaseOrderSoleVendors.PurchaseOrderSoleVendorDetails.Count == 0)
+            {
+                _presenter.CurrentSoleVendorRequest.PurchaseOrderSoleVendors.PurchaseOrderSoleVendorDetails = new List<PurchaseOrderSoleVendorDetail>();
+                AddPurchasingItembySoleVendor();
+            }
+            else
+            {
+                BindPODetailForSole();
+            }
+            
+
             if (_presenter.CurrentSoleVendorRequest != null)
             {
                 if (_presenter.CurrentSoleVendorRequest.PurchaseOrderSoleVendors != null)
@@ -183,12 +193,11 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     }
                     else
                     {
+                        
                         txtDate.Text = DateTime.Today.ToString();
                         AutoNumber();
                     }
-                }
-                BindPODetailForSole();
-
+                }         
             }
         }
         private void SavePurchaseOrder()
@@ -206,9 +215,9 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 {
                     _presenter.CurrentSoleVendorRequest.PurchaseOrderSoleVendors.Supplier = _presenter.CurrentSoleVendorRequest.Supplier;
                 }
-                AddPurchasingItembySoleVendor();
                 //_presenter.CurrentBidAnalysisRequest.PurchaseOrders.Status = "Completed";       
                 Master.ShowMessage(new AppMessage("Purchase Order Successfully Approved", Chai.WorkflowManagment.Enums.RMessageType.Info));
+
             }
             catch (Exception ex)
             {
@@ -224,17 +233,12 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
 
         #region PurchaseOrderDetail
-
-
-
         private void AddPurchasingItembySoleVendor()
         {
             if (_presenter.CurrentSoleVendorRequest.PurchaseOrderSoleVendors.Id <= 0)
             {
-
                 if (_presenter.CurrentSoleVendorRequest != null)
                 {
-
                     foreach (SoleVendorRequestDetail detail in _presenter.CurrentSoleVendorRequest.SoleVendorRequestDetails)
                     {
                         PurchaseOrderSoleVendorDetail POD = new PurchaseOrderSoleVendorDetail();
@@ -244,11 +248,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                         POD.TotalCost = detail.TotalCost;
                         _presenter.CurrentSoleVendorRequest.PurchaseOrderSoleVendors.PurchaseOrderSoleVendorDetails.Add(POD);
                     }
-
                 }
-
             }
-
             BindPODetailForSole();
         }
         #endregion
@@ -262,6 +263,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 PrintTransaction();
                 btnPrintPurchaseOrder.Enabled = true;
                 btnPrintPurchaseForm.Enabled = true;
+                btnRequest.Enabled = false;
                 // Response.Redirect(String.Format("frmPurchaseApproval.aspx?PurchaseRequestId={0}&PnlStatus={1}", _presenter.CurrentBidAnalysisRequest.Id, "Enabled"));
             }
             catch (Exception ex)
@@ -270,16 +272,12 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             }
 
         }
-
         protected void btnCancel_Click(object sender, EventArgs e)
         {
             Response.Redirect(String.Format("frmPurchaseApproval.aspx?PurchaseRequestId={0}&PnlStatus={1}", _presenter.CurrentSoleVendorRequest.Id, "Enabled"));
         }
         private void PrintTransaction()
         {
-
-
-
             lblRequestNoResult.Text = _presenter.CurrentSoleVendorRequest.RequestNo;
             lblRequesterResult.Text = _presenter.GetUser(_presenter.CurrentSoleVendorRequest.AppUser.Id).FullName;
             lblRequestedDateResult.Text = _presenter.CurrentSoleVendorRequest.RequestDate.ToString();
@@ -303,13 +301,9 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             }
             grvStatuses.DataSource = _presenter.CurrentSoleVendorRequest.SoleVendorRequestStatuses;
             grvStatuses.DataBind();
-
-
         }
         protected void grvStatuses_RowDataBound(object sender, GridViewRowEventArgs e)
         {
-
-
             if (_presenter.CurrentSoleVendorRequest.SoleVendorRequestStatuses != null)
             {
                 if (e.Row.RowType == DataControlRowType.DataRow)
@@ -318,6 +312,5 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 }
             }
         }
-
     }
 }
