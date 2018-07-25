@@ -89,9 +89,8 @@
                                 <asp:GridView ID="GridView1" runat="server" HorizontalAlign="Left" Width="430px" DataKeyNames="Id"   CssClass="table table-striped table-bordered table-hover" AutoGenerateColumns="False">
                 <RowStyle CssClass="rowstyle" />  
                                     <Columns>
-                                        <asp:BoundField DataField="AccountCode" HeaderText="Account Code" />
-                                        <asp:BoundField DataField="ItemAccount.AccountName" HeaderText="Account Name" />
-                                        <asp:BoundField DataField="EstimatedCost" HeaderText="Estimated Cost" />
+                                        <asp:BoundField DataField="PurchaseRequest.ConditionsofOrder" HeaderText="Item Description" />
+                                       
                                     </Columns>
                
                 <FooterStyle CssClass="FooterStyle" />
@@ -344,9 +343,9 @@
                 </div>
                     <br />
                     <footer>
-                        <asp:Button ID="btnRequest" runat="server" CssClass="btn btn-primary" OnClick="btnRequest_Click" Text="Save" ValidationGroup="Save" />
+                        <asp:Button ID="btnRequest" runat="server" CssClass="btn btn-primary" OnClick="btnRequest_Click" Text="Request" ValidationGroup="Save" />
                         &nbsp;<asp:Button ID="btnCancel" runat="server" CssClass="btn btn-primary" OnClick="btnCancel_Click" Text="Back" />
-                     
+                     <asp:Button ID="btnSearch" runat="server" CssClass="btn btn-primary" Text="Search" />
                         <asp:Button ID="btnPrintworksheet" runat="server" CssClass="btn btn-primary" Text="Print WorkSheet" OnClientClick="javascript:Clickheretoprint('divprint')" />
                            <asp:HiddenField ID="hfDetailId" runat="server" />
                     </footer>

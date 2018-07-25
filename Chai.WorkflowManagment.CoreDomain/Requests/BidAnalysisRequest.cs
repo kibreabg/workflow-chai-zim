@@ -38,7 +38,7 @@ namespace Chai.WorkflowManagment.CoreDomain.Requests
         public string Status { get; set; }
         public int CurrentApprover { get; set; }
         public Nullable<int> CurrentLevel { get; set; }
-        public string CurrentStatus { get; set; }
+        public string  CurrentStatus { get; set; }
         public string ProgressStatus { get; set; }        
         public virtual AppUser AppUser { get; set; }
         public virtual Project Project { get; set; }

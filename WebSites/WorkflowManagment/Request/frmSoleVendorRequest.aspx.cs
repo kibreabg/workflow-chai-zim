@@ -213,6 +213,35 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 BindSoleVendorRequests();
             }
         }
+        private void BindSoleVendorRequestforprint()
+        {
+            lblRequestNoresult.Text = _presenter.CurrentSoleVendorRequest.RequestNo;
+            lblRequestedDateresult.Text = _presenter.CurrentSoleVendorRequest.RequestDate.ToString();
+            lblContactPersonNumberRes.Text = _presenter.CurrentSoleVendorRequest.ContactPersonNumber;
+            lblProposedPurchasedpriceres.Text = _presenter.CurrentSoleVendorRequest.ProposedPurchasedPrice.ToString();
+            lblProposedSupplierresp.Text = _presenter.CurrentSoleVendorRequest.Supplier.SupplierName;
+            lblSoleSourceJustificationPreparedByresp.Text = _presenter.CurrentSoleVendorRequest.SoleSourceJustificationPreparedBy;
+            lblSoleVendorJustificationTyperes.Text = _presenter.CurrentSoleVendorRequest.SoleVendorJustificationType;
+            lblapprovalstatusres.Text = _presenter.CurrentSoleVendorRequest.CurrentStatus;
+            lblRequesterres.Text = _presenter.GetUser(_presenter.CurrentSoleVendorRequest.AppUser.Id).FullName;
+
+
+            grvStatuses.DataSource = _presenter.CurrentSoleVendorRequest.SoleVendorRequestStatuses;
+            grvStatuses.DataBind();
+        }
+        protected void grvStatuses_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (_presenter.CurrentSoleVendorRequest.SoleVendorRequestStatuses != null)
+            {
+                if (e.Row.RowType == DataControlRowType.DataRow)
+                {
+                    if (_presenter.GetUser(_presenter.CurrentSoleVendorRequest.SoleVendorRequestStatuses[e.Row.RowIndex].Approver) != null)
+                    {
+                        e.Row.Cells[1].Text = _presenter.GetUser(_presenter.CurrentSoleVendorRequest.SoleVendorRequestStatuses[e.Row.RowIndex].Approver).FullName;
+                    }
+                }
+            }
+        }
         protected void grvVehicleRequestList_SelectedIndexChanged(object sender, EventArgs e)
         {
             Session["SoleVendorRequest"] = true;
@@ -269,6 +298,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     }
                 }
             }
+            BindSoleVendorRequestforprint();
+            btnPrint.Enabled = true;
         }
         protected void btnDelete_Click(object sender, EventArgs e)
         {
