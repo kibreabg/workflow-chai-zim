@@ -339,6 +339,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             _presenter.OnViewLoaded();
             PopApprovalStatus();
             BindSoleVendorRequestStatus();
+            txtRejectedReason.Visible = false;
+            rfvRejectedReason.Enabled = false;
             pnlApproval_ModalPopupExtender.Show();
 
         }
@@ -401,7 +403,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             {
                 lblRejectedReason.Visible = true;
                 txtRejectedReason.Visible = true;
-
+                rfvRejectedReason.Enabled = true;
             }
             pnlApproval_ModalPopupExtender.Show();
         }

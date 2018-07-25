@@ -317,6 +317,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             _presenter.OnViewLoaded();
             PopApprovalStatus();
             pnlApproval_ModalPopupExtender.Show();
+            txtRejectedReason.Visible = false;
+            rfvRejectedReason.Enabled = false;
             btnApprove.Enabled = true;
             lblLeaveTyperes.Text = _presenter.CurrentLeaveRequest.LeaveType.LeaveTypeName;
             lblrequesteddaysres.Text = _presenter.CurrentLeaveRequest.RequestedDays.ToString();
@@ -415,7 +417,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             {
                 lblRejectedReason.Visible = true;
                 txtRejectedReason.Visible = true;
-
+                rfvRejectedReason.Enabled = true;
             }
             pnlApproval_ModalPopupExtender.Show();
         }

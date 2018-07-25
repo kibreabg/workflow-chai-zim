@@ -467,6 +467,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             btnApprove.Enabled = true;
             BindAccounts();
             BindCashPaymentRequestStatus();
+            txtRejectedReason.Visible = false;
+            rfvRejectedReason.Enabled = false;
             pnlApproval_ModalPopupExtender.Show();
         }
         protected void grvCashPaymentRequestList_PageIndexChanging(object sender, GridViewPageEventArgs e)
@@ -552,11 +554,13 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             {
                 lblRejectedReason.Visible = true;
                 txtRejectedReason.Visible = true;
+                rfvRejectedReason.Enabled = true;
             }
             else
             {
                 lblRejectedReason.Visible = false;
                 txtRejectedReason.Visible = false;
+                rfvRejectedReason.Enabled = false;
             }
             pnlApproval_ModalPopupExtender.Show();
         }

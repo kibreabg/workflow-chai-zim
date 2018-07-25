@@ -61,7 +61,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                  if (id > 0)
                      _controller.CurrentObject = _controller.GetPurchaseRequest(id);
                  else
-                     _controller.CurrentObject = new BidAnalysisRequest();
+                     _controller.CurrentObject = new PurchaseRequest();
              }
          }
          public IList<ItemAccount> GetItemAccounts()

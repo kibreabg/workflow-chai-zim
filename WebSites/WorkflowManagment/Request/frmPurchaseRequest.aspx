@@ -78,7 +78,7 @@
                                     <i class="icon-append fa fa-calendar"></i>
                                     <asp:TextBox ID="txtdeliveryDate" runat="server" Visible="true" CssClass="form-control datepicker"
                                         data-dateformat="mm/dd/yy"></asp:TextBox>
-                                    <asp:RequiredFieldValidator ID="RfvdeliveryDate" CssClass="validator" runat="server" ControlToValidate="txtdeliveryDate" ErrorMessage="Delivery Date Required" InitialValue="" SetFocusOnError="True" ValidationGroup="Save">*</asp:RequiredFieldValidator>
+                                    <asp:RequiredFieldValidator ID="RfvdeliveryDate" CssClass="validator" runat="server" ControlToValidate="txtdeliveryDate" ErrorMessage="Delivery Date Required" InitialValue="" SetFocusOnError="True" ValidationGroup="Save"></asp:RequiredFieldValidator>
                                 </label>
                             </section>
                             <section class="col col-4">
@@ -86,7 +86,7 @@
                                     Deliver to</label>
                                 <label class="input">
                                     <asp:TextBox ID="txtDeliverto" runat="server" Visible="true"></asp:TextBox>
-                                    <asp:RequiredFieldValidator ID="RfvDeliverto" CssClass="validator" runat="server" ControlToValidate="txtDeliverto" ErrorMessage="Deliver To Required" InitialValue="" SetFocusOnError="True" ValidationGroup="Save">*</asp:RequiredFieldValidator>
+                                    <asp:RequiredFieldValidator ID="RfvDeliverto" CssClass="validator" runat="server" ControlToValidate="txtDeliverto" ErrorMessage="Deliver To Required" InitialValue="" SetFocusOnError="True" ValidationGroup="Save"></asp:RequiredFieldValidator>
                                 </label>
                             </section>
 
@@ -123,6 +123,7 @@
                                     Item</label>
                                 <label class="input">
                                     <asp:TextBox ID="txtConditionofOrder" runat="server" Visible="true"></asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="rfvConditionofOrder" CssClass="validator" runat="server" ControlToValidate="txtConditionofOrder" ErrorMessage="Items to be purchased are Required" InitialValue="" SetFocusOnError="True" ValidationGroup="Save"></asp:RequiredFieldValidator>
                                 </label>
                             </section>
                              <section class="col col-4">

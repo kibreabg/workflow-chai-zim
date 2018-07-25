@@ -32,13 +32,15 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             {
                 this._presenter.OnViewInitialized();
                 XmlConfigurator.Configure();
-                PopProgressStatus();
+                PopProgressStatus();                
                 //  BindPurchases();
-                BindSearchPurchaseRequestGrid();
-
+                //BindSearchPurchaseRequestGrid();
             }
             this._presenter.OnViewLoaded();
-
+            if (!this.IsPostBack)
+            {
+                BindSearchPurchaseRequestGrid();
+            }
             if (_presenter.CurrentPurchaseRequest != null)
             {
                 if (_presenter.CurrentPurchaseRequest.Id != 0)
@@ -46,6 +48,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     PrintTransaction();
                 }
             }
+            lnkBidRequest.Visible = false;
+            lnkSoleVendor.Visible = false;
         }
         [CreateNew]
         public PurchaseApprovalDetailPresenter Presenter
@@ -142,7 +146,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     btnApprove.Enabled = true;
                 }
             }
-            if (_presenter.CurrentUser().EmployeePosition.PositionName == "Admin/HR Assisitance (Driver)" && _presenter.CurrentPurchaseRequest.CurrentStatus != ApprovalStatus.Rejected.ToString() && _presenter.CurrentPurchaseRequest.ProgressStatus == ProgressStatus.Completed.ToString())
+            if (_presenter.CurrentUser().EmployeePosition.PositionName == "Admin/HR Assisitance (Driver)" && _presenter.CurrentPurchaseRequest.CurrentStatus != ApprovalStatus.Rejected.ToString() && _presenter.CurrentPurchaseRequest.ProgressStatus == ProgressStatus.Completed.ToString() && _presenter.CurrentPurchaseRequest.BidAnalysisRequest == null && _presenter.CurrentPurchaseRequest.SoleVendorRequest == null)
             {
                 lnkBidRequest.Visible = true;
                 lnkSoleVendor.Visible = true;
@@ -185,7 +189,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 }
             }
         }
-        
+
         private void GetNextApprover()
         {
             foreach (PurchaseRequestStatus PRS in _presenter.CurrentPurchaseRequest.PurchaseRequestStatuses)
@@ -250,8 +254,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             lblDelivertoResult.Text = _presenter.CurrentPurchaseRequest.DeliverTo;
             lblConditionsofOrderResult.Text = _presenter.CurrentPurchaseRequest.ConditionsofOrder;
             lblReqDateResult.Text = _presenter.CurrentPurchaseRequest.Requireddateofdelivery.ToShortDateString();
-            grvPurchaseRequestDetails.DataSource = _presenter.CurrentPurchaseRequest.PurchaseRequestDetails;
-            grvPurchaseRequestDetails.DataBind();
+            grvDetails.DataSource = _presenter.CurrentPurchaseRequest.PurchaseRequestDetails;
+            grvDetails.DataBind();
 
             grvStatuses.DataSource = _presenter.CurrentPurchaseRequest.PurchaseRequestStatuses;
             grvStatuses.DataBind();
@@ -274,7 +278,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     Master.ShowMessage(new AppMessage("Purchase Approval Processed", Chai.WorkflowManagment.Enums.RMessageType.Info));
                     btnApprove.Enabled = false;
                     BindSearchPurchaseRequestGrid();
-                    if (_presenter.CurrentUser().EmployeePosition.PositionName == "Admin/HR Assisitance (Driver)" && _presenter.CurrentPurchaseRequest.CurrentStatus != ApprovalStatus.Rejected.ToString() && _presenter.CurrentPurchaseRequest.ProgressStatus == ProgressStatus.Completed.ToString())
+                    if (_presenter.CurrentUser().EmployeePosition.PositionName == "Admin/HR Assisitance (Driver)" && _presenter.CurrentPurchaseRequest.CurrentStatus != ApprovalStatus.Rejected.ToString() && _presenter.CurrentPurchaseRequest.ProgressStatus == ProgressStatus.Completed.ToString() && _presenter.CurrentPurchaseRequest.BidAnalysisRequest == null && _presenter.CurrentPurchaseRequest.SoleVendorRequest == null)
                     {
                         lnkBidRequest.Visible = true;
                         lnkSoleVendor.Visible = true;
@@ -307,6 +311,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             //grvAttachments.DataSource = _presenter.CurrentPaymentReimbursementRequest.CPRAttachments;
             //grvAttachments.DataBind();
             BindPurchaseRequestStatus();
+            txtRejectedReason.Visible = false;
+            rfvRejectedReason.Enabled = false;
             pnlApproval_ModalPopupExtender.Show();
         }
         private void PopApprovalStatus()
@@ -342,6 +348,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     btnStatus.BackColor = System.Drawing.ColorTranslator.FromHtml("#FF7251");
 
                 }
+                e.Row.Cells[1].Text = _presenter.GetUser(CSR.Requester).FullName;
+
             }
         }
         protected void ddlApprovalStatus_SelectedIndexChanged(object sender, EventArgs e)
@@ -350,6 +358,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             {
                 lblRejectedReason.Visible = true;
                 txtRejectedReason.Visible = true;
+                rfvRejectedReason.Enabled = true;
             }
             else
             {
