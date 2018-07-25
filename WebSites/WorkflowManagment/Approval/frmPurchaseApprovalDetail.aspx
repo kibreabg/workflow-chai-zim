@@ -84,8 +84,9 @@
                     </ItemTemplate>
                 </asp:TemplateField>
               
-                <asp:BoundField DataField="SuggestedSupplier" HeaderText="SuggestedSupplier" SortExpression="PurposeOfTravel" />
-                <asp:BoundField DataField="TotalPrice" HeaderText="TotalPrice" SortExpression="TotalPurchase" />
+                <asp:BoundField DataField="SuggestedSupplier" HeaderText="Suggested Supplier" SortExpression="PurposeOfTravel" />
+                <asp:BoundField DataField="ConditionsofOrder" HeaderText="Item" SortExpression="ConditionsofOrder" />
+                <asp:BoundField DataField="TotalPrice" HeaderText="Total Price" SortExpression="TotalPurchase" />
 
                 <asp:ButtonField ButtonType="Button" CommandName="ViewItem" Text="View Item Detail" />
                 <asp:CommandField ButtonType="Button" SelectText="Process Request" ShowSelectButton="True" />
@@ -186,8 +187,6 @@
                                     <asp:BoundField DataField="Priceperunit" HeaderText="Price Per Unit" SortExpression="Priceperunit" />
                                     <asp:BoundField DataField="Qty" HeaderText="Qty" SortExpression="Qty" />
                                     <asp:BoundField DataField="EstimatedCost" HeaderText="Estimated Cost" SortExpression="EstimatedCost" />
-                                    <asp:BoundField DataField="ItemAccount.AccountName" HeaderText="AccountName" SortExpression="ItemAccount.AccountName" />
-                                    <asp:BoundField DataField="ItemAccount.AccountCode" HeaderText="Account Code" SortExpression="ItemAccount.AccountCode" />
                                     <asp:BoundField DataField="Project.ProjectCode" HeaderText="Project Code" />
                                     <asp:BoundField DataField="Grant.GrantCode" HeaderText="Grant Code" />
                                 </Columns>

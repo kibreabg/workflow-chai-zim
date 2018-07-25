@@ -32,7 +32,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             {
                 this._presenter.OnViewInitialized();
                 XmlConfigurator.Configure();
-                PopProgressStatus();                
+                PopProgressStatus();
                 //  BindPurchases();
                 //BindSearchPurchaseRequestGrid();
             }
@@ -383,19 +383,22 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 }
             }
         }
-        /*  protected void grvPurchaseRequestDetails_RowDataBound(object sender, GridViewRowEventArgs e)
-          {
-              if (_presenter.CurrentPurchaseRequest.PurchaseRequestStatuses != null)
-              {
-                  if (e.Row.RowType == DataControlRowType.DataRow)
-                  {
-                      if (_presenter.CurrentPurchaseRequest.PurchaseRequestDetails[e.Row.RowIndex].Id != 0)
-                      e.Row.Cells[4].Text = _presenter.CurrentPurchaseRequest.PurchaseRequestDetails[e.Row.RowIndex].ItemAccount.AccountName;
-                      e.Row.Cells[5].Text = _presenter.CurrentPurchaseRequest.PurchaseRequestDetails[e.Row.RowIndex].ItemAccount.AccountCode;
-                      e.Row.Cells[6].Text = _presenter.CurrentPurchaseRequest.PurchaseRequestDetails[e.Row.RowIndex].project.ProjectCode;
-                      e.Row.Cells[7].Text = _presenter.CurrentPurchaseRequest.PurchaseRequestDetails[e.Row.RowIndex].Grant.GrantCode;
-                  }
-              }
-          }*/
+        /*protected void grvPurchaseRequestDetails_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (_presenter.CurrentPurchaseRequest.PurchaseRequestDetails != null)
+            {
+                if (e.Row.RowType == DataControlRowType.DataRow)
+                {
+                    if (_presenter.CurrentPurchaseRequest.PurchaseRequestDetails[e.Row.RowIndex].Id != 0)
+                    {
+                        e.Row.Cells[3].Text = _presenter.CurrentPurchaseRequest.TotalPrice.ToString();
+                        e.Row.Cells[4].Text = _presenter.CurrentPurchaseRequest.ConditionsofOrder;
+
+                    }
+                        
+                    
+                }
+            }
+        }*/
     }
 }
