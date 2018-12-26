@@ -269,9 +269,9 @@
                                                                         <asp:RequiredFieldValidator ID="rfvActualExpenditure" runat="server" ControlToValidate="txtActualExpenditure" CssClass="validator" ErrorMessage="Actual Expenditure is required" ValidationGroup="request" InitialValue="-1"></asp:RequiredFieldValidator>
                                                                     </ItemTemplate>
                                                                     <FooterTemplate>
-                                                                        <asp:TextBox ID="txtFActualExpenditure" runat="server" CssClass="form-control" AutoPostBack="true" OnTextChanged="txtFActualExpenditure_TextChanged"></asp:TextBox>
+                                                                        <asp:TextBox ID="txtFActualExpenditure" runat="server" CssClass="form-control" AutoPostBack="true" Text="0" OnTextChanged="txtFActualExpenditure_TextChanged"></asp:TextBox>
                                                                         <cc1:FilteredTextBoxExtender runat="server" Enabled="True" TargetControlID="txtFActualExpenditure" ID="txtFActualExpenditure_FilteredTextBoxExtender" FilterType="Custom,Numbers" ValidChars="."></cc1:FilteredTextBoxExtender>
-                                                                        <asp:RequiredFieldValidator ID="rfvtxtFActualExpenditure" runat="server" CssClass="validator" ControlToValidate="txtFActualExpenditure" ErrorMessage="Actual Expenditure is required" ValidationGroup="save" InitialValue="-1"></asp:RequiredFieldValidator>
+                                                                        <asp:RequiredFieldValidator ID="rfvtxtFActualExpenditure" runat="server" CssClass="validator" ControlToValidate="txtFActualExpenditure" ErrorMessage="Actual Expenditure is required" ValidationGroup="save" InitialValue="0"></asp:RequiredFieldValidator>
                                                                     </FooterTemplate>
                                                                 </asp:TemplateColumn>
                                                                 <asp:TemplateColumn HeaderText="Variance">

@@ -190,8 +190,9 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         private void BindAccounts()
         {
-            if (_presenter.CurrentCashPaymentRequest.CashPaymentRequestStatuses.Count == _presenter.CurrentCashPaymentRequest.CurrentLevel && (_presenter.CurrentUser().EmployeePosition.PositionName == "Finance Officer" || _presenter.GetUser(_presenter.CurrentCashPaymentRequest.CurrentApprover).IsAssignedJob == true))
-            {
+            //if (_presenter.CurrentCashPaymentRequest.CashPaymentRequestStatuses.Count == _presenter.CurrentCashPaymentRequest.CurrentLevel && (_presenter.CurrentUser().EmployeePosition.PositionName == "Finance Officer" || _presenter.GetUser(_presenter.CurrentCashPaymentRequest.CurrentApprover).IsAssignedJob == true))
+            if (_presenter.CurrentCashPaymentRequest.CashPaymentRequestStatuses.Count == _presenter.CurrentCashPaymentRequest.CurrentLevel)
+                {
                 lblAccount.Visible = true;
                 lblAccountdd.Visible = true;
             }
@@ -506,7 +507,9 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             }
             catch (Exception ex)
             {
-
+                Master.ShowMessage(new AppMessage("Error: While Approving Cash Payment!", RMessageType.Error));
+                ExceptionUtility.LogException(ex, ex.Source);
+                ExceptionUtility.NotifySystemOps(ex);
             }
         }
         private void PrintTransaction()

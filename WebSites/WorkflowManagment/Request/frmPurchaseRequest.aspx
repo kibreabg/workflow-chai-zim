@@ -102,7 +102,7 @@
                             </section>
                             <section class="col col-4">
                                 <label id="lblapplyfor" runat="server" class="label" visible="true">
-                                    Comment</label>
+                                    Specifications</label>
                                 <label class="input">
                                     <asp:TextBox ID="txtComment" runat="server" Visible="true"></asp:TextBox>
                                 </label>

@@ -415,6 +415,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             HiddenField hfAmountAdvanced = txt.FindControl("hfAmountAdvanced") as HiddenField;
             TextBox txtActualExpenditure = txt.FindControl("txtActualExpenditure") as TextBox;
             TextBox txtVariance = txt.FindControl("txtVariance") as TextBox;
+            if (txtActualExpenditure.Text == "")
+                txtActualExpenditure.Text = "0";
             txtVariance.Text = ((Convert.ToDecimal(hfAmountAdvanced.Value) - Convert.ToDecimal(txtActualExpenditure.Text))).ToString();
 
 
