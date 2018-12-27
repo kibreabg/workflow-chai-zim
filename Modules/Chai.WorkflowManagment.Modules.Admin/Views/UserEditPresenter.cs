@@ -72,7 +72,7 @@ namespace Chai.WorkflowManagment.Modules.Admin.Views
             user.Email = View.GetEmail;
             user.IsActive = View.GetIsActive;
             user.DateModified = DateTime.Now;
-            user.EmployeePosition = View.EmployeePosition;
+            user.EmployeePosition = _controller.GetEmployeePosition(View.EmployeePosition.Id);
             user.Superviser = View.Superviser;
             if (View.GetPassword.Length > 0)
             {
