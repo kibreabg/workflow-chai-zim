@@ -57,6 +57,7 @@
                     </fieldset>
                     <footer>
                         <asp:Button ID="btnPop" runat="server" />
+                        <asp:Button ID="btnPop2" runat="server" />
                         <asp:Button ID="btnFind" runat="server" Text="Find" OnClick="btnFind_Click" CssClass="btn btn-primary"></asp:Button>
                         <asp:Button ID="btnClosepage" runat="server" Text="Close" data-dismiss="modal" CssClass="btn btn-primary" PostBackUrl="../Default.aspx"></asp:Button>
                     </footer>
@@ -68,7 +69,7 @@
             runat="server" AutoGenerateColumns="False" DataKeyNames="ID"
             OnRowDataBound="grvSoleVendorRequestList_RowDataBound" OnRowDeleting="grvSoleVendorRequestList_RowDeleting"
             OnSelectedIndexChanged="grvSoleVendorRequestList_SelectedIndexChanged" AllowPaging="True" OnPageIndexChanging="grvSoleVendorRequestList_PageIndexChanging"
-            CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" PageSize="30">
+            CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" PageSize="30" OnRowCommand="grvSoleVendorRequestList_RowCommand">
             <RowStyle CssClass="rowstyle" />
             <Columns>
                 <asp:BoundField DataField="RequestNo" HeaderText="Request No" SortExpression="RequestNo" />
@@ -81,6 +82,7 @@
                 <asp:BoundField DataField="ProposedPurchasedPrice" HeaderText="Proposed Purchased Price" SortExpression="ProposedPurchasedPrice" />
                 <asp:BoundField DataField="Supplier.SupplierName" HeaderText="Proposed Supplier" SortExpression="Supplier.SupplierName" />
                 <asp:BoundField DataField="SoleVendorJustificationType" HeaderText="Sole Vendor JustificationType" SortExpression="SoleVendorJustificationType" />
+                <asp:ButtonField ButtonType="Button" CommandName="ViewItem" Text="View Item Detail" />
                 <asp:CommandField ShowSelectButton="True" SelectText="Process Request" ButtonType="Button" />
                 <asp:TemplateField>
                     <ItemTemplate>
@@ -123,12 +125,9 @@
                             <div class="widget-body no-padding">
                                 <div class="smart-form">
                                     <fieldset>
-
                                         <div class="row">
-
                                             <section class="col col-6">
                                                 <asp:Label ID="lblApprovalStatus" runat="server" Text="Approval Status" CssClass="label"></asp:Label>
-
                                                 <label class="select">
                                                     <asp:DropDownList ID="ddlApprovalStatus" runat="server" OnSelectedIndexChanged="ddlApprovalStatus_SelectedIndexChanged" ValidationGroup="Approve" AutoPostBack="True">
                                                     </asp:DropDownList><i></i>
@@ -137,11 +136,32 @@
                                             </section>
                                             <section class="col col-6">
                                                 <asp:Label ID="lblRejectedReason" runat="server" Text="Rejected Reason" Visible="false" CssClass="label"></asp:Label>
-
                                                 <label class="textarea">
                                                     <asp:TextBox ID="txtRejectedReason" runat="server" TextMode="MultiLine" Visible="false"></asp:TextBox>
                                                     <asp:RequiredFieldValidator ID="rfvRejectedReason" runat="server" Enabled="false" CssClass="validator" ValidationGroup="save" ErrorMessage="Must Enter Rejection Reason" ControlToValidate="txtRejectedReason"></asp:RequiredFieldValidator>
                                                 </label>
+                                            </section>
+                                        </div>
+                                        <div class="row">
+                                            <section class="col col-6">
+                                                <asp:Label ID="lblAttachments" runat="server" Text="Attachments" CssClass="label"></asp:Label>
+                                                <asp:GridView ID="grvAttachments"
+                                                    runat="server" AutoGenerateColumns="False" DataKeyNames="Id"
+                                                    CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active">
+                                                    <RowStyle CssClass="rowstyle" />
+                                                    <Columns>
+                                                        <asp:BoundField DataField="FilePath" HeaderText="File Name" SortExpression="FilePath" />
+                                                        <asp:TemplateField>
+                                                            <ItemTemplate>
+                                                                <asp:LinkButton ID="lnkDownload" Text="Download" CommandArgument='<%# Eval("FilePath") %>' runat="server" OnClick="DownloadFile"></asp:LinkButton>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                    </Columns>
+                                                    <FooterStyle CssClass="FooterStyle" />
+                                                    <HeaderStyle CssClass="headerstyle" />
+                                                    <PagerStyle CssClass="PagerStyle" />
+                                                    <RowStyle CssClass="rowstyle" />
+                                                </asp:GridView>
                                             </section>
                                         </div>
                                     </fieldset>
@@ -149,18 +169,13 @@
                                         <asp:Button ID="btnApprove" runat="server" Text="Save" OnClick="btnApprove_Click" Enabled="false" CssClass="btn btn-primary" ValidationGroup="Approve"></asp:Button>
                                         <asp:Button ID="btnCancelPopup" runat="server" Text="Close" data-dismiss="modal" CssClass="btn btn-primary" OnClick="btnCancelPopup_Click"></asp:Button>
                                         <asp:Button ID="btnPrint" runat="server" Text="Print" CssClass="btn btn-primary" OnClientClick="javascript:Clickheretoprint('divprint')" Enabled="False"></asp:Button>
-                                        <asp:Button ID="btnPurchaseOrder" runat="server" CssClass="btn btn-primary" Enabled="False" OnClick="btnPurchaseOrder_Click" Text="Purchase Order" />
+                                        <%--<asp:Button ID="btnPurchaseOrder" runat="server" CssClass="btn btn-primary" Enabled="False" OnClick="btnPurchaseOrder_Click" Text="Purchase Order" />--%>
                                     </footer>
                                 </div>
                             </div>
                         </div>
-
-
-
                     </div>
                 </div>
-
-
             </div>
         </div>
         <!-- /.modal-content -->
@@ -169,6 +184,95 @@
     <asp:ModalPopupExtender runat="server" BackgroundCssClass="modalBackground"
         Enabled="True" TargetControlID="btnPop" PopupControlID="pnlApproval" CancelControlID="btnCancelPopup"
         ID="pnlApproval_ModalPopupExtender">
+    </asp:ModalPopupExtender>
+    <asp:Panel ID="pnlDetail" runat="server">
+        <div class="modal-content">
+            <div class="modal-body no-padding">
+                <div role="content">
+
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+
+                    </div>
+                    <!-- end widget edit box -->
+
+                    <!-- widget content -->
+                    <div class="widget-body">
+                        <div class="tab-content">
+                            <div class="tab-pane" id="hr1">
+                                <div class="tabbable tabs-below">
+                                    <div class="tab-content padding-10">
+                                        <div class="tab-pane" id="AA">
+                                        </div>
+                                    </div>
+                                    <ul class="nav nav-tabs">
+                                        <li class="active">
+                                            <a data-toggle="tab" href="#AA">Tab 1</a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                            </div>
+                            <div class="tab-pane active" id="hr2">
+                                <ul class="nav nav-tabs">
+                                    <li class="active">
+                                        <a href="#iss1" data-toggle="tab">Item Details</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content padding-10">
+                                    <div class="tab-pane active" id="iss1">
+                                        <asp:DataGrid ID="dgSoleVendorRequestDetail" runat="server"
+                                            AutoGenerateColumns="False" CellPadding="0" CssClass="table table-striped table-bordered table-hover"
+                                            DataKeyField="Id" GridLines="None" PagerStyle-CssClass="paginate_button active" ShowFooter="True">
+                                            <Columns>
+                                                <asp:TemplateColumn HeaderText="Account Name">
+                                                    <ItemTemplate>
+                                                        <%# DataBinder.Eval(Container.DataItem, "ItemAccount.AccountName")%>
+                                                    </ItemTemplate>
+                                                </asp:TemplateColumn>
+                                                <asp:TemplateColumn HeaderText="Account Code">
+                                                    <ItemTemplate>
+                                                        <%# DataBinder.Eval(Container.DataItem, "ItemAccount.AccountCode")%>
+                                                    </ItemTemplate>
+                                                </asp:TemplateColumn>
+                                                <asp:TemplateColumn HeaderText="Amount">
+                                                    <ItemTemplate>
+                                                        <%# DataBinder.Eval(Container.DataItem, "ItemDescription")%>
+                                                    </ItemTemplate>
+                                                </asp:TemplateColumn>
+                                                <asp:TemplateColumn HeaderText="Project ID">
+                                                    <ItemTemplate>
+                                                        <%# DataBinder.Eval(Container.DataItem, "UnitCost")%>
+                                                    </ItemTemplate>
+                                                </asp:TemplateColumn>
+                                                <asp:TemplateColumn HeaderText="Grant ID">
+                                                    <ItemTemplate>
+                                                        <%# DataBinder.Eval(Container.DataItem, "TotalCost")%>
+                                                    </ItemTemplate>
+                                                </asp:TemplateColumn>
+                                            </Columns>
+                                            <PagerStyle CssClass="paginate_button active" HorizontalAlign="Center" />
+                                        </asp:DataGrid>
+                                    </div>
+                                </div>
+                            </div>
+                            <footer>
+                                <asp:Button ID="btnCancelPopup2" runat="server" Text="Close" data-dismiss="modal" CssClass="btn btn-primary" OnClick="btnCancelPopup2_Click"></asp:Button>
+                            </footer>
+                        </div>
+
+                    </div>
+                    <!-- end widget content -->
+
+                </div>
+            </div>
+        </div>
+
+    </asp:Panel>
+    <asp:ModalPopupExtender runat="server" BackgroundCssClass="modalBackground"
+        Enabled="True" TargetControlID="btnPop2" PopupControlID="pnlDetail" CancelControlID="btnCancelPopup2"
+        ID="pnlDetail_ModalPopupExtender">
     </asp:ModalPopupExtender>
     <div id="divprint" style="display: none; width: 942px;">
         <fieldset>
@@ -227,18 +331,6 @@
                     <td style="width: 334px">&nbsp;</td>
                     <td style="width: 335px">&nbsp;</td>
                     <td>&nbsp;</td>
-                </tr>
-                <tr>
-                    <td style="width: 629px; height: 18px; padding-left: 20%;">
-                        <strong>
-                            <asp:Label ID="lblEmployeeNo" runat="server" Text="Employee No:"></asp:Label>
-                        </strong></td>
-                    <td style="width: 244px; height: 18px;">
-                        <asp:Label ID="lblEmpNoRes" runat="server"></asp:Label>
-                    </td>
-                    <td style="width: 334px; height: 18px;">&nbsp;</td>
-                    <td style="width: 335px; height: 18px;">&nbsp;</td>
-                    <td style="height: 18px">&nbsp;</td>
                 </tr>
                 <tr>
                     <td style="width: 682px; height: 18px;">&nbsp;</td>

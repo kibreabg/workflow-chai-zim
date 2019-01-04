@@ -70,7 +70,7 @@
                         </div>
 
                         <div class="row">
-                           
+
                             <section class="col col-4">
                                 <label class="label">
                                     Required date of delivery</label>
@@ -89,8 +89,6 @@
                                     <asp:RequiredFieldValidator ID="RfvDeliverto" CssClass="validator" runat="server" ControlToValidate="txtDeliverto" ErrorMessage="Deliver To Required" InitialValue="" SetFocusOnError="True" ValidationGroup="Save"></asp:RequiredFieldValidator>
                                 </label>
                             </section>
-
-                            
                         </div>
                         <div class="row">
                             <section class="col col-4">
@@ -114,32 +112,19 @@
                                     <asp:TextBox ID="txtSpecialNeed" runat="server" Visible="true"></asp:TextBox>
                                 </label>
                             </section>
-
                         </div>
                         <div class="row">
-                            
                             <section class="col col-4">
-                                <label class="label" visible="true">
-                                    Item</label>
-                                <label class="input">
-                                    <asp:TextBox ID="txtConditionofOrder" runat="server" Visible="true"></asp:TextBox>
-                                    <asp:RequiredFieldValidator ID="rfvConditionofOrder" CssClass="validator" runat="server" ControlToValidate="txtConditionofOrder" ErrorMessage="Items to be purchased are Required" InitialValue="" SetFocusOnError="True" ValidationGroup="Save"></asp:RequiredFieldValidator>
-                                </label>
-                            </section>
-                             <section class="col col-4">
                                 <label class="label">Total Purchase </label>
                                 <label class="input">
                                     <asp:TextBox ID="txtTotal" ReadOnly="true" runat="server"></asp:TextBox>
                                 </label>
                             </section>
                             <div class="row">
-                            <section class="col col-4">
-
-                                <asp:CheckBox ID="chkBudgeted" runat="server" Text="Budgeted" /><i></i>
-
-                            </section>
-                                </div>
-
+                                <section class="col col-4">
+                                    <asp:CheckBox ID="chkBudgeted" runat="server" Text="Budgeted" /><i></i>
+                                </section>
+                            </div>
                         </div>
                         <asp:DataGrid ID="dgPurchaseRequestDetail" runat="server" AlternatingRowStyle-CssClass="" AutoGenerateColumns="False" CellPadding="0"
                             CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" DataKeyField="Id"
@@ -186,17 +171,28 @@
                                         <asp:TextBox ID="txtFAccountCode" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
                                     </FooterTemplate>
                                 </asp:TemplateColumn>
+                                <asp:TemplateColumn HeaderText="Item">
+                                    <ItemTemplate>
+                                        <%# DataBinder.Eval(Container.DataItem, "Item")%>
+                                    </ItemTemplate>
+                                    <EditItemTemplate>
+                                        <asp:TextBox ID="txtItem" runat="server" CssClass="form-control" Text=' <%# DataBinder.Eval(Container.DataItem, "Item")%>'></asp:TextBox>
+                                    </EditItemTemplate>
+                                    <FooterTemplate>
+                                        <asp:TextBox ID="txtFItem" runat="server" CssClass="form-control"></asp:TextBox>
+                                    </FooterTemplate>
+                                </asp:TemplateColumn>
                                 <asp:TemplateColumn HeaderText="Qty">
                                     <ItemTemplate>
                                         <%# DataBinder.Eval(Container.DataItem, "Qty")%>
                                     </ItemTemplate>
                                     <EditItemTemplate>
-                                        <asp:TextBox ID="txtQty" runat="server" CssClass="form-control" Text=' <%# DataBinder.Eval(Container.DataItem, "Qty")%>' Width="55%"></asp:TextBox>
+                                        <asp:TextBox ID="txtQty" runat="server" CssClass="form-control" Text=' <%# DataBinder.Eval(Container.DataItem, "Qty")%>'></asp:TextBox>
                                         <asp:FilteredTextBoxExtender runat="server" Enabled="True" TargetControlID="txtQty" ID="txtQty_FilteredTextBoxExtender" FilterType="Numbers"></asp:FilteredTextBoxExtender>
                                         <asp:RequiredFieldValidator ID="RfvQty" CssClass="validator" runat="server" ControlToValidate="txtQty" ErrorMessage="Qty Required" ValidationGroup="proedit"></asp:RequiredFieldValidator>
                                     </EditItemTemplate>
                                     <FooterTemplate>
-                                        <asp:TextBox ID="txtFQty" runat="server" CssClass="form-control" Width="55%"></asp:TextBox>
+                                        <asp:TextBox ID="txtFQty" runat="server" CssClass="form-control"></asp:TextBox>
                                         <asp:FilteredTextBoxExtender runat="server" Enabled="True" TargetControlID="txtFQty" ID="txtFQty_FilteredTextBoxExtender" FilterType="Numbers"></asp:FilteredTextBoxExtender>
                                         <asp:RequiredFieldValidator ID="RfvFQty" CssClass="validator" runat="server" ControlToValidate="txtFQty" ErrorMessage="Qty Required" ValidationGroup="proadd"></asp:RequiredFieldValidator>
                                     </FooterTemplate>
@@ -300,8 +296,8 @@
                         <asp:Button ID="btnDelete" runat="server" CssClass="btn btn-primary" Text="Delete" OnClick="btnDelete_Click" OnClientClick="javascript:return confirm('Are you sure you want to delete this entry?');" TabIndex="9" />
 
                         <%--<asp:Button ID="btnSearch" data-toggle="modal" runat="server" OnClientClick="#myModal" Text="Search" ></asp:Button>--%>
-                        <asp:Button ID="btnCancel" runat="server" CssClass="btn btn-primary" OnClick="btnCancel_Click" Text="New"  />
-                          <asp:Button ID="btnClosepage" runat="server" Text="Close" data-dismiss="modal" CssClass="btn btn-primary" PostBackUrl="../Default.aspx"></asp:Button>
+                        <asp:Button ID="btnCancel" runat="server" CssClass="btn btn-primary" OnClick="btnCancel_Click" Text="New" />
+                        <asp:Button ID="btnClosepage" runat="server" Text="Close" data-dismiss="modal" CssClass="btn btn-primary" PostBackUrl="../Default.aspx"></asp:Button>
 
                     </footer>
 
@@ -370,16 +366,16 @@
                             <Columns>
                                 <asp:BoundField DataField="RequestNo" HeaderText="Request No" SortExpression="RequestNo" />
                                 <asp:TemplateField HeaderText="Request Date">
-                                            <ItemTemplate>
-                                              <asp:Label ID="lblDate" runat="server" Text='<%# Eval("RequestedDate", "{0:dd/MM/yyyy}")%>' ></asp:Label>
-                                            </ItemTemplate>
-                                            </asp:TemplateField> 
-                                 <asp:TemplateField HeaderText="Required date of delivery">
-                                            <ItemTemplate>
-                                              <asp:Label ID="lblDate" runat="server" Text='<%# Eval("Requireddateofdelivery", "{0:dd/MM/yyyy}")%>' ></asp:Label>
-                                            </ItemTemplate>
-                                            </asp:TemplateField> 
-                                
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblDate" runat="server" Text='<%# Eval("RequestedDate", "{0:dd/MM/yyyy}")%>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Required date of delivery">
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblDate" runat="server" Text='<%# Eval("Requireddateofdelivery", "{0:dd/MM/yyyy}")%>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
                                 <asp:BoundField DataField="DeliverTo" HeaderText="Deliver To" SortExpression="DeliverTo" />
                                 <asp:BoundField DataField="SuggestedSupplier" HeaderText="Suggested Supplier" SortExpression="SuggestedSupplier" />
                                 <asp:BoundField DataField="TotalPrice" HeaderText="Total Price" SortExpression="TotalPrice" />

@@ -252,7 +252,6 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             lblSuggestedSupplierResult.Text = _presenter.CurrentPurchaseRequest.SuggestedSupplier.ToString();
             lblSpecialNeedResult.Text = _presenter.CurrentPurchaseRequest.SpecialNeed;
             lblDelivertoResult.Text = _presenter.CurrentPurchaseRequest.DeliverTo;
-            lblConditionsofOrderResult.Text = _presenter.CurrentPurchaseRequest.ConditionsofOrder;
             lblReqDateResult.Text = _presenter.CurrentPurchaseRequest.Requireddateofdelivery.ToShortDateString();
             grvDetails.DataSource = _presenter.CurrentPurchaseRequest.PurchaseRequestDetails;
             grvDetails.DataBind();
@@ -325,7 +324,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             {
                 if (GetWillStatus().Substring(0, 2) == s[i].Substring(0, 2))
                 {
-                    ddlApprovalStatus.Items.Add(new ListItem(s[i].Replace('_', ' '), s[i].Replace('_', ' ')));
+                    if (s[i] != ApprovalStatus.Rejected.ToString())
+                        ddlApprovalStatus.Items.Add(new ListItem(s[i].Replace('_', ' '), s[i].Replace('_', ' ')));
                 }
 
             }

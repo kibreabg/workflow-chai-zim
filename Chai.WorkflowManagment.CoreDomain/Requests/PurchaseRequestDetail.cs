@@ -11,6 +11,7 @@ namespace Chai.WorkflowManagment.CoreDomain.Requests
     public partial class PurchaseRequestDetail : IEntity
     {
         public int Id { get; set; }
+        public string Item { get; set; }
         public int Qty { get; set; }
         public decimal Priceperunit { get; set; }
         public decimal EstimatedCost { get; set; }

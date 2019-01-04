@@ -101,7 +101,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 txtdeliveryDate.Text = _presenter.CurrentPurchaseRequest.Requireddateofdelivery.ToShortDateString();
                 txtSuggestedSupplier.Text = _presenter.CurrentPurchaseRequest.SuggestedSupplier.ToString();
                 txtSpecialNeed.Text = _presenter.CurrentPurchaseRequest.SpecialNeed.ToString();
-                txtConditionofOrder.Text = _presenter.CurrentPurchaseRequest.ConditionsofOrder;
                 chkBudgeted.Checked = _presenter.CurrentPurchaseRequest.Budgeted;
                 txtTotal.Text = _presenter.CurrentPurchaseRequest.TotalPrice.ToString();
 
@@ -117,11 +116,9 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 _presenter.CurrentPurchaseRequest.RequestNo = AutoNumber();
                 _presenter.CurrentPurchaseRequest.DeliverTo = txtDeliverto.Text;
                 _presenter.CurrentPurchaseRequest.Comment = txtComment.Text;
-                _presenter.CurrentPurchaseRequest.SuggestedSupplier = txtSuggestedSupplier.Text;
-              
+                _presenter.CurrentPurchaseRequest.SuggestedSupplier = txtSuggestedSupplier.Text;              
                 _presenter.CurrentPurchaseRequest.SpecialNeed = txtSpecialNeed.Text;
                 _presenter.CurrentPurchaseRequest.Requireddateofdelivery = Convert.ToDateTime(txtdeliveryDate.Text);
-                _presenter.CurrentPurchaseRequest.ConditionsofOrder = txtConditionofOrder.Text;
                 _presenter.CurrentPurchaseRequest.Budgeted = chkBudgeted.Checked;
                 //Determine total cost
                 decimal cost = 0;
@@ -422,6 +419,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     Detail.ItemAccount = _presenter.GetItemAccount(int.Parse(ddlFAccount.SelectedValue));
                     TextBox txtFAccountCode = e.Item.FindControl("txtFAccountCode") as TextBox;
                     Detail.AccountCode = txtFAccountCode.Text;
+                    TextBox txtFItem = e.Item.FindControl("txtFItem") as TextBox;
+                    Detail.Item = txtFItem.Text;
                     TextBox txtFQty = e.Item.FindControl("txtFQty") as TextBox;
                     Detail.Qty = Convert.ToInt32(txtFQty.Text);
 
@@ -540,6 +539,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 Detail.ItemAccount = _presenter.GetItemAccount(int.Parse(ddlAccount.SelectedValue));
                 TextBox txtAccountCode = e.Item.FindControl("txtAccountCode") as TextBox;
                 Detail.AccountCode = txtAccountCode.Text;
+                TextBox txtItem = e.Item.FindControl("txtItem") as TextBox;
+                Detail.Item = txtItem.Text;
                 TextBox txtQty = e.Item.FindControl("txtQty") as TextBox;
                 Detail.Qty = Convert.ToInt32(txtQty.Text);
 
