@@ -137,7 +137,7 @@
                                                     <%# DataBinder.Eval(Container.DataItem, "Bidder.Supplier.SupplierName")%>
                                                 </ItemTemplate>
                                             </asp:TemplateColumn>
-                                              <asp:TemplateColumn HeaderText="Item">
+                                              <asp:TemplateColumn HeaderText="Account Code">
 
 
                                                 <ItemTemplate>
@@ -282,8 +282,8 @@
                                     <footer>
                                         <asp:Button ID="btnApprove" runat="server" Text="Save" OnClick="btnApprove_Click" Enabled="true" CssClass="btn btn-primary" ValidationGroup="Save"></asp:Button>
                                         <asp:Button ID="btnCancelPopup" runat="server" Text="Close" data-dismiss="modal" CssClass="btn btn-primary" OnClick="btnCancelPopup_Click"></asp:Button>
-                                        <asp:Button ID="btnPrint0" runat="server" Text="Print" CssClass="btn btn-primary" OnClientClick="javascript:Clickheretoprint('divprint')"></asp:Button>
-                                        <asp:Button ID="btnPurchaseOrder" runat="server" CssClass="btn btn-primary" Enabled="false" OnClick="btnPurchaseOrder_Click" Text="Purchase Order" />
+                                        <asp:Button ID="btnPrint0" runat="server" Text="Print" CssClass="btn btn-primary" OnClientClick="javascript:Clickheretoprint('divprint')" Enabled="False"></asp:Button>
+                                        <asp:Button ID="btnPurchaseOrder" runat="server" CssClass="btn btn-primary" Enabled="false" OnClick="btnPurchaseOrder_Click" Text="Purchase Order" Visible="False" />
                                     </footer>
                                 </div>
                             </div>
@@ -350,18 +350,7 @@
                     <td style="width: 389px"></td>
                     <td>&nbsp;</td>
                 </tr>
-                <tr>
-                    <td style="width: 848px; height: 18px;">
-                        <strong>
-                            <asp:Label ID="lblEmployeeNo" runat="server" Text="Employee No:"></asp:Label>
-                        </strong></td>
-                    <td style="width: 390px; height: 18px;">
-                        <asp:Label ID="lblEmpNoResult" runat="server"></asp:Label>
-                    </td>
-                    <td style="width: 389px; height: 18px;">&nbsp;</td>
-                    <td style="width: 389px; height: 18px;"></td>
-                    <td style="height: 18px">&nbsp;</td>
-                </tr>
+              
                  <tr>
                     <td style="width: 848px; height: 18px;">
                         <strong>
@@ -374,18 +363,7 @@
                     <td style="width: 389px; height: 18px;"></td>
                     <td style="height: 18px">&nbsp;</td>
                 </tr>
-                 <tr>
-                    <td style="width: 848px; height: 18px;">
-                        <strong>
-                            <asp:Label ID="lblApprovalStatusPrint" runat="server" Text="Approver:"></asp:Label>
-                        </strong></td>
-                    <td style="width: 390px; height: 18px;">
-                        <asp:Label ID="lblApprovalStatusResult" runat="server"></asp:Label>
-                    </td>
-                    <td style="width: 389px; height: 18px;">&nbsp;</td>
-                    <td style="width: 389px; height: 18px;"></td>
-                    <td style="height: 18px">&nbsp;</td>
-                </tr>
+              
                  <tr>
                     <td style="width: 848px; height: 18px;">
                         <strong>
@@ -424,7 +402,7 @@
                                             </ItemTemplate>
                                             </asp:TemplateField> 
                 
-                <asp:BoundField  HeaderText="Approver"  />
+              
                 <asp:BoundField DataField="AssignedBy" HeaderText="Assignee Approver" SortExpression="AssignedBy" />
                 <asp:BoundField HeaderText="Approval Status" DataField="ApprovalStatus"/>
             </Columns>

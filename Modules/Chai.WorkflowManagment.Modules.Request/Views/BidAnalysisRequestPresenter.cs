@@ -32,9 +32,9 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         public override void OnViewLoaded()
         {
-            if (View.GetBidAnalysisRequestId > 0)
+            if (View.GetBARequestId > 0)
             {
-                _controller.CurrentObject = _controller.GetBidAnalysisRequest(View.GetBidAnalysisRequestId);
+                _controller.CurrentObject = _controller.GetBidAnalysisRequest(View.GetBARequestId);
             }
             CurrentBidAnalysisRequest = _controller.CurrentObject as BidAnalysisRequest;
         }
@@ -159,7 +159,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 
 
             //  BidAnalysisRequest.Supplier.Id=View.GetSupplierId;
-            //  BidAnalysisRequest.ReasonforSelection = View.GetReasonforSelection;
+             BidAnalysisRequest.ReasonforSelection = View.GetReasonForSelection;
             //   BidAnalysisRequest.SelectedBy = View.GetSelectedBy;
 
             BidAnalysisRequest.ProgressStatus = ProgressStatus.InProgress.ToString();
