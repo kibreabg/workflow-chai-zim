@@ -440,6 +440,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 PopGrants(Convert.ToInt32(ddlProject.SelectedValue));
                 ddlGrant.SelectedValue = _presenter.CurrentBidAnalysisRequest.Grant.Id.ToString();
                 BindBidAnalysisRequests();
+                btnPrintworksheet.Enabled = true;
+                PrintTransaction();
             }
         }
         protected void dgBidders_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -646,6 +648,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                         Log.Info(_presenter.CurrentUser().FullName + " has requested a For a Sole Vendor");
                     //btnSave.Visible = false;
                     PrintTransaction();
+                    btnPrintworksheet.Enabled = true;
                     }
                     else
                     {
@@ -1070,7 +1073,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         private void PrintTransaction()
         {
             lblRequester.Text=_presenter.CurrentBidAnalysisRequest.AppUser.UserName.ToString();
-            lblRequestDate0.Text=_presenter.CurrentBidAnalysisRequest.RequestDate.ToString();
+            lblRequestDate0.Text=_presenter.CurrentBidAnalysisRequest.RequestDate.ToString(); 
             lblSpecialNeed.Text = _presenter.CurrentBidAnalysisRequest.SpecialNeed;
 
             lblTot.Text = _presenter.CurrentBidAnalysisRequest.TotalPrice.ToString();

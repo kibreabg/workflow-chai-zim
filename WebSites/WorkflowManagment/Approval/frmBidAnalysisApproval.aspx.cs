@@ -301,7 +301,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             if (_presenter.CurrentBidAnalysisRequest.CurrentLevel == _presenter.CurrentBidAnalysisRequest.BidAnalysisRequestStatuses.Count) 
             {
-                if (_presenter.GetUser(_presenter.CurrentBidAnalysisRequest.AppUser.Id).EmployeePosition.Id ==18)
+                if (_presenter.CurrentBidAnalysisRequest.ProgressStatus == ProgressStatus.Completed.ToString())
                 {
                     // btnPurchaseOrder.Enabled = true;
                     // SendEmailToRequester();

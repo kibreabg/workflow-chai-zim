@@ -356,7 +356,7 @@
                         &nbsp;<asp:Button ID="btnCancel" runat="server" CssClass="btn btn-primary" OnClick="btnCancel_Click" Text="Back" />
                      <%--<asp:Button ID="btnSearch" runat="server" CssClass="btn btn-primary" Text="Search" />--%>
                             <a data-toggle="modal" runat="server" id="searchLink" href="#searchModal" class="btn btn-primary"><i class="fa fa-circle-arrow-up fa-lg"></i>Search</a>
-                        <asp:Button ID="btnPrintworksheet" runat="server" CssClass="btn btn-primary" Text="Print WorkSheet" OnClientClick="javascript:Clickheretoprint('divprint')" />
+                        <asp:Button ID="btnPrintworksheet" runat="server" CssClass="btn btn-primary" Text="Print WorkSheet" OnClientClick="javascript:Clickheretoprint('divprint')" Enabled="False" />
                            <asp:HiddenField ID="hfDetailId" runat="server" />
                     </footer>
 
@@ -384,11 +384,11 @@
                       <tr> 
                     <td style="width: 629px; height: 18px; padding-left: 20%;">
                         <strong>
-                            <asp:Label ID="Label1" runat="server" Text="Request No.:"></asp:Label>
+                             <asp:Label ID="Label1" runat="server" Text="Total Price:"></asp:Label>
                         </strong>
                     </td>
                     <td style="width: 244px; height: 18px;">
-                        <asp:Label ID="lblrequestNo" runat="server" class="label"></asp:Label>
+                           <asp:Label ID="lblTot" runat="server" class="label" Text=""></asp:Label>
                     </td>
                     <td style="width: 389px;">&nbsp;</td>
                     <td style="width: 389px;">&nbsp;</td>
@@ -402,11 +402,22 @@
                     <td style="width: 244px; height: 18px;">
                         <asp:Label ID="lblRequester" runat="server" class="label"></asp:Label>
                     </td>
-                    <td align="right" style="width: 334px">&nbsp;</td>
-                    <td align="right" style="width: 335px">&nbsp;</td>
+                   <td style="width: 389px;">&nbsp;</td>
+                    <td style="width: 389px;">&nbsp;</td>
                     <td>&nbsp;</td>
                 </tr>
-              
+              <tr>
+                    <td style="width: 629px; height: 18px; padding-left: 20%;">
+                        <strong>
+                            <asp:Label ID="lblProposedSupplier" runat="server" Text="Reason For Selection:"></asp:Label>
+                        </strong>
+                    </td>
+                    <td style="width: 244px; height: 18px;">
+                         <asp:Label ID="lblReasonForSelection" runat="server" class="label" Text=""></asp:Label>
+                    </td>  
+                   <td style="width: 389px;">&nbsp;</td>
+                    <td style="width: 389px;">&nbsp;</td>
+                    <td>&nbsp;</td>
                 <tr>
                     <td style="width: 629px; height: 18px; padding-left: 20%;">
                         <strong>
@@ -415,44 +426,27 @@
                     <td style="width: 244px; height: 18px;">
                        <asp:Label ID="lblRequestDate0" runat="server" class="label" Text=""></asp:Label>
                     </td>
+                     <td style="width: 389px;">&nbsp;</td>
+                    <td style="width: 389px;">&nbsp;</td>
+                    <td>&nbsp;</td>
                    </tr>
                 <tr>
-                    <td style="width: 629px; height: 18px;">
-                        <strong>
-                            <asp:Label ID="lblContactPersonNumber" runat="server" Text="Approver:"></asp:Label>
-                        </strong>
-                    </td>
-                    <td style="width: 244px; height: 18px;">
-                        <asp:Label ID="lblApprovedBy" runat="server" Text="" class="label"></asp:Label>
-                    </td>
-                    <td style="width: 334px; height: 18px;">
+                    
+                    <td style="width: 629px; height: 18px; padding-left: 20%;">
                         <strong>
                             <asp:Label ID="lblProposedPurchasedprice" runat="server" Text="Special Need:"></asp:Label>
                         </strong></td>
-                    <td style="width: 335px; height: 18px;">
+                      <td style="width: 244px; height: 18px;">
                         <asp:Label ID="lblSpecialNeed" runat="server" Text="" class="label"></asp:Label>
                     </td>
-                    <td style="height: 18px">&nbsp;</td>
-                </tr>
-                <tr>
-                    <td style="width: 682px; height: 18px;">
-                        <strong>
-                            <asp:Label ID="lblProposedSupplier" runat="server" Text="Reason For Selection:"></asp:Label>
-                        </strong>
-                    </td>
-                    <td style="width: 244px; height: 18px;">
-                         <asp:Label ID="lblReasonForSelection" runat="server" class="label" Text=""></asp:Label>
-                    </td>                       
+                    <td style="width: 389px;">&nbsp;</td>
+                    <td style="width: 389px;">&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr></table>
+                                     
                            
-                      <td style="width: 682px; height: 18px;">
-                        <strong>
-                            <asp:Label ID="lblTotalpr" runat="server" Text="Total Price:"></asp:Label>
-                        </strong>
-                    </td>
-                    <td style="width: 244px; height: 18px;">
-                         <asp:Label ID="lblTot" runat="server" class="label" Text=""></asp:Label>
-                    </td>     
-                    </table>
+                      
+                    
             
             <asp:GridView ID="grvprtBidders"
                 runat="server" AutoGenerateColumns="False" DataKeyNames="Id"
@@ -497,6 +491,7 @@
                 <Columns>
                     <asp:BoundField DataField="ApprovalDate" HeaderText="Date" SortExpression="ApprovalDate" />
                     <asp:BoundField HeaderText="Approver" />
+                      <asp:BoundField HeaderText="Approval Status" DataField="ApprovalStatus"/>
                 </Columns>
                 <FooterStyle CssClass="FooterStyle" />
                 <HeaderStyle CssClass="headerstyle" />

@@ -153,7 +153,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             BidAnalysisRequest.PurchaseRequest = _controller.GetPurchaseRequest(View.GetPurchaseRequestId); 
             BidAnalysisRequest.RequestNo = View.GetRequestNo;
             BidAnalysisRequest.RequestDate = Convert.ToDateTime(DateTime.Today.ToShortDateString());
-            BidAnalysisRequest.AnalyzedDate = Convert.ToDateTime(View.GetAnalysedDate);
+            BidAnalysisRequest.AnalyzedDate = Convert.ToDateTime(View.GetAnalysedDate.ToShortDateString());
           //  BidAnalysisRequest.Neededfor = View.GetNeededFor;
             BidAnalysisRequest.SpecialNeed = View.GetSpecialNeed;
 
