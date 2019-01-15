@@ -15,6 +15,7 @@ using System.Reflection;
 using log4net.Config;
 using Chai.WorkflowManagment.CoreDomain.Requests;
 using System.Data.Entity.Validation;
+using System.IO;
 
 namespace Chai.WorkflowManagment.Modules.Approval.Views
 {
@@ -22,6 +23,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
     {
         private SoleVendorApprovalPresenter _presenter;
         private static readonly ILog Log = LogManager.GetLogger("AuditTrailLog");
+        private int reqID = 0;
         private SoleVendorRequest _solevendorrequest;
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -163,13 +165,13 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 if (_presenter.CurrentSoleVendorRequest.CurrentLevel == _presenter.CurrentSoleVendorRequest.SoleVendorRequestStatuses.Count && SVRS.ApprovalStatus != null)
                 {
                     btnPrint.Enabled = true;
-                    btnPurchaseOrder.Enabled = true;
+                    //btnPurchaseOrder.Enabled = true;
                     btnApprove.Enabled = false;
                 }
                 else
                 {
                     btnPrint.Enabled = false;
-                    btnPurchaseOrder.Enabled = false;
+                    //btnPurchaseOrder.Enabled = false;
                     btnApprove.Enabled = true;
                 }
 
@@ -180,7 +182,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             if (_presenter.CurrentSoleVendorRequest.CurrentLevel == _presenter.CurrentSoleVendorRequest.SoleVendorRequestStatuses.Count && _presenter.CurrentSoleVendorRequest.ProgressStatus == ProgressStatus.Completed.ToString())
             {
                 btnPrint.Enabled = true;
-                btnPurchaseOrder.Enabled = true;
+                //btnPurchaseOrder.Enabled = true;
                 SendEmailToRequester();
 
             }
@@ -269,15 +271,6 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             }
 
         }
-        private void EnableControls()
-        {
-            if (_presenter.CurrentSoleVendorRequest.CurrentLevel == _presenter.CurrentSoleVendorRequest.SoleVendorRequestStatuses.Count)
-            {
-                btnPurchaseOrder.Enabled = true;
-                // SendEmailToRequester();
-                btnPrint.Enabled = true;
-            }
-        }
         protected void btnApprove_Click(object sender, EventArgs e)
         {
             try
@@ -286,10 +279,9 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 if (_presenter.CurrentSoleVendorRequest.ProgressStatus != ProgressStatus.Completed.ToString())
                 {
                     SaveSoleVendorRequestStatus();
-                    Session["PurchaseId"] = _presenter.CurrentSoleVendorRequest.Id;
+                    Session["PurchaseId"] = _presenter.CurrentSoleVendorRequest.PurchaseRequest.Id;
                     _presenter.SaveOrUpdateSoleVendorRequest(_presenter.CurrentSoleVendorRequest);
                     ShowPrint();
-                    EnableControls();
                     if (ddlApprovalStatus.SelectedValue != "Rejected")
                     {
                         Master.ShowMessage(new AppMessage("Sole Vendor Approval Processed ", Chai.WorkflowManagment.Enums.RMessageType.Info));
@@ -328,6 +320,14 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             }
 
         }
+        protected void DownloadFile(object sender, EventArgs e)
+        {
+            string filePath = (sender as LinkButton).CommandArgument;
+            Response.ContentType = ContentType;
+            Response.AppendHeader("Content-Disposition", "attachment; filename=" + Path.GetFileName(filePath));
+            Response.WriteFile(filePath);
+            Response.End();
+        }
         private void BindSearchSoleVendorRequestGrid()
         {
             grvSoleVendorRequestList.DataSource = _presenter.ListSoleVendorRequests(txtRequestNosearch.Text, txtRequestDatesearch.Text, ddlProgressStatus.SelectedValue);
@@ -339,12 +339,13 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             _presenter.OnViewLoaded();
             PopApprovalStatus();
             BindSoleVendorRequestStatus();
+            grvAttachments.DataSource = _presenter.CurrentSoleVendorRequest.SVRAttachments;
+            grvAttachments.DataBind();
             txtRejectedReason.Visible = false;
             rfvRejectedReason.Enabled = false;
             pnlApproval_ModalPopupExtender.Show();
 
         }
-
         protected void grvSoleVendorRequestList_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
 
@@ -387,7 +388,6 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             BindSearchSoleVendorRequestGrid();
             // pnlPopUpSearch_ModalPopupExtender.Show();
         }
-
         protected void Button1_Click(object sender, EventArgs e)
         {
             Response.Redirect("../Default.aspx");
@@ -406,6 +406,13 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 rfvRejectedReason.Enabled = true;
             }
             pnlApproval_ModalPopupExtender.Show();
+        }
+        protected void ddlEdtAccountDescription_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            DropDownList ddl = (DropDownList)sender;
+            TextBox txtAccountCode = ddl.FindControl("txtEdtAccountCode") as TextBox;
+            txtAccountCode.Text = _presenter.GetItemAccount(Convert.ToInt32(ddl.SelectedValue)).AccountCode;
+            pnlDetail_ModalPopupExtender.Show();
         }
         private void BindSoleVendorRequestforprint()
         {
@@ -436,10 +443,30 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 }
             }
         }
-        protected void btnPurchaseOrder_Click(object sender, EventArgs e)
+        protected void btnCancelPopup2_Click(object sender, EventArgs e)
         {
-            int purchaseID = _presenter.CurrentSoleVendorRequest.PurchaseRequest.Id;
-            Response.Redirect(String.Format("frmPurchaseOrderSoleVendor.aspx?SoleVendorRequestId={0}", purchaseID));
+            pnlDetail.Visible = false;
+        }
+        //protected void btnPurchaseOrder_Click(object sender, EventArgs e)
+        //{
+        //    int purchaseID = _presenter.CurrentSoleVendorRequest.PurchaseRequest.Id;
+        //    Response.Redirect(String.Format("frmPurchaseOrderSoleVendor.aspx?SoleVendorRequestId={0}", purchaseID));
+        //}
+
+        protected void grvSoleVendorRequestList_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName != "Page")
+            {
+                reqID = (int)grvSoleVendorRequestList.DataKeys[Convert.ToInt32(e.CommandArgument)].Value;
+                Session["ReqID"] = reqID;
+                _presenter.CurrentSoleVendorRequest = _presenter.GetSoleVendorRequestById(reqID);
+                if (e.CommandName == "ViewItem")
+                {
+                    dgSoleVendorRequestDetail.DataSource = _presenter.CurrentSoleVendorRequest.SoleVendorRequestDetails;
+                    dgSoleVendorRequestDetail.DataBind();
+                    pnlDetail_ModalPopupExtender.Show();
+                }
+            }
         }
     }
 }

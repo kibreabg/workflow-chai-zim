@@ -13,21 +13,21 @@
             });
         }
     </script>
-     <script type="text/javascript" language="javascript">
-         function Clickheretoprint(theid) {
-             var disp_setting = "toolbar=yes,location=no,directories=yes,menubar=yes,";
-             disp_setting += "scrollbars=yes,width=750, height=600, left=100, top=25";
-             var content_vlue = document.getElementById(theid).innerHTML;
+    <script type="text/javascript">
+        function Clickheretoprint(theid) {
+            var disp_setting = "toolbar=yes,location=no,directories=yes,menubar=yes,";
+            disp_setting += "scrollbars=yes,width=750, height=600, left=100, top=25";
+            var content_vlue = document.getElementById(theid).innerHTML;
 
-             var docprint = window.open("", "", disp_setting);
-             docprint.document.open();
-             docprint.document.write('<html><head><title>CHAI Zimbabwe</title>');
-             docprint.document.write('</head><body onLoad="self.print()"><center>');
-             docprint.document.write(content_vlue);
-             docprint.document.write('</center></body></html>');
-             docprint.document.close();
-             docprint.focus();
-         }
+            var docprint = window.open("", "", disp_setting);
+            docprint.document.open();
+            docprint.document.write('<html><head><title>CHAI Zimbabwe</title>');
+            docprint.document.write('</head><body onLoad="self.print()"><center>');
+            docprint.document.write(content_vlue);
+            docprint.document.write('</center></body></html>');
+            docprint.document.close();
+            docprint.focus();
+        }
     </script>
     <div class="jarviswidget jarviswidget-sortable">
         <header role="heading">
@@ -183,11 +183,12 @@
                                     </ul>
                                     <div class="tab-content padding-10">
                                         <div class="tab-pane active" id="iss1">
-                                            <asp:DataGrid ID="dgItemDetail" runat="server" AlternatingRowStyle-CssClass="" AutoGenerateColumns="False" CellPadding="0"
+                                            <asp:DataGrid ID="dgSoleVenderDetail" runat="server" AlternatingRowStyle-CssClass="" AutoGenerateColumns="False" CellPadding="0"
                                                 CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" DataKeyField="Id"
-                                                GridLines="None" OnItemDataBound="dgItemDetail_ItemDataBound" ShowFooter="True" OnDeleteCommand="dgItemDetail_DeleteCommand" OnItemCommand="dgItemDetail_ItemCommand" OnPageIndexChanged="dgItemDetail_PageIndexChanged" OnSelectedIndexChanged="dgItemDetail_SelectedIndexChanged" OnUpdateCommand="dgItemDetail_UpdateCommand">
+                                                GridLines="None" OnItemDataBound="dgSoleVenderDetail_ItemDataBound" ShowFooter="True" OnDeleteCommand="dgSoleVenderDetail_DeleteCommand"
+                                                OnItemCommand="dgSoleVenderDetail_ItemCommand" OnPageIndexChanged="dgSoleVenderDetail_PageIndexChanged" OnSelectedIndexChanged="dgSoleVenderDetail_SelectedIndexChanged" OnUpdateCommand="dgSoleVenderDetail_UpdateCommand" OnEditCommand="dgSoleVenderDetail_EditCommand">
                                                 <Columns>
-                                                    <asp:TemplateColumn HeaderText="Requested Items">
+                                                    <asp:TemplateColumn HeaderText="Account Code">
                                                         <EditItemTemplate>
                                                             <asp:DropDownList ID="ddlItemAcc" runat="server" CssClass="form-control"
                                                                 AppendDataBoundItems="True" DataTextField="AccountName" DataValueField="Id"
@@ -232,7 +233,7 @@
                                                             <asp:HiddenField ID="hfqty" runat="server" Value='<%# DataBinder.Eval(Container.DataItem, "Qty")%>'></asp:HiddenField>
                                                         </ItemTemplate>
                                                         <EditItemTemplate>
-                                                            <asp:TextBox ID="txtEdtQty" Enabled="false" runat="server" CssClass="form-control" Text='<%# DataBinder.Eval(Container.DataItem, "Quantity")%>'></asp:TextBox>
+                                                            <asp:TextBox ID="txtEdtQty" runat="server" CssClass="form-control" Text='<%# DataBinder.Eval(Container.DataItem, "Qty")%>'></asp:TextBox>
                                                         </EditItemTemplate>
                                                         <FooterTemplate>
                                                             <asp:TextBox ID="txtQty" runat="server" Enabled="true" CssClass="form-control"></asp:TextBox>
@@ -244,7 +245,7 @@
                                                             <%# DataBinder.Eval(Container.DataItem, "UnitCost")%>
                                                         </ItemTemplate>
                                                         <EditItemTemplate>
-                                                            <asp:TextBox ID="txtEdtUnitCost" runat="server" CssClass="form-control" AutoPostBack="true" Text='<%# DataBinder.Eval(Container.DataItem, "UnitPrice")%>' OnTextChanged="txtEdtUnitCost_TextChanged"></asp:TextBox>
+                                                            <asp:TextBox ID="txtEdtUnitCost" runat="server" CssClass="form-control" AutoPostBack="true" Text='<%# DataBinder.Eval(Container.DataItem, "UnitCost")%>' OnTextChanged="txtEdtUnitCost_TextChanged"></asp:TextBox>
                                                         </EditItemTemplate>
                                                         <FooterTemplate>
                                                             <asp:TextBox ID="txtUnitCost" runat="server" CssClass="form-control" AutoPostBack="true" OnTextChanged="txtUnitCost_TextChanged"></asp:TextBox>
@@ -255,7 +256,7 @@
                                                             <%# DataBinder.Eval(Container.DataItem, "TotalCost")%>
                                                         </ItemTemplate>
                                                         <EditItemTemplate>
-                                                            <asp:TextBox ID="txtEdtTotalCost" runat="server" Enabled="false" CssClass="form-control" Text='<%# DataBinder.Eval(Container.DataItem, "TotalPrice")%>'></asp:TextBox>
+                                                            <asp:TextBox ID="txtEdtTotalCost" runat="server" Enabled="false" CssClass="form-control" Text='<%# DataBinder.Eval(Container.DataItem, "TotalCost")%>'></asp:TextBox>
                                                         </EditItemTemplate>
                                                         <FooterTemplate>
                                                             <asp:TextBox ID="txtTotalCost" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
@@ -328,7 +329,7 @@
                             ConfirmText="Are you sure you want to delete this record?" Enabled="True" TargetControlID="btnDelete">
                         </cc1:ConfirmButtonExtender>
                         <asp:Button ID="btnPrint" runat="server" Text="Print" CssClass="btn btn-primary" OnClientClick="javascript:Clickheretoprint('divprint')" Enabled="False"></asp:Button>
-                                        
+
                         <asp:Button ID="btnCancel" runat="server" CssClass="btn btn-primary" OnClick="btnCancel_Click" Text="New" />
                         <asp:Button ID="btnClosepage" runat="server" Text="Close" data-dismiss="modal" CssClass="btn btn-primary" PostBackUrl="../Default.aspx"></asp:Button>
                     </footer>
@@ -382,6 +383,29 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <div class="well well-sm well-primary">
+                                    <asp:GridView ID="grvSoleVendorRequestList"
+                                        runat="server" AutoGenerateColumns="False" DataKeyNames="Id"
+                                        OnSelectedIndexChanged="grvSoleVendorRequestList_SelectedIndexChanged"
+                                        AllowPaging="True" OnPageIndexChanging="grvSoleVendorRequestList_PageIndexChanging"
+                                        CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" PageSize="5" OnRowDataBound="grvSoleVendorRequestList_RowDataBound">
+                                        <RowStyle CssClass="rowstyle" />
+                                        <Columns>
+                                            <asp:BoundField DataField="RequestNo" HeaderText="Request No" SortExpression="RequestNo" />
+                                            <asp:TemplateField HeaderText="Request Date">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblDate" runat="server" Text='<%# Eval("RequestDate", "{0:dd/MM/yyyy}")%>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:BoundField DataField="Supplier.SupplierName" HeaderText="Supplier" SortExpression="SupplierName" />
+                                            <asp:BoundField DataField="ProposedPurchasedPrice" HeaderText="Proposed Purchased Price" SortExpression="ProposedPurchasedPrice" />
+                                            <asp:BoundField DataField="CurrentStatus" HeaderText="Status" SortExpression="CurrentStatus" />
+                                            <asp:CommandField ShowSelectButton="True" />
+                                        </Columns>
+                                        <FooterStyle CssClass="FooterStyle" />
+                                        <HeaderStyle CssClass="headerstyle" />
+                                        <PagerStyle CssClass="PagerStyle" />
+                                        <RowStyle CssClass="rowstyle" />
+                                    </asp:GridView>
                                 </div>
                             </div>
                         </div>

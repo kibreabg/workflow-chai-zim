@@ -85,7 +85,6 @@
                 </asp:TemplateField>
               
                 <asp:BoundField DataField="SuggestedSupplier" HeaderText="Suggested Supplier" SortExpression="PurposeOfTravel" />
-                <asp:BoundField DataField="ConditionsofOrder" HeaderText="Item" SortExpression="ConditionsofOrder" />
                 <asp:BoundField DataField="TotalPrice" HeaderText="Total Price" SortExpression="TotalPurchase" />
 
                 <asp:ButtonField ButtonType="Button" CommandName="ViewItem" Text="View Item Detail" />
@@ -147,6 +146,7 @@
                                         <div class="row">
                                             <section class="col col-6">
                                                 <asp:LinkButton runat="server" ID="lnkBidRequest" Visible="false" Text="Prepare Bid Analysis" OnClick="lnkBidRequest_Click" CssClass="btn btn-primary"></asp:LinkButton><br />
+                                                <br />
                                                 <asp:LinkButton runat="server" ID="lnkSoleVendor" Visible="false" Text="Prepare Sole Vendor Verification" OnClick="lnkSoleVendor_Click" CssClass="btn btn-primary"></asp:LinkButton>
                                             </section>
                                         </div>
@@ -184,6 +184,7 @@
                                 CssClass="table table-striped table-bordered table-hover">
                                 <RowStyle CssClass="rowstyle" />
                                 <Columns>
+                                    <asp:BoundField DataField="Item" HeaderText="Item" SortExpression="Item" />
                                     <asp:BoundField DataField="Priceperunit" HeaderText="Price Per Unit" SortExpression="Priceperunit" />
                                     <asp:BoundField DataField="Qty" HeaderText="Qty" SortExpression="Qty" />
                                     <asp:BoundField DataField="EstimatedCost" HeaderText="Estimated Cost" SortExpression="EstimatedCost" />
@@ -305,10 +306,10 @@
             <tr>
                 <td style="width: 576px; height: 18px; padding-left: 15%;">
                     <strong>
-                        <asp:Label ID="lblConditionsofOrder" runat="server" Text="Conditions Of Order:"></asp:Label>
+                        <asp:Label ID="lblItem" runat="server" Text="Conditions Of Order:"></asp:Label>
                     </strong></td>
                 <td style="width: 490px" class="modal-sm">
-                    <asp:Label ID="lblConditionsofOrderResult" runat="server"></asp:Label>
+                    <asp:Label ID="lblItemResult" runat="server"></asp:Label>
                 </td>
 
 
