@@ -196,14 +196,21 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 {
                     ddlApprovalStatus.SelectedValue = PRS.ApprovalStatus;
                     txtRejectedReason.Text = PRS.RejectedReason;
-                    btnApprove.Enabled = true;
-
+                    if (_presenter.CurrentBidAnalysisRequest.ProgressStatus == ProgressStatus.Completed.ToString())
+                    {
+                        btnApprove.Enabled = false;
+                      //  btnPrint0.Enabled = true;
+                    }
+                    else
+                    {
+                        btnApprove.Enabled = true;
+                    }
 
                 }
-                if (_presenter.CurrentBidAnalysisRequest.CurrentLevel == _presenter.CurrentBidAnalysisRequest.BidAnalysisRequestStatuses.Count && (PRS.ApprovalStatus != null) && _presenter.CurrentBidAnalysisRequest.ProgressStatus == ProgressStatus.Completed.ToString())
-                {
-                    btnPurchaseOrder.Enabled = true;
-                }
+                //if (_presenter.CurrentBidAnalysisRequest.CurrentLevel == _presenter.CurrentBidAnalysisRequest.BidAnalysisRequestStatuses.Count && (PRS.ApprovalStatus != null) && _presenter.CurrentBidAnalysisRequest.ProgressStatus == ProgressStatus.Completed.ToString())
+                //{
+                //    btnPurchaseOrder.Enabled = true;
+                //}
             }
         }
         private void ShowPrint()
@@ -292,11 +299,18 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
 
         private void EnableControls()
         {
-            if (_presenter.CurrentBidAnalysisRequest.CurrentLevel == _presenter.CurrentBidAnalysisRequest.BidAnalysisRequestStatuses.Count)
+            if (_presenter.CurrentBidAnalysisRequest.CurrentLevel == _presenter.CurrentBidAnalysisRequest.BidAnalysisRequestStatuses.Count) 
             {
-                btnPurchaseOrder.Enabled = true;
-                // SendEmailToRequester();
-                btnPrint0.Enabled = true;
+                if (_presenter.CurrentBidAnalysisRequest.ProgressStatus == ProgressStatus.Completed.ToString())
+                {
+                    // btnPurchaseOrder.Enabled = true;
+                    // SendEmailToRequester();
+                    btnPrint0.Enabled = true;
+                }
+                else
+                {
+                    btnPrint0.Enabled = false;
+                }
             }
         }
 
@@ -309,11 +323,11 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 lblRequestedDateResult.Text = _presenter.CurrentBidAnalysisRequest.RequestDate.ToString();
                 lblRequesterResult.Text = _presenter.GetUser(_presenter.CurrentBidAnalysisRequest.AppUser.Id).FullName; 
                 lblTotalPriceResult.Text = _presenter.CurrentBidAnalysisRequest.TotalPrice.ToString();
-                lblEmpNoResult.Text = _presenter.GetUser(_presenter.CurrentBidAnalysisRequest.AppUser.Id).EmployeeNo;
+              
                 lblCommentResult.Text = _presenter.CurrentBidAnalysisRequest.ReasonforSelection;
                 lblRequireddateofdeliveryResult.Text = _presenter.CurrentBidAnalysisRequest.SpecialNeed;
 
-                lblApprovalStatusResult.Text = _presenter.CurrentBidAnalysisRequest.CurrentStatus;
+              //  lblApprovalStatusResult.Text = _presenter.CurrentBidAnalysisRequest.CurrentStatus;
                 
 
 
@@ -331,7 +345,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     SavePurchaseRequestStatus();
                     Session["PurchaseId"] = _presenter.CurrentBidAnalysisRequest.PurchaseRequest.Id;
                     _presenter.SaveOrUpdateBidAnalysisRequest(_presenter.CurrentBidAnalysisRequest);
-                    ShowPrint();
+                   //ShowPrint();
                     EnableControls();
                     if (ddlApprovalStatus.SelectedValue != "Rejected")
                     {
@@ -347,7 +361,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 }
 
                 BindBidAnalysisRequestforprint();
-                   }
+                btnApprove.Enabled = false;
+            }
                 catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)  
                          {  
                      Exception raise = dbEx;  
@@ -572,7 +587,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 lblRequestedDateResult.Text = _presenter.CurrentBidAnalysisRequest.RequestDate.ToString();
                 lblRequesterResult.Text = _presenter.GetUser(_presenter.CurrentBidAnalysisRequest.AppUser.Id).FullName;
                 lblCommentResult.Text = _presenter.CurrentBidAnalysisRequest.SelectedBy.ToString();
-                lblApprovalStatusResult.Text = _presenter.CurrentBidAnalysisRequest.ProgressStatus.ToString();
+              //  lblApprovalStatusResult.Text = _presenter.CurrentBidAnalysisRequest.ProgressStatus.ToString();
                 lblRequireddateofdeliveryResult.Text = _presenter.CurrentBidAnalysisRequest.SpecialNeed;
                 lblTotalPriceResult.Text = _presenter.CurrentBidAnalysisRequest.TotalPrice.ToString();
 

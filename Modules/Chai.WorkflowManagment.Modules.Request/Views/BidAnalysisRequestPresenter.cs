@@ -32,9 +32,9 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         public override void OnViewLoaded()
         {
-            if (View.GetBidAnalysisRequestId > 0)
+            if (View.GetBARequestId > 0)
             {
-                _controller.CurrentObject = _controller.GetBidAnalysisRequest(View.GetBidAnalysisRequestId);
+                _controller.CurrentObject = _controller.GetBidAnalysisRequest(View.GetBARequestId);
             }
             CurrentBidAnalysisRequest = _controller.CurrentObject as BidAnalysisRequest;
         }
@@ -153,13 +153,13 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             BidAnalysisRequest.PurchaseRequest = _controller.GetPurchaseRequest(View.GetPurchaseRequestId); 
             BidAnalysisRequest.RequestNo = View.GetRequestNo;
             BidAnalysisRequest.RequestDate = Convert.ToDateTime(DateTime.Today.ToShortDateString());
-            BidAnalysisRequest.AnalyzedDate = Convert.ToDateTime(View.GetAnalysedDate);
+            BidAnalysisRequest.AnalyzedDate = Convert.ToDateTime(View.GetAnalysedDate.ToShortDateString());
           //  BidAnalysisRequest.Neededfor = View.GetNeededFor;
             BidAnalysisRequest.SpecialNeed = View.GetSpecialNeed;
 
 
             //  BidAnalysisRequest.Supplier.Id=View.GetSupplierId;
-            //  BidAnalysisRequest.ReasonforSelection = View.GetReasonforSelection;
+             BidAnalysisRequest.ReasonforSelection = View.GetReasonForSelection;
             //   BidAnalysisRequest.SelectedBy = View.GetSelectedBy;
 
             BidAnalysisRequest.ProgressStatus = ProgressStatus.InProgress.ToString();

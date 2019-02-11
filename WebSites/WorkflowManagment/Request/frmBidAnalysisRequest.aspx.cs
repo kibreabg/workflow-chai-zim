@@ -25,6 +25,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         private IList<BidAnalysisRequest> _BidAnalysisRequests;
         private static readonly ILog Log = LogManager.GetLogger("AuditTrailLog");
         Bidder bidd;
+        BidAnalysisRequest bid;
         private decimal totalamaount = 0;
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -33,11 +34,14 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 this._presenter.OnViewInitialized();
                 XmlConfigurator.Configure();
                 CheckApprovalSettings();
+                PopProjects();
+                BindBidAnalysisRequests();
+                BindBidAnalysisRequestsList();
                 //Fill the Bid Analysis Request with the Purchase Request information
                 PurchaseRequest purchaseRequest = _presenter.GetPurchaseRequest(GetPurchaseRequestId);
                 _presenter.CurrentBidAnalysisRequest.PurchaseRequest = purchaseRequest;
-                PopProjects();
-                BindBidAnalysisRequests();
+               
+                
                 PopBidAnalysisRequesters();
 
 
@@ -50,6 +54,14 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             }
             txtRequestDate.Text = DateTime.Today.Date.ToShortDateString();
             this._presenter.OnViewLoaded();
+            if (_presenter.CurrentBidAnalysisRequest != null)
+            {
+                if (_presenter.CurrentBidAnalysisRequest.Id != 0)
+                {
+                    PrintTransaction();
+                    btnPrintworksheet.Enabled = true;
+                }
+            }
 
         }
         [CreateNew]
@@ -98,6 +110,20 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 return 0;
             }
         }
+        public int GetBARequestId
+        {
+            get
+            {
+                if (grvBidAnalysisRequestList.SelectedDataKey != null)
+                {
+                    return Convert.ToInt32(grvBidAnalysisRequestList.SelectedDataKey.Value);
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        }
         public string GetRequestNo
         {
             get { return AutoNumber(); }
@@ -141,7 +167,16 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 _BidAnalysisRequests = value;
             }
         }
+
+        public string GetReasonForSelection
+        {
+            get
+            {
+                return txtselectionfor.Text;
+            }
+        }
         #endregion
+
         private void BindBidAnalysisRequests()
         {
             dgBidders.DataSource = _presenter.CurrentBidAnalysisRequest.Bidders;
@@ -152,6 +187,24 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         #region Bidders
         protected void btnCancedetail_Click(object sender, EventArgs e)
         {
+            decimal cost = 0;
+            if (_presenter.CurrentBidAnalysisRequest.Bidders.Count > 0)
+            {
+
+                foreach (Bidder detail in _presenter.CurrentBidAnalysisRequest.Bidders)
+                {
+                    if (detail.Rank == 1)
+                    {
+                        foreach (BidderItemDetail biddetail in detail.BidderItemDetails)
+                        {
+
+                            cost = cost + biddetail.TotalCost;
+                        }
+                    };
+                }
+            }
+            _presenter.CurrentBidAnalysisRequest.TotalPrice = cost;
+            txtTotal.Text = _presenter.CurrentBidAnalysisRequest.TotalPrice.ToString();
             PnlShowBidder.Visible = false;
         }
         private void BindSupplier(DropDownList ddlSupplier, int SupplierTypeId)
@@ -293,7 +346,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         protected void btnFind_Click(object sender, EventArgs e)
         {
-            BindBidAnalysisRequests();
+            BindBidAnalysisRequestsList();
             //pnlSearch_ModalPopupExtender.Show();
             ScriptManager.RegisterStartupScript(this, GetType(), "showSearch", "showSearch();", true);
         }
@@ -351,6 +404,12 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                  }
              }*/
         #endregion
+        private void BindBidAnalysisRequestsList()
+        {
+            grvBidAnalysisRequestList.DataSource = _presenter.ListBidAnalysisRequests(txtSrchRequestNo.Text, txtSrchRequestDate.Text);
+            grvBidAnalysisRequestList.DataBind();
+        }
+
         private string AutoNumber()
         {
             return "BAR-" + (_presenter.GetLastBidAnalysisRequestId() + 1).ToString();
@@ -368,8 +427,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             _presenter.OnViewLoaded();
             if (_presenter.CurrentBidAnalysisRequest != null)
             {
-
-                txtRequestDate.Text = _presenter.CurrentBidAnalysisRequest.RequestDate.Value.ToShortDateString();
+                txtRequester.Text = _presenter.CurrentBidAnalysisRequest.AppUser.UserName.ToString(); 
+               // txtRequestDate.Text = _presenter.CurrentBidAnalysisRequest.RequestDate.Value.ToShortDateString();
                 txtAnalyzedDate.Text = _presenter.CurrentBidAnalysisRequest.AnalyzedDate.ToShortDateString();
               //  txtselectionfor.Text = _presenter.CurrentBidAnalysisRequest.Neededfor;
                 txtSpecialNeed.Text = _presenter.CurrentBidAnalysisRequest.SpecialNeed;
@@ -381,6 +440,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 PopGrants(Convert.ToInt32(ddlProject.SelectedValue));
                 ddlGrant.SelectedValue = _presenter.CurrentBidAnalysisRequest.Grant.Id.ToString();
                 BindBidAnalysisRequests();
+                btnPrintworksheet.Enabled = true;
+                PrintTransaction();
             }
         }
         protected void dgBidders_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -470,8 +531,10 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 
 
                     _presenter.CurrentBidAnalysisRequest.Bidders.Add(bidder);
+                    
                     dgBidders.EditItemIndex = -1;
                     BindBidder();
+                  
                 }
                 catch (Exception ex)
                 {
@@ -556,6 +619,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             }
         }
 
+       
 
 
 
@@ -582,7 +646,9 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                         
                         Master.ShowMessage(new AppMessage("Successfully did a Bid Analysis  Request, Reference No - <b>'" + _presenter.CurrentBidAnalysisRequest.RequestNo + "'</b>", Chai.WorkflowManagment.Enums.RMessageType.Info));
                         Log.Info(_presenter.CurrentUser().FullName + " has requested a For a Sole Vendor");
-                        //btnSave.Visible = false;
+                    //btnSave.Visible = false;
+                    PrintTransaction();
+                    btnPrintworksheet.Enabled = true;
                     }
                     else
                     {
@@ -628,7 +694,30 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 
 
 
+        private void BindBidRequestforprint()
+        {
 
+             /*
+            lblrequestNo.Text = _presenter.CurrentBidAnalysisRequest.RequestNo;
+           
+              lblRequester.Text = _presenter.GetUser(_presenter.CurrentBidAnalysisRequest.AppUser.Id).FullName;
+              lblRequestDate0.Text = _presenter.CurrentBidAnalysisRequest.RequestDate.ToString();
+              // lblApprovedBy.Text = _presenter.CurrentBidAnalysisRequest..ContactPersonNumber;
+              lblSpecialNeed.Text = _presenter.CurrentBidAnalysisRequest.SpecialNeed;
+
+              lblEstimatedTotalCost.Text = _presenter.CurrentBidAnalysisRequest.TotalPrice;
+              lblselectedSupplier.Text = _presenter.CurrentBidAnalysisRequest.Supplier;
+              lblReasonforsel.Text = _presenter.CurrentBidAnalysisRequest.ReasonforSelection;
+              lblSelectedBy.Text = _presenter.CurrentBidAnalysisRequest.SelectedBy;
+
+              */
+
+
+
+        }
+
+
+       
 
         #endregion
         protected void dgBidders_SelectedIndexChanged1(object sender, EventArgs e)
@@ -698,8 +787,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             ddlGrant.DataBind();
             ddlGrant.SelectedValue = _presenter.CurrentBidAnalysisRequest.PurchaseRequest.PurchaseRequestDetails[0].Grant.Id.ToString();
            
-            GridView1.DataSource = _presenter.CurrentBidAnalysisRequest.PurchaseRequest.PurchaseRequestDetails;
-            GridView1.DataBind();
+        //    GridView1.DataSource = _presenter.CurrentBidAnalysisRequest.PurchaseRequest.PurchaseRequestDetails;
+          //  GridView1.DataBind();
             }
         
         }
@@ -874,7 +963,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 
                    
                     BindItemdetailGrid(biditemdet.Bidder);
-
+                
                     // PnlShowBidder_ModalPopupExtender.Show();
                 }
                 catch (Exception ex)
@@ -959,5 +1048,68 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 
             }
         }
-}
+
+        protected void grvBidAnlysisRequestList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
+            //ClearForm();
+            BindBidAnalysisRequestFields();
+            grvAttachments.DataSource = _presenter.CurrentBidAnalysisRequest.BAAttachments;
+            grvAttachments.DataBind();
+           
+            if (_presenter.CurrentBidAnalysisRequest.CurrentStatus != null)
+            {
+                btnRequest.Visible = false;
+               
+            }
+            else
+            {
+                btnRequest.Visible = true;
+                
+            }
+        }
+
+
+        private void PrintTransaction()
+        {
+            lblRequester.Text=_presenter.CurrentBidAnalysisRequest.AppUser.UserName.ToString();
+            lblRequestDate0.Text=_presenter.CurrentBidAnalysisRequest.RequestDate.ToString(); 
+            lblSpecialNeed.Text = _presenter.CurrentBidAnalysisRequest.SpecialNeed;
+
+            lblTot.Text = _presenter.CurrentBidAnalysisRequest.TotalPrice.ToString();
+          
+            txtselectionfor.Text = _presenter.CurrentBidAnalysisRequest.ReasonforSelection;
+            lblReasonForSelection.Text = _presenter.CurrentBidAnalysisRequest.ReasonforSelection;
+
+            grvprtBidders.DataSource = _presenter.CurrentBidAnalysisRequest.Bidders;
+            grvprtBidders.DataBind();
+
+            grvStatuses.DataSource = _presenter.CurrentBidAnalysisRequest.BidAnalysisRequestStatuses;
+            grvStatuses.DataBind();
+
+
+            foreach (Bidder detail in _presenter.CurrentBidAnalysisRequest.Bidders)
+            {
+                grvprtBidderItemDetails.DataSource = detail.BidderItemDetails;
+                grvprtBidderItemDetails.DataBind();
+            }
+        }
+        protected void grvBidAnalysisRequestList_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            grvBidAnalysisRequestList.PageIndex = e.NewPageIndex;
+            btnFind_Click(sender, e);
+        }
+
+        protected void grvStatuses_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (_presenter.CurrentBidAnalysisRequest.BidAnalysisRequestStatuses != null)
+            {
+                if (e.Row.RowType == DataControlRowType.DataRow)
+                {
+                    if (_presenter.CurrentBidAnalysisRequest.BidAnalysisRequestStatuses[e.Row.RowIndex].Approver != 0)
+                        e.Row.Cells[1].Text = _presenter.GetUser(_presenter.CurrentBidAnalysisRequest.BidAnalysisRequestStatuses[e.Row.RowIndex].Approver).FullName;
+                }
+            }
+        }
+    }
 }
