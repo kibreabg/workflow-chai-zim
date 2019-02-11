@@ -484,6 +484,10 @@ namespace Chai.WorkflowManagment.Modules.Request
         {
             return _workspace.Single<BidAnalysisRequest>(x => x.Id == id);
         }
+        public BidderItemDetail GetBiderItem(int id)
+        {
+            return _workspace.Single<BidderItemDetail>(x => x.Id == id);
+        }
         public IList<BidAnalysisRequest> ListBidAnalysisRequests(string RequestNo, string RequestDate)
         {
             string filterExpression = "";
