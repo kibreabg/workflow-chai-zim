@@ -82,6 +82,8 @@
                 <asp:BoundField DataField="ProposedPurchasedPrice" HeaderText="Proposed Purchased Price" SortExpression="ProposedPurchasedPrice" />
                 <asp:BoundField DataField="Supplier.SupplierName" HeaderText="Proposed Supplier" SortExpression="Supplier.SupplierName" />
                 <asp:BoundField DataField="SoleVendorJustificationType" HeaderText="Sole Vendor JustificationType" SortExpression="SoleVendorJustificationType" />
+                <asp:BoundField DataField="Project.ProjectCode" HeaderText="Project ID" SortExpression="Project.ProjectCode" />
+                <asp:BoundField DataField="Grant.GrantCode" HeaderText="Grant ID" SortExpression="Grant.GrantCode" />
                 <asp:ButtonField ButtonType="Button" CommandName="ViewItem" Text="View Item Detail" />
                 <asp:CommandField ShowSelectButton="True" SelectText="Process Request" ButtonType="Button" />
                 <asp:TemplateField>
@@ -236,17 +238,17 @@
                                                         <%# DataBinder.Eval(Container.DataItem, "ItemAccount.AccountCode")%>
                                                     </ItemTemplate>
                                                 </asp:TemplateColumn>
-                                                <asp:TemplateColumn HeaderText="Amount">
+                                                <asp:TemplateColumn HeaderText="Item Description">
                                                     <ItemTemplate>
                                                         <%# DataBinder.Eval(Container.DataItem, "ItemDescription")%>
                                                     </ItemTemplate>
                                                 </asp:TemplateColumn>
-                                                <asp:TemplateColumn HeaderText="Project ID">
+                                                <asp:TemplateColumn HeaderText="Unit Cost">
                                                     <ItemTemplate>
                                                         <%# DataBinder.Eval(Container.DataItem, "UnitCost")%>
                                                     </ItemTemplate>
                                                 </asp:TemplateColumn>
-                                                <asp:TemplateColumn HeaderText="Grant ID">
+                                                <asp:TemplateColumn HeaderText="Total Cost">
                                                     <ItemTemplate>
                                                         <%# DataBinder.Eval(Container.DataItem, "TotalCost")%>
                                                     </ItemTemplate>

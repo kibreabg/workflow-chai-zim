@@ -256,18 +256,20 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         protected void btnSave_Click(object sender, EventArgs e)
         {
             try
-            {
-                _presenter.SaveOrUpdateSoleVendorRequest();
-                if (_presenter.CurrentSoleVendorRequest.SoleVendorRequestStatuses.Count != 0 && _presenter.CurrentSoleVendorRequest.SVRAttachments.Count != 0)
+            {                
+                if (_presenter.CurrentSoleVendorRequest.SVRAttachments.Count != 0)
                 {
+                    _presenter.SaveOrUpdateSoleVendorRequest();
                     BindSoleVendorRequests();
-                    Master.ShowMessage(new AppMessage("Successfully did a Sole Vendor  Request, Reference No - <b>'" + _presenter.CurrentSoleVendorRequest.RequestNo + "'</b>", Chai.WorkflowManagment.Enums.RMessageType.Info));
-                    Log.Info(_presenter.CurrentUser().FullName + " has requested a For a Sole Vendor");
+                    Master.ShowMessage(new AppMessage("Successfully did a Sole Vendor  Request with Reference No - <b>'" + _presenter.CurrentSoleVendorRequest.RequestNo + "'</b>", RMessageType.Info));
+                    Log.Info(_presenter.CurrentUser().FullName + " has requested a for a Sole Vendor");
+                    BindSoleVendorRequestforprint();
+                    btnPrint.Enabled = true;
                     btnSave.Visible = false;
                 }
                 else
                 {
-                    Master.ShowMessage(new AppMessage("Please Attach Sole Vendor Quotation", Chai.WorkflowManagment.Enums.RMessageType.Error));
+                    Master.ShowMessage(new AppMessage("Please Attach Sole Vendor Quotation", RMessageType.Error));
                 }
             }
             catch (Exception ex)
@@ -276,13 +278,14 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 {
                     if (ex.InnerException.InnerException.Message.Contains("Violation of UNIQUE KEY"))
                     {
-                        Master.ShowMessage(new AppMessage("Please Click Request button Again,There is a duplicate Number", Chai.WorkflowManagment.Enums.RMessageType.Error));
+                        Master.ShowMessage(new AppMessage("Please Click Request button Again,There is a duplicate Number", RMessageType.Error));
                         //AutoNumber();
                     }
                 }
-            }
-            BindSoleVendorRequestforprint();
-            btnPrint.Enabled = true;
+                Master.ShowMessage(new AppMessage("Error! Sole Vendor Request not processed due to " + ex.Message, RMessageType.Error));
+                ExceptionUtility.LogException(ex, ex.Source);
+                ExceptionUtility.NotifySystemOps(ex);
+            }            
         }
         protected void btnDelete_Click(object sender, EventArgs e)
         {
@@ -347,10 +350,11 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 
                     grvAttachments.DataSource = _presenter.CurrentSoleVendorRequest.SVRAttachments;
                     grvAttachments.DataBind();
+                    Master.ShowMessage(new AppMessage("File successfully uploaded!", RMessageType.Info));
                 }
                 else
                 {
-                    Master.ShowMessage(new AppMessage("Please select file ", Chai.WorkflowManagment.Enums.RMessageType.Error));
+                    Master.ShowMessage(new AppMessage("Please select file ", RMessageType.Error));
                 }
             }
             catch (HttpException ex)
@@ -360,12 +364,17 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         private void PopSoleVendorRequesters()
         {
-            txtSoleSource.Text = _presenter.CurrentUser().FirstName + " " + _presenter.CurrentUser().LastName;
-            txtRequestDate.Text = _presenter.CurrentSoleVendorRequest.PurchaseRequest.RequestedDate.ToShortDateString();
-            ddlProject.SelectedValue = _presenter.CurrentSoleVendorRequest.PurchaseRequest.PurchaseRequestDetails[0].Project.Id.ToString();
-            ddlGrant.DataSource = _presenter.GetGrantbyprojectId(Convert.ToInt32(ddlProject.SelectedValue));
-            ddlGrant.DataBind();
-            ddlGrant.SelectedValue = _presenter.CurrentSoleVendorRequest.PurchaseRequest.PurchaseRequestDetails[0].Grant.Id.ToString();
+            if (_presenter.CurrentSoleVendorRequest.PurchaseRequest != null)
+            {
+                txtSoleSource.Text = _presenter.CurrentUser().FirstName + " " + _presenter.CurrentUser().LastName;
+                txtRequestDate.Text = _presenter.CurrentSoleVendorRequest.PurchaseRequest.RequestedDate.ToShortDateString();
+                ddlProject.SelectedValue = _presenter.CurrentSoleVendorRequest.PurchaseRequest.PurchaseRequestDetails[0].Project.Id.ToString();
+                ddlGrant.DataSource = _presenter.GetGrantbyprojectId(Convert.ToInt32(ddlProject.SelectedValue));
+                ddlGrant.DataBind();
+                ddlGrant.SelectedValue = _presenter.CurrentSoleVendorRequest.PurchaseRequest.PurchaseRequestDetails[0].Grant.Id.ToString();
+                BindSoleVendorRequestDetails();
+            }
+
         }
         protected void dgSoleVenderDetail_PageIndexChanged(object source, DataGridPageChangedEventArgs e)
         {
@@ -450,7 +459,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     detail.TotalCost = Convert.ToDecimal(txtTotalCost.Text);
                     _presenter.CurrentSoleVendorRequest.SoleVendorRequestDetails.Add(detail);
                     dgSoleVenderDetail.EditItemIndex = -1;
-                    BindSoleVendorRequests();
+                    BindSoleVendorRequestDetails();
 
                 }
                 catch (Exception ex)
@@ -531,7 +540,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         protected void grvSoleVendorRequestList_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             grvSoleVendorRequestList.PageIndex = e.NewPageIndex;
-            btnFind_Click(sender, e);            
+            btnFind_Click(sender, e);
         }
 
         protected void grvSoleVendorRequestList_SelectedIndexChanged(object sender, EventArgs e)
