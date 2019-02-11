@@ -146,10 +146,35 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     btnApprove.Enabled = true;
                 }
             }
-            if (_presenter.CurrentUser().EmployeePosition.PositionName == "Admin/HR Assisitance (Driver)" && _presenter.CurrentPurchaseRequest.CurrentStatus != ApprovalStatus.Rejected.ToString() && _presenter.CurrentPurchaseRequest.ProgressStatus == ProgressStatus.Completed.ToString() && _presenter.CurrentPurchaseRequest.BidAnalysisRequest == null && _presenter.CurrentPurchaseRequest.SoleVendorRequest == null)
+            if (_presenter.CurrentUser().EmployeePosition.PositionName == "Admin/HR Assisitance (Driver)" && _presenter.CurrentPurchaseRequest.CurrentStatus != ApprovalStatus.Rejected.ToString() && _presenter.CurrentPurchaseRequest.ProgressStatus == ProgressStatus.Completed.ToString())
             {
-                lnkBidRequest.Visible = true;
-                lnkSoleVendor.Visible = true;
+                if (_presenter.CurrentPurchaseRequest.SoleVendorRequest != null)
+                {
+                    if ((_presenter.CurrentPurchaseRequest.SoleVendorRequest.CurrentStatus == ApprovalStatus.Rejected.ToString()))
+                    {
+                        lnkSoleVendor.Visible = true;
+                        lnkBidRequest.Visible = true;
+                    }
+                }
+                else
+                {
+                    lnkSoleVendor.Visible = true;
+                    lnkBidRequest.Visible = true;
+                }
+                if (_presenter.CurrentPurchaseRequest.BidAnalysisRequest != null)
+                {
+                    if ((_presenter.CurrentPurchaseRequest.BidAnalysisRequest.CurrentStatus == ApprovalStatus.Rejected.ToString()))
+                    {
+                        lnkSoleVendor.Visible = true;
+                        lnkBidRequest.Visible = true;
+                    }
+                }
+                else
+                {
+                    lnkSoleVendor.Visible = true;
+                    lnkBidRequest.Visible = true;
+                }
+
             }
         }
         private void BindPurchaseRequestDetails()
@@ -274,13 +299,37 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     SavePurchaseRequestStatus();
                     _presenter.SaveOrUpdatePurchaseRequest(_presenter.CurrentPurchaseRequest);
                     ShowPrint();
-                    Master.ShowMessage(new AppMessage("Purchase Approval Processed", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                    Master.ShowMessage(new AppMessage("Purchase Approval Processed", RMessageType.Info));
                     btnApprove.Enabled = false;
                     BindSearchPurchaseRequestGrid();
-                    if (_presenter.CurrentUser().EmployeePosition.PositionName == "Admin/HR Assisitance (Driver)" && _presenter.CurrentPurchaseRequest.CurrentStatus != ApprovalStatus.Rejected.ToString() && _presenter.CurrentPurchaseRequest.ProgressStatus == ProgressStatus.Completed.ToString() && _presenter.CurrentPurchaseRequest.BidAnalysisRequest == null && _presenter.CurrentPurchaseRequest.SoleVendorRequest == null)
+                    if (_presenter.CurrentUser().EmployeePosition.PositionName == "Admin/HR Assisitance (Driver)" && _presenter.CurrentPurchaseRequest.CurrentStatus != ApprovalStatus.Rejected.ToString() && _presenter.CurrentPurchaseRequest.ProgressStatus == ProgressStatus.Completed.ToString())
                     {
-                        lnkBidRequest.Visible = true;
-                        lnkSoleVendor.Visible = true;
+                        if (_presenter.CurrentPurchaseRequest.SoleVendorRequest != null)
+                        {
+                            if ((_presenter.CurrentPurchaseRequest.SoleVendorRequest.CurrentStatus == ApprovalStatus.Rejected.ToString()))
+                            {
+                                lnkSoleVendor.Visible = true;
+                                lnkBidRequest.Visible = true;
+                            }                                
+                        }
+                        else
+                        {
+                            lnkSoleVendor.Visible = true;
+                            lnkBidRequest.Visible = true;
+                        }
+                        if (_presenter.CurrentPurchaseRequest.BidAnalysisRequest != null)
+                        {
+                            if ((_presenter.CurrentPurchaseRequest.BidAnalysisRequest.CurrentStatus == ApprovalStatus.Rejected.ToString()))
+                            {
+                                lnkSoleVendor.Visible = true;
+                                lnkBidRequest.Visible = true;
+                            }
+                        }
+                        else
+                        {
+                            lnkSoleVendor.Visible = true;
+                            lnkBidRequest.Visible = true;
+                        }
                     }
                     pnlApproval_ModalPopupExtender.Show();
                 }
