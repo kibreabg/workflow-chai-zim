@@ -583,7 +583,7 @@
 
                                     <asp:DataGrid ID="dgItemDetail" runat="server" AlternatingRowStyle-CssClass="" CellPadding="0"
                                         CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" DataKeyField="Id" AutoGenerateColumns="false"
-                                        GridLines="None" OnItemDataBound="dgItemDetail_ItemDataBound" ShowFooter="True" OnCancelCommand="dgItemDetail_CancelCommand" OnDeleteCommand="dgItemDetail_DeleteCommand" OnItemCommand="dgItemDetail_ItemCommand" OnUpdateCommand="dgItemDetail_UpdateCommand">
+                                        GridLines="None" OnItemDataBound="dgItemDetail_ItemDataBound" ShowFooter="True" OnCancelCommand="dgItemDetail_CancelCommand" OnDeleteCommand="dgItemDetail_DeleteCommand" OnItemCommand="dgItemDetail_ItemCommand" OnUpdateCommand="dgItemDetail_UpdateCommand" OnEditCommand="dgItemDetail_EditCommand1">
 
 
 

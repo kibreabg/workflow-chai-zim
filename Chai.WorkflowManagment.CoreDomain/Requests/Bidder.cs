@@ -23,12 +23,13 @@ namespace Chai.WorkflowManagment.CoreDomain.Requests
         public int Rank { get; set; }
         public virtual Supplier Supplier { get; set; }
         public virtual SupplierType SupplierType { get; set; }
-     //   public virtual ItemAccount ItemAccount { get; set; }
+        //   public virtual ItemAccount ItemAccount { get; set; }
 
-    //    public int Qty { get; set; }
+        //    public int Qty { get; set; }
 
-      //  public decimal UnitCost { get; set; }
-      //  public decimal TotalCost { get; set; }    
+        //  public decimal UnitCost { get; set; }
+        //  public decimal TotalCost { get; set; }    
+       
         public virtual IList<BidderItemDetail> BidderItemDetails { get; set; }
 
         #region Bidder

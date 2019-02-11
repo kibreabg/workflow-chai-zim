@@ -303,6 +303,11 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             return _settingController.GetItemAccount(Id);
         }
+
+        public BidderItemDetail GetBiderItemDet(int id)
+        {
+            return _controller.GetBiderItem(id);
+        }
         public PurchaseRequest GetPurchaseRequest(int purchaseRequestId)
         {
             return _controller.GetPurchaseRequest(purchaseRequestId);

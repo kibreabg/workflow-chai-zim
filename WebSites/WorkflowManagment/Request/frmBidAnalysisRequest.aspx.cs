@@ -639,10 +639,12 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             {
                 //try
                 //{
-                    _presenter.SaveOrUpdateBidAnalysisRequest();
+                  //  _presenter.SaveOrUpdateBidAnalysisRequest();
                     if (_presenter.CurrentBidAnalysisRequest.BidAnalysisRequestStatuses.Count != 0 && _presenter.CurrentBidAnalysisRequest.BAAttachments.Count != 0)
                     {
-                        BindBidAnalysisRequests();
+
+                    _presenter.SaveOrUpdateBidAnalysisRequest();
+                    BindBidAnalysisRequests();
                         
                         Master.ShowMessage(new AppMessage("Successfully did a Bid Analysis  Request, Reference No - <b>'" + _presenter.CurrentBidAnalysisRequest.RequestNo + "'</b>", Chai.WorkflowManagment.Enums.RMessageType.Info));
                         Log.Info(_presenter.CurrentUser().FullName + " has requested a For a Sole Vendor");
@@ -920,6 +922,13 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 }
             }
         }
+
+        private void BindBidItem(Bidder Bidddet)
+        {
+            bidd = Session["bidder"] as Bidder;
+            dgItemDetail.DataSource = bidd.BidderItemDetails;
+            dgItemDetail.DataBind();
+        }
         protected void dgBidders_EditCommand1(object source, DataGridCommandEventArgs e)
         {
             this.dgBidders.EditItemIndex = e.Item.ItemIndex;
@@ -991,7 +1000,10 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 TextBox txtTotalCost = e.Item.FindControl("txtEdtTotalCost") as TextBox;
                 detail.TotalCost = Convert.ToDecimal(txtTotalCost.Text);
                 txtTotal.Text = (_presenter.CurrentBidAnalysisRequest.TotalPrice).ToString();
+                dgItemDetail.EditItemIndex = -1;
                 bidd.BidderItemDetails.Add(detail);
+                BindItemdetailGrid(detail.Bidder);
+               
             }
             catch (Exception ex)
             {
@@ -1110,6 +1122,24 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                         e.Row.Cells[1].Text = _presenter.GetUser(_presenter.CurrentBidAnalysisRequest.BidAnalysisRequestStatuses[e.Row.RowIndex].Approver).FullName;
                 }
             }
+        }
+
+        protected void dgItemDetail_EditCommand1(object source, DataGridCommandEventArgs e)
+        {
+
+            bidd = Session["bidder"] as Bidder;
+            this.dgItemDetail.EditItemIndex = e.Item.ItemIndex;
+         
+            int BIDId = (int)dgItemDetail.DataKeys[e.Item.ItemIndex];
+            BidderItemDetail biditem;
+
+            if (BIDId > 0)
+                biditem = _presenter.GetBiderItemDet(BIDId);
+            else
+                biditem = (BidderItemDetail)bidd.BidderItemDetails[e.Item.ItemIndex];
+            BindBidItem(biditem.Bidder);
+          
+
         }
     }
 }

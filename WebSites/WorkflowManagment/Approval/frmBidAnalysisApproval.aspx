@@ -79,7 +79,7 @@
                     </ItemTemplate>
                 </asp:TemplateField>
                 
-                <asp:BoundField DataField="SpecialNeed" HeaderText="Suggested Supplier" SortExpression="SuggestedSupplier" />
+                <asp:BoundField DataField="PurchaseRequest.SuggestedSupplier" HeaderText="Suggested Supplier" SortExpression="PurchaseRequest.SuggestedSupplier" />
                 
                 <asp:BoundField DataField="TotalPrice" HeaderText="Total Price" SortExpression="TotalPrice" />
                
