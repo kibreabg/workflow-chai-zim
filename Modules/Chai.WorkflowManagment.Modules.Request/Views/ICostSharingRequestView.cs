@@ -18,7 +18,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 
         decimal EstimatedTotalAmount { get; }
         string GetAmountType { get;  }
-        
+        string GetPaymentMethod { get; }
+
     }
 }
 

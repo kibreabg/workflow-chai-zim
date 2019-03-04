@@ -158,7 +158,22 @@
                                 <label class="input">
                                     <asp:TextBox ID="txtTotal" ReadOnly="true" runat="server"></asp:TextBox>
                                 </label>
-                            </section>                  
+                            </section>   
+                            <section class="col col-6">
+                                <label class="label">Payment Methods</label>
+                                <label class="select">
+                                    <asp:DropDownList ID="ddlPayMethods" AutoPostBack="true" AppendDataBoundItems="true" 
+                                        runat="server" DataValueField="Id" DataTextField="Name" CssClass="form-control">
+                                        <asp:ListItem Text="--Select Payment Method--" Value="0"></asp:ListItem>
+                                        <asp:ListItem>RTGs</asp:ListItem>
+                                        <asp:ListItem>USD</asp:ListItem>
+                                    </asp:DropDownList><i></i>
+                                    <asp:RequiredFieldValidator
+                                        ID="RequiredFieldValidator3" runat="server" ErrorMessage="Payment Method must be selected" Display="Dynamic"
+                                        CssClass="validator" ValidationGroup="saveMain" InitialValue="0"
+                                        SetFocusOnError="true" ControlToValidate="ddlPayMethods"></asp:RequiredFieldValidator>
+                                </label>
+                            </section>               
                            </div>
            </fieldset>
                     <div class="tab-content">
@@ -357,6 +372,7 @@
                      <%--<asp:Button ID="btnSearch" runat="server" CssClass="btn btn-primary" Text="Search" />--%>
                             <a data-toggle="modal" runat="server" id="searchLink" href="#searchModal" class="btn btn-primary"><i class="fa fa-circle-arrow-up fa-lg"></i>Search</a>
                         <asp:Button ID="btnPrintworksheet" runat="server" CssClass="btn btn-primary" Text="Print WorkSheet" OnClientClick="javascript:Clickheretoprint('divprint')" Enabled="False" />
+                          <asp:Button ID="btnHiddenPopupp" runat="server" />
                            <asp:HiddenField ID="hfDetailId" runat="server" />
                     </footer>
 
@@ -442,7 +458,22 @@
                     <td style="width: 389px;">&nbsp;</td>
                     <td style="width: 389px;">&nbsp;</td>
                     <td>&nbsp;</td>
-                </tr></table>
+                </tr>
+
+                         <tr>
+                    
+                    <td style="width: 629px; height: 18px; padding-left: 20%;">
+                        <strong>
+                            <asp:Label ID="lblPaytype" runat="server" Text="Special Need:"></asp:Label>
+                        </strong></td>
+                      <td style="width: 244px; height: 18px;">
+                        <asp:Label ID="lblpaytypeRes" runat="server" Text="" class="label"></asp:Label>
+                    </td>
+                    <td style="width: 389px;">&nbsp;</td>
+                    <td style="width: 389px;">&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                    </table>
                                      
                            
                       
@@ -548,7 +579,7 @@
                                             <asp:BoundField DataField="RequestDate" HeaderText="Request Date" SortExpression="RequestDate" />
                                             <asp:BoundField DataField="SpecialNeed" HeaderText="Suggested Supplier" SortExpression="SpecialNeed" />
                                             <asp:BoundField DataField="TotalPrice" HeaderText="Total Price" SortExpression="TotalPrice" />
-       
+                                            <asp:BoundField DataField="ProgressStatus" HeaderText="Status" SortExpression="ProgressStatus" />
                                             <asp:CommandField ShowSelectButton="True" />
                                         </Columns>
                                         <FooterStyle CssClass="FooterStyle" />
@@ -565,17 +596,12 @@
             </div>
         </div>
     </div>
-   <asp:Panel ID="PnlShowBidder" runat="server" Style="position: absolute; top: 10%; left: 20%;" Visible="false">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                </div>
-                <div class="modal-body no-padding">
-                    <div class="jarviswidget" data-widget-editbutton="false" data-widget-custombutton="false">
-                        <header>
-                            <span class="widget-icon"><i class="fa fa-edit"></i></span>
-                            <h2>Requested Item</h2>
-                        </header>
+    <asp:Panel ID="pnlTACost" Visible="true" runat="server">
+        <div class="jarviswidget" data-widget-editbutton="false" data-widget-custombutton="false">
+            <header>
+                <span class="widget-icon"><i class="fa fa-edit"></i></span>
+                <h2>Requested Items</h2>
+            </header>
                         <div>
                             <div class="jarviswidget-editbox"></div>
                             <div class="widget-body no-padding">
@@ -592,8 +618,7 @@
                                                         <asp:TemplateColumn HeaderText="Requested Items">
                                                 <EditItemTemplate>
                                     <asp:DropDownList ID="ddlItemAcc" runat="server" CssClass="form-control"
-                                        AppendDataBoundItems="True" DataTextField="AccountName" DataValueField="Id"
-                                         AutoPostBack="True">
+                                        AppendDataBoundItems="True" DataTextField="AccountName" DataValueField="Id">
                                         <asp:ListItem Value="0">Select Item Account</asp:ListItem>
                                     </asp:DropDownList>
                                     <asp:RequiredFieldValidator ID="RfvItemAcc" runat="server" CssClass="validator"
@@ -635,7 +660,7 @@
                                                     <asp:HiddenField ID="hfqty" runat="server" Value='<%# DataBinder.Eval(Container.DataItem, "Qty")%>'></asp:HiddenField>
                                                 </ItemTemplate>
                                                   <EditItemTemplate>
-                                                            <asp:TextBox ID="txtEdtQty" Enabled="false" runat="server" CssClass="form-control" Text='<%# DataBinder.Eval(Container.DataItem, "Quantity")%>'></asp:TextBox>
+                                                            <asp:TextBox ID="txtEdtQty" Enabled="false" runat="server" CssClass="form-control" Text='<%# DataBinder.Eval(Container.DataItem, "Qty")%>'></asp:TextBox>
                                                         </EditItemTemplate>
                                                         <FooterTemplate>
                                                             <asp:TextBox ID="txtQty" runat="server" Enabled="true" CssClass="form-control"></asp:TextBox>
@@ -644,7 +669,7 @@
                                             </asp:TemplateColumn>
                                             <asp:TemplateColumn HeaderText="Unit Cost">
                                                 <ItemTemplate>
-                                                    <asp:TextBox ID="txtUnitCost" runat="server" CssClass="form-control" Text=' <%# DataBinder.Eval(Container.DataItem, "UnitCost")%>' OnTextChanged="txtUnitCost_TextChanged" AutoPostBack="True" Height="20px" Width="104px"></asp:TextBox>
+                                                    <asp:TextBox ID="txtUnitCost" runat="server" CssClass="form-control" Text=' <%# DataBinder.Eval(Container.DataItem, "UnitCost")%>' AutoPostBack="True" Height="20px" Width="104px"></asp:TextBox>
                                                  
                                                     <asp:RequiredFieldValidator ID="RfvSpecialTermsDelivery" runat="server" ControlToValidate="txtUnitCost" ErrorMessage="Unit Cost Required" ValidationGroup="Savedetail" InitialValue="0">*</asp:RequiredFieldValidator>
                                                 </ItemTemplate>
@@ -655,7 +680,7 @@
                                                             <asp:RequiredFieldValidator ID="rfvEdtUnitCost" runat="server" ControlToValidate="txtEdtUnitCost" CssClass="validator" Display="Dynamic" ErrorMessage="Unit Cost is required" SetFocusOnError="true" ValidationGroup="edit"></asp:RequiredFieldValidator>
                                                         </EditItemTemplate>
                                                         <FooterTemplate>
-                                                            <asp:TextBox ID="txtUnitCost" runat="server" CssClass="form-control" AutoPostBack="true" OnTextChanged="txtUnitCost_TextChanged"></asp:TextBox>
+                                                            <asp:TextBox ID="txtUnitCost" runat="server" CssClass="form-control" AutoPostBack="true"></asp:TextBox>
                                                           
                                                            <asp:RequiredFieldValidator ID="rfvUnitCost" runat="server" ControlToValidate="txtUnitCost" CssClass="validator" Display="Dynamic" ErrorMessage="Unit Cost is required" SetFocusOnError="true" ValidationGroup="save"></asp:RequiredFieldValidator>
                                                         </FooterTemplate>
@@ -695,7 +720,7 @@
 
 
                                     <footer>
-                                        <asp:Button ID="Button2" runat="server" CssClass="btn btn-primary" Text="Save" OnClick="btnCancedetail_Click" />
+                                        <asp:Button ID="btnCancelCost" runat="server" CssClass="btn btn-primary" Text="Save" OnClick="btnCancedetail_Click" />
                                     </footer>
 
 
@@ -704,19 +729,13 @@
                         </div>
 
                     </div>
-                </div>
-
-
-
-
-
-
-
-            </div>
-        </div>
+              
         <!-- /.modal-content -->
     </asp:Panel>
-    
+     <cc1:ModalPopupExtender runat="server" Enabled="True" CancelControlID="btnCancelCost"
+        ID="pnlTACost_ModalPopupExtender" TargetControlID="btnHiddenPopupp" BackgroundCssClass="modalBackground"
+        PopupControlID="pnlTACost">
+    </cc1:ModalPopupExtender>
     
     <asp:Panel ID="pnlWarning" Visible="false" Style="position: absolute; top: 55px; left: 108px;" runat="server">
         <div class="modal-dialog">

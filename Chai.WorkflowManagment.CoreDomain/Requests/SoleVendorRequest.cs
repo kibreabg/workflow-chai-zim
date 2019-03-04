@@ -30,6 +30,7 @@ namespace Chai.WorkflowManagment.CoreDomain.Requests
         public string SoleSourceJustificationPreparedBy { get; set; }
         public string SoleVendorJustificationType { get; set; }
         public string Comment { get; set; }
+        public string PaymentMethod { get; set; }
         public int CurrentApprover { get; set; }
         public Nullable<int> CurrentLevel { get; set; }
         public string CurrentStatus { get; set; }

@@ -80,6 +80,10 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             get { return txtVoucherNo.Text; }
         }
+        public string GetPaymentMethod
+        {
+            get { return ddlPayMethods.Text; }
+        }
         #endregion
         private void AutoNumber()
         {

@@ -77,6 +77,10 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             get { return ddlExpenseType.SelectedValue; }
         }
+        public string GetPaymentMethod
+        {
+            get { return ddlPayMethods.Text; }
+        }
         public IList<PaymentReimbursementRequest> PaymentReimbursementRequests
         {
             get
@@ -112,6 +116,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             if (_presenter.CurrentCashPaymentRequest != null)
             {
                 txtComment.Text = _presenter.CurrentCashPaymentRequest.PaymentReimbursementRequest.Comment;
+                ddlPayMethods.Text = _presenter.CurrentCashPaymentRequest.PaymentMethod;
                 ddlExpenseType.Text = _presenter.CurrentCashPaymentRequest.PaymentReimbursementRequest.ExpenseType;
                 BindPaymentReimbursementRequests();
                 //grvAttachments.DataSource = _presenter.CurrentCashPaymentRequest.PaymentReimbursementRequest.CPRAttachments;

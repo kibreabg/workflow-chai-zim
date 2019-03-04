@@ -22,15 +22,21 @@
                                     <asp:TextBox ID="txtVoucherNo" runat="server"></asp:TextBox>
                                 </label>
                             </section>
-                            <%-- <section class="col col-6">
-                                <label class="label">Request Number</label>
-                                <label class="input">
-                                    <asp:TextBox ID="txtRequestNo" ReadOnly="true" runat="server"></asp:TextBox>
+                             <section class="col col-6">
+                                <label class="label">Payment Methods</label>
+                                <label class="select">
+                                    <asp:DropDownList ID="ddlPayMethods" AutoPostBack="true" AppendDataBoundItems="true" 
+                                        runat="server" DataValueField="Id" DataTextField="Name" CssClass="form-control">
+                                        <asp:ListItem Text="--Select Payment Method--" Value="0"></asp:ListItem>
+                                        <asp:ListItem>RTGs</asp:ListItem>
+                                        <asp:ListItem>USD</asp:ListItem>
+                                    </asp:DropDownList><i></i>
                                     <asp:RequiredFieldValidator
-                                        ID="rfvtxtRequestNo" runat="server" ErrorMessage="Request number is required" Display="Dynamic"
-                                        CssClass="validator" ControlToValidate="txtRequestNo" EnableClientScript="False"></asp:RequiredFieldValidator>
+                                        ID="RequiredFieldValidator3" runat="server" ErrorMessage="Payment Method must be selected" Display="Dynamic"
+                                        CssClass="validator" ValidationGroup="saveMain" InitialValue="0"
+                                        SetFocusOnError="true" ControlToValidate="ddlPayMethods"></asp:RequiredFieldValidator>
                                 </label>
-                            </section>--%>
+                            </section>
                             <section class="col col-6">
                                 <label class="label">Process Date</label>
                                 <label class="input">

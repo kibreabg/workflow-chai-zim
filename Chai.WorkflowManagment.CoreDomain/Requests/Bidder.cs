@@ -1,6 +1,7 @@
 ﻿using Chai.WorkflowManagment.CoreDomain.Setting;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 
@@ -23,13 +24,29 @@ namespace Chai.WorkflowManagment.CoreDomain.Requests
         public int Rank { get; set; }
         public virtual Supplier Supplier { get; set; }
         public virtual SupplierType SupplierType { get; set; }
+        [NotMapped]
+        public string GetSelectionReason
+        {
+            get
+            {
+                if (Rank == 1)
+                {
+                    return BidAnalysisRequest.ReasonforSelection;
+
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
         //   public virtual ItemAccount ItemAccount { get; set; }
 
         //    public int Qty { get; set; }
 
         //  public decimal UnitCost { get; set; }
         //  public decimal TotalCost { get; set; }    
-       
+
         public virtual IList<BidderItemDetail> BidderItemDetails { get; set; }
 
         #region Bidder
@@ -44,7 +61,7 @@ namespace Chai.WorkflowManagment.CoreDomain.Requests
             }
             return null;
         }
-
+        
         public virtual IList<BidderItemDetail> GetBidderItemDetailByBidderId(int bidderId)
         {
             IList<BidderItemDetail> Bidders = new List<BidderItemDetail>();

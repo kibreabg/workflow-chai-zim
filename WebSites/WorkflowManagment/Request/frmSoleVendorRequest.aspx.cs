@@ -49,7 +49,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             get
             {
-                return this._presenter;
+                 return this._presenter;
             }
             set
             {
@@ -127,6 +127,10 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         public string GetComment
         {
             get { return txtComment.Text; }
+        }
+        public string GetPaymentMethod
+        {
+            get { return ddlPayMethods.Text; }
         }
         public int GetProjectId
         {
@@ -207,7 +211,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 txtContactPersonNumber.Text = _presenter.CurrentSoleVendorRequest.ContactPersonNumber;
                 txtProposedPurchasedPrice.Text = _presenter.CurrentSoleVendorRequest.ProposedPurchasedPrice.ToString();
                 ddlSupplier.SelectedValue = _presenter.CurrentSoleVendorRequest.Supplier.Id.ToString();
-                //  txtSoleSource.Text = _presenter.CurrentSoleVendorRequest.SoleSourceJustificationPreparedBy.ToString();
+                ddlPayMethods.Text = _presenter.CurrentSoleVendorRequest.PaymentMethod;
                 ddlSoleVendorJustification.SelectedValue = _presenter.CurrentSoleVendorRequest.SoleVendorJustificationType.ToString();
                 txtComment.Text = _presenter.CurrentSoleVendorRequest.Comment;
                 ddlProject.SelectedValue = _presenter.CurrentSoleVendorRequest.Project.Id.ToString();

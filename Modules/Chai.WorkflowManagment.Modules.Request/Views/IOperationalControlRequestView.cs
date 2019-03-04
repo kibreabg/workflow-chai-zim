@@ -16,6 +16,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         string GetBranchCode { get; }
         string GetBankName { get; }
         string GetVoucherNo { get; }
+
+        string GetPaymentMethod { get; }
         string GetPageType { get; }
     }
 }

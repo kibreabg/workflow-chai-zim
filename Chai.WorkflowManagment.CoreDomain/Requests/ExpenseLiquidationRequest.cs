@@ -22,6 +22,7 @@ namespace Chai.WorkflowManagment.CoreDomain.Requests
         public string ExpenseReimbersmentType { get; set; }
         public string ReimbersmentNo { get; set; }
         public string ExportStatus { get; set; }
+        public string PaymentMethod { get; set; }
         public int CurrentApprover { get; set; }
         public int CurrentLevel { get; set; }
         public string CurrentStatus { get; set; }

@@ -32,6 +32,7 @@ namespace Chai.WorkflowManagment.CoreDomain.Requests
         public decimal TotalPrice { get; set; }
         // public Program Program { get; set; }
         public string Comment { get; set; }
+        public string PaymentMethod { get; set; }
         public int CurrentApprover { get; set; }
         public int CurrentLevel { get; set; }
         public string CurrentStatus { get; set; }

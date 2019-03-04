@@ -8,7 +8,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
     public interface IBankPaymentRequestView
     {
         int GetBankPaymentRequestId { get; }
-        string GetRequestNo { get; }        
+        string GetRequestNo { get; }
+        string GetPaymentMethod { get; }
     }
 }
 

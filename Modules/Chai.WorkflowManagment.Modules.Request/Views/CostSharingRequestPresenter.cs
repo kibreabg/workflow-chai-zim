@@ -147,6 +147,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             CostSharingRequest.EstimatedTotalAmount = View.EstimatedTotalAmount;
             CostSharingRequest.ItemAccount = _settingController.GetItemAccount(View.ItemAccountId);
             CostSharingRequest.VoucherNo = View.GetVoucherNo;
+           CostSharingRequest.PaymentMethod = View.GetPaymentMethod;
             CostSharingRequest.ProgressStatus = ProgressStatus.InProgress.ToString();
             CostSharingRequest.AppUser = _adminController.GetUser(CurrentUser().Id);
             if (View.GetAmountType != "Actual Amount")

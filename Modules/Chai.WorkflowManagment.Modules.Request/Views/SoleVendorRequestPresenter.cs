@@ -151,6 +151,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             SoleVendorRequest.SoleSourceJustificationPreparedBy = View.GetSoleSourceJustificationPreparedBy;
             SoleVendorRequest.SoleVendorJustificationType = View.GetSoleVendorJustificationType;
             SoleVendorRequest.Comment = View.GetComment;
+            SoleVendorRequest.PaymentMethod = View.GetPaymentMethod;
             SoleVendorRequest.ProgressStatus = ProgressStatus.InProgress.ToString();
             if (View.GetProjectId != 0)
                 SoleVendorRequest.Project = _settingController.GetProject(View.GetProjectId);

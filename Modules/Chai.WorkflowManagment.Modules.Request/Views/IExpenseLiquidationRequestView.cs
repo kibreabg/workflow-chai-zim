@@ -13,6 +13,9 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         string GetAdditionalComment { get; }
         string GetTravelAdvReqDate { get; }
 
+        string GetPaymentMethod { get; }
+
+
 
     }
 }

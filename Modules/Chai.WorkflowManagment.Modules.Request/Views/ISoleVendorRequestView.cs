@@ -17,7 +17,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         int GetProposedSupplier { get; }
         string GetComment { get; }
         string GetSoleSourceJustificationPreparedBy { get; }
-        string GetSoleVendorJustificationType { get; }    
+        string GetSoleVendorJustificationType { get; }
+        string GetPaymentMethod { get; }
         int GetProjectId { get; }
         int GetGrantId { get; }
      

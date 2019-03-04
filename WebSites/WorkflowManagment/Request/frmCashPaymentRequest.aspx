@@ -47,6 +47,21 @@
                                     <asp:TextBox ID="txtRequestDate" ReadOnly="true" runat="server"></asp:TextBox>
                                 </label>
                             </section>
+                             <section class="col col-6">
+                                <label class="label">Payment Methods</label>
+                                <label class="select">
+                                    <asp:DropDownList ID="ddlPayMethods" AutoPostBack="true" AppendDataBoundItems="true" 
+                                        runat="server" DataValueField="Id" DataTextField="Name" CssClass="form-control">
+                                        <asp:ListItem Text="--Select Payment Method--" Value="0"></asp:ListItem>
+                                        <asp:ListItem>RTGs</asp:ListItem>
+                                        <asp:ListItem>USD</asp:ListItem>
+                                    </asp:DropDownList><i></i>
+                                    <asp:RequiredFieldValidator
+                                        ID="RequiredFieldValidator3" runat="server" ErrorMessage="Payment Method must be selected" Display="Dynamic"
+                                        CssClass="validator" ValidationGroup="saveMain" InitialValue="0"
+                                        SetFocusOnError="true" ControlToValidate="ddlPayMethods"></asp:RequiredFieldValidator>
+                                </label>
+                            </section>
                         </div>
                         <div class="row">
                             <section class="col col-6">
