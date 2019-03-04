@@ -536,13 +536,11 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             this.dgSoleVenderDetail.EditItemIndex = e.Item.ItemIndex;
             BindSoleVendorRequestDetails();
         }
-
         protected void grvSoleVendorRequestList_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             grvSoleVendorRequestList.PageIndex = e.NewPageIndex;
             btnFind_Click(sender, e);
         }
-
         protected void grvSoleVendorRequestList_SelectedIndexChanged(object sender, EventArgs e)
         {
             Session["SoleVendorRequest"] = true;
@@ -558,7 +556,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 btnDelete.Visible = true;
             }
         }
-
         protected void grvSoleVendorRequestList_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             if (e.Row.DataItem != null)

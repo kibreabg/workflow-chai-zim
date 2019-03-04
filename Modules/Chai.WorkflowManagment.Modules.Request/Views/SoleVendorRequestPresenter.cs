@@ -95,7 +95,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                         if (CurrentUser().Superviser != 0)
                             SVRS.Approver = CurrentUser().Superviser.Value;
                         else
-                            
+
                             SVRS.ApprovalStatus = ApprovalStatus.Approved.ToString();
                     }
                     else if (AL.EmployeePosition.PositionName == "Program Manager")
@@ -110,7 +110,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                         if (Approver(AL.EmployeePosition.Id) != null)
                             SVRS.Approver = Approver(AL.EmployeePosition.Id).Id;
                         else
-                            
+
                             SVRS.Approver = 0;
                     }
                     SVRS.WorkflowLevel = i;
@@ -138,32 +138,33 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         public void SaveOrUpdateSoleVendorRequest()
         {
-           
-            SoleVendorRequest SoleVendorRequest = CurrentSoleVendorRequest;
-            SoleVendorRequest.PurchaseRequest = _controller.GetPurchaseRequest(View.GetPurchaseRequestId);
-            
-            SoleVendorRequest.RequestNo = View.GetRequestNo;
-            SoleVendorRequest.RequestDate = Convert.ToDateTime(DateTime.Today);
-            SoleVendorRequest.ContactPersonNumber = View.GetContactPersonNumber;
-            SoleVendorRequest.ProposedPurchasedPrice = View.GetProposedPurchasedPrice;
-          //  if (View.GetProposedSupplier != 0)
-            SoleVendorRequest.Supplier =  _settingController.GetSupplier(View.GetProposedSupplier);          
-            SoleVendorRequest.SoleSourceJustificationPreparedBy = View.GetSoleSourceJustificationPreparedBy;
-            SoleVendorRequest.SoleVendorJustificationType = View.GetSoleVendorJustificationType;
-            SoleVendorRequest.Comment = View.GetComment;
-            SoleVendorRequest.ProgressStatus = ProgressStatus.InProgress.ToString();
+
+            SoleVendorRequest soleVendorRequest = CurrentSoleVendorRequest;            
+
+            soleVendorRequest.RequestNo = View.GetRequestNo;
+            soleVendorRequest.RequestDate = Convert.ToDateTime(DateTime.Today);
+            soleVendorRequest.ContactPersonNumber = View.GetContactPersonNumber;
+            soleVendorRequest.ProposedPurchasedPrice = View.GetProposedPurchasedPrice;
+            //  if (View.GetProposedSupplier != 0)
+            soleVendorRequest.Supplier = _settingController.GetSupplier(View.GetProposedSupplier);
+            soleVendorRequest.SoleSourceJustificationPreparedBy = View.GetSoleSourceJustificationPreparedBy;
+            soleVendorRequest.SoleVendorJustificationType = View.GetSoleVendorJustificationType;
+            soleVendorRequest.Comment = View.GetComment;
+            soleVendorRequest.ProgressStatus = ProgressStatus.InProgress.ToString();
             if (View.GetProjectId != 0)
-                SoleVendorRequest.Project = _settingController.GetProject(View.GetProjectId);
+                soleVendorRequest.Project = _settingController.GetProject(View.GetProjectId);
             if (View.GetGrantId != 0)
-                SoleVendorRequest.Grant = _settingController.GetGrant(View.GetGrantId);
-                    //_settingController.GetGrant(View.GetGrantId);
-            SoleVendorRequest.AppUser = _adminController.GetUser(CurrentUser().Id);
+                soleVendorRequest.Grant = _settingController.GetGrant(View.GetGrantId);
+            //_settingController.GetGrant(View.GetGrantId);
+            soleVendorRequest.AppUser = _adminController.GetUser(CurrentUser().Id);
 
             if (CurrentSoleVendorRequest.SoleVendorRequestStatuses.Count == 0)
                 SaveSoleVendorRequestStatus();
             GetCurrentApprover();
 
-            _controller.SaveOrUpdateEntity(SoleVendorRequest);
+            soleVendorRequest.PurchaseRequest = _controller.GetPurchaseRequest(View.GetPurchaseRequestId);
+
+            _controller.SaveOrUpdateEntity(soleVendorRequest);
             _controller.CurrentObject = null;
         }
         public void SaveOrUpdateSoleVendorRequest(SoleVendorRequest SoleVendorRequest)

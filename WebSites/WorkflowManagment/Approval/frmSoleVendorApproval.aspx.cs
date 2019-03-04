@@ -288,7 +288,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     }
                     else
                     {
-                        Master.ShowMessage(new AppMessage("Sole Vendor Approval Rejected ", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                        Master.ShowMessage(new AppMessage("Sole Vendor Request Rejected ", Chai.WorkflowManagment.Enums.RMessageType.Info));
                     }
                     btnApprove.Enabled = false;
 
