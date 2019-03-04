@@ -323,7 +323,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 lblRequestedDateResult.Text = _presenter.CurrentBidAnalysisRequest.RequestDate.ToString();
                 lblRequesterResult.Text = _presenter.GetUser(_presenter.CurrentBidAnalysisRequest.AppUser.Id).FullName; 
                 lblTotalPriceResult.Text = _presenter.CurrentBidAnalysisRequest.TotalPrice.ToString();
-              
+                lblpaytypeRes.Text = _presenter.CurrentBidAnalysisRequest.PaymentMethod;
                 lblCommentResult.Text = _presenter.CurrentBidAnalysisRequest.ReasonforSelection;
                 lblRequireddateofdeliveryResult.Text = _presenter.CurrentBidAnalysisRequest.SpecialNeed;
 
@@ -532,9 +532,12 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 if (e.CommandName == "ViewItem")
                 {
                     reqid = Convert.ToInt32(grvPurchaseRequestList.DataKeys[0].Value);
-
+                   
                     pnlDetail_ModalPopupExtender.Show();
+
+                   
                     BindItemDetal();
+
                 }
             }
         }
@@ -554,7 +557,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 {
                     biddetail.Add(biderdetail);
                 }
-
+               
 
             }
             dgPurchaseRequestDetail.DataSource = biddetail;
@@ -611,8 +614,33 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             //grvStatuses.DataBind();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void dgPurchaseRequestDetail_ItemDataBound(object sender, DataGridItemEventArgs e)
         {
+            //if (e.Item.ItemType == ListItemType.Item)
+            //{
+            //    foreach (Bidder detail in _presenter.CurrentBidAnalysisRequest.Bidders)
+            //    {
+
+            //        foreach (DataGridItem gvr in dgPurchaseRequestDetail.Items)
+            //        {
+            //            // String Rank = ((Label)gvr.FindControl("lblRank")).Text;
+            //            Label Reason = (Label)gvr.FindControl("lblReason");
+            //            Reason.Text = detail.GetSelectionReason();
+
+
+            //        }
+            //    }
+
+            //}
+
+
+
+
 
         }
         protected void grvStatuses_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -628,5 +656,33 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 }
             }
         }
-}
+
+        protected void dgPurchaseRequestDetail_ItemCommand(object source, DataGridCommandEventArgs e)
+        {
+           
+        }
+
+        protected void dgPurchaseRequestDetail_ItemCreated(object sender, DataGridItemEventArgs e)
+        {
+
+
+            //foreach (Bidder detail in _presenter.CurrentBidAnalysisRequest.Bidders)
+            //{
+             
+            //    foreach (DataGridItem gvr in dgPurchaseRequestDetail.Items)
+            //    {
+            //        String Rank = ((Label)gvr.FindControl("lblRank")).Text;
+            //        String Reason = ((Label)gvr.FindControl("lblReason")).Text;
+            //        if (Rank == "1" && e.Item.ItemType != ListItemType.Header)
+            //        {
+            //            Reason = detail.BidAnalysisRequest.ReasonforSelection;
+            //        }
+            //        else if (Rank != "1" && e.Item.ItemType != ListItemType.Header)
+            //        {
+            //            Reason = "";
+            //        }
+            //    }
+            //}
+        }
+    }
 }

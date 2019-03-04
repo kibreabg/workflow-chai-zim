@@ -521,7 +521,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             {
                 lblPayeeResult.Text = _presenter.CurrentCashPaymentRequest.Supplier.SupplierName.ToString() != null ? _presenter.CurrentCashPaymentRequest.Supplier.SupplierName.ToString() : "";
             }
-            
+            lblpaytypeRes.Text = _presenter.CurrentCashPaymentRequest.PaymentMethod;
             lblVoucherNoResult.Text = _presenter.CurrentCashPaymentRequest.VoucherNo;
             lblTotalAmountResult.Text = _presenter.CurrentCashPaymentRequest.TotalAmount.ToString();
             lblApprovalStatusResult.Text = _presenter.CurrentCashPaymentRequest.ProgressStatus.ToString();

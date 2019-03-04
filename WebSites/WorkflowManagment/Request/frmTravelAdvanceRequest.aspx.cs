@@ -103,6 +103,10 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             get { return txtComments.Text; }
         }
+        public string GetPaymentMethod
+        {
+            get { return ddlPayMethods.Text; }
+        }
         public string GetVisitingTeam
         {
             get { return txtVisitingTeam.Text; }
@@ -179,6 +183,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 txtVisitingTeam.Text = _presenter.CurrentTravelAdvanceRequest.VisitingTeam;
                 txtPurposeOfTravel.Text = _presenter.CurrentTravelAdvanceRequest.PurposeOfTravel.ToString();
                 txtComments.Text = _presenter.CurrentTravelAdvanceRequest.Comments.ToString();
+                ddlPayMethods.Text = _presenter.CurrentTravelAdvanceRequest.PaymentMethod;
                 txtTotal.Text = _presenter.CurrentTravelAdvanceRequest.TotalTravelAdvance.ToString();
                 ddlProject.SelectedValue = _presenter.CurrentTravelAdvanceRequest.Project.Id.ToString();
                 PopGrants(Convert.ToInt32(ddlProject.SelectedValue));

@@ -102,6 +102,10 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             get { return ddlAmountType.SelectedValue; }
         }
+        public string GetPaymentMethod
+        {
+            get { return ddlPayMethods.Text; }
+        }
         #endregion
         private string AutoNumber()
         {
@@ -143,7 +147,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 // txtRequestNo.Text = _presenter.CurrentCashPaymentRequest.RequestNo.ToString();
                 ddlPayee.SelectedValue = _presenter.CurrentCostSharingRequest.Payee;
                 txtDescription.Text = _presenter.CurrentCostSharingRequest.Description;
-                //txtVoucherNo.Text = _presenter.CurrentCostSharingRequest.VoucherNo.ToString();
+                ddlPayMethods.Text = _presenter.CurrentCostSharingRequest.PaymentMethod;
                 txtEstimatedCost.Text = _presenter.CurrentCostSharingRequest.EstimatedTotalAmount.ToString();
                 ddlAccountDescription.SelectedValue = _presenter.CurrentCostSharingRequest.ItemAccount.Id.ToString();
                 BindCostSharingRequests();

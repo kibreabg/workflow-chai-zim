@@ -21,6 +21,7 @@ namespace Chai.WorkflowManagment.CoreDomain.Requests
         public string PurposeOfTravel { get; set; }
         public string Comments { get; set; }
         public decimal TotalTravelAdvance { get; set; }
+        public string PaymentMethod { get; set; }
         public int CurrentApprover { get; set; }
         public int CurrentApproverPosition { get; set; }
         public int CurrentLevel { get; set; }

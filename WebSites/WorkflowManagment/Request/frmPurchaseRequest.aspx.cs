@@ -97,6 +97,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 // txtRequestNo.Text = _presenter.CurrentPurchaseRequest.RequestNo;
                 txtRequestDate.Text = _presenter.CurrentPurchaseRequest.RequestedDate.ToShortDateString();
                 txtComment.Text = _presenter.CurrentPurchaseRequest.Comment.ToString();
+                
+                ddlPayMethods.Text = _presenter.CurrentPurchaseRequest.PaymentMethod;
                 txtDeliverto.Text = _presenter.CurrentPurchaseRequest.DeliverTo.ToString();
                 txtdeliveryDate.Text = _presenter.CurrentPurchaseRequest.Requireddateofdelivery.ToShortDateString();
                 txtSuggestedSupplier.Text = _presenter.CurrentPurchaseRequest.SuggestedSupplier.ToString();
@@ -116,6 +118,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 _presenter.CurrentPurchaseRequest.RequestNo = AutoNumber();
                 _presenter.CurrentPurchaseRequest.DeliverTo = txtDeliverto.Text;
                 _presenter.CurrentPurchaseRequest.Comment = txtComment.Text;
+                _presenter.CurrentPurchaseRequest.PaymentMethod = ddlPayMethods.Text;
                 _presenter.CurrentPurchaseRequest.SuggestedSupplier = txtSuggestedSupplier.Text;              
                 _presenter.CurrentPurchaseRequest.SpecialNeed = txtSpecialNeed.Text;
                 _presenter.CurrentPurchaseRequest.Requireddateofdelivery = Convert.ToDateTime(txtdeliveryDate.Text);
@@ -242,6 +245,10 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         public string RequestDate
         {
             get { return txtRequestDatesearch.Text; }
+        }
+        public string GetPaymentMethod
+        {
+            get { return ddlPayMethods.Text; }
         }
         public int PurchaseRequestId
         {
@@ -612,6 +619,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     BindSearchPurchaseRequestGrid();
                     Master.ShowMessage(new AppMessage("Successfully did a Purchase Request, Reference No - <b>'" + _presenter.CurrentPurchaseRequest.RequestNo + "'</b> ", Chai.WorkflowManagment.Enums.RMessageType.Info));
                     Log.Info(_presenter.CurrentUser().FullName + " has requested for a Purchase of Total Price " + _presenter.CurrentPurchaseRequest.TotalPrice);
+                    btnRequest.Visible = false;
                 }
                 else
                 {

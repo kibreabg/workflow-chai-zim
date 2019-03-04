@@ -149,6 +149,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             CashPaymentRequest.Payee = "";
             CashPaymentRequest.Description = View.GetDescription;
             CashPaymentRequest.AmountType = View.GetAmountType;
+            CashPaymentRequest.PaymentMethod = View.GetPaymentMethod;
             CashPaymentRequest.ProgressStatus = ProgressStatus.InProgress.ToString();
             CashPaymentRequest.AppUser = _adminController.GetUser(CurrentUser().Id);
             CashPaymentRequest.Supplier = _settingController.GetSupplier(View.GetPayee);

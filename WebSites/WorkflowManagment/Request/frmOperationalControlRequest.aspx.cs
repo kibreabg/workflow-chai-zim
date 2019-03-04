@@ -117,6 +117,11 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             get { return AutoNumber(); }
         }
+
+        public string GetPaymentMethod
+        {
+            get { return ddlPayMethods.Text; }
+        }
         public string GetPageType
         {
             get { if (Request.QueryString["Page"] != null) { return Request.QueryString["Page"]; } else return "BankPayment"; }
@@ -288,6 +293,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 txtBranchCode.Text = _presenter.CurrentOperationalControlRequest.BranchCode;
                 txtBankName.Text = _presenter.CurrentOperationalControlRequest.BankName;
                 txtDescription.Text = _presenter.CurrentOperationalControlRequest.Description;
+                ddlPayMethods.Text = _presenter.CurrentOperationalControlRequest.PaymentMethod;
                 // txtVoucherNo.Text = _presenter.CurrentOperationalControlRequest.VoucherNo.ToString();
                 ddlBankAccount.SelectedValue = _presenter.CurrentOperationalControlRequest.Account.Id.ToString();
                 txtBankAccountNo.Text = _presenter.GetBankAccount(_presenter.CurrentOperationalControlRequest.Account.Id).AccountNo;

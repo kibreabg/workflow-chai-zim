@@ -154,7 +154,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             BidAnalysisRequest.RequestNo = View.GetRequestNo;
             BidAnalysisRequest.RequestDate = Convert.ToDateTime(DateTime.Today.ToShortDateString());
             BidAnalysisRequest.AnalyzedDate = Convert.ToDateTime(View.GetAnalysedDate.ToShortDateString());
-          //  BidAnalysisRequest.Neededfor = View.GetNeededFor;
+            BidAnalysisRequest.PaymentMethod = View.GetPaymentMethod;
             BidAnalysisRequest.SpecialNeed = View.GetSpecialNeed;
 
 
@@ -302,6 +302,11 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         public ItemAccount GetItemAccount(int Id)
         {
             return _settingController.GetItemAccount(Id);
+        }
+
+        public BidderItemDetail GetBiderItemDet(int id)
+        {
+            return _controller.GetBiderItem(id);
         }
         public PurchaseRequest GetPurchaseRequest(int purchaseRequestId)
         {

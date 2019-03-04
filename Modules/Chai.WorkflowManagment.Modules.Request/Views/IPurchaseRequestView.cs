@@ -11,6 +11,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         string RequestNo { get; }
         string RequestDate { get; }
         int PurchaseRequestId { get; }
+        string GetPaymentMethod { get; }
     }
 }
 

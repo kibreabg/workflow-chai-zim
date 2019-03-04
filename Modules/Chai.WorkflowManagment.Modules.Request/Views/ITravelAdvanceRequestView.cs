@@ -16,7 +16,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         int GetProjectId { get; }
         int GetGrantId { get; }
 
-
+        string GetPaymentMethod { get; }
 
     }
 }

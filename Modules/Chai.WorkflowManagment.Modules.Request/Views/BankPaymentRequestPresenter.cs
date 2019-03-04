@@ -128,7 +128,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             BankPaymentRequest.ProcessDate = Convert.ToDateTime(DateTime.Today.ToShortDateString());
             BankPaymentRequest.ProgressStatus = ProgressStatus.InProgress.ToString();
             BankPaymentRequest.AppUser = _adminController.GetUser(CurrentUser().Id);
-
+            BankPaymentRequest.PaymentMethod = View.GetPaymentMethod;
             if (CurrentBankPaymentRequest.BankPaymentRequestStatuses.Count == 0)
                 SaveBankPaymentRequestStatus();
             GetCurrentApprover();

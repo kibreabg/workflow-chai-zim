@@ -13,6 +13,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         string GetDescription { get; }
         string GetVoucherNo { get; }
         string GetAmountType { get; }
+        string GetPaymentMethod { get; }
     }
 }
 

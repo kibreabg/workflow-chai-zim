@@ -152,6 +152,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             OperationalControlRequest.Beneficiary = _settingController.GetBeneficiary(View.GetBeneficiaryId);
             OperationalControlRequest.BranchCode = View.GetBranchCode;
             OperationalControlRequest.BankName = View.GetBankName;
+            OperationalControlRequest.PaymentMethod = View.GetPaymentMethod;
             OperationalControlRequest.VoucherNo = View.GetVoucherNo;
             OperationalControlRequest.ProgressStatus = ProgressStatus.InProgress.ToString();
             OperationalControlRequest.AppUser = _adminController.GetUser(CurrentUser().Id);

@@ -89,6 +89,13 @@
                                     <asp:RequiredFieldValidator ID="RfvDeliverto" CssClass="validator" runat="server" ControlToValidate="txtDeliverto" ErrorMessage="Deliver To Required" InitialValue="" SetFocusOnError="True" ValidationGroup="Save"></asp:RequiredFieldValidator>
                                 </label>
                             </section>
+                             <section class="col col-4">
+                                <label class="label">
+                                    Special Need</label>
+                                <label class="input">
+                                    <asp:TextBox ID="txtSpecialNeed" runat="server" Visible="true"></asp:TextBox>
+                                </label>
+                            </section>
                         </div>
                         <div class="row">
                             <section class="col col-4">
@@ -105,11 +112,19 @@
                                     <asp:TextBox ID="txtComment" runat="server" Visible="true"></asp:TextBox>
                                 </label>
                             </section>
-                            <section class="col col-4">
-                                <label class="label">
-                                    Special Need</label>
-                                <label class="input">
-                                    <asp:TextBox ID="txtSpecialNeed" runat="server" Visible="true"></asp:TextBox>
+                             <section class="col col-4">
+                                <label class="label">Payment Methods</label>
+                                <label class="select">
+                                    <asp:DropDownList ID="ddlPayMethods" AutoPostBack="true" AppendDataBoundItems="true" 
+                                        runat="server" DataValueField="Id" DataTextField="Name" CssClass="form-control">
+                                        <asp:ListItem Text="--Select Payment Method--" Value="0"></asp:ListItem>
+                                        <asp:ListItem>RTGs</asp:ListItem>
+                                        <asp:ListItem>USD</asp:ListItem>
+                                    </asp:DropDownList><i></i>
+                                    <asp:RequiredFieldValidator
+                                        ID="RequiredFieldValidator3" runat="server" ErrorMessage="Payment Method must be selected" Display="Dynamic"
+                                        CssClass="validator" ValidationGroup="saveMain" InitialValue="0"
+                                        SetFocusOnError="true" ControlToValidate="ddlPayMethods"></asp:RequiredFieldValidator>
                                 </label>
                             </section>
                         </div>
@@ -120,11 +135,14 @@
                                     <asp:TextBox ID="txtTotal" ReadOnly="true" runat="server"></asp:TextBox>
                                 </label>
                             </section>
-                            <div class="row">
+                          
                                 <section class="col col-4">
                                     <asp:CheckBox ID="chkBudgeted" runat="server" Text="Budgeted" /><i></i>
                                 </section>
-                            </div>
+                                
+                                                
+                          
+                           
                         </div>
                         <asp:DataGrid ID="dgPurchaseRequestDetail" runat="server" AlternatingRowStyle-CssClass="" AutoGenerateColumns="False" CellPadding="0"
                             CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" DataKeyField="Id"

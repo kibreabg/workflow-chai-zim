@@ -17,6 +17,7 @@ namespace Chai.WorkflowManagment.CoreDomain.Requests
         public int Id { get; set; }
         public string RequestNo { get; set; }
         public Nullable<DateTime> ProcessDate { get; set; }
+        public string PaymentMethod { get; set; }
         public int CurrentApprover { get; set; }
         public int CurrentLevel { get; set; }
         public string CurrentStatus { get; set; }

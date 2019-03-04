@@ -95,6 +95,10 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             get { return ddlAmountType.SelectedValue; }
         }
+        public string GetPaymentMethod
+        {
+            get { return ddlPayMethods.Text; }
+        }
         #endregion
         private string AutoNumber()
         {
@@ -148,7 +152,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     ddlPayee.SelectedValue = "0";
                 }                
                 txtDescription.Text = _presenter.CurrentCashPaymentRequest.Description;
-                //txtVoucherNo.Text = _presenter.CurrentCashPaymentRequest.VoucherNo.ToString();
+                ddlPayMethods.Text = _presenter.CurrentCashPaymentRequest.PaymentMethod;
                 ddlAmountType.SelectedValue = _presenter.CurrentCashPaymentRequest.AmountType;
                 BindCashPaymentDetails();
                 BindCashPaymentRequests();

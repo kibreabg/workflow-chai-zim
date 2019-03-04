@@ -90,6 +90,10 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             get { return txtAdditionalComment.Text; }
         }
+        public string GetPaymentMethod
+        {
+            get { return ddlPayMethods.Text; }
+        }
         public IList<ExpenseLiquidationRequest> ExpenseLiquidationRequests
         {
             get
@@ -129,6 +133,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 txtTotActual.Text = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.TotalActualExpenditure.ToString();
                 txtTotalAdvance.Text = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.TotalTravelAdvance.ToString();
                 txtAdditionalComment.Text = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.AdditionalComment;
+                ddlPayMethods.Text = _presenter.CurrentTravelAdvanceRequest.PaymentMethod;
                 BindExpenseLiquidationDetails();
                 BindExpenseLiquidationRequests();
             }
