@@ -499,6 +499,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             lblApprovalStatusResult.Text = _presenter.CurrentCostSharingRequest.ProgressStatus.ToString();
             lblDescResult.Text = _presenter.CurrentCostSharingRequest.Description;
             lblAccountNameResult.Text = _presenter.CurrentCostSharingRequest.ItemAccount.AccountCode;
+            lblpaytypeRes.Text = _presenter.CurrentCostSharingRequest.PaymentMethod;
             lblActualExpendtureRes.Text = _presenter.CurrentCostSharingRequest.ActualTotalAmount != null ? _presenter.CurrentCostSharingRequest.ActualTotalAmount.ToString() : "";
             lblReimbersestatusRes.Text = _presenter.CurrentCostSharingRequest.PaymentReimbursementStatus;
             grvDetails.DataSource = _presenter.CurrentCostSharingRequest.CostSharingRequestDetails;

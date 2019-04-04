@@ -75,6 +75,17 @@ namespace Chai.WorkflowManagment.CoreDomain.Requests
             }
             return null;
         }
+        public  IList<Bidder> GetBidderbyRankone()
+        {
+            IList<Bidder> Bidders = new List<Bidder>();
+            foreach (Bidder bidder in Bidders)
+            {
+                if (bidder.Rank == 1)
+                    Bidders.Add(bidder);
+
+            }
+            return Bidders;
+        }
         public virtual IList<Bidder> GetBidderByBidAnalysisId(int AnalisisId)
         {
             IList<Bidder> Bidders = new List<Bidder>();

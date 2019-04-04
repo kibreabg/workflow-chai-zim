@@ -292,6 +292,18 @@
                 <td style="width: 389px"></td>
                 <td>&nbsp;</td>
             </tr>
+             <tr>
+                <td style="width: 576px; height: 18px; padding-left: 15%;">
+                    <strong>
+                        <asp:Label ID="lblPaymentMeth" runat="server" Text="Payment Method:"></asp:Label>
+                    </strong></td>
+                <td style="width: 490px" class="modal-sm">
+                    <asp:Label ID="lblPayMethRes" runat="server"></asp:Label>
+                </td>
+                <td style="width: 280px" class="modal-sm">&nbsp;</td>
+                <td style="width: 389px"></td>
+                <td>&nbsp;</td>
+            </tr>
             <tr>
                 <td style="width: 576px; height: 18px; padding-left: 15%;">
                     <strong>

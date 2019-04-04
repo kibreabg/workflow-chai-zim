@@ -285,6 +285,18 @@
                     <td style="width: 389px; height: 18px;"></td>
                     <td style="height: 18px">&nbsp;</td>
                 </tr>
+                 <tr>
+                    <td style="width: 848px; height: 18px;">
+                        <strong>
+                            <asp:Label ID="lblPaymentMeth" runat="server" Text="Payment Method:"></asp:Label>
+                        </strong></td>
+                    <td style="width: 390px; height: 18px;">
+                        <asp:Label ID="lblPayMethRes" runat="server"></asp:Label>
+                    </td>
+                    <td style="width: 389px; height: 18px;">&nbsp;</td>
+                    <td style="width: 389px; height: 18px;"></td>
+                    <td style="height: 18px">&nbsp;</td>
+                </tr>
                 <tr>
                     <td style="width: 848px; height: 18px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>
                         <asp:Label ID="lblCommentPrint" runat="server" Text="Comment:"></asp:Label>

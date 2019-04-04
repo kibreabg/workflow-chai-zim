@@ -37,6 +37,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     if (_presenter.CurrentBidAnalysisRequest.Id > 0)
                     {
                         PopApprovalStatus();
+                        PrintTransaction();
                         BindBidAnalysisRequestforprint();
                     }
                 }
@@ -44,6 +45,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             this._presenter.OnViewLoaded();
             BindSearchPurchaseRequestGrid();
             ReturnFromBidAnalysis();
+            PrintTransaction();
             BindBidAnalysisRequestforprint();
         
         }
@@ -217,7 +219,11 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             if (_presenter.CurrentBidAnalysisRequest.CurrentLevel == _presenter.CurrentBidAnalysisRequest.BidAnalysisRequestStatuses.Count && _presenter.CurrentBidAnalysisRequest.ProgressStatus == ProgressStatus.Completed.ToString())
             {
-                btnPurchaseOrder.Visible = true;
+                //btnPurchaseOrder.Visible = true;
+                btnPrint0.Enabled = true;
+                SendEmailToRequester();
+                //btnPurchaseOrder.Enabled = true;
+             
 
             }
 
@@ -296,7 +302,10 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             }
         }
 
-
+        private void SendEmailToRequester()
+        {
+            EmailSender.Send(_presenter.GetUser(_presenter.CurrentBidAnalysisRequest.AppUser.Id).Email, "Bid Analysis  Request ", "Your Bid Analysis Request with Bid Analysis Request No. - '" + (_presenter.CurrentBidAnalysisRequest.RequestNo).ToUpper() + "' was Completed.");
+        }
         private void EnableControls()
         {
             if (_presenter.CurrentBidAnalysisRequest.CurrentLevel == _presenter.CurrentBidAnalysisRequest.BidAnalysisRequestStatuses.Count) 
@@ -345,7 +354,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     SavePurchaseRequestStatus();
                     Session["PurchaseId"] = _presenter.CurrentBidAnalysisRequest.PurchaseRequest.Id;
                     _presenter.SaveOrUpdateBidAnalysisRequest(_presenter.CurrentBidAnalysisRequest);
-                   //ShowPrint();
+                   ShowPrint();
                     EnableControls();
                     if (ddlApprovalStatus.SelectedValue != "Rejected")
                     {
@@ -404,12 +413,23 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
 
             _presenter.OnViewLoaded();
             PopApprovalStatus();
+            grvAttachments.DataSource = _presenter.CurrentBidAnalysisRequest.BAAttachments;
+            grvAttachments.DataBind();
+            txtRejectedReason.Visible = false;
+            lblRejectedReason.Enabled = false;
             BindPurchaseRequestStatus();
             BindBAAttachments();
             pnlApproval_ModalPopupExtender.Show();
             //ChangeBidAnalysisLink();
 
             Session["PurchaseId"] = _presenter.CurrentBidAnalysisRequest.Id;
+
+
+
+          
+           
+          
+           
 
         }
         private void ReturnFromBidAnalysis()
@@ -597,13 +617,22 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 grvStatuses.DataSource = _presenter.CurrentBidAnalysisRequest.BidAnalysisRequestStatuses;
                 grvStatuses.DataBind();
                 IList<BidderItemDetail> biddetail = new List<BidderItemDetail>();
-                foreach (Bidder bider in _presenter.CurrentBidAnalysisRequest.Bidders)
+                foreach (Bidder bider in _presenter.CurrentBidAnalysisRequest.GetBidderbyRankone())
                 {
+                    
                     foreach (BidderItemDetail biderdetail in bider.BidderItemDetails)
                     {
-                        biddetail.Add(biderdetail);
+                        //if (bider.Rank == 1)
+                        //{
+                            biddetail.Add(biderdetail);
+                        //}
+                        //else
+                        //{
+                        //    biddetail = null;
+                        //}
                     }
-
+                    
+                   
 
                 }
 

@@ -298,7 +298,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             lblRequestedDateResult.Text = _presenter.CurrentBankPaymentRequest.ProcessDate.ToString();
             lblRequestNoResult.Text = _presenter.CurrentBankPaymentRequest.RequestNo.ToString();
             lblApprovalStatusResult.Text = _presenter.CurrentBankPaymentRequest.ProgressStatus.ToString();
-
+            lblpaytypeRes.Text = _presenter.CurrentBankPaymentRequest.PaymentMethod;
             grvDetails.DataSource = _presenter.CurrentBankPaymentRequest.BankPaymentRequestDetails;
             grvDetails.DataBind();
 

@@ -268,7 +268,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             lblRequestedDateResult.Text = _presenter.CurrentPurchaseRequest.RequestedDate.ToShortDateString();
             lblRequesterResult.Text = _presenter.GetUser(_presenter.CurrentPurchaseRequest.Requester).FullName;
             lblSuggestedSupplierResult.Text = _presenter.CurrentPurchaseRequest.SuggestedSupplier.ToString();
-            lblSpecialNeedResult.Text = _presenter.CurrentPurchaseRequest.SpecialNeed;
+          
+           
             lblDelivertoResult.Text = _presenter.CurrentPurchaseRequest.DeliverTo;
             lblReqDateResult.Text = _presenter.CurrentPurchaseRequest.Requireddateofdelivery.ToShortDateString();
             grvDetails.DataSource = _presenter.CurrentPurchaseRequest.PurchaseRequestDetails;

@@ -14,13 +14,9 @@
             });
         }
 
+       
 
-        function fn() {
-            //alert(1);
-          //  __doPostBack('btncancelCost', '');
-            // WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;btnSubmit&quot;, &quot;&quot;, true, &quot;&quot;, &quot;&quot;, false, false));
-            WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions('btncancelCost', '', true, '', '', false, true));
-        }
+       
         function Clickheretoprint(theid) {
             var disp_setting = "toolbar=yes,location=no,directories=yes,menubar=yes,";
             disp_setting += "scrollbars=yes,width=750, height=600, left=100, top=25";
@@ -37,7 +33,7 @@
         }
     </script>
     
-    <asp:ValidationSummary ID="VSBid" runat="server"
+   <%-- <asp:ValidationSummary ID="VSBid" runat="server"
         CssClass="alert alert-danger fade in" DisplayMode="SingleParagraph"
         ValidationGroup="Save" ForeColor="" />
     <asp:ValidationSummary ID="VSBidder" runat="server"
@@ -45,7 +41,7 @@
         ValidationGroup="proadd" ForeColor="" />
     <asp:ValidationSummary ID="VSBidderEdit" runat="server"
         CssClass="alert alert-danger fade in" DisplayMode="SingleParagraph"
-        ValidationGroup="proedit" ForeColor="" />
+        ValidationGroup="proedit" ForeColor="" />--%>
 
     <div id="wid-id-0" class="jarviswidget" data-widget-custombutton="false" data-widget-editbutton="false">
         <header>
@@ -200,7 +196,7 @@
                             <div class="row">
                     <asp:DataGrid ID="dgBidders" runat="server" AlternatingRowStyle-CssClass="" AutoGenerateColumns="False" CellPadding="0"
                         CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" DataKeyField="Id"
-                        ShowFooter="True" GridLines="None" Height="30px" OnSelectedIndexChanged="dgBidders_SelectedIndexChanged" OnUpdateCommand="dgBidders_UpdateCommand" OnCancelCommand="dgBidders_CancelCommand1" OnDeleteCommand="dgBidders_DeleteCommand1" OnEditCommand="dgBidders_EditCommand1" OnItemCommand="dgBidders_ItemCommand1" OnItemDataBound="dgBidders_ItemDataBound1">
+                        ShowFooter="True" GridLines="None" Height="30px" OnSelectedIndexChanged="dgBidders_SelectedIndexChanged1" OnUpdateCommand="dgBidders_UpdateCommand" OnCancelCommand="dgBidders_CancelCommand1" OnDeleteCommand="dgBidders_DeleteCommand1" OnEditCommand="dgBidders_EditCommand1" OnItemCommand="dgBidders_ItemCommand1" OnItemDataBound="dgBidders_ItemDataBound1">
                       
 
                         <Columns>
@@ -328,7 +324,7 @@
                                         <asp:LinkButton ID="lnkDelete" runat="server" CommandName="Delete" CssClass="btn btn-xs btn-default" OnClientClick="javascript:return confirm('Are you sure you want to delete this entry?');"><i class="fa fa-times"></i></asp:LinkButton>
                                     </ItemTemplate>
                                 </asp:TemplateColumn>
-                            <asp:ButtonColumn CommandName="Select" Text="Bidder Item Detail"></asp:ButtonColumn>
+                            <asp:ButtonColumn ButtonType="PushButton" CommandName="Select" Text="Bidder Item Detail"></asp:ButtonColumn>
                         </Columns>
                         <PagerStyle CssClass="paginate_button active" HorizontalAlign="Center" />
                     </asp:DataGrid>
@@ -603,127 +599,119 @@
             </div>
         </div>
     </div>
-    <asp:Panel ID="pnlTACost" Visible="true" runat="server">
+   
+
+
+
+       <asp:Panel ID="pnlBidItem" Visible="true" runat="server">
         <div class="jarviswidget" data-widget-editbutton="false" data-widget-custombutton="false">
             <header>
                 <span class="widget-icon"><i class="fa fa-edit"></i></span>
                 <h2>Requested Items</h2>
             </header>
-                        <div>
-                            <div class="jarviswidget-editbox"></div>
-                            <div class="widget-body no-padding">
-                                <div class="smart-form">
+            <div>
+                <div class="jarviswidget-editbox"></div>
+                <div class="widget-body no-padding">
+                    <div class="smart-form">
 
-                                    <asp:DataGrid ID="dgItemDetail" runat="server" AlternatingRowStyle-CssClass="" CellPadding="0"
-                                        CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" DataKeyField="Id" AutoGenerateColumns="false"
-                                        GridLines="None" OnItemDataBound="dgItemDetail_ItemDataBound" ShowFooter="True" OnCancelCommand="dgItemDetail_CancelCommand" OnDeleteCommand="dgItemDetail_DeleteCommand" OnItemCommand="dgItemDetail_ItemCommand" OnUpdateCommand="dgItemDetail_UpdateCommand" OnEditCommand="dgItemDetail_EditCommand1">
+                                                           <asp:DataGrid ID="dgItemDetail" runat="server" AlternatingRowStyle-CssClass="" CellPadding="0"
+                            CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" DataKeyField="Id" AutoGenerateColumns="false"
+                            GridLines="None" OnItemDataBound="dgItemDetail_ItemDataBound" ShowFooter="True" OnCancelCommand="dgItemDetail_CancelCommand" OnDeleteCommand="dgItemDetail_DeleteCommand" OnItemCommand="dgItemDetail_ItemCommand" OnUpdateCommand="dgItemDetail_UpdateCommand" OnEditCommand="dgItemDetail_EditCommand1">
 
-
-
-                                        <Columns>
-
-                                                        <asp:TemplateColumn HeaderText="Requested Items">
-                                                <EditItemTemplate>
-                                    <asp:DropDownList ID="ddlItemAcc" runat="server" CssClass="form-control"                                          
-                                       AppendDataBoundItems="True" DataTextField="AccountName" DataValueField="Id"
-                                        ValidationGroup="proedit">
-                                        <asp:ListItem Value="0">Select Item</asp:ListItem>
-                                    </asp:DropDownList>
-                                    <asp:RequiredFieldValidator ID="RfvItemAcc" runat="server" CssClass="validator"
-                                        ControlToValidate="ddlItemAcc" ErrorMessage="Item Account Required"
-                                        InitialValue="0" SetFocusOnError="True" ValidationGroup="proedit">*</asp:RequiredFieldValidator>
-                                </EditItemTemplate>
-                                <FooterTemplate>
-                                    <asp:DropDownList ID="ddlFItemAcc" runat="server" CssClass="form-control"
-                                        AppendDataBoundItems="True" DataTextField="AccountName" DataValueField="Id"
-                                        EnableViewState="true" >
-                                        <asp:ListItem Value="0">Select Item Account</asp:ListItem>
-                                    </asp:DropDownList>
-                                    <asp:RequiredFieldValidator ID="RfvFItemAcc" runat="server" CssClass="validator"
-                                        ControlToValidate="ddlFItemAcc" Display="Dynamic"
-                                        ErrorMessage="Item Account Required" InitialValue="0" SetFocusOnError="True"
-                                        ValidationGroup="proadd">*</asp:RequiredFieldValidator>
-                                </FooterTemplate>
-                                                <ItemTemplate>
-                                                    <%# DataBinder.Eval(Container.DataItem, "ItemAccount.AccountName")%>
-                                                </ItemTemplate>
-                                            </asp:TemplateColumn>
-                                           
-                                            <asp:TemplateColumn HeaderText="Item Description">
-                                <ItemTemplate>
-                                    <%# DataBinder.Eval(Container.DataItem, "ItemDescription")%>
-                                </ItemTemplate>
-                                <EditItemTemplate>
-                                    <asp:TextBox ID="txtDescription" runat="server" CssClass="form-control" Text=' <%# DataBinder.Eval(Container.DataItem, "ItemDescription")%>'></asp:TextBox>
-                                    <asp:RequiredFieldValidator ID="RfvDescription" runat="server" CssClass="validator" ControlToValidate="txtDescription" ErrorMessage="Item Description Required" ValidationGroup="proedit">*</asp:RequiredFieldValidator>
-                                </EditItemTemplate>
-                                <FooterTemplate>
-                                    <asp:TextBox ID="txtFDescription" runat="server" CssClass="form-control"></asp:TextBox>
-                                    <asp:RequiredFieldValidator ID="RfvFDescription" runat="server" CssClass="validator" ControlToValidate="txtFDescription" ErrorMessage="Item Description Required" ValidationGroup="proadd">*</asp:RequiredFieldValidator>
-                                </FooterTemplate>
-                            </asp:TemplateColumn>
-                                            <asp:TemplateColumn HeaderText="Qty">
-                                                <ItemTemplate>
-                                                    <%# DataBinder.Eval(Container.DataItem, "Qty")%>
-                                                    <asp:HiddenField ID="hfqty" runat="server" Value='<%# DataBinder.Eval(Container.DataItem, "Qty")%>'></asp:HiddenField>
-                                                </ItemTemplate>
-                                                  <EditItemTemplate>
-                                                            <asp:TextBox ID="txtEdtQty" Enabled="true" runat="server" CssClass="form-control" Text='<%# DataBinder.Eval(Container.DataItem, "Qty")%>'></asp:TextBox>
-                                                        </EditItemTemplate>
-                                                        <FooterTemplate>
-                                                            <asp:TextBox ID="txtQty" runat="server" Enabled="true" CssClass="form-control"></asp:TextBox>
-                                                         
-                                                        </FooterTemplate>
-                                            </asp:TemplateColumn>
-                                            <asp:TemplateColumn HeaderText="Unit Cost">
-                                                <ItemTemplate>
-                                                     <%# DataBinder.Eval(Container.DataItem, "UnitCost")%>
-                                                 
-                                                   
-                                                </ItemTemplate>
-                                                 <EditItemTemplate>
-                                                            <asp:TextBox ID="txtEdtUnitCost" runat="server" CssClass="form-control"  Text='<%# DataBinder.Eval(Container.DataItem, "UnitCost")%>'></asp:TextBox>
-                                                         
-                                                          
-                                                            <asp:RequiredFieldValidator ID="rfvEdtUnitCost" runat="server" ControlToValidate="txtEdtUnitCost" CssClass="validator" Display="Dynamic" ErrorMessage="Unit Cost is required" SetFocusOnError="true" ValidationGroup="edit"></asp:RequiredFieldValidator>
-                                                        </EditItemTemplate>
-                                                        <FooterTemplate>
-                                                            <asp:TextBox ID="txtUnitCost" runat="server" CssClass="form-control"></asp:TextBox>
-                                                          
-                                                           <asp:RequiredFieldValidator ID="rfvUnitCost" runat="server" ControlToValidate="txtUnitCost" CssClass="validator" Display="Dynamic" ErrorMessage="Unit Cost is required" SetFocusOnError="true" ValidationGroup="save"></asp:RequiredFieldValidator>
-                                                        </FooterTemplate>
-                                            </asp:TemplateColumn>
-                                            <asp:TemplateColumn HeaderText="Total Cost">
-                                                <ItemTemplate>
-                                                    <asp:TextBox ID="txtTotalCost" runat="server" CssClass="form-control" Text=' <%# DataBinder.Eval(Container.DataItem, "TotalCost")%>' Height="16px" Width="94px"></asp:TextBox>
-                                                    <asp:RequiredFieldValidator ID="RfvTotalCost" runat="server" ControlToValidate="txtTotalCost" ErrorMessage="Total Cost Required" Enabled="false" ValidationGroup="Savedetail">*</asp:RequiredFieldValidator>
-                                                </ItemTemplate>
-                                                 <EditItemTemplate>
-                                                            <asp:TextBox ID="txtEdtTotalCost" runat="server" Enabled="false" CssClass="form-control" Text='<%# DataBinder.Eval(Container.DataItem, "TotalCost")%>'></asp:TextBox>
-                                                        </EditItemTemplate>
-                                                        <FooterTemplate>
-                                                            <asp:TextBox ID="txtTotalCost" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>                                                            
-                                                        </FooterTemplate>
-                                            </asp:TemplateColumn>
-
-                                                       
-                                    <asp:TemplateColumn HeaderText="Actions">
+                            <Columns>
+                                <asp:TemplateColumn HeaderText="Requested Items">
                                     <EditItemTemplate>
-                                        <asp:LinkButton ID="lnkUpdate" runat="server" CommandName="Update" ValidationGroup="edit" CssClass="btn btn-xs btn-default"><i class="fa fa-save"></i></asp:LinkButton>
+                                        <asp:DropDownList ID="ddlItemAcc" runat="server" CssClass="form-control"
+                                            AppendDataBoundItems="True" DataTextField="AccountName" DataValueField="Id"
+                                            ValidationGroup="detailedit">
+                                            <asp:ListItem Value="0">Select Item</asp:ListItem>
+                                        </asp:DropDownList>
+                                        <asp:RequiredFieldValidator ID="RfvItemAcc" runat="server" CssClass="validator"
+                                            ControlToValidate="ddlItemAcc" ErrorMessage="Item Account Required"
+                                            InitialValue="0" SetFocusOnError="True" ValidationGroup="detailedit">*</asp:RequiredFieldValidator>
+                                    </EditItemTemplate>
+                                    <FooterTemplate>
+                                        <asp:DropDownList ID="ddlFItemAcc" runat="server" CssClass="form-control"
+                                            AppendDataBoundItems="True" DataTextField="AccountName" DataValueField="Id"
+                                            EnableViewState="true">
+                                            <asp:ListItem Value="0">Select Item Account</asp:ListItem>
+                                        </asp:DropDownList>
+                                        <asp:RequiredFieldValidator ID="RfvFItemAcc" runat="server" CssClass="validator"
+                                            ControlToValidate="ddlFItemAcc" Display="Dynamic"
+                                            ErrorMessage="Item Account Required" InitialValue="0" SetFocusOnError="True"
+                                            ValidationGroup="detailadd">*</asp:RequiredFieldValidator>
+                                    </FooterTemplate>
+                                    <ItemTemplate>
+                                        <%# DataBinder.Eval(Container.DataItem, "ItemAccount.AccountName")%>
+                                    </ItemTemplate>
+                                </asp:TemplateColumn>
+                                <asp:TemplateColumn HeaderText="Item Description">
+                                    <ItemTemplate>
+                                        <%# DataBinder.Eval(Container.DataItem, "ItemDescription")%>
+                                    </ItemTemplate>
+                                    <EditItemTemplate>
+                                        <asp:TextBox ID="txtDescription" runat="server" CssClass="form-control" Text=' <%# DataBinder.Eval(Container.DataItem, "ItemDescription")%>'></asp:TextBox>
+                                        <asp:RequiredFieldValidator ID="RfvDescription" runat="server" CssClass="validator" ControlToValidate="txtDescription" ErrorMessage="Item Description Required" ValidationGroup="detailedit">*</asp:RequiredFieldValidator>
+                                    </EditItemTemplate>
+                                    <FooterTemplate>
+                                        <asp:TextBox ID="txtFDescription" runat="server" CssClass="form-control"></asp:TextBox>
+                                        <asp:RequiredFieldValidator ID="RfvFDescription" runat="server" CssClass="validator" ControlToValidate="txtFDescription" ErrorMessage="Item Description Required" ValidationGroup="detailadd">*</asp:RequiredFieldValidator>
+                                    </FooterTemplate>
+                                </asp:TemplateColumn>
+                                <asp:TemplateColumn HeaderText="Qty">
+                                    <ItemTemplate>
+                                        <%# DataBinder.Eval(Container.DataItem, "Qty")%>
+                                        <asp:HiddenField ID="hfqty" runat="server" Value='<%# DataBinder.Eval(Container.DataItem, "Qty")%>'></asp:HiddenField>
+                                    </ItemTemplate>
+                                    <EditItemTemplate>
+                                        <asp:TextBox ID="txtEdtQty" Enabled="true" runat="server" CssClass="form-control" Text='<%# DataBinder.Eval(Container.DataItem, "Qty")%>'></asp:TextBox>
+                                    </EditItemTemplate>
+                                    <FooterTemplate>
+                                        <asp:TextBox ID="txtQty" runat="server" Enabled="true" CssClass="form-control"></asp:TextBox>
+                                    </FooterTemplate>
+                                </asp:TemplateColumn>
+                                <asp:TemplateColumn HeaderText="Unit Cost">
+                                    <ItemTemplate>
+                                        <%# DataBinder.Eval(Container.DataItem, "UnitCost")%>
+                                    </ItemTemplate>
+                                    <EditItemTemplate>
+                                        <asp:TextBox ID="txtEdtUnitCost" runat="server" CssClass="form-control" Text='<%# DataBinder.Eval(Container.DataItem, "UnitCost")%>'></asp:TextBox>
+                                        <asp:RequiredFieldValidator ID="rfvEdtUnitCost" runat="server" ControlToValidate="txtEdtUnitCost" CssClass="validator" Display="Dynamic" ErrorMessage="Unit Cost is required" SetFocusOnError="true" ValidationGroup="detailedit"></asp:RequiredFieldValidator>
+                                    </EditItemTemplate>
+                                    <FooterTemplate>
+                                        <asp:TextBox ID="txtUnitCost" runat="server" CssClass="form-control"></asp:TextBox>
+                                        <asp:RequiredFieldValidator ID="rfvUnitCost" runat="server" ControlToValidate="txtUnitCost" CssClass="validator" Display="Dynamic" ErrorMessage="Unit Cost is required" SetFocusOnError="true" ValidationGroup="detailadd"></asp:RequiredFieldValidator>
+                                    </FooterTemplate>
+                                </asp:TemplateColumn>
+                                <asp:TemplateColumn HeaderText="Total Cost">
+                                    <ItemTemplate>
+                                        <%# DataBinder.Eval(Container.DataItem, "TotalCost")%>                                        
+                                    </ItemTemplate>
+                                    <EditItemTemplate>
+                                        <asp:TextBox ID="txtEdtTotalCost" runat="server" Enabled="false" CssClass="form-control" Text='<%# DataBinder.Eval(Container.DataItem, "TotalCost")%>'></asp:TextBox>
+                                    </EditItemTemplate>
+                                    <FooterTemplate>
+                                        <asp:TextBox ID="txtTotalCost" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
+                                        <asp:RequiredFieldValidator ID="RfvTotalCost" runat="server" ControlToValidate="txtTotalCost" ErrorMessage="Total Cost Required" Enabled="false" ValidationGroup="detailadd">*</asp:RequiredFieldValidator>
+                                    </FooterTemplate>
+                                </asp:TemplateColumn>
+                                <asp:TemplateColumn HeaderText="Actions">
+                                    <EditItemTemplate>
+                                        <asp:LinkButton ID="lnkUpdate" runat="server" CommandName="Update" ValidationGroup="detailedit" CssClass="btn btn-xs btn-default"><i class="fa fa-save"></i></asp:LinkButton>
                                         <asp:LinkButton ID="lnkDelete" runat="server" CommandName="Delete" CssClass="btn btn-xs btn-default"><i class="fa fa-times"></i></asp:LinkButton>
                                     </EditItemTemplate>
                                     <FooterTemplate>
-                                        <asp:LinkButton ID="lnkAddNewa" runat="server" CommandName="AddNew" ValidationGroup="save" CssClass="btn btn-sm btn-success"><i class="fa fa-save"></i></asp:LinkButton>
+                                        <asp:LinkButton ID="lnkAddNewa" runat="server" CommandName="AddNew" ValidationGroup="detailadd" CssClass="btn btn-sm btn-success"><i class="fa fa-save"></i></asp:LinkButton>
                                     </FooterTemplate>
                                     <ItemTemplate>
                                         <asp:LinkButton ID="lnkEdit" runat="server" CommandName="Edit" CssClass="btn btn-xs btn-default"><i class="fa fa-pencil"></i></asp:LinkButton>
                                         <asp:LinkButton ID="lnkDelete" runat="server" CommandName="Delete" CssClass="btn btn-xs btn-default" OnClientClick="javascript:return confirm('Are you sure you want to delete this entry?');"><i class="fa fa-times"></i></asp:LinkButton>
                                     </ItemTemplate>
                                 </asp:TemplateColumn>
-                                            
-                                        </Columns>
-                                        <PagerStyle CssClass="paginate_button active" HorizontalAlign="Center" />
-                                    </asp:DataGrid>
+                            </Columns>
+                            <PagerStyle CssClass="paginate_button active" HorizontalAlign="Center" />
+                        </asp:DataGrid>
+
 
 
 
@@ -741,8 +729,8 @@
         <!-- /.modal-content -->
     </asp:Panel>
      <cc1:ModalPopupExtender runat="server" Enabled="True" CancelControlID="btncancelCost"
-        ID="pnlTACost_ModalPopupExtender" TargetControlID="btnHiddenPopupp" BackgroundCssClass="modalBackground"
-        PopupControlID="pnlTACost">
+        ID="pnlBidItem_ModalPopupExtender" TargetControlID="btnHiddenPopupp" BackgroundCssClass="modalBackground"
+        PopupControlID="pnlBidItem">
     </cc1:ModalPopupExtender>
     
     <asp:Panel ID="pnlWarning" Visible="false" Style="position: absolute; top: 55px; left: 108px;" runat="server">

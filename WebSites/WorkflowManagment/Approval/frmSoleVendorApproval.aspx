@@ -398,6 +398,16 @@
                     <td style="height: 18px">&nbsp;</td>
                 </tr>
                 <tr>
+                    <td style="height: 18px">&nbsp;</td>
+                     <td style="width: 334px; height: 18px;">
+                        <strong>
+                            <asp:Label ID="lblPaymet" runat="server" Text="Payment Method"></asp:Label>
+                        </strong>
+                    </td>
+                    <td style="width: 244px; height: 18px;">
+                        <asp:Label ID="lblPaymentMethRes" runat="server"></asp:Label>
+                    </td>
+                    <td style="height: 18px">&nbsp;</td>
                     <td style="width: 334px; height: 18px;">
                         <strong>
                             <asp:Label ID="lblApprovalStatusp" runat="server" Text="Approval Status"></asp:Label>
@@ -406,7 +416,7 @@
                     <td style="width: 244px; height: 18px;">
                         <asp:Label ID="lblapprovalstatusres" runat="server"></asp:Label>
                     </td>
-                    <td style="height: 18px">&nbsp;</td>
+                    
                 </tr>
             </table>
             <br />

@@ -81,7 +81,8 @@
                 
                 <asp:BoundField DataField="PurchaseRequest.SuggestedSupplier" HeaderText="Suggested Supplier" SortExpression="PurchaseRequest.SuggestedSupplier" />
                 
-                <asp:BoundField DataField="TotalPrice" HeaderText="Total Price" SortExpression="TotalPrice" />
+               
+                <asp:BoundField   DataField="TotalPrice"  DataFormatString="{0:C}" HeaderText="Total Price" SortExpression="TotalPrice" />
                
                 <asp:ButtonField ButtonType="Button" CommandName="ViewItem" Text="View Item Detail" />
                 <asp:CommandField ButtonType="Button" SelectText="Process Request" ShowSelectButton="True" />
@@ -170,15 +171,15 @@
 
                                             </asp:TemplateColumn>
                                             <asp:TemplateColumn HeaderText="Price per unit">
-                                                <ItemTemplate>
-                                                    <%# DataBinder.Eval(Container.DataItem, "UnitCost")%>
+                                                <ItemTemplate>                                                     
+                                                  $  <%# DataBinder.Eval(Container.DataItem, "UnitCost")%>
                                                 </ItemTemplate>
 
 
                                             </asp:TemplateColumn>
                                              <asp:TemplateColumn HeaderText="Total Price">
-                                                <ItemTemplate>
-                                                    <%# DataBinder.Eval(Container.DataItem, "TotalCost")%>
+                                                   <ItemTemplate>                                                   
+                                                   $  <%# DataBinder.Eval(Container.DataItem, "TotalCost")%>
                                                 </ItemTemplate>
 
 
@@ -360,11 +361,11 @@
                 </tr>
                <tr>
                     
-                    <td style="width: 629px; height: 18px; padding-left: 20%;">
+                    <td style="width: 848px">
                         <strong>
-                            <asp:Label ID="lblPaytype" runat="server" Text="Special Need:"></asp:Label>
+                            <asp:Label ID="lblPaytype" runat="server" Text="Payment Method:"></asp:Label>
                         </strong></td>
-                      <td style="width: 244px; height: 18px;">
+                      <td style="width: 390px">
                         <asp:Label ID="lblpaytypeRes" runat="server" Text="" class="label"></asp:Label>
                     </td>
                     <td style="width: 389px;">&nbsp;</td>

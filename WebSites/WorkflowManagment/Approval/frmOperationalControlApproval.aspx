@@ -381,6 +381,9 @@
                     </td>
                     <td style="height: 18px">&nbsp;</td>
                 </tr>
+
+                
+               
                 <tr>
                     <td style="width: 629px; height: 18px; padding-left: 10%;">
                         <strong>
@@ -426,6 +429,14 @@
                     </td>
                     <td colspan="3">
                         <asp:Label ID="lblDescriptionResult" runat="server"></asp:Label>
+                    </td>
+                     <td style="width: 629px; height: 18px; padding-left: 10%;">
+                        <strong>
+                            <asp:Label ID="lblPayMeth" runat="server" Text="Payment Method:"></asp:Label>
+                        </strong>
+                    </td>
+                    <td colspan="3">
+                        <asp:Label ID="lblPayMethRes" runat="server"></asp:Label>
                     </td>
                 </tr>
                 <tr>

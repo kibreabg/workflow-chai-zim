@@ -528,13 +528,13 @@
                     <td style="width: 389px; height: 18px;"></td>
                     <td style="height: 18px">&nbsp;</td>
                 </tr>
-                 <tr>
+                  <tr>
                     
-                    <td style="width: 629px; height: 18px; padding-left: 20%;">
+                    <td style="width: 848px">
                         <strong>
-                            <asp:Label ID="lblPaytype" runat="server" Text="Special Need:"></asp:Label>
+                            <asp:Label ID="lblPaytype" runat="server" Text="Payment Method:"></asp:Label>
                         </strong></td>
-                      <td style="width: 244px; height: 18px;">
+                      <td style="width: 390px">
                         <asp:Label ID="lblpaytypeRes" runat="server" Text="" class="label"></asp:Label>
                     </td>
                     <td style="width: 389px;">&nbsp;</td>

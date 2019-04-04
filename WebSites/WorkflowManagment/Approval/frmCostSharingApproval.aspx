@@ -530,7 +530,19 @@
                     </td>
                     <td style="height: 18px">&nbsp;</td>
                 </tr>
-
+                 <tr>
+                    
+                    <td style="width: 848px">
+                        <strong>
+                            <asp:Label ID="lblPaytype" runat="server" Text="Payment Method:"></asp:Label>
+                        </strong></td>
+                      <td style="width: 390px">
+                        <asp:Label ID="lblpaytypeRes" runat="server" Text="" class="label"></asp:Label>
+                    </td>
+                    <td style="width: 389px;">&nbsp;</td>
+                    <td style="width: 389px;">&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
                 <tr>
                     <td style="width: 1009px; height: 18px; padding-left: 20%;">&nbsp;</td>
                     <td style="width: 244px; height: 18px;">&nbsp;</td>

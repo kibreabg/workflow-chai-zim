@@ -284,6 +284,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             lblRequestedDateResult.Text = _presenter.CurrentPaymentReimbursementRequest.RequestDate.Value.ToShortDateString();
             lblRequesterResult.Text = _presenter.CurrentPaymentReimbursementRequest.CashPaymentRequest.AppUser.UserName;
             lblCommentResult.Text = _presenter.CurrentPaymentReimbursementRequest.Comment.ToString();
+            lblPayMethRes.Text = _presenter.CurrentPaymentReimbursementRequest.PaymentMethod;
             lblApprovalStatusResult.Text = _presenter.CurrentPaymentReimbursementRequest.ProgressStatus.ToString();
 
             grvDetails.DataSource = _presenter.CurrentPaymentReimbursementRequest.PaymentReimbursementRequestDetails;
