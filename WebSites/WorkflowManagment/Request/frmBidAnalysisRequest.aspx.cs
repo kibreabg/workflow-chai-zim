@@ -379,7 +379,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             grvBidAnalysisRequestList.DataSource = _presenter.ListBidAnalysisRequests(txtSrchRequestNo.Text, txtSrchRequestDate.Text);
             grvBidAnalysisRequestList.DataBind();
         }
-
         private string AutoNumber()
         {
             return "BAR-" + (_presenter.GetLastBidAnalysisRequestId() + 1).ToString();
@@ -436,7 +435,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         #region Bidders
         private void SaveBidAnalysis()
         {
-
             try
             {
                 _presenter.CurrentBidAnalysisRequest.PurchaseRequest.Id = Convert.ToInt32(GetPurchaseRequestId);
@@ -457,21 +455,14 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 _presenter.CurrentBidAnalysisRequest.SelectedBy = _presenter.CurrentUser().Id;
                 if (_presenter.CurrentBidAnalysisRequest.GetBidderbyRank().Supplier != null)
                     _presenter.CurrentBidAnalysisRequest.Supplier = _presenter.CurrentBidAnalysisRequest.GetBidderbyRank().Supplier;
-
-
-
                 _presenter.CurrentBidAnalysisRequest.Status = "Completed";
-
             }
             catch (Exception ex)
             {
 
-
             }
 
-        }
-
-       
+        }       
         protected void dgBidders_DeleteCommand(object source, DataGridCommandEventArgs e)
         {
 
@@ -509,9 +500,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         //        }
         //    }
         //}
-
-
-
         protected void dgBidders_UpdateCommand(object source, DataGridCommandEventArgs e)
         {
             int id = (int)dgBidders.DataKeys[e.Item.ItemIndex];
@@ -534,6 +522,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 
                 dgBidders.EditItemIndex = -1;
                 BindBidder();
+                Master.ShowMessage(new AppMessage("Bidder Detail Successfully Updated", RMessageType.Info));
             }
             catch (Exception ex)
             {
@@ -544,9 +533,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 
 
         }
-
-
-
         private void UploadFile()
         {
             string fileName = Path.GetFileName(fuReciept.PostedFile.FileName);
@@ -578,21 +564,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 Master.ShowMessage(new AppMessage("Unable to upload the file,The file is to big or The internet is too slow " + ex.InnerException.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
             }
         }
-
-       
-
-
-
-
-
-
-
-
-
-
-
-
-
         protected void btnRequest_Click(object sender, EventArgs e)
         {
             try
@@ -652,10 +623,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         throw raise;  
                   }  
             }
-
-
-
-
         private void BindBidRequestforprint()
         {
 
@@ -676,13 +643,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 
 
 
-        }
-
-
-       
-
-        #endregion
-       
+        }    
+        #endregion       
         protected void dgItemDetail_ItemDataBound(object sender, DataGridItemEventArgs e)
         {
             bidd = Session["bidd"] as Bidder;
@@ -871,6 +833,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 
 
                     _presenter.CurrentBidAnalysisRequest.Bidders.Add(bidder);
+                    Master.ShowMessage(new AppMessage("Bidder Detail Successfully Added", RMessageType.Info));
                     dgBidders.EditItemIndex = -1;
                     BindBidder();
                 }
@@ -880,7 +843,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 }
             }
         }
-
         private void BindBidItem(Bidder Bidddet)
         {
             bidd = Session["bidd"] as Bidder;
@@ -1022,9 +984,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         protected void ddlProject_SelectedIndexChanged(object sender, EventArgs e)
         {
             PopGrants(Convert.ToInt32(ddlProject.SelectedValue));
-        }
-       
-
+        }     
         protected void DataGrid1_ItemDataBound(object sender, DataGridItemEventArgs e)
         {
             foreach (PurchaseRequestDetail prd in _presenter.CurrentBidAnalysisRequest.PurchaseRequest.PurchaseRequestDetails)
@@ -1045,7 +1005,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 
             }
         }
-
         protected void grvBidAnlysisRequestList_SelectedIndexChanged(object sender, EventArgs e)
         {
             
@@ -1065,8 +1024,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 
             }
         }
-
-
         private void PrintTransaction()
         {
             lblRequester.Text=_presenter.CurrentBidAnalysisRequest.AppUser.UserName.ToString();
@@ -1096,7 +1053,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             grvBidAnalysisRequestList.PageIndex = e.NewPageIndex;
             btnFind_Click(sender, e);
         }
-
         protected void grvStatuses_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             if (_presenter.CurrentBidAnalysisRequest.BidAnalysisRequestStatuses != null)
@@ -1108,7 +1064,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 }
             }
         }
-
         protected void dgItemDetail_EditCommand1(object source, DataGridCommandEventArgs e)
         {
             bidd = Session["bidd"] as Bidder;
@@ -1126,17 +1081,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             pnlBidItem_ModalPopupExtender.Show();
 
         }
-
-
-
-
-
-
-
-
-
-
-
         protected void dgBidders_SelectedIndexChanged1(object sender, EventArgs e)
         {
 
@@ -1166,7 +1110,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             BindBidItem(bidd);
             pnlBidItem_ModalPopupExtender.Show();
         }
-
         protected void btncancelCost_Click(object sender, EventArgs e)
         {
 

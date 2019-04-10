@@ -96,7 +96,6 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             get { return txtRequestDatesearch.Text; }
         }
-
         public int BidAnalysisRequestId
         {
             get
@@ -301,7 +300,6 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 EmailSender.Send(_presenter.GetUser(_presenter.GetAssignedJobbycurrentuser(PRS.Approver).AssignedTo).Email, "Purchase Request", (_presenter.GetUser(_presenter.CurrentBidAnalysisRequest.AppUser.Id).FullName).ToUpper() + " Requests for Purchase with Purchase No '" + (_presenter.CurrentBidAnalysisRequest.RequestNo).ToUpper() + "'");
             }
         }
-
         private void SendEmailToRequester()
         {
             EmailSender.Send(_presenter.GetUser(_presenter.CurrentBidAnalysisRequest.AppUser.Id).Email, "Bid Analysis  Request ", "Your Bid Analysis Request with Bid Analysis Request No. - '" + (_presenter.CurrentBidAnalysisRequest.RequestNo).ToUpper() + "' was Completed.");
@@ -322,8 +320,6 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 }
             }
         }
-
-
         private void BindBidAnalysisRequestforprint()
         {
             if (_presenter.CurrentBidAnalysisRequest.Id > 0)
@@ -520,7 +516,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             }
             pnlApproval_ModalPopupExtender.Show();
         }
-   /*    
+        /*    
         protected void btnPrint_Click(object sender, EventArgs e)
         {
 
@@ -538,7 +534,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
 
         }
-      /*  protected void lnkbidanalysis_Click(object sender, EventArgs e)
+        /*  protected void lnkbidanalysis_Click(object sender, EventArgs e)
         {
             Response.Redirect(String.Format("frmPurchaseApprovalDetail.aspx?PurchaseRequestId={0}", _presenter.CurrentBidAnalysisRequest.Id));
         }*/
@@ -642,7 +638,6 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
            // grvStatuses.DataSource = _presenter.CurrentPaymentReimbursementRequest.PaymentReimbursementRequestStatuses;
             //grvStatuses.DataBind();
         }
-
         /// <summary>
         /// 
         /// </summary>
@@ -685,12 +680,10 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 }
             }
         }
-
         protected void dgPurchaseRequestDetail_ItemCommand(object source, DataGridCommandEventArgs e)
         {
            
         }
-
         protected void dgPurchaseRequestDetail_ItemCreated(object sender, DataGridItemEventArgs e)
         {
 

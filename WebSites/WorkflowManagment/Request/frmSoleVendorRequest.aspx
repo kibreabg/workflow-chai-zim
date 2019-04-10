@@ -66,7 +66,7 @@
                         </div>
                         <div class="row">
                             <section class="col col-6">
-                                <label class="label">Proposed Supplier</label>
+                                <label class="label">Requested Supplier</label>
                                 <label class="select">
                                     <asp:DropDownList ID="ddlSupplier" runat="server" DataValueField="Id" DataTextField="SupplierName" AppendDataBoundItems="True">
                                         <asp:ListItem Value="">--Select Supplier--</asp:ListItem>
