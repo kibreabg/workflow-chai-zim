@@ -949,6 +949,25 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 dgItemDetail.EditItemIndex = -1;
                 
                 BindItemdetailGrid(biddet.Bidder);
+
+                decimal cost = 0;
+                if (_presenter.CurrentBidAnalysisRequest.Bidders.Count > 0)
+                {
+
+                    foreach (Bidder detail in _presenter.CurrentBidAnalysisRequest.Bidders)
+                    {
+                        if (detail.Rank == 1)
+                        {
+                            foreach (BidderItemDetail biddetail in detail.BidderItemDetails)
+                            {
+
+                                cost = cost + biddetail.TotalCost;
+                            }
+                        };
+                    }
+                }
+                _presenter.CurrentBidAnalysisRequest.TotalPrice = cost;
+                txtTotal.Text = _presenter.CurrentBidAnalysisRequest.TotalPrice.ToString();
                 pnlBidItem_ModalPopupExtender.Show();
                 Master.ShowMessage(new AppMessage("Bidder Item Successfully Updated", Chai.WorkflowManagment.Enums.RMessageType.Info));
             }
