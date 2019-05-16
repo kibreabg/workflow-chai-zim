@@ -454,13 +454,13 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     Detail.Grant = _presenter.GetGrant(int.Parse(ddlFGrant.SelectedValue));
                     Detail.PurchaseRequest = _presenter.CurrentPurchaseRequest;
                     _presenter.CurrentPurchaseRequest.PurchaseRequestDetails.Add(Detail);
-                    Master.ShowMessage(new AppMessage("Purchase Request Detail added successfully.", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                    Master.ShowMessage(new AppMessage("Purchase Request Detail added successfully.", RMessageType.Info));
                     dgPurchaseRequestDetail.EditItemIndex = -1;
                     BindPurchaseRequestDetails();
                 }
                 catch (Exception ex)
                 {
-                    Master.ShowMessage(new AppMessage("Error: Unable to Add Purchase Request Detail. " + ex.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
+                    Master.ShowMessage(new AppMessage("Error: Unable to Add Purchase Request Detail. " + ex.Message, RMessageType.Error));
                 }
             }
         }
@@ -615,7 +615,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 if (_presenter.CurrentPurchaseRequest.PurchaseRequestStatuses.Count != 0)
                 {
                     _presenter.SaveOrUpdateLeavePurchase(_presenter.CurrentPurchaseRequest);
-                    ClearForm();
+                    //ClearForm();
                     BindSearchPurchaseRequestGrid();
                     Master.ShowMessage(new AppMessage("Successfully did a Purchase Request, Reference No - <b>'" + _presenter.CurrentPurchaseRequest.RequestNo + "'</b> ", Chai.WorkflowManagment.Enums.RMessageType.Info));
                     Log.Info(_presenter.CurrentUser().FullName + " has requested for a Purchase of Total Price " + _presenter.CurrentPurchaseRequest.TotalPrice);

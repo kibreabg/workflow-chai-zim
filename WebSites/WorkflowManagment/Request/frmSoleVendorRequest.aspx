@@ -145,11 +145,11 @@
                                 </label>
                             </section>
                         </div>
-                           <div class="row">
-                                                 <section class="col col-6">
+                        <div class="row">
+                            <section class="col col-6">
                                 <label class="label">Payment Methods</label>
                                 <label class="select">
-                                    <asp:DropDownList ID="ddlPayMethods" AutoPostBack="true" AppendDataBoundItems="true" 
+                                    <asp:DropDownList ID="ddlPayMethods" AppendDataBoundItems="true"
                                         runat="server" DataValueField="Id" DataTextField="Name" CssClass="form-control">
                                         <asp:ListItem Text="--Select Payment Method--" Value="0"></asp:ListItem>
                                         <asp:ListItem>RTGs</asp:ListItem>
@@ -160,7 +160,8 @@
                                         CssClass="validator" ValidationGroup="saveMain" InitialValue="0"
                                         SetFocusOnError="true" ControlToValidate="ddlPayMethods"></asp:RequiredFieldValidator>
                                 </label>
-                            </section></div>
+                            </section>
+                        </div>
                     </fieldset>
                     <div role="content">
 

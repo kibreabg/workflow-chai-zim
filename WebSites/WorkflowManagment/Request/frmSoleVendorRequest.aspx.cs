@@ -462,13 +462,14 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     TextBox txtTotalCost = e.Item.FindControl("txtTotalCost") as TextBox;
                     detail.TotalCost = Convert.ToDecimal(txtTotalCost.Text);
                     _presenter.CurrentSoleVendorRequest.SoleVendorRequestDetails.Add(detail);
+                    Master.ShowMessage(new AppMessage("Sole Vendor Detail Successfully Added.", RMessageType.Info));
                     dgSoleVenderDetail.EditItemIndex = -1;
                     BindSoleVendorRequestDetails();
 
                 }
                 catch (Exception ex)
                 {
-                    Master.ShowMessage(new AppMessage("Error: Unable to Update Bidder " + ex.Message, RMessageType.Error));
+                    Master.ShowMessage(new AppMessage("Error: Unable to Update Sole Vendor Detail " + ex.Message, RMessageType.Error));
                 }
             }
 
@@ -503,7 +504,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             }
             catch (Exception ex)
             {
-                Master.ShowMessage(new AppMessage("Error: Unable to Update Bidder " + ex.Message, RMessageType.Error));
+                Master.ShowMessage(new AppMessage("Error: Unable to Update Sole Vendor Detail " + ex.Message, RMessageType.Error));
             }
         }
         protected void dgSoleVenderDetail_DeleteCommand(object source, DataGridCommandEventArgs e)
