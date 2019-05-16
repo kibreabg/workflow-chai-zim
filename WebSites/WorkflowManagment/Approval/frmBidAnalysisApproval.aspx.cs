@@ -45,7 +45,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             this._presenter.OnViewLoaded();
             BindSearchPurchaseRequestGrid();
             ReturnFromBidAnalysis();
-            PrintTransaction();
+            //PrintTransaction();
             BindBidAnalysisRequestforprint();
         
         }
