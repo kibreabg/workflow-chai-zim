@@ -147,7 +147,12 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 }
             }
             if (_presenter.CurrentUser().EmployeePosition.PositionName == "Admin/HR Assisitance (Driver)" && _presenter.CurrentPurchaseRequest.CurrentStatus != ApprovalStatus.Rejected.ToString() && _presenter.CurrentPurchaseRequest.ProgressStatus == ProgressStatus.Completed.ToString())
-            {                
+            {
+                if (_presenter.CurrentPurchaseRequest.SoleVendorRequests == null && _presenter.CurrentPurchaseRequest.BidAnalysisRequests == null)
+                {
+                    lnkSoleVendor.Visible = true;
+                    lnkBidRequest.Visible = true;
+                }
                 if (_presenter.CurrentPurchaseRequest.SoleVendorRequests != null && _presenter.CurrentPurchaseRequest.BidAnalysisRequests != null)
                 {
                     if (_presenter.CurrentPurchaseRequest.SoleVendorRequests.Count == 0 && _presenter.CurrentPurchaseRequest.BidAnalysisRequests.Count == 0)
@@ -155,7 +160,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                         lnkSoleVendor.Visible = true;
                         lnkBidRequest.Visible = true;
                     }
-                    if (_presenter.CurrentPurchaseRequest.SoleVendorRequests.Count != 0 &&_presenter.CurrentPurchaseRequest.SoleVendorRequests.LastOrDefault() != null)
+                    if (_presenter.CurrentPurchaseRequest.SoleVendorRequests.Count != 0 && _presenter.CurrentPurchaseRequest.SoleVendorRequests.LastOrDefault() != null)
                     {
                         if (_presenter.CurrentPurchaseRequest.SoleVendorRequests.LastOrDefault().CurrentStatus == ApprovalStatus.Rejected.ToString())
                         {
@@ -299,7 +304,12 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     btnApprove.Enabled = false;
                     BindSearchPurchaseRequestGrid();
                     if (_presenter.CurrentUser().EmployeePosition.PositionName == "Admin/HR Assisitance (Driver)" && _presenter.CurrentPurchaseRequest.CurrentStatus != ApprovalStatus.Rejected.ToString() && _presenter.CurrentPurchaseRequest.ProgressStatus == ProgressStatus.Completed.ToString())
-                    {                        
+                    {
+                        if (_presenter.CurrentPurchaseRequest.SoleVendorRequests == null && _presenter.CurrentPurchaseRequest.BidAnalysisRequests == null)
+                        {
+                            lnkSoleVendor.Visible = true;
+                            lnkBidRequest.Visible = true;
+                        }
                         if (_presenter.CurrentPurchaseRequest.SoleVendorRequests != null && _presenter.CurrentPurchaseRequest.BidAnalysisRequests != null)
                         {
                             if (_presenter.CurrentPurchaseRequest.SoleVendorRequests.Count == 0 && _presenter.CurrentPurchaseRequest.BidAnalysisRequests.Count == 0)
