@@ -140,6 +140,14 @@
                  <span><a data-toggle="modal"  id="searchLink" href="#mailModal">Need Help?</a></span>
 			
 			  </div>
+                     <div  class="btn-header  pull-right">
+                 <span><a data-toggle="modal"  id="contactLink" href="#contactModal">Contact Us</a></span>
+			
+			  </div>
+                 <div  class="btn-header  pull-right">
+                 <span><a data-toggle="modal"  id="downloadLink" href="#downloadModal">Download Manual</a></span>
+			
+			  </div>
 
 			</div>
 			<!-- end pulled right: nav area -->
@@ -152,7 +160,7 @@
 				<span>Logged in as <a href="#" title="Logged in as [USER NAME]">[<% = CurrentUser.UserName %>]</a></span>
 			</div>
 			
-			-->
+			
 			<nav>
 				
                 <RAMCS:ModuleNavigation ID="ModuleNavigation1" runat="server" />
@@ -263,6 +271,81 @@
                         </div>
                     </div>
                     
+                </div>
+               
+            </div>
+        </div>
+    </div>
+        <div class="modal fade" id="contactModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabelcontact">Contacts</h4>
+                </div>
+                <div class="modal-body">
+                    
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                           
+                               <a> <asp:label ID="lblName1" Text="Thuthuka Mkhosi Moyo" font-weight="bold" CssClass="form-control" ToolTip="Contact Name" runat="server"></asp:label></a>
+                                                            
+                                      <a href='mailto:tmkhosimoyo@clintonhealthaccess.org'>tmkhosimoyo@clintonhealthaccess.org</a>
+                            </div>
+                        </div>
+                        </div>
+                     <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                            <a> <asp:label ID="Label3" Text="Shiella Mudzingwa" font-weight="bold" CssClass="form-control" ToolTip="Contact Name" runat="server"></asp:label></a>
+                                                            
+                                      <a href='mailto:smudzingwa@clintonhealthaccess.org'>smudzingwa@clintonhealthaccess.org</a>
+                            </div>
+                        </div>
+                        </div>
+                      <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                           
+                               <a> <asp:label ID="Label4" Text="Kibreab Gizatu" font-weight="bold" CssClass="form-control" ToolTip="Contact Name" runat="server"></asp:label></a>
+                                                            
+                                      <a href='mailto:kgizatu@clintonhealthaccess.org'>kgizatu@clintonhealthaccess.org</a>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                           
+                               <a> <asp:label ID="Label5" Text="Dereje Haddis" font-weight="bold" CssClass="form-control" ToolTip="Contact Name" runat="server"></asp:label></a>
+                                                            
+                                      <a href='mailto:dhaddis@clintonhealthaccess.org'>dhaddis@clintonhealthaccess.org</a>
+                            </div>
+                        </div>
+                        </div>
+                   
+                    
+                </div>
+               
+            </div>
+        </div>
+    </div>
+        <div class="modal fade" id="downloadModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabeldown">Download Manual</h4>
+                </div>
+                <div class="modal-body">
+                    <asp:Label ID="Label2" ForeColor="White" runat="server" Visible="false" Text="DownLoad"></asp:Label>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                               <asp:LinkButton ID="lnkDownload" Text="Download" runat="server" OnClick="lnkDownload_Click" ></asp:LinkButton>
+                                <%--OnClick="DownloadFile"--%>
+                            </div>
+                        </div>
+                        </div>                
                 </div>
                
             </div>

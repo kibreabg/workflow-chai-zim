@@ -63,7 +63,7 @@
 		<header id="header">
 
 			<div id="logo-group">
-				<%--<span id="logo"> <img src="img/logo.png" alt="SmartAdmin"> </span>--%>
+				
 			</div>
 
 		</header>
@@ -72,10 +72,10 @@
 <section id="widget-grid" class="">
 			<!-- MAIN CONTENT -->
 			<div id="content" class="container">
-            
+         
                 <asp:PlaceHolder ID="plhMessage" runat="server" />
                     <asp:ContentPlaceHolder ID="DefaultContent" runat="server" >
-                        
+                          
                     </asp:ContentPlaceHolder>
 				
 			</div>

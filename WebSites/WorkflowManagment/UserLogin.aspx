@@ -2,6 +2,11 @@
     Title="UserLogin" MasterPageFile="~/Shared/LogInMaster.master" %>
 
 <asp:Content ID="content1" ContentPlaceHolderID="DefaultContent" runat="Server">
+    <header>
+            <span class="widget-icon"></span>
+            <h1> <span id="logo"> <img src="img/CHAILogo.png" alt="SmartAdmin"/> </span>Welcome To CHAI Zimbabwe – Workflow System Version 2.0 </h1>
+       
+        </header>
     <div class="col-xs-12 col-sm-12 col-md-7 col-lg-8 hidden-xs hidden-sm">
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6"></div>

@@ -238,7 +238,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         private void SendEmailToRequester()
         {
             if (_presenter.CurrentTravelAdvanceRequest.CurrentStatus != ApprovalStatus.Rejected.ToString())
-                EmailSender.Send(_presenter.GetUser(_presenter.CurrentTravelAdvanceRequest.AppUser.Id).Email, "Tavel Adavnce Completion", "Your Travel Advance Request with Travel Advance No. - '" + (_presenter.CurrentTravelAdvanceRequest.TravelAdvanceNo).ToUpper() + "' was Completed, Please collect your payment");
+                EmailSender.Send(_presenter.GetUser(_presenter.CurrentTravelAdvanceRequest.AppUser.Id).Email, "Tavel Adavnce Completion", "Your Travel Advance Request with Travel Advance No. - '" + (_presenter.CurrentTravelAdvanceRequest.TravelAdvanceNo).ToUpper() + "' was Completed, Your funds are being processed.");
         }
         private void GetNextApprover()
         {

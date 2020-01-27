@@ -5,6 +5,9 @@ using System.Web.Security;
 using Chai.WorkflowManagment.CoreDomain.Users;
 using Chai.WorkflowManagment.Shared.MailSender;
 using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.IO;
+using System.Net.Mail;
 
 namespace Chai.WorkflowManagment.Modules.Shell.MasterPages
 {
@@ -82,6 +85,8 @@ namespace Chai.WorkflowManagment.Modules.Shell.MasterPages
 
             }
         }
+
+      
         private void clearControls()
         {
             txtFrom.Text = "";
@@ -89,5 +94,22 @@ namespace Chai.WorkflowManagment.Modules.Shell.MasterPages
             txtMessage.Text="";
 
         }
-}
+
+        protected void lnkDownload_Click(object sender, EventArgs e)
+        {
+            string filename = "ZWFMUserManual.docx";
+            Response.ContentType = "application/octet-stream";
+            Response.AppendHeader("Content-Disposition", "attachment;filename=" + filename);
+            string aaa = Server.MapPath("~/" + filename);
+            Response.TransmitFile(Server.MapPath("~/" + filename));
+            Response.End();
+        }
+
+        protected void lblemail1_Click(object sender, EventArgs e)
+        {
+            MailMessage mail = new MailMessage();
+            mail.To.Add("tmkhosimoyo @clintonhealthaccess.org");
+            
+        }
+    }
 }

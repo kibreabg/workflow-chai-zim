@@ -5,6 +5,8 @@ using Microsoft.Practices.ObjectBuilder;
 using Chai.WorkflowManagment.CoreDomain;
 using Chai.WorkflowManagment.CoreDomain.Users;
 using Chai.WorkflowManagment.Shared.MailSender;
+using System.Web.UI.WebControls;
+using System.IO;
 
 namespace Chai.WorkflowManagment.Modules.Shell.MasterPages
 {
@@ -69,6 +71,7 @@ namespace Chai.WorkflowManagment.Modules.Shell.MasterPages
 
             }
         }
+      
         private void clearControls()
         {
             txtFrom.Text = "";
