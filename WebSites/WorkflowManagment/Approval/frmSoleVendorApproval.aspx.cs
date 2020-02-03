@@ -341,6 +341,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             BindSoleVendorRequestStatus();
             grvAttachments.DataSource = _presenter.CurrentSoleVendorRequest.SVRAttachments;
             grvAttachments.DataBind();
+            BindSoleVendorRequestforprint();
             txtRejectedReason.Visible = false;
             rfvRejectedReason.Enabled = false;
             pnlApproval_ModalPopupExtender.Show();
@@ -427,6 +428,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             lblapprovalstatusres.Text = _presenter.CurrentSoleVendorRequest.CurrentStatus;
             lblRequesterres.Text = _presenter.GetUser(_presenter.CurrentSoleVendorRequest.AppUser.Id).FullName;
 
+            grvDetails.DataSource = _presenter.CurrentSoleVendorRequest.SoleVendorRequestDetails;
+            grvDetails.DataBind();
 
             grvStatuses.DataSource = _presenter.CurrentSoleVendorRequest.SoleVendorRequestStatuses;
             grvStatuses.DataBind();
