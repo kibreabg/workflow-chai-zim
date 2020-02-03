@@ -34,13 +34,9 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 XmlConfigurator.Configure();
                 PopProgressStatus();
                 //  BindPurchases();
-                //BindSearchPurchaseRequestGrid();
-            }
-            this._presenter.OnViewLoaded();
-            if (!this.IsPostBack)
-            {
                 BindSearchPurchaseRequestGrid();
             }
+            this._presenter.OnViewLoaded();
             if (_presenter.CurrentPurchaseRequest != null)
             {
                 if (_presenter.CurrentPurchaseRequest.Id != 0)
@@ -275,8 +271,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             lblRequestedDateResult.Text = _presenter.CurrentPurchaseRequest.RequestedDate.ToShortDateString();
             lblRequesterResult.Text = _presenter.GetUser(_presenter.CurrentPurchaseRequest.Requester).FullName;
             lblSuggestedSupplierResult.Text = _presenter.CurrentPurchaseRequest.SuggestedSupplier.ToString();
-
-
+            lblSpecialNeedResult.Text = _presenter.CurrentPurchaseRequest.SpecialNeed;
+            lblPayMethRes.Text = _presenter.CurrentPurchaseRequest.PaymentMethod;
             lblDelivertoResult.Text = _presenter.CurrentPurchaseRequest.DeliverTo;
             lblReqDateResult.Text = _presenter.CurrentPurchaseRequest.Requireddateofdelivery.ToShortDateString();
             grvDetails.DataSource = _presenter.CurrentPurchaseRequest.PurchaseRequestDetails;
@@ -363,6 +359,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             //grvPaymentReimbursementRequestList.SelectedDataKey.Value
             _presenter.OnViewLoaded();
             PopApprovalStatus();
+            PrintTransaction();
             //grvAttachments.DataSource = _presenter.CurrentPaymentReimbursementRequest.CPRAttachments;
             //grvAttachments.DataBind();
             BindPurchaseRequestStatus();

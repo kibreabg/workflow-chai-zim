@@ -276,149 +276,132 @@
         Enabled="True" TargetControlID="btnPop2" PopupControlID="pnlDetail" CancelControlID="btnCancelPopup2"
         ID="pnlDetail_ModalPopupExtender">
     </asp:ModalPopupExtender>
-    <div id="divprint" style="display: none; width: 942px;">
+    <div id="divprint" style="display: none; text-align: center;">
         <fieldset>
             <table style="width: 100%;">
                 <tr>
-                    <td style="width: 17%; text-align: left;">
-                        <img src="../img/CHAI%20Logo.png" width="70" height="50" /></td>
                     <td style="font-size: large; text-align: center;">
+                        <img src="../img/CHAI%20Logo.png" width="70" height="70" />
+                        <br />
                         <strong>CHAI ZIMBABWE
                             <br />
                             SOLE VENDOR REQUEST FORM</strong></td>
                 </tr>
             </table>
-            <table style="width: 100%">
-
+            <table style="width: 75%;">
                 <tr>
-                    <td align="right" style="">&nbsp;</td>
-                    <td align="right" style="width: 244px" class="inbox-data-from">&nbsp;</td>
-                    <td align="right" style="width: 271px">&nbsp;</td>
-                    <td align="right" style="width: 389px">&nbsp;</td>
-                    <td>&nbsp;</td>
-                </tr>
-                <tr>
-                    <td style="width: 629px; height: 18px; padding-left: 20%;">
+                    <td style="width: 25%;">
                         <strong>
                             <asp:Label ID="lblRequestNo" runat="server" Text="Request No.:"></asp:Label>
                         </strong>
                     </td>
-                    <td style="width: 244px; height: 18px;">
+                    <td style="width: 25%;">
                         <asp:Label ID="lblRequestNoresult" runat="server"></asp:Label>
                     </td>
-                    <td style="width: 389px;">&nbsp;</td>
-                    <td style="width: 389px;">&nbsp;</td>
-                    <td>&nbsp;</td>
+                    <td style="width: 25%;"><strong>
+                        <asp:Label ID="lblRequestedDate" runat="server" Text="Requested Date:"></asp:Label>
+                    </strong></td>
+                    <td style="width: 25%;">
+                        <asp:Label ID="lblRequestedDateresult" runat="server"></asp:Label></td>
                 </tr>
                 <tr>
-                    <td style="width: 629px; height: 18px; padding-left: 20%;">
-                        <strong>
-                            <asp:Label ID="lblRequestedDate" runat="server" Text="Requested Date:"></asp:Label>
-                        </strong></td>
-                    <td style="width: 244px; height: 18px;">
-                        <asp:Label ID="lblRequestedDateresult" runat="server"></asp:Label>
-                    </td>
-                    <td align="right" style="width: 334px">&nbsp;</td>
-                    <td align="right" style="width: 335px">&nbsp;</td>
-                    <td>&nbsp;</td>
-                </tr>
-                <tr>
-                    <td style="width: 629px; height: 18px; padding-left: 20%;">
+                    <td style="width: 25%;">
                         <strong>
                             <asp:Label ID="lblRequester" runat="server" Text="Requester:"></asp:Label>
                         </strong></td>
-                    <td style="width: 244px; height: 18px;">
+                    <td style="width: 25%;">
                         <asp:Label ID="lblRequesterres" runat="server"></asp:Label>
                     </td>
-                    <td style="width: 334px">&nbsp;</td>
-                    <td style="width: 335px">&nbsp;</td>
-                    <td>&nbsp;</td>
+                    <td style="width: 25%;"><strong>
+                        <asp:Label ID="lblPaymet" runat="server" Text="Payment Method"></asp:Label>
+                    </strong></td>
+                    <td style="width: 25%;">
+                        <asp:Label ID="lblPaymentMethRes" runat="server"></asp:Label></td>
                 </tr>
                 <tr>
-                    <td style="width: 682px; height: 18px;">&nbsp;</td>
-                    <td style="width: 244px; height: 18px;">&nbsp;</td>
-                    <td style="width: 334px; height: 18px;">&nbsp;</td>
-                    <td style="width: 335px; height: 18px;">&nbsp;</td>
-                    <td style="height: 18px">&nbsp;</td>
-                </tr>
-                <tr>
-                    <td style="width: 629px; height: 18px;">
+                    <td style="width: 25%;">
                         <strong>
                             <asp:Label ID="lblContactPersonNumber" runat="server" Text="Contact Person & Number:"></asp:Label>
                         </strong>
                     </td>
-                    <td style="width: 244px; height: 18px;">
+                    <td style="width: 25%;">
                         <asp:Label ID="lblContactPersonNumberRes" runat="server"></asp:Label>
                     </td>
-                    <td style="width: 334px; height: 18px;">
+                    <td style="width: 25%;">
                         <strong>
                             <asp:Label ID="lblProposedPurchasedprice" runat="server" Text="Proposed Purchased price:"></asp:Label>
                         </strong></td>
-                    <td style="width: 335px; height: 18px;">
+                    <td style="width: 25%;">
                         <asp:Label ID="lblProposedPurchasedpriceres" runat="server"></asp:Label>
                     </td>
-                    <td style="height: 18px">&nbsp;</td>
                 </tr>
                 <tr>
-                    <td style="width: 682px; height: 18px;">
+                    <td style="width: 25%;">
                         <strong>
                             <asp:Label ID="lblProposedSupplier" runat="server" Text="Proposed Supplier:"></asp:Label>
                         </strong>
                     </td>
-                    <td style="width: 244px; height: 18px;">
+                    <td style="width: 25%;">
                         <asp:Label ID="lblProposedSupplierresp" runat="server"></asp:Label>
                     </td>
-                    <td style="width: 334px; height: 18px;">
+                    <td style="width: 25%;">
                         <strong>
                             <asp:Label ID="lblRequestedSupplier" runat="server" Text="Requested Supplier"></asp:Label>
                         </strong>
                     </td>
-                    <td style="width: 335px; height: 18px;">
+                    <td style="width: 25%;">
                         <asp:Label ID="lblRequestedSupplierres" runat="server"></asp:Label>
                     </td>
-                    <td style="height: 18px">&nbsp;</td>
                 </tr>
                 <tr>
-                    <td style="width: 682px; height: 18px;">
+                    <td style="width: 25%;">
                         <strong>
                             <asp:Label ID="lblSoleSourceJustificationPreparedBy" runat="server" Text="Sole Source Justification PreparedBy:"></asp:Label>
                         </strong>
                     </td>
-                    <td style="width: 244px; height: 18px;">
+                    <td style="width: 25%;">
                         <asp:Label ID="lblSoleSourceJustificationPreparedByresp" runat="server"></asp:Label>
                     </td>
-                    <td style="width: 334px; height: 18px;">
+                    <td style="width: 25%;">
                         <strong>
                             <asp:Label ID="lblSoleVendorJustificationType" runat="server" Text="Sole Vendor JustificationType"></asp:Label>
                         </strong>
                     </td>
-                    <td style="width: 335px; height: 18px;">
+                    <td style="width: 25%;">
                         <asp:Label ID="lblSoleVendorJustificationTyperes" runat="server"></asp:Label>
                     </td>
-                    <td style="height: 18px">&nbsp;</td>
                 </tr>
                 <tr>
-                    <td style="height: 18px">&nbsp;</td>
-                     <td style="width: 334px; height: 18px;">
-                        <strong>
-                            <asp:Label ID="lblPaymet" runat="server" Text="Payment Method"></asp:Label>
-                        </strong>
-                    </td>
-                    <td style="width: 244px; height: 18px;">
-                        <asp:Label ID="lblPaymentMethRes" runat="server"></asp:Label>
-                    </td>
-                    <td style="height: 18px">&nbsp;</td>
-                    <td style="width: 334px; height: 18px;">
+                    <td style="width: 25%;"></td>
+                    <td style="width: 25%;"></td>
+                    <td style="width: 25%;">
                         <strong>
                             <asp:Label ID="lblApprovalStatusp" runat="server" Text="Approval Status"></asp:Label>
                         </strong>
                     </td>
-                    <td style="width: 244px; height: 18px;">
+                    <td style="width: 25%;">
                         <asp:Label ID="lblapprovalstatusres" runat="server"></asp:Label>
                     </td>
-                    
                 </tr>
             </table>
+            <br />
+            <br />
+            <asp:GridView ID="grvDetails" runat="server" AutoGenerateColumns="False" DataKeyNames="Id"
+                CssClass="table table-striped table-bordered table-hover">
+                <RowStyle CssClass="rowstyle" />
+                <Columns>
+                    <asp:BoundField DataField="ItemAccount.AccountName" HeaderText="AccountName" SortExpression="ItemAccount.AccountName" />
+                    <asp:BoundField DataField="ItemAccount.AccountCode" HeaderText="Account Code" SortExpression="ItemAccount.AccountCode" />
+                    <asp:BoundField DataField="ItemDescription" HeaderText="Item Description" SortExpression="ItemDescription" />
+                    <asp:BoundField DataField="Qty" HeaderText="Quantity" SortExpression="Qty" />
+                    <asp:BoundField DataField="UnitCost" HeaderText="Unit Cost" SortExpression="UnitCost" />
+                    <asp:BoundField DataField="TotalCost" HeaderText="Total Cost" SortExpression="TotalCost" />
+                </Columns>
+                <FooterStyle CssClass="FooterStyle" />
+                <HeaderStyle CssClass="headerstyle" />
+                <PagerStyle CssClass="PagerStyle" />
+                <RowStyle CssClass="rowstyle" />
+            </asp:GridView>
             <br />
             <br />
             <asp:GridView ID="grvStatuses" CellPadding="5" CellSpacing="3"
