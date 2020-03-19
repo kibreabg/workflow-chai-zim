@@ -58,55 +58,58 @@
                         <asp:Button ID="btnpop" runat="server" />
                         <asp:Button ID="btnFind" runat="server" Text="Find" CssClass="btn btn-primary" OnClick="btnFind_Click"></asp:Button>
                         <asp:Button ID="btnClosepage" runat="server" Text="Close" data-dismiss="modal" CssClass="btn btn-primary" PostBackUrl="../Default.aspx"></asp:Button>
-                    
                     </footer>
                 </div>
             </div>
         </div>
-        <asp:GridView ID="grvVehicleRequestList"
-            runat="server" AutoGenerateColumns="False" DataKeyNames="Id" OnRowCommand="grvVehicleRequestList_RowCommand"
-            OnRowDataBound="grvVehicleRequestList_RowDataBound" OnSelectedIndexChanged="grvVehicleRequestList_SelectedIndexChanged" AllowPaging="True" OnPageIndexChanging="grvVehicleRequestList_PageIndexChanging"
-            CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" PageSize="30">
-            <RowStyle CssClass="rowstyle" />
-            <Columns>
-                <asp:BoundField DataField="RequestNo" HeaderText="Request No" SortExpression="RequestNo" />
-                <asp:BoundField DataField="AppUser.FullName" HeaderText="Requester" SortExpression="AppUser.FullName" />
-                <asp:TemplateField HeaderText="Request Date">
-                                            <ItemTemplate>
-                                              <asp:Label ID="lblRequestDate" runat="server" Text='<%# Eval("RequestDate", "{0:dd/MM/yyyy}")%>' ></asp:Label>
-                                            </ItemTemplate>
-                                            </asp:TemplateField>
-                 <asp:TemplateField HeaderText="Departure Date">
-                                            <ItemTemplate>
-                                              <asp:Label ID="lblReportedDate" runat="server" Text='<%# Eval("DepartureDate", "{0:dd/MM/yyyy}")%>' ></asp:Label>
-                                            </ItemTemplate>
-                                            </asp:TemplateField>
-                <asp:BoundField DataField="DepartureTime" HeaderText="Departure Time" SortExpression="DepartureTime" />
-                <asp:TemplateField HeaderText="Returning Date">
-                                            <ItemTemplate>
-                                              <asp:Label ID="lblReturningDate" runat="server" Text='<%# Eval("ReturningDate", "{0:dd/MM/yyyy}")%>' ></asp:Label>
-                                            </ItemTemplate>
-                                            </asp:TemplateField>
-                <asp:BoundField DataField="Destination" HeaderText="Destination" SortExpression="Destination" />
-                
-                <asp:BoundField DataField="PurposeOfTravel" HeaderText="Purpose Of Travel" SortExpression="PurposeOfTravel" />
-                <asp:BoundField DataField="Comment" HeaderText="Comment" SortExpression="Comment" />
-                <asp:CommandField ButtonType="Button" SelectText="Process Request" ShowSelectButton="True" />
-                <asp:TemplateField>
+        <div class="table-responsive" style="overflow: auto;">
+            <asp:GridView ID="grvVehicleRequestList"
+                runat="server" AutoGenerateColumns="False" DataKeyNames="Id" OnRowCommand="grvVehicleRequestList_RowCommand"
+                OnRowDataBound="grvVehicleRequestList_RowDataBound" OnSelectedIndexChanged="grvVehicleRequestList_SelectedIndexChanged" AllowPaging="True" OnPageIndexChanging="grvVehicleRequestList_PageIndexChanging"
+                CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" PageSize="30">
+                <RowStyle CssClass="rowstyle" />
+                <Columns>
+                    <asp:BoundField DataField="RequestNo" HeaderText="Request No" SortExpression="RequestNo" />
+                    <asp:BoundField DataField="AppUser.FullName" HeaderText="Requester" SortExpression="AppUser.FullName" />
+                    <asp:TemplateField HeaderText="Request Date">
                         <ItemTemplate>
-                        <asp:Button runat="server" ID="btnStatus" Text="" BorderStyle="None" />
+                            <asp:Label ID="lblRequestDate" runat="server" Text='<%# Eval("RequestDate", "{0:dd/MM/yyyy}")%>'></asp:Label>
                         </ItemTemplate>
-                        </asp:TemplateField>
-                <%--<asp:ButtonField ButtonType="Button" Text="Travel Log" CommandName="TravelLog" />--%>
-            </Columns>
-            <FooterStyle CssClass="FooterStyle" />
-            <HeaderStyle CssClass="headerstyle" />
-            <PagerStyle CssClass="PagerStyle" />
-            <RowStyle CssClass="rowstyle" />
-        </asp:GridView>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="Departure Date">
+                        <ItemTemplate>
+                            <asp:Label ID="lblReportedDate" runat="server" Text='<%# Eval("DepartureDate", "{0:dd/MM/yyyy}")%>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:BoundField DataField="DepartureTime" HeaderText="Departure Time" SortExpression="DepartureTime" />
+                    <asp:TemplateField HeaderText="Returning Date">
+                        <ItemTemplate>
+                            <asp:Label ID="lblReturningDate" runat="server" Text='<%# Eval("ReturningDate", "{0:dd/MM/yyyy}")%>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:BoundField DataField="Destination" HeaderText="Destination" SortExpression="Destination" />
+
+                    <asp:BoundField DataField="PurposeOfTravel" HeaderText="Purpose Of Travel" SortExpression="PurposeOfTravel" />
+                    <asp:BoundField DataField="Comment" HeaderText="Comment" SortExpression="Comment" />
+                    <asp:CommandField ButtonType="Button" SelectText="Process Request" ShowSelectButton="True" />
+                    <asp:TemplateField>
+                        <ItemTemplate>
+                            <asp:Button runat="server" ID="btnStatus" Text="" BorderStyle="None" />
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <%--<asp:ButtonField ButtonType="Button" Text="Travel Log" CommandName="TravelLog" />--%>
+                </Columns>
+                <FooterStyle CssClass="FooterStyle" />
+                <HeaderStyle CssClass="headerstyle" />
+                <PagerStyle CssClass="PagerStyle" />
+                <RowStyle CssClass="rowstyle" />
+            </asp:GridView>
+        </div>
         <div>
-            <asp:Button runat="server" ID="btnInProgress" Text="" BorderStyle="None"  BackColor="#FFFF6C"/>  <B>In Progress</B><br />
-            <asp:Button runat="server" ID="btnComplete" Text="" BorderStyle="None" BackColor="#FF7251"/>  <B>Completed</B>
+            <asp:Button runat="server" ID="btnInProgress" Text="" BorderStyle="None" BackColor="#FFFF6C" />
+            <b>In Progress</b><br />
+            <asp:Button runat="server" ID="btnComplete" Text="" BorderStyle="None" BackColor="#FF7251" />
+            <b>Completed</b>
 
         </div>
         <br />
@@ -198,39 +201,35 @@
                                                         <%# DataBinder.Eval(Container.DataItem, "PlateNo")%>
                                                     </ItemTemplate>
                                                     <EditItemTemplate>
-                                                        
                                                         <asp:DropDownList ID="ddlEdtPlateNo" runat="server" CssClass="form-control" AppendDataBoundItems="True">
                                                             <asp:ListItem Value=" ">Select Plate No.</asp:ListItem>
                                                         </asp:DropDownList>
                                                         <asp:RequiredFieldValidator ID="rfvddlPlateNo" runat="server" ControlToValidate="ddlEdtPlateNo" CssClass="validator" Display="Dynamic" ErrorMessage="Plate No. must be selected" InitialValue=" " SetFocusOnError="true" ValidationGroup="edit"></asp:RequiredFieldValidator>
                                                     </EditItemTemplate>
                                                     <FooterTemplate>
-                                                        
+
                                                         <asp:DropDownList ID="ddlFPlateNo" runat="server" CssClass="form-control" AppendDataBoundItems="True">
                                                             <asp:ListItem Value=" ">Select Plate No.</asp:ListItem>
                                                         </asp:DropDownList>
                                                         <asp:RequiredFieldValidator ID="rfvddlFPlateNo" runat="server" ControlToValidate="ddlFPlateNo" CssClass="validator" Display="Dynamic" ErrorMessage="Plate No. must be selected" InitialValue=" " SetFocusOnError="true" ValidationGroup="save"></asp:RequiredFieldValidator>
                                                     </FooterTemplate>
                                                 </asp:TemplateColumn>
-                                                 <asp:TemplateColumn HeaderText="Fuel Card Number">
+                                                <asp:TemplateColumn HeaderText="Fuel Card Number">
                                                     <ItemTemplate>
                                                         <%# DataBinder.Eval(Container.DataItem, "FuelCardNumber")%>
                                                     </ItemTemplate>
                                                     <EditItemTemplate>
-                                                        
-                                                       
                                                         <label class="input">
-                                                        <asp:TextBox ID="txtFuelCard" runat="server" Width="100%"></asp:TextBox>
-                                        </label>
+                                                            <asp:TextBox ID="txtFuelCard" runat="server" Width="100%"></asp:TextBox>
+                                                        </label>
                                                         <asp:RequiredFieldValidator ID="rfvddlFuelCardNo" runat="server" ControlToValidate="txtFuelCard" CssClass="validator" Display="Dynamic" ErrorMessage="Fuel Card Number Rquired" InitialValue=" " SetFocusOnError="true" ValidationGroup="edit"></asp:RequiredFieldValidator>
                                                     </EditItemTemplate>
                                                     <FooterTemplate>
-                                                        
-                                                       <label class="input">
-                                                        <asp:TextBox ID="txtFFuelCard" runat="server" Width="100%"></asp:TextBox>
-                                        </label>
+                                                        <label class="input">
+                                                            <asp:TextBox ID="txtFFuelCard" runat="server" Width="100%"></asp:TextBox>
+                                                        </label>
                                                         <asp:RequiredFieldValidator ID="rfvddlFuelCardNo" runat="server" ControlToValidate="txtFFuelCard" CssClass="validator" Display="Dynamic" ErrorMessage="Fuel Card Number Rquired" InitialValue=" " SetFocusOnError="true" ValidationGroup="edit"></asp:RequiredFieldValidator>
-                                                                                                            </FooterTemplate>
+                                                    </FooterTemplate>
                                                 </asp:TemplateColumn>
                                                 <asp:TemplateColumn HeaderText="Actions">
                                                     <ItemTemplate>
@@ -243,7 +242,7 @@
                                                     </EditItemTemplate>
                                                     <FooterTemplate>
                                                         <asp:LinkButton ID="lnkAddNew" runat="server" CommandName="AddNew" ValidationGroup="save" CssClass="btn btn-sm btn-success"><i class="fa fa-save"></i></asp:LinkButton>
-                                                    </FooterTemplate>                                                    
+                                                    </FooterTemplate>
                                                 </asp:TemplateColumn>
                                             </Columns>
                                             <PagerStyle CssClass="paginate_button active" HorizontalAlign="Center" />
@@ -256,15 +255,16 @@
                                         <label class="input">
                                             <asp:TextBox ID="txtComment" runat="server" Width="100%"></asp:TextBox>
                                         </label>
-                                    </section></div>
-                                      <div class="row">
-                                     <section class="col col-6">
-                                        <asp:Label ID="lblProjectIDD" Font-Bold="true" runat="server" Text="Project ID"  CssClass="label"></asp:Label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <asp:Label ID="lblProjectIDD" Font-Bold="true" runat="server" Text="Project ID" CssClass="label"></asp:Label>
                                         <asp:Label ID="lblProjectIDDResult" Font-Bold="true" runat="server" Text="Project ID" CssClass="label"></asp:Label>
                                     </section>
-                                       <section class="col col-6">
-                                        <asp:Label ID="lblGrantID" runat="server" Font-Bold="true" Text="Grant ID"  CssClass="label"></asp:Label>
-                                        <asp:Label ID="lblGrantIDResult" Font-Bold="true" runat="server"   CssClass="label"></asp:Label>
+                                    <section class="col col-6">
+                                        <asp:Label ID="lblGrantID" runat="server" Font-Bold="true" Text="Grant ID" CssClass="label"></asp:Label>
+                                        <asp:Label ID="lblGrantIDResult" Font-Bold="true" runat="server" CssClass="label"></asp:Label>
                                     </section>
                                 </div>
                                 <div class="row">
@@ -273,7 +273,7 @@
                                         <label class="select">
                                             <asp:DropDownList ID="ddlApprovalStatus" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlApprovalStatus_SelectedIndexChanged">
                                             </asp:DropDownList><i></i>
-                                            <asp:RequiredFieldValidator ID="RfvApprovalStatus" runat="server" CssClass="validator" ValidationGroup="approve"  ErrorMessage="Approval Status Required" InitialValue="0" ControlToValidate="ddlApprovalStatus"></asp:RequiredFieldValidator>
+                                            <asp:RequiredFieldValidator ID="RfvApprovalStatus" runat="server" CssClass="validator" ValidationGroup="approve" ErrorMessage="Approval Status Required" InitialValue="0" ControlToValidate="ddlApprovalStatus"></asp:RequiredFieldValidator>
                                         </label>
                                     </section>
                                     <section class="col col-6">
@@ -301,18 +301,18 @@
         TargetControlID="btnPop" CancelControlID="btnCancelPopup" ID="pnlApproval_ModalPopupExtender">
     </asp:ModalPopupExtender>
     <div id="divprint" style="display: none;">
-           <table style="width: 100%;">
-                <tr>
-                    <td style="width: 17%; text-align:left;">
-                        <img src="../img/CHAI%20Logo.png" width="70" height="50" /></td>
-                    <td style="font-size: large; text-align: center;">
-                        <strong>CHAI ZIMBABWE
-                            <br />
-                            VEHICLE REQUEST FORM</strong></td>
-                </tr>
-            </table>
         <table style="width: 100%;">
-         
+            <tr>
+                <td style="width: 17%; text-align: left;">
+                    <img src="../img/CHAI%20Logo.png" width="70" height="50" /></td>
+                <td style="font-size: large; text-align: center;">
+                    <strong>CHAI ZIMBABWE
+                            <br />
+                        VEHICLE REQUEST FORM</strong></td>
+            </tr>
+        </table>
+        <table style="width: 100%;">
+
             <tr>
                 <td align="right" style="width: 576px">&nbsp;</td>
                 <td align="right" style="width: 490px" class="modal-sm">&nbsp;</td>
@@ -355,12 +355,12 @@
                 </td>
                 <td>&nbsp;</td>
             </tr>
-             <tr>
-                <td style="width: 576px; height: 18px;padding-left: 15%; ">
+            <tr>
+                <td style="width: 576px; height: 18px; padding-left: 15%;">
                     <strong>
                         <asp:Label ID="lblProjectId" runat="server" Text="ProjectID:"></asp:Label>
                     </strong></td>
-                <td style="width: 490px" padding-left: 20%;>
+                <td style="width: 490px; padding-left: 20%;">
                     <asp:Label ID="lblProjectIdResult" runat="server"></asp:Label>
                 </td>
                 <td style="width: 280px" class="modal-sm">
@@ -402,7 +402,7 @@
                 </td>
                 <td style="height: 18px">&nbsp;</td>
             </tr>
-             <tr>
+            <tr>
                 <td style="width: 576px; height: 18px; padding-left: 15%;">
                     <strong>
                         <asp:Label ID="lblDestination" runat="server" Text="Destination:"></asp:Label>
@@ -414,27 +414,22 @@
                     <strong>
                         <asp:Label ID="lblNoOfPassengers" runat="server" Text="No of Passengers:"></asp:Label>
                     </strong>
-                 </td>
+                </td>
                 <td style="width: 389px">
                     <asp:Label ID="lblNoOfPassengersResult" runat="server"></asp:Label>
-                 </td>
+                </td>
                 <td>&nbsp;</td>
             </tr>
             <tr>
                 <td style="width: 576px; height: 18px; padding-left: 15%;">&nbsp;</td>
-                <td style="width: 490px; height: 18px;">
-                    &nbsp;</td>
-                <td style="width: 280px; height: 18px;">
-                    &nbsp;</td>
-                <td style="width: 389px; height: 18px;">
-                    &nbsp;</td>
+                <td style="width: 490px; height: 18px;">&nbsp;</td>
+                <td style="width: 280px; height: 18px;">&nbsp;</td>
+                <td style="width: 389px; height: 18px;">&nbsp;</td>
                 <td style="height: 18px"></td>
             </tr>
             <tr>
-                <td style="width: 576px; height: 18px; padding-left: 15%;">
-                    &nbsp;</td>
-                <td style="width: 490px; height: 18px;">
-                    &nbsp;</td>
+                <td style="width: 576px; height: 18px; padding-left: 15%;">&nbsp;</td>
+                <td style="width: 490px; height: 18px;">&nbsp;</td>
                 <td style="height: 18px; width: 280px;">&nbsp;</td>
                 <td></td>
                 <td></td>
@@ -442,13 +437,13 @@
         </table>
         <br />
         <asp:GridView ID="grvVehcles" CellPadding="5" CellSpacing="3"
-            runat="server" AutoGenerateColumns="False" DataKeyNames="Id" 
+            runat="server" AutoGenerateColumns="False" DataKeyNames="Id"
             CssClass="table table-striped table-bordered table-hover">
             <RowStyle CssClass="rowstyle" />
             <Columns>
                 <asp:BoundField DataField="PlateNo" HeaderText="PlateNo" SortExpression="PlateNo" />
-               <%-- <asp:BoundField DataField="AssignedVehicle" HeaderText="Assigned Vehicle" SortExpression="AssignedVehicle" />--%>
-               <asp:BoundField DataField="AppUser.FullName" HeaderText="Allocated Driver" SortExpression="AppUser.FullName" />
+                <%-- <asp:BoundField DataField="AssignedVehicle" HeaderText="Assigned Vehicle" SortExpression="AssignedVehicle" />--%>
+                <asp:BoundField DataField="AppUser.FullName" HeaderText="Allocated Driver" SortExpression="AppUser.FullName" />
                 <asp:BoundField DataField="CarRental.Name" HeaderText="Hired Car" SortExpression="CarRental.Name" />
                 <asp:BoundField DataField="FuelCardNumber" HeaderText="Fuel Card No" SortExpression="FuelCardNumber" />
             </Columns>
@@ -462,16 +457,16 @@
             runat="server" AutoGenerateColumns="False" DataKeyNames="Id" OnRowDataBound="grvStatuses_RowDataBound"
             CssClass="table table-striped table-bordered table-hover">
             <RowStyle CssClass="rowstyle" />
-          <Columns>
-                    <asp:TemplateField HeaderText="Date">
-                                            <ItemTemplate>
-                                              <asp:Label ID="lblDate" runat="server" Text='<%# Eval("Date", "{0:dd/MM/yyyy}")%>' ></asp:Label>
-                                            </ItemTemplate>
-                                            </asp:TemplateField>
-                
+            <Columns>
+                <asp:TemplateField HeaderText="Date">
+                    <ItemTemplate>
+                        <asp:Label ID="lblDate" runat="server" Text='<%# Eval("Date", "{0:dd/MM/yyyy}")%>'></asp:Label>
+                    </ItemTemplate>
+                </asp:TemplateField>
+
                 <asp:BoundField HeaderText="Approver" />
                 <asp:BoundField DataField="AssignedBy" HeaderText="Assignee Approver" SortExpression="AssignedBy" />
-                 <asp:BoundField DataField="ApprovalStatus" HeaderText="Approval Status" SortExpression="ApprovalStatus" />
+                <asp:BoundField DataField="ApprovalStatus" HeaderText="Approval Status" SortExpression="ApprovalStatus" />
                 <asp:BoundField DataField="Comment" HeaderText="Comment" SortExpression="Comment" />
             </Columns>
             <FooterStyle CssClass="FooterStyle" />

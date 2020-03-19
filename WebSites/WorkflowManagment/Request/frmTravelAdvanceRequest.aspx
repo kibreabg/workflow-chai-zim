@@ -37,8 +37,8 @@
             <div class="widget-body no-padding">
                 <div class="smart-form">
                     <fieldset>
-                        <div class="row">                            
-                           <%-- <section class="col col-6">
+                        <div class="row">
+                            <%-- <section class="col col-6">
                                 <label class="label">Travel Advance Number</label>
                                 <label class="input">
                                     <asp:TextBox ID="txtTravelAdvanceNo" runat="server" ReadOnly="true"></asp:TextBox>
@@ -58,7 +58,7 @@
                                 </label>
                             </section>
                         </div>
-                        <div class="row">                            
+                        <div class="row">
                             <section class="col col-6">
                                 <label class="label">Project</label>
                                 <label class="select">
@@ -110,11 +110,11 @@
                                 </label>
                             </section>
                         </div>
-                           <div class="row">
-                                                 <section class="col col-6">
+                        <div class="row">
+                            <section class="col col-6">
                                 <label class="label">Payment Methods</label>
                                 <label class="select">
-                                    <asp:DropDownList ID="ddlPayMethods" AutoPostBack="false" AppendDataBoundItems="true" 
+                                    <asp:DropDownList ID="ddlPayMethods" AutoPostBack="false" AppendDataBoundItems="true"
                                         runat="server" DataValueField="Id" DataTextField="Name" CssClass="form-control">
                                         <asp:ListItem Text="--Select Payment Method--" Value="0"></asp:ListItem>
                                         <asp:ListItem>RTGs</asp:ListItem>
@@ -125,7 +125,8 @@
                                         CssClass="validator" ValidationGroup="saveMain" InitialValue="0"
                                         SetFocusOnError="true" ControlToValidate="ddlPayMethods"></asp:RequiredFieldValidator>
                                 </label>
-                            </section></div>
+                            </section>
+                        </div>
                         <asp:DataGrid ID="dgTravelAdvanceRequestDetail" runat="server" AlternatingRowStyle-CssClass="" AutoGenerateColumns="False" CellPadding="0"
                             CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" DataKeyField="Id"
                             GridLines="None"
@@ -294,7 +295,7 @@
                             ConfirmText="Are you sure" Enabled="True" TargetControlID="btnDelete">
                         </cc1:ConfirmButtonExtender>
                         <asp:Button ID="btnCancel" runat="server" CssClass="btn btn-primary" OnClick="btnCancel_Click" Text="New" />
-                          <asp:Button ID="btnClosepage" runat="server" Text="Close" data-dismiss="modal" CssClass="btn btn-primary" PostBackUrl="../Default.aspx"></asp:Button>
+                        <asp:Button ID="btnClosepage" runat="server" Text="Close" data-dismiss="modal" CssClass="btn btn-primary" PostBackUrl="../Default.aspx"></asp:Button>
                         <asp:Button ID="btnHiddenPopupp" runat="server" />
                         <asp:HiddenField ID="hfDetailId" runat="server" />
                         <asp:Button ID="btnPrint" runat="server" Text="Print" CssClass="btn btn-primary" Enabled="false" OnClientClick="javascript:Clickheretoprint('divprint')"></asp:Button>
@@ -354,11 +355,11 @@
                                         <RowStyle CssClass="rowstyle" />
                                         <Columns>
                                             <asp:BoundField DataField="TravelAdvanceNo" HeaderText="Travel Advance No" SortExpression="TravelAdvanceNo" />
-                                             <asp:TemplateField HeaderText="Request Date">
-                                            <ItemTemplate>
-                                              <asp:Label ID="lblDate" runat="server" Text='<%# Eval("RequestDate", "{0:dd/MM/yyyy}")%>' ></asp:Label>
-                                            </ItemTemplate>
-                                            </asp:TemplateField> 
+                                            <asp:TemplateField HeaderText="Request Date">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblDate" runat="server" Text='<%# Eval("RequestDate", "{0:dd/MM/yyyy}")%>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
                                             <asp:BoundField DataField="VisitingTeam" HeaderText="Visiting Team" SortExpression="VisitingTeam" />
                                             <asp:BoundField DataField="PurposeOfTravel" HeaderText="Purpose Of Travel" SortExpression="PurposeOfTravel" />
                                             <asp:CommandField ShowSelectButton="True" />
@@ -373,7 +374,7 @@
                         </div>
                     </div>
                 </div>
-                
+
             </div>
         </div>
     </div>
@@ -410,7 +411,7 @@
         </div>
         <!-- /.modal-content -->
     </asp:Panel>
-    <asp:Panel ID="pnlTACost" Visible="true" runat="server">
+    <asp:Panel ID="pnlTACost" Visible="true" Width="100%" runat="server">
         <div class="jarviswidget" data-widget-editbutton="false" data-widget-custombutton="false">
             <header>
                 <span class="widget-icon"><i class="fa fa-edit"></i></span>
@@ -420,10 +421,9 @@
                 <div class="jarviswidget-editbox"></div>
                 <div class="widget-body no-padding">
                     <div class="smart-form">
-                        <asp:DataGrid ID="dgTravelAdvanceRequestCost" runat="server" AlternatingRowStyle-CssClass="" AutoGenerateColumns="False" CellPadding="0"
+                        <asp:DataGrid ID="dgTravelAdvanceRequestCost" runat="server" Width="100%" AlternatingRowStyle-CssClass="" AutoGenerateColumns="False" CellPadding="0"
                             CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" DataKeyField="Id"
-                            GridLines="None"
-                            OnCancelCommand="dgTravelAdvanceRequestCost_CancelCommand" OnDeleteCommand="dgTravelAdvanceRequestCost_DeleteCommand" OnEditCommand="dgTravelAdvanceRequestCost_EditCommand"
+                            GridLines="None" OnCancelCommand="dgTravelAdvanceRequestCost_CancelCommand" OnDeleteCommand="dgTravelAdvanceRequestCost_DeleteCommand" OnEditCommand="dgTravelAdvanceRequestCost_EditCommand"
                             OnItemCommand="dgTravelAdvanceRequestCost_ItemCommand" OnItemDataBound="dgTravelAdvanceRequestCost_ItemDataBound" OnUpdateCommand="dgTravelAdvanceRequestCost_UpdateCommand"
                             ShowFooter="True">
 
@@ -456,13 +456,13 @@
                                         <%# DataBinder.Eval(Container.DataItem, "ExpenseType.ExpenseTypeName")%>
                                     </ItemTemplate>
                                     <EditItemTemplate>
-                                          <asp:DropDownList ID="ddlEdtExpenseType" runat="server" Enabled="true" DataValueField="Id" DataTextField="ExpenseTypeName" AppendDataBoundItems="True">
+                                        <asp:DropDownList ID="ddlEdtExpenseType" runat="server" Enabled="true" DataValueField="Id" DataTextField="ExpenseTypeName" AppendDataBoundItems="True">
                                             <asp:ListItem Value="0">--Select Expense Type--</asp:ListItem>
                                         </asp:DropDownList><i></i>
-                                     
+
                                     </EditItemTemplate>
                                     <FooterTemplate>
-                                         <asp:DropDownList ID="ddlExpenseType" runat="server" Enabled="true" DataValueField="Id" DataTextField="ExpenseTypeName" AppendDataBoundItems="True">
+                                        <asp:DropDownList ID="ddlExpenseType" runat="server" Enabled="true" DataValueField="Id" DataTextField="ExpenseTypeName" AppendDataBoundItems="True">
                                             <asp:ListItem Value="0">--Select Expense Type--</asp:ListItem>
                                         </asp:DropDownList><i></i>
                                     </FooterTemplate>
@@ -472,7 +472,7 @@
                                         <%# DataBinder.Eval(Container.DataItem, "Days")%>
                                     </ItemTemplate>
                                     <EditItemTemplate>
-                                        <asp:TextBox ID="txtEdtDays" Text='<%# DataBinder.Eval(Container.DataItem, "Days")%>' runat="server"></asp:TextBox>
+                                        <asp:TextBox ID="txtEdtDays" Columns="5" Text='<%# DataBinder.Eval(Container.DataItem, "Days")%>' runat="server"></asp:TextBox>
                                         <cc1:FilteredTextBoxExtender runat="server" Enabled="True" TargetControlID="txtEdtDays" ID="txtEdtDays_FilteredTextBoxExtender" FilterType="Numbers"></cc1:FilteredTextBoxExtender>
                                         <asp:RequiredFieldValidator
                                             ID="rfvtxtEdtDays" runat="server" ErrorMessage="No of days is required" Display="Dynamic"
@@ -480,7 +480,7 @@
                                             SetFocusOnError="true" ControlToValidate="txtEdtDays"></asp:RequiredFieldValidator>
                                     </EditItemTemplate>
                                     <FooterTemplate>
-                                        <asp:TextBox ID="txtDays" runat="server"></asp:TextBox>
+                                        <asp:TextBox ID="txtDays" runat="server" Columns="5"></asp:TextBox>
                                         <cc1:FilteredTextBoxExtender runat="server" Enabled="True" TargetControlID="txtDays" ID="txtDays_FilteredTextBoxExtender" FilterType="Numbers"></cc1:FilteredTextBoxExtender>
                                         <asp:RequiredFieldValidator
                                             ID="rfvtxtDays" runat="server" ErrorMessage="No of days is required" Display="Dynamic"
@@ -493,7 +493,7 @@
                                         <%# DataBinder.Eval(Container.DataItem, "UnitCost")%>
                                     </ItemTemplate>
                                     <EditItemTemplate>
-                                        <asp:TextBox ID="txtEdtUnitCost" Text='<%# DataBinder.Eval(Container.DataItem, "UnitCost")%>' runat="server"></asp:TextBox>
+                                        <asp:TextBox ID="txtEdtUnitCost" Columns="5" Text='<%# DataBinder.Eval(Container.DataItem, "UnitCost")%>' runat="server"></asp:TextBox>
                                         <cc1:FilteredTextBoxExtender runat="server" Enabled="True" TargetControlID="txtEdtUnitCost" ID="txtEdtUnitCost_FilteredTextBoxExtender" FilterType="Custom, Numbers" ValidChars='"."'></cc1:FilteredTextBoxExtender>
                                         <asp:RequiredFieldValidator
                                             ID="rfvtxtEdtUnitCost" runat="server" ErrorMessage="Unit cost is required" Display="Dynamic"
@@ -501,7 +501,7 @@
                                             SetFocusOnError="true" ControlToValidate="txtEdtUnitCost"></asp:RequiredFieldValidator>
                                     </EditItemTemplate>
                                     <FooterTemplate>
-                                        <asp:TextBox ID="txtUnitCost" runat="server"></asp:TextBox>
+                                        <asp:TextBox ID="txtUnitCost" Columns="5" runat="server"></asp:TextBox>
                                         <cc1:FilteredTextBoxExtender runat="server" Enabled="True" TargetControlID="txtUnitCost" ID="txtUnitCost_FilteredTextBoxExtender" FilterType="Custom, Numbers" ValidChars='"."'></cc1:FilteredTextBoxExtender>
                                         <asp:RequiredFieldValidator
                                             ID="rfvtxtUnitCost" runat="server" ErrorMessage="Unit cost is required" Display="Dynamic"
@@ -514,7 +514,7 @@
                                         <%# DataBinder.Eval(Container.DataItem, "NoOfUnits")%>
                                     </ItemTemplate>
                                     <EditItemTemplate>
-                                        <asp:TextBox ID="txtEdtNoOfUnits" Text='<%# DataBinder.Eval(Container.DataItem, "NoOfUnits")%>' runat="server"></asp:TextBox>
+                                        <asp:TextBox ID="txtEdtNoOfUnits" Columns="5" Text='<%# DataBinder.Eval(Container.DataItem, "NoOfUnits")%>' runat="server"></asp:TextBox>
                                         <cc1:FilteredTextBoxExtender runat="server" Enabled="True" TargetControlID="txtEdtNoOfUnits" ID="txtEdtNoOfUnits_FilteredTextBoxExtender" FilterType="Numbers"></cc1:FilteredTextBoxExtender>
                                         <asp:RequiredFieldValidator
                                             ID="rfvtxtEdtNoOfUnits" runat="server" ErrorMessage="No Of Units is required" Display="Dynamic"
@@ -522,7 +522,7 @@
                                             SetFocusOnError="true" ControlToValidate="txtEdtNoOfUnits"></asp:RequiredFieldValidator>
                                     </EditItemTemplate>
                                     <FooterTemplate>
-                                        <asp:TextBox ID="txtNoOfUnits" runat="server"></asp:TextBox>
+                                        <asp:TextBox ID="txtNoOfUnits" Columns="5" runat="server"></asp:TextBox>
                                         <cc1:FilteredTextBoxExtender runat="server" Enabled="True" TargetControlID="txtNoOfUnits" ID="txtNoOfUnits_FilteredTextBoxExtender" FilterType="Numbers"></cc1:FilteredTextBoxExtender>
                                         <asp:RequiredFieldValidator
                                             ID="rfvtxtNoOfUnits" runat="server" ErrorMessage="No Of Units is required" Display="Dynamic"

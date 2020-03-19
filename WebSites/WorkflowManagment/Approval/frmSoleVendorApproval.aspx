@@ -64,40 +64,40 @@
                 </div>
             </div>
         </div>
-
-        <asp:GridView ID="grvSoleVendorRequestList"
-            runat="server" AutoGenerateColumns="False" DataKeyNames="ID"
-            OnRowDataBound="grvSoleVendorRequestList_RowDataBound" OnRowDeleting="grvSoleVendorRequestList_RowDeleting"
-            OnSelectedIndexChanged="grvSoleVendorRequestList_SelectedIndexChanged" AllowPaging="True" OnPageIndexChanging="grvSoleVendorRequestList_PageIndexChanging"
-            CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" PageSize="30" OnRowCommand="grvSoleVendorRequestList_RowCommand">
-            <RowStyle CssClass="rowstyle" />
-            <Columns>
-                <asp:BoundField DataField="RequestNo" HeaderText="Request No" SortExpression="RequestNo" />
-                <asp:TemplateField HeaderText="Request Date">
-                    <ItemTemplate>
-                        <asp:Label ID="lblRequestedDate" runat="server" Text='<%# Eval("RequestDate", "{0:dd/MM/yyyy}")%>'></asp:Label>
-                    </ItemTemplate>
-                </asp:TemplateField>
-                <asp:BoundField DataField="ContactPersonNumber" HeaderText="Contact Person & Number" SortExpression="ContactPersonNumber" />
-                <asp:BoundField DataField="ProposedPurchasedPrice" HeaderText="Proposed Purchased Price" SortExpression="ProposedPurchasedPrice" />
-                <asp:BoundField DataField="Supplier.SupplierName" HeaderText="Proposed Supplier" SortExpression="Supplier.SupplierName" />
-                <asp:BoundField DataField="SoleVendorJustificationType" HeaderText="Sole Vendor JustificationType" SortExpression="SoleVendorJustificationType" />
-                <asp:BoundField DataField="Project.ProjectCode" HeaderText="Project ID" SortExpression="Project.ProjectCode" />
-                <asp:BoundField DataField="Grant.GrantCode" HeaderText="Grant ID" SortExpression="Grant.GrantCode" />
-                <asp:ButtonField ButtonType="Button" CommandName="ViewItem" Text="View Item Detail" />
-                <asp:CommandField ShowSelectButton="True" SelectText="Process Request" ButtonType="Button" />
-                <asp:TemplateField>
-                    <ItemTemplate>
-                        <asp:Button runat="server" ID="btnStatus" Text="" BorderStyle="None" />
-                    </ItemTemplate>
-                </asp:TemplateField>
-            </Columns>
-            <FooterStyle CssClass="FooterStyle" />
-            <HeaderStyle CssClass="headerstyle" />
-            <PagerStyle CssClass="PagerStyle" />
-            <RowStyle CssClass="rowstyle" />
-
-        </asp:GridView>
+        <div class="table-responsive" style="overflow: auto;">
+            <asp:GridView ID="grvSoleVendorRequestList"
+                runat="server" AutoGenerateColumns="False" DataKeyNames="ID"
+                OnRowDataBound="grvSoleVendorRequestList_RowDataBound" OnRowDeleting="grvSoleVendorRequestList_RowDeleting"
+                OnSelectedIndexChanged="grvSoleVendorRequestList_SelectedIndexChanged" AllowPaging="True" OnPageIndexChanging="grvSoleVendorRequestList_PageIndexChanging"
+                CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" PageSize="30" OnRowCommand="grvSoleVendorRequestList_RowCommand">
+                <RowStyle CssClass="rowstyle" />
+                <Columns>
+                    <asp:BoundField DataField="RequestNo" HeaderText="Request No" SortExpression="RequestNo" />
+                    <asp:TemplateField HeaderText="Request Date">
+                        <ItemTemplate>
+                            <asp:Label ID="lblRequestedDate" runat="server" Text='<%# Eval("RequestDate", "{0:dd/MM/yyyy}")%>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:BoundField DataField="ContactPersonNumber" HeaderText="Contact Person & Number" SortExpression="ContactPersonNumber" />
+                    <asp:BoundField DataField="ProposedPurchasedPrice" HeaderText="Proposed Purchased Price" SortExpression="ProposedPurchasedPrice" />
+                    <asp:BoundField DataField="Supplier.SupplierName" HeaderText="Proposed Supplier" SortExpression="Supplier.SupplierName" />
+                    <asp:BoundField DataField="SoleVendorJustificationType" HeaderText="Sole Vendor JustificationType" SortExpression="SoleVendorJustificationType" />
+                    <asp:BoundField DataField="Project.ProjectCode" HeaderText="Project ID" SortExpression="Project.ProjectCode" />
+                    <asp:BoundField DataField="Grant.GrantCode" HeaderText="Grant ID" SortExpression="Grant.GrantCode" />
+                    <asp:ButtonField ButtonType="Button" CommandName="ViewItem" Text="View Item Detail" />
+                    <asp:CommandField ShowSelectButton="True" SelectText="Process Request" ButtonType="Button" />
+                    <asp:TemplateField>
+                        <ItemTemplate>
+                            <asp:Button runat="server" ID="btnStatus" Text="" BorderStyle="None" />
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                </Columns>
+                <FooterStyle CssClass="FooterStyle" />
+                <HeaderStyle CssClass="headerstyle" />
+                <PagerStyle CssClass="PagerStyle" />
+                <RowStyle CssClass="rowstyle" />
+            </asp:GridView>
+        </div>
         <div>
             <asp:Button runat="server" ID="btnInProgress" Text="" BorderStyle="None" BackColor="#FFFF6C" />
             <b>In Progress</b><br />

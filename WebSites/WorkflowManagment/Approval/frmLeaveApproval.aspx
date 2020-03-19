@@ -63,55 +63,57 @@
                 </div>
             </div>
         </div>
-
-        <asp:GridView ID="grvLeaveRequestList"
-            runat="server" AutoGenerateColumns="False" DataKeyNames="ID"
-            OnRowDataBound="grvLeaveRequestList_RowDataBound" OnRowDeleting="grvLeaveRequestList_RowDeleting"
-            OnSelectedIndexChanged="grvLeaveRequestList_SelectedIndexChanged" AllowPaging="True" OnPageIndexChanging="grvLeaveRequestList_PageIndexChanging"
-            CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" PageSize="30">
-            <RowStyle CssClass="rowstyle" />
-            <Columns>
-                <asp:BoundField DataField="RequestNo" HeaderText="Request No" SortExpression="RequestNo" />
-                <asp:BoundField HeaderText="Requester" />
-                 <asp:TemplateField HeaderText="Request Date">
-                                            <ItemTemplate>
-                                              <asp:Label ID="lblRequestedDate" runat="server" Text='<%# Eval("RequestedDate", "{0:dd/MM/yyyy}")%>' ></asp:Label>
-                                            </ItemTemplate>
-                                            </asp:TemplateField> 
-                <asp:BoundField DataField="LeaveType.LeaveTypeName" HeaderText="LeaveType" SortExpression="LeaveType.LeaveTypeName" />
-                <asp:TemplateField HeaderText="Date From">
-                                            <ItemTemplate>
-                                              <asp:Label ID="lblFrom" runat="server" Text='<%# Eval("DateFrom", "{0:dd/MM/yyyy}")%>' ></asp:Label>
-                                            </ItemTemplate>
-                                            </asp:TemplateField> 
-                    <asp:TemplateField HeaderText="Date To">
-                                            <ItemTemplate>
-                                              <asp:Label ID="lblDateTo" runat="server" Text='<%# Eval("DateTo", "{0:dd/MM/yyyy}")%>' ></asp:Label>
-                                            </ItemTemplate>
-                                            </asp:TemplateField>
-                
-                <asp:CommandField ShowSelectButton="True" SelectText="Process Request" ButtonType="Button" />
-                <asp:TemplateField>
+        <div class="table-responsive" style="overflow: auto;">
+            <asp:GridView ID="grvLeaveRequestList"
+                runat="server" AutoGenerateColumns="False" DataKeyNames="ID"
+                OnRowDataBound="grvLeaveRequestList_RowDataBound" OnRowDeleting="grvLeaveRequestList_RowDeleting"
+                OnSelectedIndexChanged="grvLeaveRequestList_SelectedIndexChanged" AllowPaging="True" OnPageIndexChanging="grvLeaveRequestList_PageIndexChanging"
+                CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" PageSize="30">
+                <RowStyle CssClass="rowstyle" />
+                <Columns>
+                    <asp:BoundField DataField="RequestNo" HeaderText="Request No" SortExpression="RequestNo" />
+                    <asp:BoundField HeaderText="Requester" />
+                    <asp:TemplateField HeaderText="Request Date">
                         <ItemTemplate>
-                        <asp:Button runat="server" ID="btnStatus" Text="" BorderStyle="None" />
+                            <asp:Label ID="lblRequestedDate" runat="server" Text='<%# Eval("RequestedDate", "{0:dd/MM/yyyy}")%>'></asp:Label>
                         </ItemTemplate>
-                        </asp:TemplateField>
-            </Columns>
-            <FooterStyle CssClass="FooterStyle" />
-            <HeaderStyle CssClass="headerstyle" />
-            <PagerStyle CssClass="PagerStyle" />
-            <RowStyle CssClass="rowstyle" />
+                    </asp:TemplateField>
+                    <asp:BoundField DataField="LeaveType.LeaveTypeName" HeaderText="LeaveType" SortExpression="LeaveType.LeaveTypeName" />
+                    <asp:TemplateField HeaderText="Date From">
+                        <ItemTemplate>
+                            <asp:Label ID="lblFrom" runat="server" Text='<%# Eval("DateFrom", "{0:dd/MM/yyyy}")%>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="Date To">
+                        <ItemTemplate>
+                            <asp:Label ID="lblDateTo" runat="server" Text='<%# Eval("DateTo", "{0:dd/MM/yyyy}")%>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
 
-        </asp:GridView>
+                    <asp:CommandField ShowSelectButton="True" SelectText="Process Request" ButtonType="Button" />
+                    <asp:TemplateField>
+                        <ItemTemplate>
+                            <asp:Button runat="server" ID="btnStatus" Text="" BorderStyle="None" />
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                </Columns>
+                <FooterStyle CssClass="FooterStyle" />
+                <HeaderStyle CssClass="headerstyle" />
+                <PagerStyle CssClass="PagerStyle" />
+                <RowStyle CssClass="rowstyle" />
+            </asp:GridView>
+        </div>
         <div>
-            <asp:Button runat="server" ID="btnInProgress" Text="" BorderStyle="None"  BackColor="#FFFF6C"/>  <B>In Progress</B><br />
-            <asp:Button runat="server" ID="btnComplete" Text="" BorderStyle="None" BackColor="#FF7251"/>  <B>Completed</B>
+            <asp:Button runat="server" ID="btnInProgress" Text="" BorderStyle="None" BackColor="#FFFF6C" />
+            <b>In Progress</b><br />
+            <asp:Button runat="server" ID="btnComplete" Text="" BorderStyle="None" BackColor="#FF7251" />
+            <b>Completed</b>
 
         </div>
         <br />
 
     </div>
-    <asp:Panel ID="pnlApproval"  runat="server">
+    <asp:Panel ID="pnlApproval" runat="server">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -142,12 +144,12 @@
 
                                                 <asp:Label ID="lblrequesteddaysres" runat="server" Text="" CssClass="label"></asp:Label>
                                             </section>
-                                             <section class="col col-3">
+                                            <section class="col col-3">
                                                 <asp:Label ID="lblViewBalance" runat="server" Text="Employee Leave Balance" CssClass="label" Visible="false"></asp:Label>
 
                                                 <asp:Label ID="lblViewBalRes" runat="server" Text="" CssClass="label" Visible="false"></asp:Label>
                                             </section>
-                                            
+
                                         </div>
                                         <div class="row">
 
@@ -156,7 +158,6 @@
 
                                                 <label class="select">
                                                     <asp:DropDownList ID="ddlApprovalStatus" runat="server" OnSelectedIndexChanged="ddlApprovalStatus_SelectedIndexChanged" ValidationGroup="Approve" AutoPostBack="True">
-                                                        
                                                     </asp:DropDownList><i></i>
                                                     <asp:RequiredFieldValidator ID="RfvApprovalStatus" CssClass="validator" runat="server" ErrorMessage="Approval Status Required" InitialValue="0" ControlToValidate="ddlApprovalStatus" ValidationGroup="Approve"></asp:RequiredFieldValidator>
                                                 </label>
@@ -191,15 +192,15 @@
         <!-- /.modal-content -->
 
     </asp:Panel>
-     <asp:ModalPopupExtender runat="server" BackgroundCssClass="modalBackground"
+    <asp:ModalPopupExtender runat="server" BackgroundCssClass="modalBackground"
         Enabled="True" TargetControlID="btnPop" PopupControlID="pnlApproval" CancelControlID="btnCancelPopup"
         ID="pnlApproval_ModalPopupExtender">
     </asp:ModalPopupExtender>
     <div id="divprint" style="display: none; width: 942px;">
         <fieldset>
-             <table style="width: 100%;">
+            <table style="width: 100%;">
                 <tr>
-                    <td style="width: 17%; text-align:left;">
+                    <td style="width: 17%; text-align: left;">
                         <img src="../img/CHAI%20Logo.png" width="70" height="50" /></td>
                     <td style="font-size: large; text-align: center;">
                         <strong>CHAI ZIMBABWE
@@ -207,160 +208,151 @@
                             EMPLOYEE LEAVE REQUEST FORM</strong></td>
                 </tr>
             </table>
-        <table style="width: 100%">
-            
-            <tr>
-                <td align="right" style="width: 682px; height: 17px;"></td>
-                <td align="right" style="width: 390px; height: 17px;"></td>
-                <td align="right" style="width: 334px; height: 17px;"></td>
-                <td align="right" style="width: 335px; height: 17px;"></td>
-                <td style="height: 17px"></td>
-            </tr>
-            <tr>
-                <td align="right" style="width: 682px">
-                    <strong>
-                        <asp:Label ID="lblRequestNo" runat="server" Text="Request No."></asp:Label>
-                        :</strong></td>
-                <td align="right" style="width: 390px">
-                <asp:Label ID="lblRequestNoresult" runat="server"></asp:Label>
-                </td>
-                <td align="right" style="width: 334px">&nbsp;</td>
-                <td align="right" style="width: 335px">
-                    &nbsp;</td>
-                <td>:
-                </td>
-            </tr>
-            <tr>
-                <td align="right" style="width: 682px">
-                    <strong>
-                        <asp:Label ID="lblRequestedDate" runat="server" Text="Requested Date"></asp:Label>
-                        :</strong></td>
-                <td align="right" style="width: 390px">
-                    <asp:Label ID="lblRequestedDateresult" runat="server"></asp:Label>
-                </td>
-                <td align="right" style="width: 334px">&nbsp;</td>
-                <td align="right" style="width: 335px">
-                    &nbsp;</td>
-                <td>
-                    &nbsp;</td>
-            </tr>
-            <tr>
-                <td align="right" style="width: 682px">
-                    <strong>
-                        <asp:Label ID="lblRequester" runat="server" Text="Requester"></asp:Label>
-                        :</strong></td>
-                <td align="right" style="width: 390px">
-                    <asp:Label ID="lblRequesterres" runat="server"></asp:Label>
-                </td>
-                <td align="right" style="width: 334px">&nbsp;</td>
-                <td align="right" style="width: 335px">
-                    &nbsp;</td>
-                <td>
-                    &nbsp;</td>
-            </tr>
-            <tr>
-                <td align="right" style="width: 682px; height: 18px;">
-                    <strong>
-                        <asp:Label ID="lblEmployeeNo" runat="server" Text="Employee No"></asp:Label>
-                        :</strong></td>
-                <td align="right" style="width: 390px; height: 18px;">
-                    <asp:Label ID="lblEmpNoRes" runat="server"></asp:Label>
-                </td>
-                <td align="right" style="width: 334px; height: 18px;">&nbsp;</td>
-                <td align="right" style="width: 335px; height: 18px;">
-                    &nbsp;</td>
-                <td style="height: 18px">
-                    &nbsp;</td>
-            </tr>
-            <tr>
-                <td align="right" style="width: 682px; height: 18px;">&nbsp;</td>
-                <td align="right" style="width: 390px; height: 18px;">&nbsp;</td>
-                <td align="right" style="width: 334px; height: 18px;">&nbsp;</td>
-                <td align="right" style="width: 335px; height: 18px;">
-                    &nbsp;</td>
-                <td style="height: 18px">
-                    &nbsp;</td>
-            </tr>
-            <tr>
-                <td style="width: 682px; height: 18px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
+            <table style="width: 100%">
+
+                <tr>
+                    <td align="right" style="width: 682px; height: 17px;"></td>
+                    <td align="right" style="width: 390px; height: 17px;"></td>
+                    <td align="right" style="width: 334px; height: 17px;"></td>
+                    <td align="right" style="width: 335px; height: 17px;"></td>
+                    <td style="height: 17px"></td>
+                </tr>
+                <tr>
+                    <td align="right" style="width: 682px">
+                        <strong>
+                            <asp:Label ID="lblRequestNo" runat="server" Text="Request No."></asp:Label>
+                            :</strong></td>
+                    <td align="right" style="width: 390px">
+                        <asp:Label ID="lblRequestNoresult" runat="server"></asp:Label>
+                    </td>
+                    <td align="right" style="width: 334px">&nbsp;</td>
+                    <td align="right" style="width: 335px">&nbsp;</td>
+                    <td>:
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right" style="width: 682px">
+                        <strong>
+                            <asp:Label ID="lblRequestedDate" runat="server" Text="Requested Date"></asp:Label>
+                            :</strong></td>
+                    <td align="right" style="width: 390px">
+                        <asp:Label ID="lblRequestedDateresult" runat="server"></asp:Label>
+                    </td>
+                    <td align="right" style="width: 334px">&nbsp;</td>
+                    <td align="right" style="width: 335px">&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td align="right" style="width: 682px">
+                        <strong>
+                            <asp:Label ID="lblRequester" runat="server" Text="Requester"></asp:Label>
+                            :</strong></td>
+                    <td align="right" style="width: 390px">
+                        <asp:Label ID="lblRequesterres" runat="server"></asp:Label>
+                    </td>
+                    <td align="right" style="width: 334px">&nbsp;</td>
+                    <td align="right" style="width: 335px">&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td align="right" style="width: 682px; height: 18px;">
+                        <strong>
+                            <asp:Label ID="lblEmployeeNo" runat="server" Text="Employee No"></asp:Label>
+                            :</strong></td>
+                    <td align="right" style="width: 390px; height: 18px;">
+                        <asp:Label ID="lblEmpNoRes" runat="server"></asp:Label>
+                    </td>
+                    <td align="right" style="width: 334px; height: 18px;">&nbsp;</td>
+                    <td align="right" style="width: 335px; height: 18px;">&nbsp;</td>
+                    <td style="height: 18px">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td align="right" style="width: 682px; height: 18px;">&nbsp;</td>
+                    <td align="right" style="width: 390px; height: 18px;">&nbsp;</td>
+                    <td align="right" style="width: 334px; height: 18px;">&nbsp;</td>
+                    <td align="right" style="width: 335px; height: 18px;">&nbsp;</td>
+                    <td style="height: 18px">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="width: 682px; height: 18px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
                 <strong>
                     <asp:Label ID="lblDateFfrom" runat="server" Text="Date From"></asp:Label>
                 </strong>
-                </td>
-                <td style="width: 390px; height: 18px;">
-                    <asp:Label ID="lblDatefromres" runat="server"></asp:Label>
-                </td>
-                <td style="width: 334px; height: 18px;">
-                    <strong>
-                        <asp:Label ID="lblDateTo" runat="server" Text="Date To"></asp:Label>
-                        :</strong></td>
-                <td style="width: 335px; height: 18px;">
-                    <asp:Label ID="lblDatetores" runat="server"></asp:Label>
-                </td>
-                <td style="height: 18px">&nbsp;</td>
-            </tr>
-            <tr>
-                <td style="width: 682px; height: 18px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>
-                    <asp:Label ID="lblRequesteddaysP" runat="server" Text="Requested Days"></asp:Label>
-                </strong>
-                </td>
-                <td style="width: 390px; height: 18px;">
-                    <asp:Label ID="lblrequesteddaysresp" runat="server"></asp:Label>
-                </td>
-                <td style="width: 334px; height: 18px;">
-                    <strong>
-                        <asp:Label ID="lblBalance" runat="server" Text="Balance"></asp:Label>
+                    </td>
+                    <td style="width: 390px; height: 18px;">
+                        <asp:Label ID="lblDatefromres" runat="server"></asp:Label>
+                    </td>
+                    <td style="width: 334px; height: 18px;">
+                        <strong>
+                            <asp:Label ID="lblDateTo" runat="server" Text="Date To"></asp:Label>
+                            :</strong></td>
+                    <td style="width: 335px; height: 18px;">
+                        <asp:Label ID="lblDatetores" runat="server"></asp:Label>
+                    </td>
+                    <td style="height: 18px">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="width: 682px; height: 18px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>
+                        <asp:Label ID="lblRequesteddaysP" runat="server" Text="Requested Days"></asp:Label>
                     </strong>
-                </td>
-                <td style="width: 335px; height: 18px;">
-                    <asp:Label ID="lblbalanceres" runat="server"></asp:Label>
-                </td>
-                <td style="height: 18px">&nbsp;</td>
-            </tr>
-            <tr>
-                <td style="width: 682px; height: 18px;">
-                    <strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td style="width: 390px; height: 18px;">
+                        <asp:Label ID="lblrequesteddaysresp" runat="server"></asp:Label>
+                    </td>
+                    <td style="width: 334px; height: 18px;">
+                        <strong>
+                            <asp:Label ID="lblBalance" runat="server" Text="Balance"></asp:Label>
+                        </strong>
+                    </td>
+                    <td style="width: 335px; height: 18px;">
+                        <asp:Label ID="lblbalanceres" runat="server"></asp:Label>
+                    </td>
+                    <td style="height: 18px">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="width: 682px; height: 18px;">
+                        <strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <asp:Label ID="lblLeavetypep" runat="server" Text="Leave Type"></asp:Label>
-                    </strong>
-                </td>
-                <td style="width: 390px; height: 18px;">
-                    <asp:Label ID="lblleavetyperesp" runat="server"></asp:Label>
-                </td>
-                <td style="width: 334px; height: 18px;">
-                    <strong>
-                        <asp:Label ID="lblApprovalStatusp" runat="server" Text="Approval Status"></asp:Label>
-                    </strong>
-                </td>
-                <td style="width: 335px; height: 18px;">
-                    <asp:Label ID="lblapprovalstatusres" runat="server"></asp:Label>
-                </td>
-                <td style="height: 18px">&nbsp;</td>
-            </tr>
-            
-        </table>
+                        </strong>
+                    </td>
+                    <td style="width: 390px; height: 18px;">
+                        <asp:Label ID="lblleavetyperesp" runat="server"></asp:Label>
+                    </td>
+                    <td style="width: 334px; height: 18px;">
+                        <strong>
+                            <asp:Label ID="lblApprovalStatusp" runat="server" Text="Approval Status"></asp:Label>
+                        </strong>
+                    </td>
+                    <td style="width: 335px; height: 18px;">
+                        <asp:Label ID="lblapprovalstatusres" runat="server"></asp:Label>
+                    </td>
+                    <td style="height: 18px">&nbsp;</td>
+                </tr>
+
+            </table>
             <br />
-         <br />
-        <asp:GridView ID="grvStatuses" CellPadding="5" CellSpacing="3"
-            runat="server" AutoGenerateColumns="False" DataKeyNames="Id" OnRowDataBound="grvStatuses_RowDataBound"
-            CssClass="table table-striped table-bordered table-hover">
-            <RowStyle CssClass="rowstyle" />
-            <Columns>
-                   <asp:TemplateField HeaderText="Date">
-                                            <ItemTemplate>
-                                              <asp:Label ID="lblDate" runat="server" Text='<%# Eval("ApprovalDate", "{0:dd/MM/yyyy}")%>' ></asp:Label>
-                                            </ItemTemplate>
-                                            </asp:TemplateField> 
-                
-                <asp:BoundField  HeaderText="Approver"  />
-                <asp:BoundField DataField="AssignedBy" HeaderText="Assignee Approver" SortExpression="AssignedBy" />
-                <asp:BoundField HeaderText="Approval Status" DataField="ApprovalStatus"/>
-            </Columns>
-            <FooterStyle CssClass="FooterStyle" />
-            <HeaderStyle CssClass="headerstyle" />
-            <PagerStyle CssClass="PagerStyle" />
-            <RowStyle CssClass="rowstyle" />
-        </asp:GridView>
-            </fieldset>
+            <br />
+            <asp:GridView ID="grvStatuses" CellPadding="5" CellSpacing="3"
+                runat="server" AutoGenerateColumns="False" DataKeyNames="Id" OnRowDataBound="grvStatuses_RowDataBound"
+                CssClass="table table-striped table-bordered table-hover">
+                <RowStyle CssClass="rowstyle" />
+                <Columns>
+                    <asp:TemplateField HeaderText="Date">
+                        <ItemTemplate>
+                            <asp:Label ID="lblDate" runat="server" Text='<%# Eval("ApprovalDate", "{0:dd/MM/yyyy}")%>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+
+                    <asp:BoundField HeaderText="Approver" />
+                    <asp:BoundField DataField="AssignedBy" HeaderText="Assignee Approver" SortExpression="AssignedBy" />
+                    <asp:BoundField HeaderText="Approval Status" DataField="ApprovalStatus" />
+                </Columns>
+                <FooterStyle CssClass="FooterStyle" />
+                <HeaderStyle CssClass="headerstyle" />
+                <PagerStyle CssClass="PagerStyle" />
+                <RowStyle CssClass="rowstyle" />
+            </asp:GridView>
+        </fieldset>
     </div>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="menuContent" runat="Server">

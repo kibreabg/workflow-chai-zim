@@ -63,48 +63,46 @@
                 </div>
             </div>
         </div>
-        <asp:GridView ID="grvCashPaymentRequestList"
-            runat="server" AutoGenerateColumns="False" DataKeyNames="Id" OnRowCommand="grvCashPaymentRequestList_RowCommand"
-            OnRowDataBound="grvCashPaymentRequestList_RowDataBound" OnSelectedIndexChanged="grvCashPaymentRequestList_SelectedIndexChanged"
-            AllowPaging="True" OnPageIndexChanging="grvCashPaymentRequestList_PageIndexChanging"
-            CssClass="table table-striped table-bordered table-hover" PageSize="30" PagerStyle-CssClass="paginate_button active">
-            <RowStyle CssClass="rowstyle" />
-            <Columns>
+        <div class="table-responsive" style="overflow: auto;">
+            <asp:GridView ID="grvCashPaymentRequestList"
+                runat="server" AutoGenerateColumns="False" DataKeyNames="Id" OnRowCommand="grvCashPaymentRequestList_RowCommand"
+                OnRowDataBound="grvCashPaymentRequestList_RowDataBound" OnSelectedIndexChanged="grvCashPaymentRequestList_SelectedIndexChanged"
+                AllowPaging="True" OnPageIndexChanging="grvCashPaymentRequestList_PageIndexChanging"
+                CssClass="table table-striped table-bordered table-hover" PageSize="30" PagerStyle-CssClass="paginate_button active">
+                <RowStyle CssClass="rowstyle" />
+                <Columns>
 
-                <asp:BoundField DataField="VoucherNo" HeaderText="Voucher No" SortExpression="VoucherNo" />
-                <asp:BoundField DataField="AppUser.FullName" HeaderText="Requester" SortExpression="AppUser.FullName" />
-                <asp:TemplateField HeaderText="Request Date">
-                    <ItemTemplate>
-                        <asp:Label ID="lblDate" runat="server" Text='<%# Eval("RequestDate", "{0:dd/MM/yyyy}")%>'></asp:Label>
-                    </ItemTemplate>
-                </asp:TemplateField>
-                <asp:BoundField DataField="Supplier.SupplierName" HeaderText="Supplier" SortExpression="Supplier.SupplierName" />
-                <asp:BoundField DataField="Description" HeaderText="Description" SortExpression="Description" />
-                <asp:BoundField DataField="TotalAmount" HeaderText="Total Amount" SortExpression="TotalAmount" />
+                    <asp:BoundField DataField="VoucherNo" HeaderText="Voucher No" SortExpression="VoucherNo" />
+                    <asp:BoundField DataField="AppUser.FullName" HeaderText="Requester" SortExpression="AppUser.FullName" />
+                    <asp:TemplateField HeaderText="Request Date">
+                        <ItemTemplate>
+                            <asp:Label ID="lblDate" runat="server" Text='<%# Eval("RequestDate", "{0:dd/MM/yyyy}")%>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:BoundField DataField="Supplier.SupplierName" HeaderText="Supplier" SortExpression="Supplier.SupplierName" />
+                    <asp:BoundField DataField="Description" HeaderText="Description" SortExpression="Description" />
+                    <asp:BoundField DataField="TotalAmount" HeaderText="Total Amount" SortExpression="TotalAmount" />
 
-                <asp:ButtonField ButtonType="Button" CommandName="ViewItem" Text="View Item Detail" />
-                <asp:CommandField ButtonType="Button" SelectText="Process Request" ShowSelectButton="True" />
-                <asp:ButtonField ButtonType="Button" CommandName="Retire" Text="Retire" />
-                <asp:TemplateField>
-                    <ItemTemplate>
-                        <asp:Button runat="server" ID="btnStatus" Text="" BorderStyle="None" />
-                    </ItemTemplate>
-                </asp:TemplateField>
-            </Columns>
-            <FooterStyle CssClass="FooterStyle" />
-            <HeaderStyle CssClass="headerstyle" />
-            <PagerStyle CssClass="PagerStyle" />
-            <RowStyle CssClass="rowstyle" />
-        </asp:GridView>
-
+                    <asp:ButtonField ButtonType="Button" CommandName="ViewItem" Text="View Item Detail" />
+                    <asp:CommandField ButtonType="Button" SelectText="Process Request" ShowSelectButton="True" />
+                    <asp:ButtonField ButtonType="Button" CommandName="Retire" Text="Retire" />
+                    <asp:TemplateField>
+                        <ItemTemplate>
+                            <asp:Button runat="server" ID="btnStatus" Text="" BorderStyle="None" />
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                </Columns>
+                <FooterStyle CssClass="FooterStyle" />
+                <HeaderStyle CssClass="headerstyle" />
+                <PagerStyle CssClass="PagerStyle" />
+                <RowStyle CssClass="rowstyle" />
+            </asp:GridView>
+        </div>
         <div>
-
             <asp:Button runat="server" ID="btnInProgress" Text="" BorderStyle="None" BackColor="#FFFF6C" /><b>In Progress</b><br />
             <asp:Button runat="server" ID="btnComplete" Text="" BorderStyle="None" BackColor="#FF7251" />
             <b>Completed</b>
-
         </div>
-
         <br />
     </div>
     <asp:Panel ID="pnlApproval" runat="server">
@@ -528,13 +526,13 @@
                     <td style="width: 389px; height: 18px;"></td>
                     <td style="height: 18px">&nbsp;</td>
                 </tr>
-                  <tr>
-                    
+                <tr>
+
                     <td style="width: 848px">
                         <strong>
                             <asp:Label ID="lblPaytype" runat="server" Text="Payment Method:"></asp:Label>
                         </strong></td>
-                      <td style="width: 390px">
+                    <td style="width: 390px">
                         <asp:Label ID="lblpaytypeRes" runat="server" Text="" class="label"></asp:Label>
                     </td>
                     <td style="width: 389px;">&nbsp;</td>

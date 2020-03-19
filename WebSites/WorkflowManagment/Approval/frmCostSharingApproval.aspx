@@ -70,38 +70,40 @@
                 </div>
             </div>
         </div>
-        <asp:GridView ID="grvCostSharingRequestList"
-            runat="server" AutoGenerateColumns="False" DataKeyNames="Id" OnRowCommand="grvCostSharingRequestList_RowCommand"
-            OnRowDataBound="grvCostSharingRequestList_RowDataBound" OnSelectedIndexChanged="grvCostSharingRequestList_SelectedIndexChanged"
-            AllowPaging="True" OnPageIndexChanging="grvCostSharingRequestList_PageIndexChanging"
-            CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" PageSize="30">
-            <RowStyle CssClass="rowstyle" />
-            <Columns>
-                <asp:BoundField DataField="RequestNo" HeaderText="Request No" SortExpression="RequestNo" />
-                <asp:BoundField DataField="AppUser.FullName" HeaderText="Requester" SortExpression="AppUser.FullName" />
-                <asp:TemplateField HeaderText="Request Date">
-                    <ItemTemplate>
-                        <asp:Label ID="lblDate" runat="server" Text='<%# Eval("RequestDate", "{0:dd/MM/yyyy}")%>'></asp:Label>
-                    </ItemTemplate>
-                </asp:TemplateField>
-                <asp:BoundField DataField="Payee" HeaderText="Payee" SortExpression="Payee" />
-                <asp:BoundField DataField="Description" HeaderText="Description" SortExpression="Description" />
-                <asp:BoundField DataField="ItemAccount.AccountName" HeaderText="Account Name" SortExpression="ItemAccount.AccountName" />
-                <asp:BoundField DataField="EstimatedTotalAmount" HeaderText="Estimated Total Amount" SortExpression="EstimatedTotalAmount" />
-                <asp:ButtonField ButtonType="Button" CommandName="ViewItem" Text="View Item Detail" />
-                <asp:CommandField ButtonType="Button" SelectText="Process Request" ShowSelectButton="True" />
-                <asp:ButtonField ButtonType="Button" CommandName="Retire" Text="Retire" />
-                <asp:TemplateField>
-                    <ItemTemplate>
-                        <asp:Button runat="server" ID="btnStatus" Text="" BorderStyle="None" />
-                    </ItemTemplate>
-                </asp:TemplateField>
-            </Columns>
-            <FooterStyle CssClass="FooterStyle" />
-            <HeaderStyle CssClass="headerstyle" />
-            <PagerStyle CssClass="PagerStyle" />
-            <RowStyle CssClass="rowstyle" />
-        </asp:GridView>
+        <div class="table-responsive" style="overflow: auto;">
+            <asp:GridView ID="grvCostSharingRequestList"
+                runat="server" AutoGenerateColumns="False" DataKeyNames="Id" OnRowCommand="grvCostSharingRequestList_RowCommand"
+                OnRowDataBound="grvCostSharingRequestList_RowDataBound" OnSelectedIndexChanged="grvCostSharingRequestList_SelectedIndexChanged"
+                AllowPaging="True" OnPageIndexChanging="grvCostSharingRequestList_PageIndexChanging"
+                CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" PageSize="30">
+                <RowStyle CssClass="rowstyle" />
+                <Columns>
+                    <asp:BoundField DataField="RequestNo" HeaderText="Request No" SortExpression="RequestNo" />
+                    <asp:BoundField DataField="AppUser.FullName" HeaderText="Requester" SortExpression="AppUser.FullName" />
+                    <asp:TemplateField HeaderText="Request Date">
+                        <ItemTemplate>
+                            <asp:Label ID="lblDate" runat="server" Text='<%# Eval("RequestDate", "{0:dd/MM/yyyy}")%>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:BoundField DataField="Payee" HeaderText="Payee" SortExpression="Payee" />
+                    <asp:BoundField DataField="Description" HeaderText="Description" SortExpression="Description" />
+                    <asp:BoundField DataField="ItemAccount.AccountName" HeaderText="Account Name" SortExpression="ItemAccount.AccountName" />
+                    <asp:BoundField DataField="EstimatedTotalAmount" HeaderText="Estimated Total Amount" SortExpression="EstimatedTotalAmount" />
+                    <asp:ButtonField ButtonType="Button" CommandName="ViewItem" Text="View Item Detail" />
+                    <asp:CommandField ButtonType="Button" SelectText="Process Request" ShowSelectButton="True" />
+                    <asp:ButtonField ButtonType="Button" CommandName="Retire" Text="Retire" />
+                    <asp:TemplateField>
+                        <ItemTemplate>
+                            <asp:Button runat="server" ID="btnStatus" Text="" BorderStyle="None" />
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                </Columns>
+                <FooterStyle CssClass="FooterStyle" />
+                <HeaderStyle CssClass="headerstyle" />
+                <PagerStyle CssClass="PagerStyle" />
+                <RowStyle CssClass="rowstyle" />
+            </asp:GridView>
+        </div>
         <div>
             <asp:Button runat="server" ID="btnInProgress" Text="" BorderStyle="None" BackColor="#FFFF6C" />
             <b>In Progress</b><br />
@@ -530,13 +532,13 @@
                     </td>
                     <td style="height: 18px">&nbsp;</td>
                 </tr>
-                 <tr>
-                    
+                <tr>
+
                     <td style="width: 848px">
                         <strong>
                             <asp:Label ID="lblPaytype" runat="server" Text="Payment Method:"></asp:Label>
                         </strong></td>
-                      <td style="width: 390px">
+                    <td style="width: 390px">
                         <asp:Label ID="lblpaytypeRes" runat="server" Text="" class="label"></asp:Label>
                     </td>
                     <td style="width: 389px;">&nbsp;</td>

@@ -62,38 +62,40 @@
                 </div>
             </div>
         </div>
-        <asp:GridView ID="grvTravelAdvanceRequestList"
-            runat="server" AutoGenerateColumns="False" DataKeyNames="Id" OnRowCommand="grvTravelAdvanceRequestList_RowCommand"
-            OnRowDataBound="grvTravelAdvanceRequestList_RowDataBound" OnSelectedIndexChanged="grvTravelAdvanceRequestList_SelectedIndexChanged"
-            AllowPaging="True" OnPageIndexChanging="grvTravelAdvanceRequestList_PageIndexChanging"
-            CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" PageSize="30">
-            <RowStyle CssClass="rowstyle" />
-            <Columns>
-                <asp:BoundField DataField="TravelAdvanceNo" HeaderText="Travel Advance No" SortExpression="TravelAdvanceNo" />
-                <asp:BoundField DataField="AppUser.FullName" HeaderText="Requester" SortExpression="AppUser.FullName" />
-                <asp:BoundField DataField="Comments" HeaderText="Comments" SortExpression="Comments" />
-                <asp:TemplateField HeaderText="Request Date">
-                    <ItemTemplate>
-                        <asp:Label ID="lblDate" runat="server" Text='<%# Eval("RequestDate", "{0:dd/MM/yyyy}")%>'></asp:Label>
-                    </ItemTemplate>
-                </asp:TemplateField>
-                <asp:BoundField DataField="VisitingTeam" HeaderText="Visiting Team" SortExpression="VisitingTeam" />
-                <asp:BoundField DataField="PurposeOfTravel" HeaderText="Purpose of Travel" SortExpression="PurposeOfTravel" />
-                <asp:BoundField DataField="TotalTravelAdvance" HeaderText="Total Travel Advance" SortExpression="TotalTravelAdvance" />
-                <asp:BoundField DataField="Project.ProjectCode" HeaderText="Project ID" SortExpression="Project.ProjectCode" />
-                <asp:ButtonField ButtonType="Button" CommandName="ViewItem" Text="View Item Detail" />
-                <asp:CommandField ButtonType="Button" SelectText="Process Request" ShowSelectButton="True" />
-                <asp:TemplateField>
-                    <ItemTemplate>
-                        <asp:Button runat="server" ID="btnStatus" Text="" BorderStyle="None" />
-                    </ItemTemplate>
-                </asp:TemplateField>
-            </Columns>
-            <FooterStyle CssClass="FooterStyle" />
-            <HeaderStyle CssClass="headerstyle" />
-            <PagerStyle CssClass="PagerStyle" />
-            <RowStyle CssClass="rowstyle" />
-        </asp:GridView>
+        <div class="table-responsive" style="overflow: auto;">
+            <asp:GridView ID="grvTravelAdvanceRequestList"
+                runat="server" AutoGenerateColumns="False" DataKeyNames="Id" OnRowCommand="grvTravelAdvanceRequestList_RowCommand"
+                OnRowDataBound="grvTravelAdvanceRequestList_RowDataBound" OnSelectedIndexChanged="grvTravelAdvanceRequestList_SelectedIndexChanged"
+                AllowPaging="True" OnPageIndexChanging="grvTravelAdvanceRequestList_PageIndexChanging"
+                CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" PageSize="30">
+                <RowStyle CssClass="rowstyle" />
+                <Columns>
+                    <asp:BoundField DataField="TravelAdvanceNo" HeaderText="Travel Advance No" SortExpression="TravelAdvanceNo" />
+                    <asp:BoundField DataField="AppUser.FullName" HeaderText="Requester" SortExpression="AppUser.FullName" />
+                    <asp:BoundField DataField="Comments" HeaderText="Comments" SortExpression="Comments" />
+                    <asp:TemplateField HeaderText="Request Date">
+                        <ItemTemplate>
+                            <asp:Label ID="lblDate" runat="server" Text='<%# Eval("RequestDate", "{0:dd/MM/yyyy}")%>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:BoundField DataField="VisitingTeam" HeaderText="Visiting Team" SortExpression="VisitingTeam" />
+                    <asp:BoundField DataField="PurposeOfTravel" HeaderText="Purpose of Travel" SortExpression="PurposeOfTravel" />
+                    <asp:BoundField DataField="TotalTravelAdvance" HeaderText="Total Travel Advance" SortExpression="TotalTravelAdvance" />
+                    <asp:BoundField DataField="Project.ProjectCode" HeaderText="Project ID" SortExpression="Project.ProjectCode" />
+                    <asp:ButtonField ButtonType="Button" CommandName="ViewItem" Text="View Item Detail" />
+                    <asp:CommandField ButtonType="Button" SelectText="Process Request" ShowSelectButton="True" />
+                    <asp:TemplateField>
+                        <ItemTemplate>
+                            <asp:Button runat="server" ID="btnStatus" Text="" BorderStyle="None" />
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                </Columns>
+                <FooterStyle CssClass="FooterStyle" />
+                <HeaderStyle CssClass="headerstyle" />
+                <PagerStyle CssClass="PagerStyle" />
+                <RowStyle CssClass="rowstyle" />
+            </asp:GridView>
+        </div>
         <div>
             <asp:Button runat="server" ID="btnInProgress" Text="" BorderStyle="None" BackColor="#FFFF6C" />
             <b>In Progress</b><br />
@@ -293,8 +295,7 @@
                             <asp:Label ID="lblPostingRef" runat="server" Text="Posting Ref:"></asp:Label>
                         </strong>
                     </td>
-                    <td style="width: 389px; height: 18px;">
-                        _______________
+                    <td style="width: 389px; height: 18px;">_______________
                     </td>
                     <td>&nbsp;</td>
                 </tr>
@@ -455,14 +456,14 @@
                     <td>Signature</td>
                     <td></td>
                     <td></td>
-                    <td style="text-align:right; padding-right:12%;">Recieved By </td>
+                    <td style="text-align: right; padding-right: 12%;">Recieved By </td>
                 </tr>
                 <tr>
                     <td></td>
                     <td>___________________</td>
                     <td></td>
                     <td></td>
-                    <td style="text-align:right;">___________________</td>
+                    <td style="text-align: right;">___________________</td>
                 </tr>
             </table>
         </fieldset>

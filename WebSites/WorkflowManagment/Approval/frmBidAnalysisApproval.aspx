@@ -63,40 +63,36 @@
                 </div>
             </div>
         </div>
-
-        <asp:GridView ID="grvPurchaseRequestList"
-            runat="server" AutoGenerateColumns="False" DataKeyNames="ID"
-            OnRowDataBound="grvPurchaseRequestList_RowDataBound" OnRowDeleting="grvPurchaseRequestList_RowDeleting"
-            OnSelectedIndexChanged="grvPurchaseRequestList_SelectedIndexChanged" AllowPaging="True" OnPageIndexChanging="grvPurchaseRequestList_PageIndexChanging"
-            CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" OnRowCommand="grvPurchaseRequestList_RowCommand" PageSize="30">
-            <RowStyle CssClass="rowstyle" />
-            <Columns>
-                <asp:BoundField DataField="RequestNo" HeaderText="Request No" SortExpression="RequestNo" />
-                <asp:BoundField HeaderText="Requester" />
-                <asp:TemplateField HeaderText="Request Date">
-                    <ItemTemplate>
-                        <asp:Label ID="lblDate" runat="server" Text='<%# Eval("RequestDate", "{0:dd/MM/yyyy}")%>'></asp:Label>
-                    </ItemTemplate>
-                </asp:TemplateField>
-                
-                <asp:BoundField DataField="PurchaseRequest.SuggestedSupplier" HeaderText="Suggested Supplier" SortExpression="PurchaseRequest.SuggestedSupplier" />
-                
-               
-                <asp:BoundField   DataField="TotalPrice"  DataFormatString="{0:C}" HeaderText="Total Price" SortExpression="TotalPrice" />
-               
-                <asp:ButtonField ButtonType="Button" CommandName="ViewItem" Text="View Item Detail" />
-                <asp:CommandField ButtonType="Button" SelectText="Process Request" ShowSelectButton="True" />
-                <asp:TemplateField>
-                    <ItemTemplate>
-                        <asp:Button runat="server" ID="btnStatus" Text="" BorderStyle="None" />
-                    </ItemTemplate>
-                </asp:TemplateField>
-            </Columns>
-            <FooterStyle CssClass="FooterStyle" />
-            <HeaderStyle CssClass="headerstyle" />
-            <PagerStyle CssClass="PagerStyle" />
-
-        </asp:GridView>
+        <div class="table-responsive" style="overflow: auto;">
+            <asp:GridView ID="grvPurchaseRequestList"
+                runat="server" AutoGenerateColumns="False" DataKeyNames="ID"
+                OnRowDataBound="grvPurchaseRequestList_RowDataBound" OnRowDeleting="grvPurchaseRequestList_RowDeleting"
+                OnSelectedIndexChanged="grvPurchaseRequestList_SelectedIndexChanged" AllowPaging="True" OnPageIndexChanging="grvPurchaseRequestList_PageIndexChanging"
+                CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" OnRowCommand="grvPurchaseRequestList_RowCommand" PageSize="30">
+                <RowStyle CssClass="rowstyle" />
+                <Columns>
+                    <asp:BoundField DataField="RequestNo" HeaderText="Request No" SortExpression="RequestNo" />
+                    <asp:BoundField HeaderText="Requester" />
+                    <asp:TemplateField HeaderText="Request Date">
+                        <ItemTemplate>
+                            <asp:Label ID="lblDate" runat="server" Text='<%# Eval("RequestDate", "{0:dd/MM/yyyy}")%>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:BoundField DataField="PurchaseRequest.SuggestedSupplier" HeaderText="Suggested Supplier" SortExpression="PurchaseRequest.SuggestedSupplier" />
+                    <asp:BoundField DataField="TotalPrice" DataFormatString="{0:C}" HeaderText="Total Price" SortExpression="TotalPrice" />
+                    <asp:ButtonField ButtonType="Button" CommandName="ViewItem" Text="View Item Detail" />
+                    <asp:CommandField ButtonType="Button" SelectText="Process Request" ShowSelectButton="True" />
+                    <asp:TemplateField>
+                        <ItemTemplate>
+                            <asp:Button runat="server" ID="btnStatus" Text="" BorderStyle="None" />
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                </Columns>
+                <FooterStyle CssClass="FooterStyle" />
+                <HeaderStyle CssClass="headerstyle" />
+                <PagerStyle CssClass="PagerStyle" />
+            </asp:GridView>
+        </div>
         <div>
             <asp:Button runat="server" ID="btnInProgress" Text="" BorderStyle="None" BackColor="#FFFF6C" />
             <b>In Progress</b><br />
@@ -108,10 +104,6 @@
         </div>
         <br />
         <br />
-
-
-
-
     </div>
     <asp:Panel ID="pnlDetail" runat="server">
         <div class="modal-dialog">
@@ -138,7 +130,7 @@
                                                     <%# DataBinder.Eval(Container.DataItem, "Bidder.Supplier.SupplierName")%>
                                                 </ItemTemplate>
                                             </asp:TemplateColumn>
-                                              <asp:TemplateColumn HeaderText="Account Code">
+                                            <asp:TemplateColumn HeaderText="Account Code">
 
 
                                                 <ItemTemplate>
@@ -154,15 +146,15 @@
                                             </asp:TemplateColumn>
                                             <asp:TemplateColumn HeaderText="Rank">
                                                 <ItemTemplate>
-                                                    <asp:Label id="lblRank" runat="server" Text= '<%# DataBinder.Eval(Container.DataItem, "Bidder.Rank")%>'></asp:Label>
+                                                    <asp:Label ID="lblRank" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "Bidder.Rank")%>'></asp:Label>
                                                 </ItemTemplate>
-                                           </asp:TemplateColumn>
-                                              <asp:TemplateColumn HeaderText="Reason For Selection">
+                                            </asp:TemplateColumn>
+                                            <asp:TemplateColumn HeaderText="Reason For Selection">
                                                 <ItemTemplate>
-                                           
-                                            <asp:Label id="lblReason" runat="server" Text= '<%# DataBinder.Eval(Container.DataItem, "Bidder.GetSelectionReason")%>'></asp:Label>
+
+                                                    <asp:Label ID="lblReason" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "Bidder.GetSelectionReason")%>'></asp:Label>
                                                 </ItemTemplate>
-                                           </asp:TemplateColumn>
+                                            </asp:TemplateColumn>
                                             <asp:TemplateColumn HeaderText="Qty">
                                                 <ItemTemplate>
                                                     <%# DataBinder.Eval(Container.DataItem, "Qty")%>
@@ -171,21 +163,21 @@
 
                                             </asp:TemplateColumn>
                                             <asp:TemplateColumn HeaderText="Price per unit">
-                                                <ItemTemplate>                                                     
-                                                  $  <%# DataBinder.Eval(Container.DataItem, "UnitCost")%>
+                                                <ItemTemplate>
+                                                    $  <%# DataBinder.Eval(Container.DataItem, "UnitCost")%>
                                                 </ItemTemplate>
 
 
                                             </asp:TemplateColumn>
-                                             <asp:TemplateColumn HeaderText="Total Price">
-                                                   <ItemTemplate>                                                   
-                                                   $  <%# DataBinder.Eval(Container.DataItem, "TotalCost")%>
+                                            <asp:TemplateColumn HeaderText="Total Price">
+                                                <ItemTemplate>
+                                                    $  <%# DataBinder.Eval(Container.DataItem, "TotalCost")%>
                                                 </ItemTemplate>
 
 
                                             </asp:TemplateColumn>
-                                          
-                                           
+
+
 
 
                                         </Columns>
@@ -261,7 +253,7 @@
                                                     <asp:TextBox ID="txtRejectedReason" runat="server" Visible="false" TextMode="MultiLine"></asp:TextBox>
                                                 </label>
                                             </section>
-                                         
+
                                         </div>
                                         <div class="row">
                                             <div class="row">
@@ -359,20 +351,20 @@
                     <td style="width: 389px"></td>
                     <td>&nbsp;</td>
                 </tr>
-               <tr>
-                    
+                <tr>
+
                     <td style="width: 848px">
                         <strong>
                             <asp:Label ID="lblPaytype" runat="server" Text="Payment Method:"></asp:Label>
                         </strong></td>
-                      <td style="width: 390px">
+                    <td style="width: 390px">
                         <asp:Label ID="lblpaytypeRes" runat="server" Text="" class="label"></asp:Label>
                     </td>
                     <td style="width: 389px;">&nbsp;</td>
                     <td style="width: 389px;">&nbsp;</td>
                     <td>&nbsp;</td>
                 </tr>
-                 <tr>
+                <tr>
                     <td style="width: 848px; height: 18px;">
                         <strong>
                             <asp:Label ID="lblCommentPrint" runat="server" Text="Reason For Selection:"></asp:Label>
@@ -384,8 +376,8 @@
                     <td style="width: 389px; height: 18px;"></td>
                     <td style="height: 18px">&nbsp;</td>
                 </tr>
-              
-                 <tr>
+
+                <tr>
                     <td style="width: 848px; height: 18px;">
                         <strong>
                             <asp:Label ID="lblRequireddateofdelivery" runat="server" Text="Special Need:"></asp:Label>
@@ -397,7 +389,7 @@
                     <td style="width: 389px; height: 18px;"></td>
                     <td style="height: 18px">&nbsp;</td>
                 </tr>
-                   <tr>
+                <tr>
                     <td style="width: 848px; height: 18px;">
                         <strong>
                             <asp:Label ID="lblTotalPrice" runat="server" Text="Total Price:"></asp:Label>
@@ -409,30 +401,30 @@
                     <td style="width: 389px; height: 18px;"></td>
                     <td style="height: 18px">&nbsp;</td>
                 </tr>
-             </table>
-             <br />
-         <br />
-        <asp:GridView ID="grvStatuses" CellPadding="5" CellSpacing="3"
-            runat="server" AutoGenerateColumns="False" DataKeyNames="Id" OnRowDataBound="grvStatuses_RowDataBound"
-            CssClass="table table-striped table-bordered table-hover">
-            <RowStyle CssClass="rowstyle" />
-            <Columns>
-                   <asp:TemplateField HeaderText="Date">
-                                            <ItemTemplate>
-                                              <asp:Label ID="lblDate" runat="server" Text='<%# Eval("ApprovalDate", "{0:dd/MM/yyyy}")%>' ></asp:Label>
-                                            </ItemTemplate>
-                                            </asp:TemplateField> 
-                
-              
-                <asp:BoundField DataField="AssignedBy" HeaderText="Assignee Approver" SortExpression="AssignedBy" />
-                <asp:BoundField HeaderText="Approval Status" DataField="ApprovalStatus"/>
-            </Columns>
-            <FooterStyle CssClass="FooterStyle" />
-            <HeaderStyle CssClass="headerstyle" />
-            <PagerStyle CssClass="PagerStyle" />
-            <RowStyle CssClass="rowstyle" />
-        </asp:GridView>
-            </fieldset>
+            </table>
+            <br />
+            <br />
+            <asp:GridView ID="grvStatuses" CellPadding="5" CellSpacing="3"
+                runat="server" AutoGenerateColumns="False" DataKeyNames="Id" OnRowDataBound="grvStatuses_RowDataBound"
+                CssClass="table table-striped table-bordered table-hover">
+                <RowStyle CssClass="rowstyle" />
+                <Columns>
+                    <asp:TemplateField HeaderText="Date">
+                        <ItemTemplate>
+                            <asp:Label ID="lblDate" runat="server" Text='<%# Eval("ApprovalDate", "{0:dd/MM/yyyy}")%>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+
+
+                    <asp:BoundField DataField="AssignedBy" HeaderText="Assignee Approver" SortExpression="AssignedBy" />
+                    <asp:BoundField HeaderText="Approval Status" DataField="ApprovalStatus" />
+                </Columns>
+                <FooterStyle CssClass="FooterStyle" />
+                <HeaderStyle CssClass="headerstyle" />
+                <PagerStyle CssClass="PagerStyle" />
+                <RowStyle CssClass="rowstyle" />
+            </asp:GridView>
+        </fieldset>
     </div>
     <asp:ModalPopupExtender runat="server" BackgroundCssClass="modalBackground"
         Enabled="True" TargetControlID="btnPop" PopupControlID="pnlApproval" CancelControlID="btnCancelPopup"

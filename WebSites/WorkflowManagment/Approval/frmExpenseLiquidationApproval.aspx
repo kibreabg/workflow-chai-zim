@@ -63,34 +63,36 @@
                 </div>
             </div>
         </div>
-        <asp:GridView ID="grvExpenseLiquidationRequestList"
-            runat="server" AutoGenerateColumns="False" DataKeyNames="Id" OnRowCommand="grvExpenseLiquidationRequestList_RowCommand"
-            OnRowDataBound="grvExpenseLiquidationRequestList_RowDataBound" OnSelectedIndexChanged="grvExpenseLiquidationRequestList_SelectedIndexChanged" AllowPaging="True" OnPageIndexChanging="grvExpenseLiquidationRequestList_PageIndexChanging"
-            CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" PageSize="30">
-            <RowStyle CssClass="rowstyle" />
-            <Columns>
-                <asp:BoundField DataField="TravelAdvanceRequest.AppUser.FullName" HeaderText="Requester" SortExpression="TravelAdvanceRequest.AppUser.FullName" />
-                <asp:BoundField DataField="ExpenseType" HeaderText="Expense Type" SortExpression="ExpenseType" />
-                <asp:BoundField DataField="TotalActualExpenditure" HeaderText="Total Actual Expenditure" SortExpression="TotalActualExpenditure" />
-                <asp:BoundField DataField="AdditionalComment" HeaderText="Comment" SortExpression="AdditionalComment" />
-                <asp:TemplateField HeaderText="Request Date">
-                    <ItemTemplate>
-                        <asp:Label ID="lblDate" runat="server" Text='<%# Eval("RequestDate", "{0:dd/MM/yyyy}")%>'></asp:Label>
-                    </ItemTemplate>
-                </asp:TemplateField>
-                <asp:ButtonField ButtonType="Button" CommandName="ViewItem" Text="View Item Detail" />
-                <asp:CommandField ButtonType="Button" SelectText="Process Request" ShowSelectButton="True" />
-                <asp:TemplateField>
-                    <ItemTemplate>
-                        <asp:Button runat="server" ID="btnStatus" Text="" BorderStyle="None" />
-                    </ItemTemplate>
-                </asp:TemplateField>
-            </Columns>
-            <FooterStyle CssClass="FooterStyle" />
-            <HeaderStyle CssClass="headerstyle" />
-            <PagerStyle CssClass="PagerStyle" />
-            <RowStyle CssClass="rowstyle" />
-        </asp:GridView>
+        <div class="table-responsive" style="overflow: auto;">
+            <asp:GridView ID="grvExpenseLiquidationRequestList"
+                runat="server" AutoGenerateColumns="False" DataKeyNames="Id" OnRowCommand="grvExpenseLiquidationRequestList_RowCommand"
+                OnRowDataBound="grvExpenseLiquidationRequestList_RowDataBound" OnSelectedIndexChanged="grvExpenseLiquidationRequestList_SelectedIndexChanged" AllowPaging="True" OnPageIndexChanging="grvExpenseLiquidationRequestList_PageIndexChanging"
+                CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" PageSize="30">
+                <RowStyle CssClass="rowstyle" />
+                <Columns>
+                    <asp:BoundField DataField="TravelAdvanceRequest.AppUser.FullName" HeaderText="Requester" SortExpression="TravelAdvanceRequest.AppUser.FullName" />
+                    <asp:BoundField DataField="ExpenseType" HeaderText="Expense Type" SortExpression="ExpenseType" />
+                    <asp:BoundField DataField="TotalActualExpenditure" HeaderText="Total Actual Expenditure" SortExpression="TotalActualExpenditure" />
+                    <asp:BoundField DataField="AdditionalComment" HeaderText="Comment" SortExpression="AdditionalComment" />
+                    <asp:TemplateField HeaderText="Request Date">
+                        <ItemTemplate>
+                            <asp:Label ID="lblDate" runat="server" Text='<%# Eval("RequestDate", "{0:dd/MM/yyyy}")%>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:ButtonField ButtonType="Button" CommandName="ViewItem" Text="View Item Detail" />
+                    <asp:CommandField ButtonType="Button" SelectText="Process Request" ShowSelectButton="True" />
+                    <asp:TemplateField>
+                        <ItemTemplate>
+                            <asp:Button runat="server" ID="btnStatus" Text="" BorderStyle="None" />
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                </Columns>
+                <FooterStyle CssClass="FooterStyle" />
+                <HeaderStyle CssClass="headerstyle" />
+                <PagerStyle CssClass="PagerStyle" />
+                <RowStyle CssClass="rowstyle" />
+            </asp:GridView>
+        </div>
         <div>
             <asp:Button runat="server" ID="btnInProgress" Text="" BorderStyle="None" BackColor="#FFFF6C" />
             <b>In Progress</b><br />
@@ -381,11 +383,9 @@
                         <asp:Label ID="lblTravelAdvReqDateResult" runat="server"></asp:Label>
                     </td>
                     <td style="width: 389px">
-                        <strong>
-                        </strong>
+                        <strong></strong>
                     </td>
-                    <td style="width: 389px">
-                    </td>
+                    <td style="width: 389px"></td>
                     <td>&nbsp;</td>
                 </tr>
             </table>
