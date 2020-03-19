@@ -154,7 +154,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         #endregion
         private string AutoNumber()
         {
-            return "SVR-" + (_presenter.GetLastSoleVendorRequestId() + 1).ToString();
+            return "SVR-" + _presenter.CurrentUser().Id.ToString() + "-" + (_presenter.GetLastSoleVendorRequestId() + 1).ToString();
         }
         private void CheckApprovalSettings()
         {

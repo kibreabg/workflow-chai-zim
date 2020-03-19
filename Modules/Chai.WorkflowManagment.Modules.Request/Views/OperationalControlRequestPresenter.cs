@@ -149,9 +149,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             OperationalControlRequest.Account = _settingController.GetAccount(View.GetBankAccountId);
             //OperationalControlRequest.Payee = View.GetPayee;
             OperationalControlRequest.Description = View.GetDescription;
-            OperationalControlRequest.Beneficiary = _settingController.GetBeneficiary(View.GetBeneficiaryId);
-            OperationalControlRequest.BranchCode = View.GetBranchCode;
-            OperationalControlRequest.BankName = View.GetBankName;
+            OperationalControlRequest.Supplier = _settingController.GetSupplier(View.GetSupplierId);
+            
             OperationalControlRequest.PaymentMethod = View.GetPaymentMethod;
             OperationalControlRequest.VoucherNo = View.GetVoucherNo;
             OperationalControlRequest.ProgressStatus = ProgressStatus.InProgress.ToString();
@@ -247,10 +246,15 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             return _settingController.GetAccount(id);
         }
+        public IList<Supplier> GetSuppliers()
+        {
+            return _settingController.GetSuppliers();
+        }
         public IList<Beneficiary> GetBeneficiaries()
         {
             return _settingController.GetBeneficiaries();
         }
+
 
         public Beneficiary GetBeneficiary(int id)
         {

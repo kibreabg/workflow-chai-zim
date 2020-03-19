@@ -373,7 +373,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
 
             lblRequesterResult.Text = _presenter.CurrentOperationalControlRequest.AppUser.FullName;
             lblRequestedDateResult.Text = _presenter.CurrentOperationalControlRequest.RequestDate.Value.ToShortDateString();
-            lblBeneficiaryNameResult.Text = _presenter.CurrentOperationalControlRequest.Beneficiary.BeneficiaryName;
+            lblBeneficiaryNameResult.Text = _presenter.CurrentOperationalControlRequest.Supplier.SupplierName;
             lblDescriptionResult.Text = _presenter.CurrentOperationalControlRequest.Description;
             lblBranchCodeResult.Text = _presenter.CurrentOperationalControlRequest.BranchCode.ToString();
             lblVoucherNoResult.Text = _presenter.CurrentOperationalControlRequest.VoucherNo.ToString();

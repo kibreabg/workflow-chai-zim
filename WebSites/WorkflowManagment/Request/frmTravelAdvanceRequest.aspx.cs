@@ -122,7 +122,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         #endregion
         private string AutoNumber()
         {
-            return "TR-" + (_presenter.GetLastTravelAdvanceRequestId() + 1).ToString();
+            return "TR-" + _presenter.CurrentUser().Id.ToString() + "-" + (_presenter.GetLastTravelAdvanceRequestId() + 1).ToString();
         }
         private void CheckApprovalSettings()
         {

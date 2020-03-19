@@ -239,10 +239,15 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     {
                         _presenter.CurrentPurchaseRequest.ProgressStatus = ProgressStatus.Completed.ToString();
                         GetNextApprover();
+                        PRRS.Approver = _presenter.CurrentUser().Id;
+                        Log.Info(_presenter.GetUser(PRRS.Approver).FullName + " has " + PRRS.ApprovalStatus + " Purchase Request made by " + _presenter.GetUser(_presenter.CurrentPurchaseRequest.Requester).FullName);
                     }
                     else
                     {
                         _presenter.CurrentPurchaseRequest.ProgressStatus = ProgressStatus.Completed.ToString();
+                        PRRS.Approver = _presenter.CurrentUser().Id;
+                        SendEmailRejected(PRRS);
+                        Log.Info(_presenter.GetUser(PRRS.Approver).FullName + " has " + PRRS.ApprovalStatus + " Purchase Request made by " + _presenter.GetUser(_presenter.CurrentPurchaseRequest.Requester).FullName);
                     }
                     break;
                 }
@@ -275,6 +280,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             lblPayMethRes.Text = _presenter.CurrentPurchaseRequest.PaymentMethod;
             lblDelivertoResult.Text = _presenter.CurrentPurchaseRequest.DeliverTo;
             lblReqDateResult.Text = _presenter.CurrentPurchaseRequest.Requireddateofdelivery.ToShortDateString();
+            lblSpecRes.Text = _presenter.CurrentPurchaseRequest.Comment;
             grvDetails.DataSource = _presenter.CurrentPurchaseRequest.PurchaseRequestDetails;
             grvDetails.DataBind();
 

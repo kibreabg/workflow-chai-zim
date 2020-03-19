@@ -101,18 +101,18 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             get { return txtDescription.Text; }
         }
-        public int GetBeneficiaryId
+        public int GetSupplierId
         {
             get { return int.Parse(ddlBeneficiary.SelectedValue); }
         }
-        public string GetBranchCode
-        {
-            get { return txtBranchCode.Text; }
-        }
-        public string GetBankName
-        {
-            get { return txtBankName.Text; }
-        }
+        //public string GetBranchCode
+        //{
+        //    get { return txtBranchCode.Text; }
+        //}
+        //public string GetBankName
+        //{
+        //    get { return txtBankName.Text; }
+        //}
         public string GetVoucherNo
         {
             get { return AutoNumber(); }
@@ -237,7 +237,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         private string AutoNumber()
         {
-            return "BP-" + (_presenter.GetLastOperationalControlRequestId() + 1).ToString();
+            return "BP-" + _presenter.CurrentUser().Id.ToString() + "-" + (_presenter.GetLastOperationalControlRequestId() + 1).ToString();
         }
         private void CheckApprovalSettings()
         {
@@ -261,10 +261,10 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             ddlBeneficiary.Items.Clear();
             ListItem lst = new ListItem();
-            lst.Text = " Select Beneficiary ";
+            lst.Text = " Select Supplier ";
             lst.Value = "0";
             ddlBeneficiary.Items.Add(lst);
-            ddlBeneficiary.DataSource = _presenter.GetBeneficiaries();
+            ddlBeneficiary.DataSource = _presenter.GetSuppliers();
             ddlBeneficiary.DataBind();
         }
         private void BindOperationalControlDetails()
@@ -289,9 +289,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             {
                 // txtRequestNo.Text = _presenter.CurrentOperationalControlRequest.RequestNo.ToString();
                 //txtPayee.Text = _presenter.CurrentOperationalControlRequest.Payee;
-                ddlBeneficiary.SelectedValue = _presenter.CurrentOperationalControlRequest.Beneficiary.Id.ToString();
-                txtBranchCode.Text = _presenter.CurrentOperationalControlRequest.BranchCode;
-                txtBankName.Text = _presenter.CurrentOperationalControlRequest.BankName;
+                ddlBeneficiary.SelectedValue = _presenter.CurrentOperationalControlRequest.Supplier.Id.ToString();
+               
                 txtDescription.Text = _presenter.CurrentOperationalControlRequest.Description;
                 ddlPayMethods.Text = _presenter.CurrentOperationalControlRequest.PaymentMethod;
                 // txtVoucherNo.Text = _presenter.CurrentOperationalControlRequest.VoucherNo.ToString();
@@ -596,13 +595,13 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 
         protected void ddlBeneficiary_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Beneficiary Benef = _presenter.GetBeneficiary(Convert.ToInt32(ddlBeneficiary.SelectedValue));
-            if (Benef != null)
-            {
+            //Beneficiary Benef = _presenter.GetBeneficiary(Convert.ToInt32(ddlBeneficiary.SelectedValue));
+            //if (Benef != null)
+            //{
 
-                txtBranchCode.Text = Benef.BranchName;
-                txtBankName.Text = Benef.BankName;
-            }
+            //    txtBranchCode.Text = Benef.BranchName;
+            //    txtBankName.Text = Benef.BankName;
+            //}
 
 
         }

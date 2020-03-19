@@ -109,7 +109,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         #endregion
         private string AutoNumber()
         {
-           return  "CSV-" + (_presenter.GetLastCostSharingRequestId() + 1).ToString();
+           return  "CSV-" + _presenter.CurrentUser().Id.ToString() + "-" + (_presenter.GetLastCostSharingRequestId() + 1).ToString();
         }
         private void CheckApprovalSettings()
         {

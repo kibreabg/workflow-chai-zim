@@ -87,7 +87,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         #endregion
         private void AutoNumber()
         {
-            txtVoucherNo.Text = "BP-" + (_presenter.GetLastBankPaymentRequestId() + 1).ToString() + DateTime.Now.Second.ToString();
+            txtVoucherNo.Text = "BP-" + _presenter.CurrentUser().Id.ToString() + "-" + (_presenter.GetLastBankPaymentRequestId() + 1).ToString() ;
         }
         private void CheckApprovalSettings()
         {

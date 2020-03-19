@@ -102,7 +102,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         #endregion
         private string AutoNumber()
         {
-            return "CPV-" + (_presenter.GetLastCashPaymentRequestId() + 1).ToString();
+            return "CPV-" + _presenter.CurrentUser().Id.ToString() + "-" + (_presenter.GetLastCashPaymentRequestId() + 1).ToString();
         }
         private void CheckApprovalSettings()
         {

@@ -46,7 +46,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 
         private string AutoNumber()
         {
-            return "LR-" + (_presenter.GetLastLeaveRequestId() + 1).ToString();
+            return "LR-" + _presenter.CurrentUser().Id.ToString() + "-" + (_presenter.GetLastLeaveRequestId() + 1).ToString();
         }
         [CreateNew]
         public LeaveRequestPresenter Presenter

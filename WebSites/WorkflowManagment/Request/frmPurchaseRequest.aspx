@@ -144,7 +144,19 @@
                           
                            
                         </div>
-                        <asp:DataGrid ID="dgPurchaseRequestDetail" runat="server" AlternatingRowStyle-CssClass="" AutoGenerateColumns="False" CellPadding="0"
+
+                        <div class="tab-pane active" id="hr2">
+                                    <ul class="nav nav-tabs">
+                                        <li class="active">
+                                            <a href="#iss1" data-toggle="tab">Purchase Request Detail</a>
+                                        </li>
+                                        <li class="">
+                                            <a href="#iss2" data-toggle="tab">Attachments</a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content padding-10">
+                                        <div class="tab-pane active" id="iss1">
+                                                               <asp:DataGrid ID="dgPurchaseRequestDetail" runat="server" AlternatingRowStyle-CssClass="" AutoGenerateColumns="False" CellPadding="0"
                             CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" DataKeyField="Id"
                             GridLines="None"
                             OnCancelCommand="dgPurchaseRequestDetail_CancelCommand" OnDeleteCommand="dgPurchaseRequestDetail_DeleteCommand" OnEditCommand="dgPurchaseRequestDetail_EditCommand"
@@ -305,6 +317,46 @@
                             </Columns>
                             <PagerStyle CssClass="paginate_button active" HorizontalAlign="Center" />
                         </asp:DataGrid>
+
+                                        </div>
+
+                                        <div class="tab-pane" id="iss2">
+                                            <fieldset>
+                                                <div class="row">
+                                                    <section class="col col-6">
+                                                        <label class="label">Attachments</label>
+                                                        <asp:FileUpload ID="fuReciept" runat="server" />
+                                                        <asp:Button ID="btnUpload" runat="server" Text="Upload" CssClass="btn btn-primary" OnClick="btnUpload_Click" />
+                                                    </section>
+                                                </div>
+
+                                                <asp:GridView ID="grvAttachments"
+                                                    runat="server" AutoGenerateColumns="False" DataKeyNames="Id"
+                                                    CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active">
+                                                    <RowStyle CssClass="rowstyle" />
+                                                    <Columns>
+                                                        <asp:BoundField DataField="FilePath" HeaderText="File Name" SortExpression="FilePath" />
+                                                        <asp:TemplateField>
+                                                            <ItemTemplate>
+                                                                <asp:LinkButton ID="lnkDownload" Text="Download" CommandArgument='<%# Eval("FilePath") %>' runat="server" OnClick="DownloadFile"></asp:LinkButton>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField>
+                                                            <ItemTemplate>
+                                                                <asp:LinkButton ID="lnkDelete" Text="Delete" CommandArgument='<%# Eval("FilePath") %>' runat="server" OnClick="DeleteFile" />
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                    </Columns>
+                                                    <FooterStyle CssClass="FooterStyle" />
+                                                    <HeaderStyle CssClass="headerstyle" />
+                                                    <PagerStyle CssClass="PagerStyle" />
+                                                    <RowStyle CssClass="rowstyle" />
+                                                </asp:GridView>
+                                            </fieldset>
+
+                                        </div>
+                                    </div>
+                                </div>
                     </fieldset>
 
                     <footer>

@@ -185,10 +185,7 @@ namespace Chai.WorkflowManagment.Modules.Admin.Views
 
         public void SetRoles(Node node)
         {
-            //foreach (NodeRole np in node.NodeRoles)
-            //{
-            //    node.RemoveNoderole(np.Id);
-            //}
+            _presenter.RemoveNodeRoles();
 
             foreach (RepeaterItem ri in rptRoles.Items)
             {

@@ -113,6 +113,16 @@ namespace Chai.WorkflowManagment.Modules.Admin.Views
         {
             return _controller.GetRoleById(roleid);
         }
+        public void RemoveNodeRoles()
+        {
+            if (CurrentNode.NodeRoles.Count > 0)
+            {
+                NodeRole[] nroles = new NodeRole[CurrentNode.NodeRoles.Count];
+                CurrentNode.NodeRoles.CopyTo(nroles, 0);
+                CurrentNode.NodeRoles.Clear();
+                _controller.RemoveListOfObjects<NodeRole>(nroles);
+            }
+        }
 
         public ListOfDirectoryItems DirectoryItems
         {

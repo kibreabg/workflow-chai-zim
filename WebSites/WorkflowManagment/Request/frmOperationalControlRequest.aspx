@@ -90,36 +90,24 @@
                         <legend>Beneficiary Details</legend>
                         <div class="row">
                             <section class="col col-6">
-                                <label class="label">Beneficiary Name</label>
+                                <label class="label">Supplier Name</label>
                                 <label class="select">
-                                    <asp:DropDownList ID="ddlBeneficiary" runat="server" AppendDataBoundItems="True" AutoPostBack="True" DataTextField="BeneficiaryName" DataValueField="Id" OnSelectedIndexChanged="ddlBeneficiary_SelectedIndexChanged">
-                                        <asp:ListItem Value="0">Select Beneficiary</asp:ListItem>
+                                    <asp:DropDownList ID="ddlBeneficiary" runat="server" AppendDataBoundItems="True" AutoPostBack="True" DataTextField="SupplierName" DataValueField="Id" OnSelectedIndexChanged="ddlBeneficiary_SelectedIndexChanged">
+                                        <asp:ListItem Value="0">Select Supplier</asp:ListItem>
                                     </asp:DropDownList><i></i>
-                                    <asp:RequiredFieldValidator ID="RfvBeneficiaryType" runat="server" ControlToValidate="ddlBeneficiary" ErrorMessage="Beneficiary Required" InitialValue="0" SetFocusOnError="True" ValidationGroup="saveMain">*</asp:RequiredFieldValidator>
-                                    <asp:LinkButton ID="btnpop" runat="server" OnClick="btnpop_Click">Add Beneficiary</asp:LinkButton>
+                                    <asp:RequiredFieldValidator ID="RfvBeneficiaryType" runat="server" ControlToValidate="ddlBeneficiary" ErrorMessage="Supplier Required" InitialValue="0" SetFocusOnError="True" ValidationGroup="saveMain">*</asp:RequiredFieldValidator>
+                                   
                                 </label>
                                 
                             </section>
-                            <section class="col col-6">
-                                <label class="label">Branch Code</label>
-                                <label class="input">
-                                    <asp:TextBox ID="txtBranchCode" runat="server"></asp:TextBox>
-                                </label>
-                            </section>
-                        </div>
-                        <div class="row">
+                           
                             <section class="col col-6">
                                 <label class="label">Description</label>
                                 <label class="input">
                                     <asp:TextBox ID="txtDescription" runat="server"></asp:TextBox>
                                 </label>
                             </section>
-                            <section class="col col-6">
-                                <label class="label">Bank Name</label>
-                                <label class="input">
-                                    <asp:TextBox ID="txtBankName" runat="server"></asp:TextBox>
-                                </label>
-                            </section>
+                           
                         </div>
                         
                     </fieldset>
@@ -376,7 +364,7 @@
                                         <Columns>
                                             <asp:BoundField DataField="RequestNo" HeaderText="Vourcher No" SortExpression="RequestNo" />
                                             <asp:BoundField DataField="RequestDate" HeaderText="Request Date" SortExpression="RequestDate" />
-                                            <asp:BoundField DataField="Beneficiary.BeneficiaryName" HeaderText="Beneficiary Name" SortExpression="Beneficiary.BeneficiaryName" />
+                                            <asp:BoundField DataField="Supplier.SupplierName" HeaderText="Supplier Name" SortExpression="Supplier.SupplierName" />
                                             <asp:BoundField DataField="Description" HeaderText="Description" SortExpression="Description" />
                                            <asp:BoundField DataField="BranchCode" HeaderText="Branch Code" SortExpression="BranchCode" />
                                            <asp:BoundField DataField="TotalAmount" HeaderText="Total Amount" SortExpression="TotalAmount" />

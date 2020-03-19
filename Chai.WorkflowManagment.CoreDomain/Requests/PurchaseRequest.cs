@@ -16,6 +16,7 @@ namespace Chai.WorkflowManagment.CoreDomain.Requests
         {
             this.PurchaseRequestStatuses = new List<PurchaseRequestStatus>();
             this.PurchaseRequestDetails = new List<PurchaseRequestDetail>();
+            this.PRAttachments = new List<PRAttachment>();
             //this.PurchaseOrders = new List<PurchaseOrder>();
             //  this.BidAnalysises = new BidAnalysis();
         }
@@ -41,6 +42,7 @@ namespace Chai.WorkflowManagment.CoreDomain.Requests
         public virtual IList<SoleVendorRequest> SoleVendorRequests { get; set; }
         public virtual IList<PurchaseRequestStatus> PurchaseRequestStatuses { get; set; }
         public virtual IList<PurchaseRequestDetail> PurchaseRequestDetails { get; set; }
+        public virtual IList<PRAttachment> PRAttachments { get; set; }
         // public virtual PurchaseOrder PurchaseOrders { get; set; }
         #region PurchaseRequestStatus
         public virtual PurchaseRequestStatus GetPurchaseRequestStatus(int Id)
@@ -192,6 +194,20 @@ namespace Chai.WorkflowManagment.CoreDomain.Requests
                 break;
             }
 
+        }
+        #endregion
+        #region PRAttachment
+
+        public virtual void RemovePRAttachment(string FilePath)
+        {
+            foreach (PRAttachment cpa in PRAttachments)
+            {
+                if (cpa.FilePath == FilePath)
+                {
+                    PRAttachments.Remove(cpa);
+                    break;
+                }
+            }
         }
         #endregion
 

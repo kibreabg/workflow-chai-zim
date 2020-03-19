@@ -142,6 +142,31 @@ namespace Chai.WorkflowManagment.Modules.Admin
         {
             return ZadsServices.AdminServices.GetMaxTabPosition();
         }
+
+
+        public void SaveOrUpdateNode(Node node)
+        {
+            if (node.Id <= 0)
+            {
+                
+
+                using (var wr = WorkspaceFactory.CreateReadOnly())
+                {
+                    if (wr.Single<Node>(x => x.Title == node.Title) != null)
+                        throw new Exception("Node  already exists");
+                }
+            }
+            else
+            {
+                foreach (NodeRole r in node.NodeRoles)
+                {
+                    if (r.Id == 0)
+                        _workspace.Add(r);
+                }
+            }
+
+            SaveOrUpdateEntity<Node>(node);
+        }
         #endregion
         #region Setting
         public IList<EmployeePosition> GetEmployeePositions()

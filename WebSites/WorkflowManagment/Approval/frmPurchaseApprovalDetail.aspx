@@ -59,47 +59,54 @@
                         <asp:Button ID="btnPop2" runat="server" />
                         <asp:Button ID="btnFind" runat="server" Text="Find" CssClass="btn btn-primary" OnClick="btnFind_Click"></asp:Button>
                         <asp:Button ID="btnClosepage" runat="server" Text="Close" data-dismiss="modal" CssClass="btn btn-primary" PostBackUrl="../Default.aspx"></asp:Button>
-
                     </footer>
+
                 </div>
             </div>
+            <div class="table-responsive" style="overflow: auto;">
+                <asp:GridView ID="grvPurchaseRequestList"
+                    runat="server" AutoGenerateColumns="False" DataKeyNames="Id" OnRowCommand="grvPurchaseRequestList_RowCommand"
+                    OnRowDataBound="grvPurchaseRequestList_RowDataBound" OnSelectedIndexChanged="grvPurchaseRequestList_SelectedIndexChanged"
+                    AllowPaging="True" OnPageIndexChanging="grvPurchaseRequestList_PageIndexChanging"
+                    CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" PageSize="30">
+                    <RowStyle CssClass="rowstyle" />
+                    <Columns>
+                        <asp:BoundField DataField="RequestNo" HeaderText="Request No" SortExpression="RequestNo" />
+                        <asp:BoundField DataField="Requester" HeaderText="Requester" SortExpression="Requester" />
+                        <asp:TemplateField HeaderText="Request Date">
+                            <ItemTemplate>
+                                <asp:Label ID="lblDate" runat="server" Text='<%# Eval("RequestedDate", "{0:dd/MM/yyyy}")%>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Required Date of Delivery">
+                            <ItemTemplate>
+                                <asp:Label ID="lblDateDelivery" runat="server" Text='<%# Eval("Requireddateofdelivery", "{0:dd/MM/yyyy}")%>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:BoundField DataField="DeliverTo" HeaderText="Deliver To" SortExpression="DeliverTo" />
+                        <asp:BoundField DataField="Neededfor" HeaderText="Needed for" SortExpression="Neededfor" />
+                        <asp:BoundField DataField="SpecialNeed" HeaderText="Special Need" SortExpression="SpecialNeed" />
+                         <asp:BoundField DataField="Budgeted" HeaderText="Budgeted" SortExpression="Budgeted" />
+                        <asp:BoundField DataField="Comment" HeaderText="Specification" SortExpression="Comment" />
+                        <asp:BoundField DataField="PaymentMethod" HeaderText="Payment Method" SortExpression="PaymentMethod" />
+                        <asp:BoundField DataField="SuggestedSupplier" HeaderText="Suggested Supplier" SortExpression="PurposeOfTravel" />
+                        <asp:BoundField DataField="TotalPrice" HeaderText="Total Price" SortExpression="TotalPurchase" />
+
+                        <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-primary" CommandName="ViewItem" Text="View Item Detail" />
+                        <asp:CommandField ButtonType="Button" ControlStyle-CssClass="btn btn-primary" SelectText="Process Request" ShowSelectButton="True" />
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:Button runat="server" ID="btnStatus" Text="" BorderStyle="None" />
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                    </Columns>
+                    <FooterStyle CssClass="FooterStyle" />
+                    <HeaderStyle CssClass="headerstyle" />
+                    <PagerStyle CssClass="PagerStyle" />
+                    <RowStyle CssClass="rowstyle" />
+                </asp:GridView>
+            </div>
         </div>
-        <asp:GridView ID="grvPurchaseRequestList"
-            runat="server" AutoGenerateColumns="False" DataKeyNames="Id" OnRowCommand="grvPurchaseRequestList_RowCommand"
-            OnRowDataBound="grvPurchaseRequestList_RowDataBound" OnSelectedIndexChanged="grvPurchaseRequestList_SelectedIndexChanged"
-            AllowPaging="True" OnPageIndexChanging="grvPurchaseRequestList_PageIndexChanging"
-            CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" PageSize="30">
-            <RowStyle CssClass="rowstyle" />
-            <Columns>
-                <asp:BoundField DataField="RequestNo" HeaderText="Request No" SortExpression="RequestNo" />
-                <asp:BoundField DataField="Requester" HeaderText="Requester" SortExpression="Requester" />
-                <asp:TemplateField HeaderText="Request Date">
-                    <ItemTemplate>
-                        <asp:Label ID="lblDate" runat="server" Text='<%# Eval("RequestedDate", "{0:dd/MM/yyyy}")%>'></asp:Label>
-                    </ItemTemplate>
-                </asp:TemplateField>
-                <asp:TemplateField HeaderText="Required Date of Delivery">
-                    <ItemTemplate>
-                        <asp:Label ID="lblDateDelivery" runat="server" Text='<%# Eval("Requireddateofdelivery", "{0:dd/MM/yyyy}")%>'></asp:Label>
-                    </ItemTemplate>
-                </asp:TemplateField>
-
-                <asp:BoundField DataField="SuggestedSupplier" HeaderText="Suggested Supplier" SortExpression="PurposeOfTravel" />
-                <asp:BoundField DataField="TotalPrice" HeaderText="Total Price" SortExpression="TotalPurchase" />
-
-                <asp:ButtonField ButtonType="Button" CommandName="ViewItem" Text="View Item Detail" />
-                <asp:CommandField ButtonType="Button" SelectText="Process Request" ShowSelectButton="True" />
-                <asp:TemplateField>
-                    <ItemTemplate>
-                        <asp:Button runat="server" ID="btnStatus" Text="" BorderStyle="None" />
-                    </ItemTemplate>
-                </asp:TemplateField>
-            </Columns>
-            <FooterStyle CssClass="FooterStyle" />
-            <HeaderStyle CssClass="headerstyle" />
-            <PagerStyle CssClass="PagerStyle" />
-            <RowStyle CssClass="rowstyle" />
-        </asp:GridView>
         <div>
             <asp:Button runat="server" ID="btnInProgress" Text="" BorderStyle="None" BackColor="#FFFF6C" />
             <b>In Progress</b><br />
@@ -270,6 +277,7 @@
                     <asp:Label ID="lblDelivertoResult" runat="server"></asp:Label>
                 </td>
             </tr>
+
             <tr>
                 <td style="width: 25%;">
                     <strong>
@@ -286,6 +294,16 @@
                 <td style="width: 25%;">
                     <asp:Label ID="lblReqDateResult" runat="server"></asp:Label>
                 </td>
+            </tr>
+            <tr>
+                <td style="width: 25%;">
+                    <strong>
+                        <asp:Label ID="lblSpec" runat="server" Text="Specification:"></asp:Label>
+                    </strong></td>
+                <td style="width: 25%;">
+                    <asp:Label ID="lblSpecRes" runat="server"></asp:Label>
+                </td>
+
             </tr>
         </table>
         <br />

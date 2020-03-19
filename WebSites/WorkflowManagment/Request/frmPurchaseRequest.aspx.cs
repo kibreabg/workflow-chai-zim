@@ -87,7 +87,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         private string AutoNumber()
         {
-            return "PR-" + (_presenter.GetLastPurchaseRequestId() + 1).ToString();
+            return "PR-" + _presenter.CurrentUser().Id.ToString() + "-" + (_presenter.GetLastPurchaseRequestId() + 1).ToString();
         }
         private void BindPurchaseRequest()
         {
@@ -657,5 +657,57 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             TextBox txtAccountCode = ddl.FindControl("txtFAccountCode") as TextBox;
             txtAccountCode.Text = _presenter.GetItemAccount(Convert.ToInt32(ddl.SelectedValue)).AccountCode;
         }
+
+
+        #region Attachments
+        protected void btnUpload_Click(object sender, EventArgs e)
+        {
+            UploadFile();
+        }
+        protected void DownloadFile(object sender, EventArgs e)
+        {
+            string filePath = (sender as LinkButton).CommandArgument;
+            Response.ContentType = ContentType;
+            Response.AppendHeader("Content-Disposition", "attachment; filename=" + Path.GetFileName(filePath));
+            Response.WriteFile(filePath);
+            Response.End();
+        }
+        protected void DeleteFile(object sender, EventArgs e)
+        {
+            string filePath = (sender as LinkButton).CommandArgument;
+            _presenter.CurrentPurchaseRequest.RemovePRAttachment(filePath);
+            File.Delete(Server.MapPath(filePath));
+            grvAttachments.DataSource = _presenter.CurrentPurchaseRequest.PRAttachments;
+            grvAttachments.DataBind();
+            //Response.Redirect(Request.Url.AbsoluteUri);
+
+
+        }
+        private void UploadFile()
+        {
+            string fileName = Path.GetFileName(fuReciept.PostedFile.FileName);
+
+            if (fileName != String.Empty)
+            {
+
+
+
+                PRAttachment attachment = new PRAttachment();
+                attachment.FilePath = "~/PRUploads/" + fileName;
+                fuReciept.PostedFile.SaveAs(Server.MapPath("~/PRUploads/") + fileName);
+                //Response.Redirect(Request.Url.AbsoluteUri);
+                _presenter.CurrentPurchaseRequest.PRAttachments.Add(attachment);
+
+                grvAttachments.DataSource = _presenter.CurrentPurchaseRequest.PRAttachments;
+                grvAttachments.DataBind();
+
+
+            }
+            else
+            {
+                Master.ShowMessage(new AppMessage("Please select file ", Chai.WorkflowManagment.Enums.RMessageType.Error));
+            }
+        }
+        #endregion
     }
 }

@@ -102,6 +102,7 @@
     <Compile Include="Report\PurchaseReport.cs" />
     <Compile Include="Report\TravelAdvanceReport.cs" />
     <Compile Include="Report\VehicleReport.cs" />
+    <Compile Include="Requests\PRAttachment.cs" />
     <Compile Include="Requests\BAAttachment.cs" />
     <Compile Include="Requests\BankPaymentRequest.cs" />
     <Compile Include="Requests\BankPaymentRequestDetail.cs" />

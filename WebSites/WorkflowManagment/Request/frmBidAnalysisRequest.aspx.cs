@@ -381,7 +381,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         private string AutoNumber()
         {
-            return "BAR-" + (_presenter.GetLastBidAnalysisRequestId() + 1).ToString();
+            return "BAR-" + _presenter.CurrentUser().Id.ToString() + "-" + (_presenter.GetLastBidAnalysisRequestId() + 1).ToString();
         }
         private void CheckApprovalSettings()
         {

@@ -33,7 +33,7 @@ namespace Chai.WorkflowManagment.CoreDomain.Admins
             bool val = false;
             foreach (NodeRole NR in NodeRoles)
             {
-                if (NR.Role.Id == Id)
+                if (NR.Role.Id == id)
                 {
                     val = true;
                     break;
