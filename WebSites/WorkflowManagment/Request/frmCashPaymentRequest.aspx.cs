@@ -205,11 +205,13 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 else { _presenter.CurrentCashPaymentRequest.CashPaymentRequestDetails.Remove(cprd); }
                 BindCashPaymentDetails();
 
-                Master.ShowMessage(new AppMessage("Payment Request Detail was Removed Successfully", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                Master.ShowMessage(new AppMessage("Payment Request Detail was Removed Successfully", RMessageType.Info));
             }
             catch (Exception ex)
             {
-                Master.ShowMessage(new AppMessage("Error: Unable to delete Payment Request Detail. " + ex.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
+                Master.ShowMessage(new AppMessage("Error: Unable to delete Payment Request Detail. " + ex.Message, RMessageType.Error));
+                ExceptionUtility.LogException(ex, ex.Source);
+                ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser().FullName);
             }
         }
         protected void dgCashPaymentDetail_ItemCommand(object source, DataGridCommandEventArgs e)
@@ -239,11 +241,13 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 
                     dgCashPaymentDetail.EditItemIndex = -1;
                     BindCashPaymentDetails();
-                    Master.ShowMessage(new AppMessage("Payment Detail Successfully Added", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                    Master.ShowMessage(new AppMessage("Payment Detail Successfully Added", RMessageType.Info));
                 }
                 catch (Exception ex)
                 {
-                    Master.ShowMessage(new AppMessage("Error: Unable to Save Payment " + ex.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
+                    Master.ShowMessage(new AppMessage("Error: Unable to Save Payment " + ex.Message, RMessageType.Error));
+                    ExceptionUtility.LogException(ex, ex.Source);
+                    ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser().FullName);
                 }
             }
         }
@@ -288,11 +292,13 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 
                 dgCashPaymentDetail.EditItemIndex = -1;
                 BindCashPaymentDetails();
-                Master.ShowMessage(new AppMessage("Payment Detail Successfully Updated", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                Master.ShowMessage(new AppMessage("Payment Detail Successfully Updated", RMessageType.Info));
             }
             catch (Exception ex)
             {
-                Master.ShowMessage(new AppMessage("Error: Unable to Update Payment. " + ex.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
+                Master.ShowMessage(new AppMessage("Error: Unable to Update Payment. " + ex.Message, RMessageType.Error));
+                ExceptionUtility.LogException(ex, ex.Source);
+                ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser().FullName);
             }
         }
         protected void dgCashPaymentDetail_ItemDataBound(object sender, DataGridItemEventArgs e)
@@ -397,19 +403,21 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     }
                     else
                     {
-                        Master.ShowMessage(new AppMessage("Please Attach Receipt", Chai.WorkflowManagment.Enums.RMessageType.Error));
+                        Master.ShowMessage(new AppMessage("Please Attach Receipt", RMessageType.Error));
                     }
 
 
                 }
                 else
                 {
-                    Master.ShowMessage(new AppMessage("Please insert at least one Item Detail", Chai.WorkflowManagment.Enums.RMessageType.Error));
+                    Master.ShowMessage(new AppMessage("Please insert at least one Item Detail", RMessageType.Error));
                 }
             }
             catch (Exception ex)
             {
-                Master.ShowMessage(new AppMessage(ex.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
+                Master.ShowMessage(new AppMessage(ex.Message, RMessageType.Error));
+                ExceptionUtility.LogException(ex, ex.Source);
+                ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser().FullName);
                 if (ex.InnerException != null)
                 {
                     if (ex.InnerException.InnerException.Message.Contains("Violation of UNIQUE KEY"))

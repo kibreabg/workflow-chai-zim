@@ -345,7 +345,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             {
                 Master.ShowMessage(new AppMessage("Error: While Approving Purchase Request!", RMessageType.Error));
                 ExceptionUtility.LogException(ex, ex.Source);
-                ExceptionUtility.NotifySystemOps(ex);
+                ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser().FullName);
             }
         }
         protected void grvPurchaseRequestList_RowCommand(object sender, GridViewCommandEventArgs e)

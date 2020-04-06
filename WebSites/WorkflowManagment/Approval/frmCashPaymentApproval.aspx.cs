@@ -509,7 +509,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             {
                 Master.ShowMessage(new AppMessage("Error: While Approving Cash Payment!", RMessageType.Error));
                 ExceptionUtility.LogException(ex, ex.Source);
-                ExceptionUtility.NotifySystemOps(ex);
+                ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser().FullName);
             }
         }
         private void PrintTransaction()
@@ -653,11 +653,13 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 dgCashPaymentRequestDetail.DataSource = _presenter.CurrentCashPaymentRequest.CashPaymentRequestDetails;
                 dgCashPaymentRequestDetail.DataBind();
                 pnlDetail_ModalPopupExtender.Show();
-                Master.ShowMessage(new AppMessage("Payment Detail Successfully Updated", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                Master.ShowMessage(new AppMessage("Payment Detail Successfully Updated", RMessageType.Info));
             }
             catch (Exception ex)
             {
-                Master.ShowMessage(new AppMessage("Error: Unable to Update Payment Detail. " + ex.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
+                Master.ShowMessage(new AppMessage("Error: Unable to Update Payment Detail. " + ex.Message, RMessageType.Error));
+                ExceptionUtility.LogException(ex, ex.Source);
+                ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser().FullName);
             }
         }
         protected void ddlEdtAccountDescription_SelectedIndexChanged(object sender, EventArgs e)
@@ -700,7 +702,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 }
                 else
                 {
-                    Master.ShowMessage(new AppMessage("Error,Please attach Receipt", Chai.WorkflowManagment.Enums.RMessageType.Error));
+                    Master.ShowMessage(new AppMessage("Error,Please attach Receipt", RMessageType.Error));
                     pnlReimbursement_ModalPopupExtender.Show();
                 }
 
@@ -708,7 +710,9 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             }
             catch (Exception ex)
             {
-                Master.ShowMessage(new AppMessage("Error,'" + ex.Message + "'", Chai.WorkflowManagment.Enums.RMessageType.Error));
+                Master.ShowMessage(new AppMessage("Error,'" + ex.Message + "'", RMessageType.Error));
+                ExceptionUtility.LogException(ex, ex.Source);
+                ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser().FullName);
             }
 
         }
@@ -757,11 +761,13 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 grvReimbursementdetail.EditItemIndex = -1;
                 grvReimbursementdetail.DataSource = _presenter.CurrentCashPaymentRequest.CashPaymentRequestDetails;
                 grvReimbursementdetail.DataBind();
-                Master.ShowMessage(new AppMessage("Payment Detail Successfully Updated", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                Master.ShowMessage(new AppMessage("Payment Detail Successfully Updated", RMessageType.Info));
             }
             catch (Exception ex)
             {
-                Master.ShowMessage(new AppMessage("Error: Unable to Update Payment Detail. " + ex.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
+                Master.ShowMessage(new AppMessage("Error: Unable to Update Payment Detail. " + ex.Message, RMessageType.Error));
+                ExceptionUtility.LogException(ex, ex.Source);
+                ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser().FullName);
             }
             pnlReimbursement_ModalPopupExtender.Show();
         }

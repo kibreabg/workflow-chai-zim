@@ -98,11 +98,13 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 _presenter.DeleteTravelLog(TravelLog);
                 BindTravelLogs();
 
-                Master.ShowMessage(new AppMessage("Travel Log was Removed Successfully", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                Master.ShowMessage(new AppMessage("Travel Log was Removed Successfully", RMessageType.Info));
             }
             catch (Exception ex)
             {
-                Master.ShowMessage(new AppMessage("Error: Unable to delete Travel Log. " + ex.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
+                Master.ShowMessage(new AppMessage("Error: Unable to delete Travel Log. " + ex.Message, RMessageType.Error));
+                ExceptionUtility.LogException(ex, ex.Source);
+                ExceptionUtility.NotifySystemOps(ex, "");
             }
         }
         protected void dgTravelLog_ItemCommand(object source, DataGridCommandEventArgs e)
@@ -137,7 +139,9 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 }
                 catch (Exception ex)
                 {
-                    Master.ShowMessage(new AppMessage("Error: Unable to Add Travel Log " + ex.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
+                    Master.ShowMessage(new AppMessage("Error: Unable to Add Travel Log " + ex.Message, RMessageType.Error));
+                    ExceptionUtility.LogException(ex, ex.Source);
+                    ExceptionUtility.NotifySystemOps(ex, "");
                 }
             }
         }
@@ -161,6 +165,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             catch (Exception ex)
             {
                 Master.ShowMessage(new AppMessage(ex.Message, RMessageType.Error));
+                ExceptionUtility.LogException(ex, ex.Source);
+                ExceptionUtility.NotifySystemOps(ex, "");
             }
         }
         protected void dgTravelLog_EditCommand(object source, DataGridCommandEventArgs e)
@@ -205,7 +211,9 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             }
             catch (Exception ex)
             {
-                Master.ShowMessage(new AppMessage("Error: Unable to Update Travel Log. " + ex.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
+                Master.ShowMessage(new AppMessage("Error: Unable to Update Travel Log. " + ex.Message, RMessageType.Error));
+                ExceptionUtility.LogException(ex, ex.Source);
+                ExceptionUtility.NotifySystemOps(ex, "");
             }
         }
         private void BindVehicleRequest()

@@ -288,7 +288,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 }
                 Master.ShowMessage(new AppMessage("Error! Sole Vendor Request not processed due to " + ex.Message, RMessageType.Error));
                 ExceptionUtility.LogException(ex, ex.Source);
-                ExceptionUtility.NotifySystemOps(ex);
+                ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser().FullName);
             }            
         }
         protected void btnDelete_Click(object sender, EventArgs e)

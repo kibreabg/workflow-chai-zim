@@ -253,17 +253,14 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
 
                 
                 //_presenter.CurrentBidAnalysisRequest.PurchaseOrders.Status = "Completed";       
-                Master.ShowMessage(new AppMessage("Purchase Order Successfully Approved", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                Master.ShowMessage(new AppMessage("Purchase Order Successfully Approved", RMessageType.Info));
             }
             catch (Exception ex)
             {
-                Master.ShowMessage(new AppMessage("There was an error Saving Purchase Order", Chai.WorkflowManagment.Enums.RMessageType.Error));
-
-            }
-           
-
-               
-
+                Master.ShowMessage(new AppMessage("There was an error Saving Purchase Order", RMessageType.Error));
+                ExceptionUtility.LogException(ex, ex.Source);
+                ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser().FullName);
+            }        
             
         }
         private void BindPODetail()
@@ -332,11 +329,13 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                
             catch (Exception ex)
             {
+                ExceptionUtility.LogException(ex, ex.Source);
+                ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser().FullName);
                 if (ex.InnerException != null)
                 {
                     if (ex.InnerException.InnerException.Message.Contains("Violation of UNIQUE KEY"))
                     {
-                        Master.ShowMessage(new AppMessage("Please Click Request button Again,There is a duplicate Number", Chai.WorkflowManagment.Enums.RMessageType.Error));
+                        Master.ShowMessage(new AppMessage("Please Click Request button Again,There is a duplicate Number", RMessageType.Error));
                         //AutoNumber();
                     }
                 }

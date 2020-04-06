@@ -216,21 +216,23 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     }
                     else
                     {
-                        Master.ShowMessage(new AppMessage("Please Attach Receipt", Chai.WorkflowManagment.Enums.RMessageType.Error));
+                        Master.ShowMessage(new AppMessage("Please Attach Receipt", RMessageType.Error));
                     }
                 }
                 else
                 {
-                    Master.ShowMessage(new AppMessage("Cost Sharing Setting is not defined Please Contact Administrator", Chai.WorkflowManagment.Enums.RMessageType.Error));
+                    Master.ShowMessage(new AppMessage("Cost Sharing Setting is not defined Please Contact Administrator", RMessageType.Error));
                 }
             }
             catch (Exception ex)
             {
+                ExceptionUtility.LogException(ex, ex.Source);
+                ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser().FullName);
                 if (ex.InnerException != null)
                 {
                     if (ex.InnerException.InnerException.Message.Contains("Violation of UNIQUE KEY"))
                     {
-                        Master.ShowMessage(new AppMessage("Please Click Request button Again,There is a duplicate Number", Chai.WorkflowManagment.Enums.RMessageType.Error));
+                        Master.ShowMessage(new AppMessage("Please Click Request button Again,There is a duplicate Number", RMessageType.Error));
                         //AutoNumber();
                     }
                 }

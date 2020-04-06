@@ -348,11 +348,13 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 else { _presenter.CurrentOperationalControlRequest.OperationalControlRequestDetails.Remove(cprd); }
                 BindOperationalControlDetails();
 
-                Master.ShowMessage(new AppMessage("Bank Payment Request Detail was Removed Successfully", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                Master.ShowMessage(new AppMessage("Bank Payment Request Detail was Removed Successfully", RMessageType.Info));
             }
             catch (Exception ex)
             {
-                Master.ShowMessage(new AppMessage("Error: Unable to delete Bank Payment Request Detail. " + ex.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
+                Master.ShowMessage(new AppMessage("Error: Unable to delete Bank Payment Request Detail. " + ex.Message, RMessageType.Error));
+                ExceptionUtility.LogException(ex, ex.Source);
+                ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser().FullName);
             }
         }
         protected void dgOperationalControlDetail_ItemCommand(object source, DataGridCommandEventArgs e)
@@ -380,11 +382,13 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 
                     dgOperationalControlDetail.EditItemIndex = -1;
                     BindOperationalControlDetails();
-                    Master.ShowMessage(new AppMessage("Bank Payment Detail Successfully Added!", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                    Master.ShowMessage(new AppMessage("Bank Payment Detail Successfully Added!", RMessageType.Info));
                 }
                 catch (Exception ex)
                 {
-                    Master.ShowMessage(new AppMessage("Error: Unable to Save Bank Payment " + ex.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
+                    Master.ShowMessage(new AppMessage("Error: Unable to Save Bank Payment " + ex.Message, RMessageType.Error));
+                    ExceptionUtility.LogException(ex, ex.Source);
+                    ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser().FullName);
                 }
             }
         }
@@ -422,11 +426,13 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 
                 dgOperationalControlDetail.EditItemIndex = -1;
                 BindOperationalControlDetails();
-                Master.ShowMessage(new AppMessage("Bank Payment Detail Successfully Updated", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                Master.ShowMessage(new AppMessage("Bank Payment Detail Successfully Updated", RMessageType.Info));
             }
             catch (Exception ex)
             {
-                Master.ShowMessage(new AppMessage("Error: Unable to Update Bank Payment. " + ex.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
+                Master.ShowMessage(new AppMessage("Error: Unable to Update Bank Payment. " + ex.Message, RMessageType.Error));
+                ExceptionUtility.LogException(ex, ex.Source);
+                ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser().FullName);
             }
         }
         protected void dgOperationalControlDetail_ItemDataBound(object sender, DataGridItemEventArgs e)
@@ -533,6 +539,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             }
             catch (Exception ex)
             {
+                ExceptionUtility.LogException(ex, ex.Source);
+                ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser().FullName);
                 if (ex.InnerException != null)
                 {
                     if (ex.InnerException.InnerException.Message.Contains("Violation of UNIQUE KEY"))
@@ -680,11 +688,13 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 _presenter.DeleteBeneficiary(beneficiary);
                 BindBeneficiaries();
 
-                Master.ShowMessage(new AppMessage("beneficiary was Removed Successfully", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                Master.ShowMessage(new AppMessage("beneficiary was Removed Successfully", RMessageType.Info));
             }
             catch (Exception ex)
             {
-                Master.ShowMessage(new AppMessage("Error: Unable to delete beneficiary. " + ex.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
+                ExceptionUtility.LogException(ex, ex.Source);
+                ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser().FullName);
+                Master.ShowMessage(new AppMessage("Error: Unable to delete beneficiary. " + ex.Message, RMessageType.Error));
             }
             pnlBeneficary_ModalPopupExtender.Show();
         }
@@ -712,7 +722,9 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 }
                 catch (Exception ex)
                 {
-                    Master.ShowMessage(new AppMessage("Error: Unable to Add Beneficiary " + ex.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
+                    Master.ShowMessage(new AppMessage("Error: Unable to Add Beneficiary " + ex.Message, RMessageType.Error));
+                    ExceptionUtility.LogException(ex, ex.Source);
+                    ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser().FullName);
                 }
             }
             pnlBeneficary_ModalPopupExtender.Show();
@@ -737,6 +749,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             catch (Exception ex)
             {
                 Master.ShowMessage(new AppMessage(ex.Message, RMessageType.Error));
+                ExceptionUtility.LogException(ex, ex.Source);
+                ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser().FullName);
             }
         }
         protected void dgBeneficiary_EditCommand(object source, DataGridCommandEventArgs e)
@@ -774,7 +788,9 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             }
             catch (Exception ex)
             {
-                Master.ShowMessage(new AppMessage("Error: Unable to Update Beneficiary. " + ex.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
+                Master.ShowMessage(new AppMessage("Error: Unable to Update Beneficiary. " + ex.Message, RMessageType.Error));
+                ExceptionUtility.LogException(ex, ex.Source);
+                ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser().FullName);
             }
             pnlBeneficary_ModalPopupExtender.Show();
         }

@@ -173,16 +173,21 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 if (CSRS.WorkflowLevel == _presenter.CurrentCostSharingRequest.CurrentLevel && _presenter.CurrentCostSharingRequest.ProgressStatus != ProgressStatus.Completed.ToString())
                 {
                     btnApprove.Enabled = true;
+                    btnBankPayment.Visible = false;
                 }
 
                 if (_presenter.CurrentCostSharingRequest.CurrentLevel == _presenter.CurrentCostSharingRequest.CostSharingRequestStatuses.Count && CSRS.ApprovalStatus != null)
                 {
                     btnPrint.Enabled = true;
                     btnApprove.Enabled = false;
-
+                    btnBankPayment.Visible = true;
                 }
                 else
+                {
                     btnPrint.Enabled = false;
+                    btnBankPayment.Visible = false;
+                }
+
             }
         }
         private void BindAccounts()
@@ -469,11 +474,11 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     ShowPrint();
                     if (ddlApprovalStatus.SelectedValue != "Rejected")
                     {
-                        Master.ShowMessage(new AppMessage("Cost Sharing Payment Approval Processed", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                        Master.ShowMessage(new AppMessage("Cost Sharing Payment Approval Processed", RMessageType.Info));
                     }
                     else
                     {
-                        Master.ShowMessage(new AppMessage("Cost Sharing Payment Approval Rejected", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                        Master.ShowMessage(new AppMessage("Cost Sharing Payment Approval Rejected", RMessageType.Info));
                     }
 
                     btnApprove.Enabled = false;
@@ -484,7 +489,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             }
             catch (Exception ex)
             {
-
+                ExceptionUtility.LogException(ex, ex.Source);
+                ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser().FullName);
             }
         }
         private void PrintTransaction()
@@ -512,7 +518,6 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
 
         }
-
         protected void grvAttachments_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (_presenter.CurrentCostSharingRequest != null)
@@ -547,6 +552,30 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                         e.Row.Cells[1].Text = _presenter.GetUser(_presenter.CurrentCostSharingRequest.CostSharingRequestStatuses[e.Row.RowIndex].Approver).FullName;
                 }
             }
+        }
+        protected void grvdetailAttachments_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_presenter.CurrentCostSharingRequest != null)
+            {
+                int attachmentId = Convert.ToInt32(grvdetailAttachments.SelectedDataKey.Value);
+                CSRAttachment attachment = _presenter.GetAttachment(attachmentId);
+
+                string Filename = attachment.FilePath;
+
+                //Byte[] FileData = attachment.Data;
+
+                HttpContext context = HttpContext.Current;
+                context.Response.Clear();
+                context.Response.ClearHeaders();
+                context.Response.ClearContent();
+                // context.Response.AppendHeader("content-length", FileData.Length.ToString());
+                // context.Response.ContentType = GetMimeTypeByFileName(Filename);
+                context.Response.AppendHeader("content-disposition", "attachment; filename=" + Filename);
+                // context.Response.BinaryWrite(FileData);
+
+                context.ApplicationInstance.CompleteRequest();
+            }
+            pnlReimbursement_ModalPopupExtender.Show();
         }
         protected void ddlApprovalStatus_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -628,11 +657,13 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 dgCostSharingRequestDetail.DataSource = _presenter.CurrentCostSharingRequest.CostSharingRequestDetails;
                 dgCostSharingRequestDetail.DataBind();
                 ScriptManager.RegisterStartupScript(this, GetType(), "showSearch", "showSearch();", true);
-                Master.ShowMessage(new AppMessage("Cost Sharing Detail Successfully Updated", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                Master.ShowMessage(new AppMessage("Cost Sharing Detail Successfully Updated", RMessageType.Info));
             }
             catch (Exception ex)
             {
-                Master.ShowMessage(new AppMessage("Error: Unable to Update Cost Sharing Detail. " + ex.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
+                Master.ShowMessage(new AppMessage("Error: Unable to Update Cost Sharing Detail. " + ex.Message, RMessageType.Error));
+                ExceptionUtility.LogException(ex, ex.Source);
+                ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser().FullName);
             }
         }
         protected void ddlEdtAccountDescription_SelectedIndexChanged(object sender, EventArgs e)
@@ -673,7 +704,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 }
                 else
                 {
-                    Master.ShowMessage(new AppMessage("Error,Please attach Receipt", Chai.WorkflowManagment.Enums.RMessageType.Error));
+                    Master.ShowMessage(new AppMessage("Error,Please attach Receipt", RMessageType.Error));
                     pnlReimbursement_ModalPopupExtender.Show();
                 }
 
@@ -681,7 +712,9 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             }
             catch (Exception ex)
             {
-                Master.ShowMessage(new AppMessage("Error,'" + ex.Message + "'", Chai.WorkflowManagment.Enums.RMessageType.Error));
+                Master.ShowMessage(new AppMessage("Error,'" + ex.Message + "'", RMessageType.Error));
+                ExceptionUtility.LogException(ex, ex.Source);
+                ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser().FullName);
             }
 
         }
@@ -712,30 +745,6 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 _presenter.DeleteCostSharingsetting(CSRD);
             }
         }
-        protected void grvdetailAttachments_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (_presenter.CurrentCostSharingRequest != null)
-            {
-                int attachmentId = Convert.ToInt32(grvdetailAttachments.SelectedDataKey.Value);
-                CSRAttachment attachment = _presenter.GetAttachment(attachmentId);
 
-                string Filename = attachment.FilePath;
-
-                //Byte[] FileData = attachment.Data;
-
-
-                System.Web.HttpContext context = System.Web.HttpContext.Current;
-                context.Response.Clear();
-                context.Response.ClearHeaders();
-                context.Response.ClearContent();
-                // context.Response.AppendHeader("content-length", FileData.Length.ToString());
-                // context.Response.ContentType = GetMimeTypeByFileName(Filename);
-                context.Response.AppendHeader("content-disposition", "attachment; filename=" + Filename);
-                // context.Response.BinaryWrite(FileData);
-
-                context.ApplicationInstance.CompleteRequest();
-            }
-            pnlReimbursement_ModalPopupExtender.Show();
-        }
     }
 }

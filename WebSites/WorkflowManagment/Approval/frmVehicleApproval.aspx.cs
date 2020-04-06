@@ -395,11 +395,13 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 lblGrantIDResult.Text = _presenter.CurrentVehicleRequest.Grant.GrantCode;
                 pnlApproval_ModalPopupExtender.Show();
 
-                Master.ShowMessage(new AppMessage("Vehicle Information was Removed Successfully", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                Master.ShowMessage(new AppMessage("Vehicle Information was Removed Successfully", RMessageType.Info));
             }
             catch (Exception ex)
             {
-                Master.ShowMessage(new AppMessage("Error: Unable to delete Vehicle Information. " + ex.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
+                Master.ShowMessage(new AppMessage("Error: Unable to delete Vehicle Information. " + ex.Message, RMessageType.Error));
+                ExceptionUtility.LogException(ex, ex.Source);
+                ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser().FullName);
             }
         }
         protected void dgVehicles_ItemCommand(object source, DataGridCommandEventArgs e)
@@ -427,11 +429,13 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     lblProjectIDDResult.Text = _presenter.CurrentVehicleRequest.Project.ProjectCode;
                     lblGrantIDResult.Text = _presenter.CurrentVehicleRequest.Grant.GrantCode;
                     pnlApproval_ModalPopupExtender.Show();
-                    Master.ShowMessage(new AppMessage("Vehicle Information Successfully Added", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                    Master.ShowMessage(new AppMessage("Vehicle Information Successfully Added", RMessageType.Info));
                 }
                 catch (Exception ex)
                 {
-                    Master.ShowMessage(new AppMessage("Error: Unable to Add Vehicle Information " + ex.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
+                    Master.ShowMessage(new AppMessage("Error: Unable to Add Vehicle Information " + ex.Message, RMessageType.Error));
+                    ExceptionUtility.LogException(ex, ex.Source);
+                    ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser().FullName);
                 }
             }
         }
@@ -545,11 +549,13 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 dgVehicles.EditItemIndex = -1;
                 BindVehicles();
                 pnlApproval_ModalPopupExtender.Show();
-                Master.ShowMessage(new AppMessage("Vehicle Information Successfully Updated", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                Master.ShowMessage(new AppMessage("Vehicle Information Successfully Updated", RMessageType.Info));
             }
             catch (Exception ex)
             {
-                Master.ShowMessage(new AppMessage("Error: Unable to Update Vehicle Information. " + ex.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
+                Master.ShowMessage(new AppMessage("Error: Unable to Update Vehicle Information. " + ex.Message, RMessageType.Error));
+                ExceptionUtility.LogException(ex, ex.Source);
+                ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser().FullName);
             }
         }
         protected void btnFind_Click(object sender, EventArgs e)
@@ -583,7 +589,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             }
             catch (Exception ex)
             {
-
+                ExceptionUtility.LogException(ex, ex.Source);
+                ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser().FullName);
             }
         }
         protected void grvStatuses_RowDataBound(object sender, GridViewRowEventArgs e)

@@ -39,7 +39,7 @@
 
         // Log the exception and notify system operators
         Chai.WorkflowManagment.Shared.ExceptionUtility.LogException(exc, "DefaultPage");
-        Chai.WorkflowManagment.Shared.ExceptionUtility.NotifySystemOps(exc);
+        Chai.WorkflowManagment.Shared.ExceptionUtility.NotifySystemOps(exc,"");
 
         // Clear the error from the server
         Server.ClearError();

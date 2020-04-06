@@ -406,11 +406,13 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     SetLiquidationDetails();
                     dgExpenseLiquidationDetail.EditItemIndex = -1;
                     BindExpenseLiquidationDetails();
-                    Master.ShowMessage(new AppMessage("Expense Liquidation Detail Successfully Added!", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                    Master.ShowMessage(new AppMessage("Expense Liquidation Detail Successfully Added!", RMessageType.Info));
                 }
                 catch (Exception ex)
                 {
-                    Master.ShowMessage(new AppMessage("Error: Unable to Add Expense Liquidation Detail " + ex.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
+                    Master.ShowMessage(new AppMessage("Error: Unable to Add Expense Liquidation Detail " + ex.Message, RMessageType.Error));
+                    ExceptionUtility.LogException(ex, ex.Source);
+                    ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser().FullName);
                 }
             }
         }

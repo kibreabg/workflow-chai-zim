@@ -140,6 +140,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             }
             catch (Exception ex)
             {
+                ExceptionUtility.LogException(ex, ex.Source);
+                ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser().FullName);
                 if (ex.InnerException != null)
                 {
                     if (ex.InnerException.InnerException.Message.Contains("Violation of UNIQUE KEY"))
@@ -400,11 +402,13 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 }
                 BindPurchaseRequestDetails();
 
-                Master.ShowMessage(new AppMessage("Purchase Request Detail was Removed Successfully", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                Master.ShowMessage(new AppMessage("Purchase Request Detail was Removed Successfully", RMessageType.Info));
             }
             catch (Exception ex)
             {
-                Master.ShowMessage(new AppMessage("Error: Unable to delete Purchase Request Detail. " + ex.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
+                Master.ShowMessage(new AppMessage("Error: Unable to delete Purchase Request Detail. " + ex.Message, RMessageType.Error));
+                ExceptionUtility.LogException(ex, ex.Source);
+                ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser().FullName);
             }
 
 
@@ -461,6 +465,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 catch (Exception ex)
                 {
                     Master.ShowMessage(new AppMessage("Error: Unable to Add Purchase Request Detail. " + ex.Message, RMessageType.Error));
+                    ExceptionUtility.LogException(ex, ex.Source);
+                    ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser().FullName);
                 }
             }
         }
@@ -575,13 +581,15 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 DropDownList ddlGrant = e.Item.FindControl("ddlGrant") as DropDownList;
                 Detail.Grant = _presenter.GetGrant(int.Parse(ddlGrant.SelectedValue));
                 Detail.PurchaseRequest = _presenter.CurrentPurchaseRequest;
-                Master.ShowMessage(new AppMessage("Purchase Request Detail  Updated successfully.", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                Master.ShowMessage(new AppMessage("Purchase Request Detail  Updated successfully.", RMessageType.Info));
                 dgPurchaseRequestDetail.EditItemIndex = -1;
                 BindPurchaseRequestDetails();
             }
             catch (Exception ex)
             {
-                Master.ShowMessage(new AppMessage("Error: Unable to Update Purchase Request Detail. " + ex.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
+                Master.ShowMessage(new AppMessage("Error: Unable to Update Purchase Request Detail. " + ex.Message, RMessageType.Error));
+                ExceptionUtility.LogException(ex, ex.Source);
+                ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser().FullName);
             }
 
 
@@ -640,15 +648,17 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 if (_presenter.CurrentPurchaseRequest.CurrentStatus == null)
                 {
                     _presenter.DeletePurchaseRequest(_presenter.CurrentPurchaseRequest);
-                    Master.ShowMessage(new AppMessage("Purchase Request Deleted ", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                    Master.ShowMessage(new AppMessage("Purchase Request Deleted ", RMessageType.Info));
                     BindSearchPurchaseRequestGrid();
                 }
                 else
-                    Master.ShowMessage(new AppMessage("Warning: Unable to Delete Purchase Request ", Chai.WorkflowManagment.Enums.RMessageType.Error));
+                    Master.ShowMessage(new AppMessage("Warning: Unable to Delete Purchase Request ", RMessageType.Error));
             }
             catch (Exception ex)
             {
-                Master.ShowMessage(new AppMessage("Warning: Unable to Delete Purchase Request " + ex.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
+                Master.ShowMessage(new AppMessage("Warning: Unable to Delete Purchase Request " + ex.Message, RMessageType.Error));
+                ExceptionUtility.LogException(ex, ex.Source);
+                ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser().FullName);
             }
         }
         protected void ddlFAccount_SelectedIndexChanged(object sender, EventArgs e)

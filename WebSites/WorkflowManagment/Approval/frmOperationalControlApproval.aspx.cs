@@ -214,8 +214,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     EmailSender.Send(_presenter.GetUser(_presenter.CurrentOperationalControlRequest.OperationalControlRequestStatuses[i].Approver).Email, "Bank Payment Request Rejection", "Bank Payment Request with Request No. - '" + (_presenter.CurrentOperationalControlRequest.RequestNo.ToString()).ToUpper() + "' made by " + (_presenter.GetUser(_presenter.CurrentOperationalControlRequest.AppUser.Id).FullName).ToUpper() + " was Rejected by " + _presenter.CurrentUser().FullName + " for this reason - '" + (OCRS.RejectedReason).ToUpper() + "'");
                 }
             }
-        }
-        
+        }        
         private void GetNextApprover()
         {
             foreach (OperationalControlRequestStatus OCRS in _presenter.CurrentOperationalControlRequest.OperationalControlRequestStatuses)
@@ -328,8 +327,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             txtRejectedReason.Visible = false;
             rfvRejectedReason.Enabled = false;
             pnlApproval_ModalPopupExtender.Show();
-        }
-        
+        }        
         protected void grvOperationalControlRequestList_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             grvOperationalControlRequestList.PageIndex = e.NewPageIndex;
@@ -365,7 +363,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             }
             catch (Exception ex)
             {
-
+                ExceptionUtility.LogException(ex, ex.Source);
+                ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser().FullName);
             }
         }
         private void PrintTransaction()
@@ -393,8 +392,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         protected void btnCancelPopup2_Click(object sender, EventArgs e)
         {
             pnlDetail.Visible = false;
-        }
-        
+        }        
         protected void grvStatuses_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             if (_presenter.CurrentOperationalControlRequest.OperationalControlRequestStatuses != null)
@@ -500,11 +498,13 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 dgOperationalControlRequestDetail.DataSource = _presenter.CurrentOperationalControlRequest.OperationalControlRequestDetails;
                 dgOperationalControlRequestDetail.DataBind();
                 pnlDetail_ModalPopupExtender.Show();
-                Master.ShowMessage(new AppMessage("Bank Payment Detail Successfully Updated", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                Master.ShowMessage(new AppMessage("Bank Payment Detail Successfully Updated", RMessageType.Info));
             }
             catch (Exception ex)
             {
-                Master.ShowMessage(new AppMessage("Error: Unable to Update Bank Payment Detail. " + ex.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
+                Master.ShowMessage(new AppMessage("Error: Unable to Update Bank Payment Detail. " + ex.Message, RMessageType.Error));
+                ExceptionUtility.LogException(ex, ex.Source);
+                ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser().FullName);
             }
         }
         protected void ddlEdtAccountDescription_SelectedIndexChanged(object sender, EventArgs e)

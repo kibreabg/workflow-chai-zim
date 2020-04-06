@@ -117,8 +117,9 @@
                                     <asp:DropDownList ID="ddlPayMethods" AutoPostBack="false" AppendDataBoundItems="true"
                                         runat="server" DataValueField="Id" DataTextField="Name" CssClass="form-control">
                                         <asp:ListItem Text="--Select Payment Method--" Value="0"></asp:ListItem>
-                                        <asp:ListItem>RTGs</asp:ListItem>
-                                        <asp:ListItem>USD</asp:ListItem>
+                                        <asp:ListItem>Ecocash</asp:ListItem>
+                                        <asp:ListItem>USD-Cash</asp:ListItem>
+                                        <asp:ListItem>CABS</asp:ListItem>
                                     </asp:DropDownList><i></i>
                                     <asp:RequiredFieldValidator
                                         ID="RequiredFieldValidator3" runat="server" ErrorMessage="Payment Method must be selected" Display="Dynamic"
