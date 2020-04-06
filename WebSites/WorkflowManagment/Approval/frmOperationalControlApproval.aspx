@@ -359,13 +359,7 @@
                     <td style="width: 357px">
                         <asp:Label ID="lblRequesterResult" runat="server"></asp:Label>
                     </td>
-                    <td style="width: 389px"><strong>
-                        <asp:Label ID="lblBranchCode" runat="server" Text="Bank:"></asp:Label>
-                    </strong>
-                    </td>
-                    <td style="width: 389px">
-                        <asp:Label ID="lblBranchCodeResult" runat="server"></asp:Label></td>
-                    <td>&nbsp;</td>
+                  
                 </tr>
                 <tr>
                     <td style="width: 629px; height: 18px; padding-left: 10%;">
@@ -389,7 +383,7 @@
                 <tr>
                     <td style="width: 629px; height: 18px; padding-left: 10%;">
                         <strong>
-                            <asp:Label ID="lblBeneficiaryName" runat="server" Text="Beneficiary Name:"></asp:Label>
+                            <asp:Label ID="lblBeneficiaryName" runat="server" Text="Supplier Name:"></asp:Label>
                         </strong>
                     </td>
                     <td style="width: 357px; height: 18px;">
