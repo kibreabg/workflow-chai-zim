@@ -507,7 +507,41 @@ namespace Chai.WorkflowManagment.Modules.Request
         }
 
         #endregion
+        #region FuelCardRequest
 
+        public IList<FuelCardRequest> GetFuelCardRequests()
+        {
+            return WorkspaceFactory.CreateReadOnly().Query<FuelCardRequest>(null).ToList();
+        }
+        public FuelCardRequest GetFuelCardRequest(int FuelCardRequestId)
+        {
+            return _workspace.Single<FuelCardRequest>(x => x.Id == FuelCardRequestId, x => x.FuelCardRequestDetails.Select(y => y.Project));
+        }
+        public FuelCardRequestDetail GetFuelCardRequestDetail(int FuelCardRequestDetailId)
+        {
+            return _workspace.Single<FuelCardRequestDetail>(x => x.Id == FuelCardRequestDetailId);
+        }
+        public IList<FuelCardRequest> ListFuelCardRequests(string RequestNo, string RequestDate)
+        {
+            string filterExpression = "";
+
+            filterExpression = "SELECT  *  FROM FuelCardRequests Where 1 = Case when '" + RequestNo + "' = '' Then 1 When FuelCardRequests.RequestNo = '" + RequestNo + "'  Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When FuelCardRequests.RequestedDate = '" + RequestDate + "'  Then 1 END and PurchaseRequests.Requester='" + GetCurrentUser().Id + "' order by FuelCardRequests.Id Desc ";
+
+            return _workspace.SqlQuery<FuelCardRequest>(filterExpression).ToList();
+
+        }
+     
+        public int GetLastFuelCardRequestId()
+        {
+            if (_workspace.Last<FuelCardRequest>() != null)
+            {
+                return _workspace.Last<FuelCardRequest>().Id;
+            }
+            else
+            { return 0; }
+        }
+
+        #endregion
         #region Entity Manipulation
         public void SaveOrUpdateEntity<T>(T item) where T : class
         {
