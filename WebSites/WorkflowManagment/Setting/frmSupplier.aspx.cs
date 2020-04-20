@@ -42,7 +42,7 @@ namespace Chai.WorkflowManagment.Modules.Setting.Views
                     throw new ArgumentNullException("value");
 
                 this._presenter = value;
-                this._presenter.View = this;
+                //this._presenter.View = this;
             }
         }
         public override string PageID
