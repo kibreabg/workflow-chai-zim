@@ -177,6 +177,13 @@ namespace Chai.WorkflowManagment.Modules.Setting
             filterExpression = "SELECT  *  FROM Suppliers Where Status = 'Active' AND 1 = CASE WHEN '" + SupplierName + "' = '' Then 1 When Suppliers.SupplierName = '" + SupplierName + "'  Then 1 END  ";
             return _workspace.SqlQuery<Supplier>(filterExpression).ToList();
         }
+        public IList<Supplier> ListSuppliers(string RequestNo, string RequestDate)
+        {
+            string filterExpression = "";
+
+            filterExpression = "SELECT * FROM Suppliers Where 1 = Case when '" + RequestNo + "' = '' Then 1 When Suppliers.RequestNo = '" + RequestNo + "' Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When Suppliers.RequestDate = '" + RequestDate + "'  Then 1 END And Suppliers.AppUser_Id='" + GetCurrentUser().Id + "' ORDER BY Suppliers.Id Desc";
+            return _workspace.SqlQuery<Supplier>(filterExpression).ToList();
+        }
         public IList<Supplier> ListSuppliers(string RequestNo, string RequestDate, string ProgressStatus)
         {
             string filterExpression = "";

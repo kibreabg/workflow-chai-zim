@@ -94,6 +94,10 @@ namespace Chai.WorkflowManagment.Modules.Setting.Views
         {
             return _controller.ListSuppliers(SupplierName);
         }
+        public IList<Supplier> ListSuppliers(string RequestNo, string RequestDate)
+        {
+            return _controller.ListSuppliers(RequestNo, RequestDate);
+        }
         public IList<SupplierType> GetSupplierTypes()
         {
             return _controller.GetSupplierTypes();
