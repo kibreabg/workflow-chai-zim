@@ -16,9 +16,9 @@ namespace Chai.WorkflowManagment.Modules.Report.Views
 			if (!this.IsPostBack)
 			{
 				this._presenter.OnViewInitialized();
-                grvCashPaymentRequestList.DataSource = _presenter.ExportCostSharingPayment(txtDateFrom.Text, txtDateTo.Text, ddlExportType.SelectedValue);
+                grvCashPaymentRequestList.DataSource = _presenter.ExportCostSharingPayment(txtDateFrom.Text, txtDateTo.Text, ddlExportType.Text);
                 grvCashPaymentRequestList.DataBind();
-			}
+            }
 			this._presenter.OnViewLoaded();
             
 		}
@@ -54,6 +54,7 @@ namespace Chai.WorkflowManagment.Modules.Report.Views
         }
         protected void btnView_Click(object sender, EventArgs e)
         {
+
             grvCashPaymentRequestList.DataSource = _presenter.ExportCostSharingPayment(txtDateFrom.Text, txtDateTo.Text, ddlExportType.SelectedValue);
             grvCashPaymentRequestList.DataBind();
         }
@@ -70,7 +71,7 @@ namespace Chai.WorkflowManagment.Modules.Report.Views
 
                 using (ExcelPackage pck = new ExcelPackage())
                 {
-                    ExcelWorksheet ws = pck.Workbook.Worksheets.Add("Cash Payment for Cost Sharing");
+                    ExcelWorksheet ws = pck.Workbook.Worksheets.Add("Cost Sharing Payment");
 
 
                     ws.Cells["A1"].LoadFromDataTable(dt1, true);

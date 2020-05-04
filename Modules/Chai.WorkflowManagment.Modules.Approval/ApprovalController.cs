@@ -347,7 +347,29 @@ namespace Chai.WorkflowManagment.Modules.Approval
             else { return 0; }
         }
         #endregion
+        #region FuelCardApproval
+        public FuelCardRequest GetFuelCardRequest(int FuelCardRequestId)
+        {
+            return _workspace.Single<FuelCardRequest>(x => x.Id == FuelCardRequestId);
+        }
+        public IList<FuelCardRequest> ListFuelCardRequests(string RequestNo, string RequestDate, string ProgressStatus)
+        {
+            string filterExpression = "";
+            if (ProgressStatus != "Completed")
+            {
+                filterExpression = " SELECT  *  FROM FuelCardRequests INNER JOIN AppUsers on AppUsers.Id=FuelCardRequests.CurrentApprover  Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where 1 = Case when '" + RequestNo + "' = '' Then 1 When FuelCardRequests.RequestNo = '" + RequestNo + "'  Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When FuelCardRequests.RequestDate = '" + RequestDate + "'  Then 1 END AND FuelCardRequests.ProgressStatus='" + ProgressStatus + "' " +
+                                       " AND  ((FuelCardRequests.CurrentApprover = '" + CurrentUser().Id + "') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) order by FuelCardRequests.Id DESC ";
+            }
+            else
+            {
+                filterExpression = " SELECT  *  FROM FuelCardRequests INNER JOIN AppUsers on AppUsers.Id=FuelCardRequests.CurrentApprover INNER JOIN FuelCardRequestStatuses on FuelCardRequestStatuses.FuelCardRequest_Id = FuelCardRequests.Id Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where 1 = Case when '" + RequestNo + "' = '' Then 1 When FuelCardRequests.RequestNo = '" + RequestNo + "'  Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When FuelCardRequests.RequestDate = '" + RequestDate + "'  Then 1 END AND FuelCardRequests.ProgressStatus='" + ProgressStatus + "'  " +
+                                          " AND  (FuelCardRequestStatuses.ApprovalStatus Is not null AND (FuelCardRequestStatuses.Approver = '" + CurrentUser().Id + "') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) order by FuelCardRequests.Id DESC ";
+            }
 
+            return _workspace.SqlQuery<FuelCardRequest>(filterExpression).ToList();
+        }
+      
+        #endregion
         #region Entity Manipulation
         public void SaveOrUpdateEntity<T>(T item) where T : class
         {

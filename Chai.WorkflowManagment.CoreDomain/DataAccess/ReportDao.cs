@@ -168,6 +168,7 @@ namespace Chai.WorkflowManagment.CoreDomain.DataAccess
             string connstring = ConfigurationManager.ConnectionStrings["WorkflowManagmentReportConnectionString"].ToString();
             using (SqlConnection cn = new SqlConnection(connstring))
             {
+                
                 cn.Open();
                 SqlCommand cmd = new SqlCommand();
                 cmd.Connection = cn;

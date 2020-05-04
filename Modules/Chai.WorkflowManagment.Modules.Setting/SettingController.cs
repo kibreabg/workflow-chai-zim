@@ -452,6 +452,26 @@ namespace Chai.WorkflowManagment.Modules.Setting
            
         }
         #endregion
+        #region TelephoneExtension
+
+        public IList<TelephoneExtension> GetTelephoneExtensions()
+        {
+            return WorkspaceFactory.CreateReadOnly().Query<TelephoneExtension>(null).ToList();
+        }
+        public TelephoneExtension GetTelephoneExtension(int TelephoneExtensionId)
+        {
+            return _workspace.Single<TelephoneExtension>(x => x.Id == TelephoneExtensionId);
+        }
+        public IList<TelephoneExtension> ListTelephoneExtensions(string Name, string Extension)
+        {
+            string filterExpression = "";
+
+            filterExpression = "SELECT  *  FROM TelephoneExtensions Where  1 = Case when '" + Name + "' = '' Then 1 When TelephoneExtensions.Name = '" + Name + "'  Then 1 END AND 1 = Case when '" + Extension + "' = '' Then 1 When TelephoneExtensions.Extension = '" + Extension + "'  Then 1 END  ";
+
+            return _workspace.SqlQuery<TelephoneExtension>(filterExpression).ToList();
+
+        }
+        #endregion
         #region EmployeeSetting
         public IList<EmployeeLeave> GetEmployeeLeaves()
         {
