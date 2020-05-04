@@ -167,7 +167,6 @@
     <Compile Include="Setting\Grant.cs" />
     <Compile Include="Setting\Project.cs" />
     <Compile Include="Setting\VendorAttachment.cs" />
-    <Compile Include="Setting\VendorRequest.cs" />
     <Compile Include="Setting\VendorRequestStatus.cs" />
     <Compile Include="TravelLogs\TravelLog.cs" />
     <Compile Include="Users\AppUser.cs" />
