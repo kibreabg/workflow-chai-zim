@@ -85,6 +85,7 @@
     <Compile Include="Views\IBidAnalysisView.cs" />
     <Compile Include="Views\ICostSharingApprovalView.cs" />
     <Compile Include="Views\IPurchaseOrderSoleVendorView.cs" />
+    <Compile Include="Views\IFuelCardApprovalView.cs" />
     <Compile Include="Views\ISoleVendorApprovalView.cs" />
     <Compile Include="Views\OperationalControlApprovalPresenter.cs" />
     <Compile Include="Views\IOperationalControlApprovalView.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="Views\PurchaseApprovalDetailPresenter.cs" />
     <Compile Include="Views\PurchaseOrderPresenter.cs" />
     <Compile Include="Views\PurchaseOrderSoleVendorPresenter.cs" />
+    <Compile Include="Views\FuelCardApprovalPresenter.cs" />
     <Compile Include="Views\SoleVendorApprovalPresenter.cs" />
     <Compile Include="Views\TravelAdvanceApprovalPresenter.cs" />
     <Compile Include="Views\DefaultPresenter.cs" />

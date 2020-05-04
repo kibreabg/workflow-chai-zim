@@ -102,6 +102,7 @@
     <Compile Include="Report\PurchaseReport.cs" />
     <Compile Include="Report\TravelAdvanceReport.cs" />
     <Compile Include="Report\VehicleReport.cs" />
+    <Compile Include="Requests\FCRAttachment .cs" />
     <Compile Include="Requests\PRAttachment.cs" />
     <Compile Include="Requests\BAAttachment.cs" />
     <Compile Include="Requests\BankPaymentRequest.cs" />
@@ -133,8 +134,11 @@
     <Compile Include="Requests\ExpenseLiquidationRequestStatus.cs" />
     <Compile Include="Requests\LeaveRequest.cs" />
     <Compile Include="Requests\LeaveRequestStatus.cs" />
+    <Compile Include="Requests\FuelCardRequest.cs" />
     <Compile Include="Requests\PurchaseRequest.cs" />
+    <Compile Include="Requests\FuelCardRequestDetail.cs" />
     <Compile Include="Requests\PurchaseRequestDetail.cs" />
+    <Compile Include="Requests\FuelCardRequestStatus.cs" />
     <Compile Include="Requests\PurchaseRequestStatus.cs" />
     <Compile Include="Requests\SoleVendorRequest.cs" />
     <Compile Include="Requests\SoleVendorRequestDetail.cs" />
@@ -153,6 +157,7 @@
     <Compile Include="Setting\ApprovalSetting.cs" />
     <Compile Include="Setting\Beneficiary.cs" />
     <Compile Include="Setting\ExpenseType.cs" />
+    <Compile Include="Setting\TelephoneExtension.cs" />
     <Compile Include="Setting\Vehicle.cs" />
     <Compile Include="Setting\CarRental.cs" />
     <Compile Include="Setting\CostSharingSetting.cs" />

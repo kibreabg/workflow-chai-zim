@@ -19,6 +19,7 @@ namespace Chai.WorkflowManagment.Enums
         CostSharing_Request,
         SoleVendor_Request,
         Bid_Analysis_Request,
+        FuelCard_Request,
     }
    public enum ProgressStatus
     {

@@ -47,7 +47,7 @@
                 </div>
             </div>
         </div>
-
+       <div class="table-responsive" style="overflow: auto;">
         <asp:GridView ID="grvCashPaymentRequestList"
             runat="server"
             CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active">
@@ -57,7 +57,7 @@
             <HeaderStyle CssClass="headerstyle" />
             <PagerStyle CssClass="PagerStyle" />
             <RowStyle CssClass="rowstyle" />
-        </asp:GridView>
+        </asp:GridView></div>
     </div>
 
 

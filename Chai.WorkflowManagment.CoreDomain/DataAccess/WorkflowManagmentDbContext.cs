@@ -50,6 +50,7 @@ namespace Chai.WorkflowManagment.CoreDomain.DataAccess
         public DbSet<SupplierType> SupplierTypes { get; set; }
         public DbSet<CarRental> CarRentals { get; set; }
         public DbSet<Beneficiary> Beneficiaries { get; set; }
+        public DbSet<TelephoneExtension> TelephoneExtensions { get; set; }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<ApprovalSetting> ApprovalSettings { get; set; }
         public DbSet<ApprovalLevel> ApprovalLevels { get; set; }
@@ -107,7 +108,10 @@ namespace Chai.WorkflowManagment.CoreDomain.DataAccess
         public DbSet<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
         public DbSet<PurchaseOrderSoleVendor> PurchaseOrderSoleVendors { get; set; }
         public DbSet<PurchaseOrderSoleVendorDetail> PurchaseOrderSoleVendorDetails { get; set; }
-
+        public DbSet<FuelCardRequest> FuelCardRequests { get; set; }
+        public DbSet<FuelCardRequestDetail> FuelCardRequestDetails { get; set; }
+        public DbSet<FuelCardRequestStatus> FuelCardRequestStatuses { get; set; }
+        public DbSet<FCRAttachment> FCRAttachments { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             //modelBuilder.Entity<AppUser>().HasMany(p => p.AppUserRoles).WithMany();
