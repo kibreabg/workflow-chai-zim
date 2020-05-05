@@ -22,11 +22,11 @@ namespace Chai.WorkflowManagment.Modules.Setting.Views
         {
             if (!this.IsPostBack)
             {
-                this._presenter.OnViewInitialized();
+                //this._presenter.OnViewInitialized();
                 BindSupplier();
             }
 
-            this._presenter.OnViewLoaded();
+            //this._presenter.OnViewLoaded();
         }
 
         [CreateNew]
@@ -42,7 +42,7 @@ namespace Chai.WorkflowManagment.Modules.Setting.Views
                     throw new ArgumentNullException("value");
 
                 this._presenter = value;
-                this._presenter.View = this;
+                //this._presenter.View = this;
             }
         }
         public override string PageID

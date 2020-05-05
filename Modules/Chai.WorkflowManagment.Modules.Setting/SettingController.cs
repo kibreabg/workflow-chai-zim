@@ -42,6 +42,18 @@ namespace Chai.WorkflowManagment.Modules.Setting
                 GetCurrentContext().Session["CurrentObject"] = value;
             }
         }
+        public AppUser CurrentUser()
+        {
+            return GetCurrentUser();
+        }
+        public AppUser GetSuperviser(int superviser)
+        {
+            return _workspace.Single<AppUser>(x => x.Id == superviser);
+        }
+        public AppUser Approver(int position)
+        {
+            return _workspace.SqlQuery<AppUser>("SELECT * FROM AppUsers WHERE EmployeePosition_Id = " + position).ToList().Last<AppUser>();
+        }
         #region User
         public IList<AppUser> GetProgramManagers()
         {
@@ -64,6 +76,27 @@ namespace Chai.WorkflowManagment.Modules.Setting
             return _workspace.Single<AppUser>(x => x.UserName == userName, x => x.AppUserRoles.Select(y => y.Role));
         }
         #endregion
+        #region AssignJob
+        public AssignJob GetAssignedJobbycurrentuser()
+        {
+            int userId = GetCurrentUser().Id;
+            return _workspace.Single<AssignJob>(x => x.AppUser.Id == userId && x.Status == true);
+        }
+        public AssignJob GetAssignedJobbycurrentuser(int UserId)
+        {
+            //int userId = GetCurrentUser().Id;
+            return _workspace.Single<AssignJob>(x => x.AppUser.Id == UserId && x.Status == true);
+        }
+        public int GetAssignedUserbycurrentuser()
+        {
+            int userId = GetCurrentUser().Id;
+            IList<AssignJob> AJ = _workspace.All<AssignJob>(x => x.AssignedTo == userId && x.Status == true).ToList();
+            if (AJ.Count != 0)
+            { return AJ[0].AssignedTo; }
+            else
+                return 0;
+        }
+        #endregion
         #region Account
         public Account GetAccount(int AccountId)
         {
@@ -77,7 +110,7 @@ namespace Chai.WorkflowManagment.Modules.Setting
         {
             string filterExpression = "";
 
-            filterExpression = "SELECT * FROM Accounts Where Status = 'Active' AND 1 = Case when '" + BankName + "' = '' Then 1 When Accounts.Name LIKE '%" + BankName + "%'  Then 1 END  ";
+            filterExpression = "SELECT * FROM Accounts Where Status = 'Active' AND 1 = CASE WHEN '" + BankName + "' = '' Then 1 When Accounts.Name LIKE '%" + BankName + "%'  Then 1 END  ";
 
             return _workspace.SqlQuery<Account>(filterExpression).ToList();
         }
@@ -95,7 +128,7 @@ namespace Chai.WorkflowManagment.Modules.Setting
         {
             string filterExpression = "";
 
-            filterExpression = "SELECT  *  FROM ItemAccounts Where Status = 'Active' And 1 = Case when '" + ItemAccountName + "' = '' Then 1 When ItemAccounts.AccountName = '" + ItemAccountName + "'  Then 1 END AND 1 = Case when '" + ItemAccountCode + "' = '' Then 1 When ItemAccounts.AccountCode = '" + ItemAccountCode + "'  Then 1 END  ";
+            filterExpression = "SELECT  *  FROM ItemAccounts Where Status = 'Active' And 1 = CASE WHEN '" + ItemAccountName + "' = '' Then 1 When ItemAccounts.AccountName = '" + ItemAccountName + "'  Then 1 END AND 1 = CASE WHEN '" + ItemAccountCode + "' = '' Then 1 When ItemAccounts.AccountCode = '" + ItemAccountCode + "'  Then 1 END  ";
 
             return _workspace.SqlQuery<ItemAccount>(filterExpression).ToList();
 
@@ -119,7 +152,7 @@ namespace Chai.WorkflowManagment.Modules.Setting
         {
             string filterExpression = "";
 
-            filterExpression = "SELECT  *  FROM Grants Where Status = 'Active' AND 1 = Case when '" + GrantName + "' = '' Then 1 When Grants.GrantName = '" + GrantName + "'  Then 1 END AND 1 = Case when '" + GrantCode + "' = '' Then 1 When Grants.GrantCode = '" + GrantCode + "'  Then 1 END  ";
+            filterExpression = "SELECT  *  FROM Grants Where Status = 'Active' AND 1 = CASE WHEN '" + GrantName + "' = '' Then 1 When Grants.GrantName = '" + GrantName + "'  Then 1 END AND 1 = CASE WHEN '" + GrantCode + "' = '' Then 1 When Grants.GrantCode = '" + GrantCode + "'  Then 1 END  ";
 
             return _workspace.SqlQuery<Grant>(filterExpression).ToList();
 
@@ -141,19 +174,48 @@ namespace Chai.WorkflowManagment.Modules.Setting
         public IList<Supplier> ListSuppliers(string SupplierName)
         {
             string filterExpression = "";
+            filterExpression = "SELECT  *  FROM Suppliers Where Status = 'Active' AND 1 = CASE WHEN '" + SupplierName + "' = '' Then 1 When Suppliers.SupplierName = '" + SupplierName + "'  Then 1 END  ";
+            return _workspace.SqlQuery<Supplier>(filterExpression).ToList();
+        }
+        public IList<Supplier> ListSuppliers(string RequestNo, string RequestDate)
+        {
+            string filterExpression = "";
 
-            filterExpression = "SELECT  *  FROM Suppliers Where Status = 'Active' AND 1 = Case when '" + SupplierName + "' = '' Then 1 When Suppliers.SupplierName = '" + SupplierName + "'  Then 1 END  ";
+            filterExpression = "SELECT * FROM Suppliers Where 1 = Case when '" + RequestNo + "' = '' Then 1 When Suppliers.RequestNo = '" + RequestNo + "' Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When Suppliers.RequestDate = '" + RequestDate + "'  Then 1 END And Suppliers.AppUser_Id='" + GetCurrentUser().Id + "' ORDER BY Suppliers.Id Desc";
+            return _workspace.SqlQuery<Supplier>(filterExpression).ToList();
+        }
+        public IList<Supplier> ListSuppliers(string RequestNo, string RequestDate, string ProgressStatus)
+        {
+            string filterExpression = "";
+            if (ProgressStatus == "InProgress")
+            {
+                filterExpression = " SELECT * FROM Suppliers INNER JOIN AppUsers ON (AppUsers.Id = Suppliers.CurrentApprover) OR (AppUsers.EmployeePosition_Id = Suppliers.CurrentApproverPosition AND AppUsers.Id = '" + CurrentUser().Id + "') LEFT JOIN AssignJobs ON AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where 1 = CASE WHEN '" + RequestNo + "' = '' Then 1 When Suppliers.RequestNo = '" + RequestNo + "'  Then 1 END And  1 = CASE WHEN '" + RequestDate + "' = '' Then 1 When Suppliers.RequestDate = '" + RequestDate + "'  Then 1 END AND Suppliers.ProgressStatus='" + ProgressStatus + "' " +
+                                   " AND  ((Suppliers.CurrentApprover = '" + CurrentUser().Id + "') OR (Suppliers.CurrentApproverPosition = '" + CurrentUser().EmployeePosition.Id + "') OR (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) order by Suppliers.Id DESC";
+            }
+            else if (ProgressStatus == "Completed")
+            {
+                filterExpression = " SELECT * FROM Suppliers INNER JOIN AppUsers ON (AppUsers.Id = Suppliers.CurrentApprover) OR (AppUsers.EmployeePosition_Id = Suppliers.CurrentApproverPosition AND AppUsers.Id = '" + CurrentUser().Id + "') INNER JOIN VendorRequestStatuses ON VendorRequestStatuses.Supplier_Id = Suppliers.Id LEFT JOIN AssignJobs ON AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where 1 = CASE WHEN '" + RequestNo + "' = '' Then 1 When Suppliers.RequestNo = '" + RequestNo + "'  Then 1 END And  1 = CASE WHEN '" + RequestDate + "' = '' Then 1 When Suppliers.RequestDate = '" + RequestDate + "'  Then 1 END AND Suppliers.ProgressStatus='" + ProgressStatus + "' " +
+                                       " AND  (VendorRequestStatuses.ApprovalStatus IS NOT NULL  AND (VendorRequestStatuses.Approver = '" + CurrentUser().Id + "') OR (VendorRequestStatuses.ApproverPosition = '" + CurrentUser().EmployeePosition.Id + "') OR (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) order by Suppliers.Id DESC ";
+            }
 
             return _workspace.SqlQuery<Supplier>(filterExpression).ToList();
-
         }
+        public int GetLastSupplierId()
+        {
+            if (_workspace.Last<Supplier>() != null)
+            {
+                return _workspace.Last<Supplier>().Id;
+            }
+            else { return 0; }
+        }        
+
         #endregion
         #region Supplier Type
         public IList<SupplierType> ListSupplierTypes(string email)
         {
             string filterExpression = "";
 
-            filterExpression = "SELECT  *  FROM SupplierTypes Where Status = 'Active' AND 1 = Case when '" + email + "' = '' Then 1 When SupplierTypes.SupplierTypename LIKE '%" + email + "%'  Then 1 END  ";
+            filterExpression = "SELECT  *  FROM SupplierTypes Where Status = 'Active' AND 1 = CASE WHEN '" + email + "' = '' Then 1 When SupplierTypes.SupplierTypename LIKE '%" + email + "%'  Then 1 END  ";
 
             return _workspace.SqlQuery<SupplierType>(filterExpression).ToList();
         }
@@ -181,7 +243,7 @@ namespace Chai.WorkflowManagment.Modules.Setting
         {
             string filterExpression = "";
 
-            filterExpression = "SELECT * FROM CarRentals Where Status = 'Active' AND 1 = Case when '" + CarRentalName + "' = '' Then 1 When CarRentals.Name LIKE '%" + CarRentalName + "%'  Then 1 END  ";
+            filterExpression = "SELECT * FROM CarRentals Where Status = 'Active' AND 1 = CASE WHEN '" + CarRentalName + "' = '' Then 1 When CarRentals.Name LIKE '%" + CarRentalName + "%'  Then 1 END  ";
 
             return _workspace.SqlQuery<CarRental>(filterExpression).ToList();
 
@@ -200,7 +262,7 @@ namespace Chai.WorkflowManagment.Modules.Setting
         {
             string filterExpression = "";
 
-            filterExpression = "SELECT * FROM Vehicles Where Status = 'Active' AND 1 = Case when '" + PlateNo + "' = '' Then 1 When Vehicles.PlateNo LIKE '%" + PlateNo + "%'  Then 1 END  ";
+            filterExpression = "SELECT * FROM Vehicles Where Status = 'Active' AND 1 = CASE WHEN '" + PlateNo + "' = '' Then 1 When Vehicles.PlateNo LIKE '%" + PlateNo + "%'  Then 1 END  ";
 
             return _workspace.SqlQuery<Vehicle>(filterExpression).ToList();
 
@@ -272,7 +334,7 @@ namespace Chai.WorkflowManagment.Modules.Setting
         {
             string filterExpression = "";
 
-            filterExpression = "SELECT  *  FROM Grants Left Join ProGrants on ProGrants.Grant_Id = Grants.Id Left Join Projects on Projects.Id = ProGrants.Project_Id  Where Projects.Id = '" + projectId + "' ";
+            filterExpression = "SELECT  *  FROM Grants LEFT Join ProGrants ON ProGrants.Grant_Id = Grants.Id LEFT Join Projects ON Projects.Id = ProGrants.Project_Id  Where Projects.Id = '" + projectId + "' ";
 
             return _workspace.SqlQuery<Grant>(filterExpression).ToList();
 
@@ -281,7 +343,7 @@ namespace Chai.WorkflowManagment.Modules.Setting
         {
             string filterExpression = "";
 
-            filterExpression = "SELECT  *  FROM Projects Where Projects.Status = 'Active' AND 1 = Case when '" + ProjectCode + "' = '' Then 1 When Projects.ProjectCode = '" + ProjectCode + "'  Then 1 END";
+            filterExpression = "SELECT  *  FROM Projects Where Projects.Status = 'Active' AND 1 = CASE WHEN '" + ProjectCode + "' = '' Then 1 When Projects.ProjectCode = '" + ProjectCode + "'  Then 1 END";
 
             return _workspace.SqlQuery<Project>(filterExpression).ToList();
 
@@ -293,7 +355,7 @@ namespace Chai.WorkflowManagment.Modules.Setting
         {
             string filterExpression = "";
 
-            filterExpression = "SELECT  *  FROM CostSharingSettings Left join Projects on CostSharingSettings.ProjectId=Projects.Id";
+            filterExpression = "SELECT  *  FROM CostSharingSettings LEFT join Projects ON CostSharingSettings.ProjectId=Projects.Id";
 
             return _workspace.SqlQuery<CostSharingSetting>(filterExpression).ToList();
             
@@ -321,7 +383,7 @@ namespace Chai.WorkflowManagment.Modules.Setting
         {
             string filterExpression = "";
 
-            filterExpression = "SELECT  *  FROM ApprovalSettings Where 1 = Case when '" + Requesttype + "' = '' Then 1 When ApprovalSettings.RequestType = '" + Requesttype + "'  Then 1 END";
+            filterExpression = "SELECT  *  FROM ApprovalSettings Where 1 = CASE WHEN '" + Requesttype + "' = '' Then 1 When ApprovalSettings.RequestType = '" + Requesttype + "'  Then 1 END";
 
             return _workspace.SqlQuery<ApprovalSetting>(filterExpression).ToList();
 
@@ -449,7 +511,7 @@ namespace Chai.WorkflowManagment.Modules.Setting
         {
             string filterExpression = "";
 
-            filterExpression = "SELECT * FROM Beneficiaries Where Status = 'Active' AND 1 = Case when '" + BeneficiaryName + "' = '' Then 1 When Beneficiaries.BeneficiaryName LIKE '%" + BeneficiaryName + "%'  Then 1 END  ";
+            filterExpression = "SELECT * FROM Beneficiaries Where Status = 'Active' AND 1 = CASE WHEN '" + BeneficiaryName + "' = '' Then 1 When Beneficiaries.BeneficiaryName LIKE '%" + BeneficiaryName + "%'  Then 1 END  ";
 
             return _workspace.SqlQuery<Beneficiary>(filterExpression).ToList();
 

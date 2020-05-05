@@ -83,6 +83,7 @@
     <Compile Include="Views\TelephoneExtensionPresenter.cs" />
     <Compile Include="Views\IExpenseTypeView.cs" />
     <Compile Include="Views\ExpenseTypePresenter.cs" />
+    <Compile Include="Views\IVendorRequestView.cs" />
     <Compile Include="Views\ITelephoneExtensionView.cs" />
     <Compile Include="Views\VehiclePresenter.cs" />
     <Compile Include="Views\CostSharingSettingPresenter.cs" />
