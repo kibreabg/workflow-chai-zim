@@ -80,10 +80,31 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
          {
              return _controller.GetSuperviser(superviser);
          }
-         public void SaveOrUpdateFuelCardRequest(FuelCardRequest FuelCardRequest)
-         {
-             _controller.SaveOrUpdateEntity(FuelCardRequest);
-         }
+        public void SaveOrUpdateFuelCardRequest(FuelCardRequest FuelCardRequest)
+        {
+            try
+            {
+                _controller.SaveOrUpdateEntity(FuelCardRequest);
+            }
+            
+            catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
+            {
+                Exception raise = dbEx;
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        string message = string.Format("{0}:{1}",
+                            validationErrors.Entry.Entity.ToString(),
+                            validationError.ErrorMessage);
+                        // raise a new exception nesting  
+                        // the current instance as InnerException  
+                        raise = new InvalidOperationException(message, raise);
+                    }
+                }
+                throw raise;
+            }
+        }
 
         public void SaveOrUpdateFuelCardRequest()
         {
@@ -93,7 +114,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             FuelCardRequest FuelCardRequest = CurrentFuelCardRequest;
             FuelCardRequest.Month = View.Month;
             FuelCardRequest.Year = View.Year;
-
+            
 
 
             //  BidAnalysisRequest.Supplier.Id=View.GetSupplierId;

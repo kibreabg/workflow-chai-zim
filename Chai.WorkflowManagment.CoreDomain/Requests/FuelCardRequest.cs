@@ -25,7 +25,7 @@ namespace Chai.WorkflowManagment.CoreDomain.Requests
         public string RequestNo { get; set; }
         public int Requester { get; set; }
         public Nullable<DateTime> RequestedDate { get; set; }
-
+        public string CardHolderName { get; set; }
         public int Month { get; set; }
         public int Year { get; set; }
     
