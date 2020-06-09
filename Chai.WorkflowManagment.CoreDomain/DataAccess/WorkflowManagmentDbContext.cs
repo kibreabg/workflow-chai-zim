@@ -88,6 +88,10 @@ namespace Chai.WorkflowManagment.CoreDomain.DataAccess
         public DbSet<TravelAdvanceRequestDetail> TravelAdvanceRequestDetails { get; set; }
         public DbSet<TravelAdvanceRequestStatus> TravelAdvanceRequestStatuses { get; set; }
         public DbSet<TravelAdvanceCost> TravelAdvanceCosts { get; set; }
+        public DbSet<CabRequest> CabRequests { get; set; }
+        public DbSet<CabRequestDetail> CabRequestDetails { get; set; }
+        public DbSet<CabRequestStatus> CabRequestStatuses { get; set; }
+        public DbSet<CabCost> CabCosts { get; set; }
         public DbSet<ExpenseLiquidationRequest> ExpenseLiquidationRequests { get; set; }
         public DbSet<ExpenseLiquidationRequestStatus> ExpenseLiquidationRequestStatuses { get; set; }
         public DbSet<ExpenseLiquidationRequestDetail> ExpenseLiquidationRequestDetails { get; set; }        
