@@ -100,7 +100,9 @@
     <Compile Include="Report\LeaveReport.cs" />
     <Compile Include="Report\LiquidationReport.cs" />
     <Compile Include="Report\PurchaseReport.cs" />
+    <Compile Include="Report\CabsReport.cs" />
     <Compile Include="Report\TravelAdvanceReport.cs" />
+    <Compile Include="Report\FuelCardReport.cs" />
     <Compile Include="Report\VehicleReport.cs" />
     <Compile Include="Requests\FCRAttachment .cs" />
     <Compile Include="Requests\PRAttachment.cs" />
@@ -144,9 +146,13 @@
     <Compile Include="Requests\SoleVendorRequestDetail.cs" />
     <Compile Include="Requests\SoleVendorRequestStatus.cs" />
     <Compile Include="Requests\SVRAttachment.cs" />
+    <Compile Include="Requests\CabCost.cs" />
     <Compile Include="Requests\TravelAdvanceCost.cs" />
+    <Compile Include="Requests\CabRequest.cs" />
     <Compile Include="Requests\TravelAdvanceRequest.cs" />
+    <Compile Include="Requests\CabRequestDetail.cs" />
     <Compile Include="Requests\TravelAdvanceRequestDetail.cs" />
+    <Compile Include="Requests\CabRequestStatus.cs" />
     <Compile Include="Requests\TravelAdvanceRequestStatus.cs" />
     <Compile Include="Requests\VehicleRequestDetail.cs" />
     <Compile Include="Requests\VehicleRequest.cs" />
