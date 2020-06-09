@@ -146,6 +146,14 @@
                                     </p>
                                     <a data-toggle="modal" runat="server" id="A10" href="#soleVendorModal">Progress Detail</a>
                                 </li>
+                                 <li class="">
+                                    <span class="handle" style="display: none"></span>
+                                    <p>
+                                        <asp:Label ID="lblVendorRequestMyRequest" runat="server" Text="Vendor Request" CssClass="label"></asp:Label>-
+                                            <asp:Label ID="lblVendorStatus" runat="server" Text="No Request"></asp:Label>
+                                    </p>
+                                    <a data-toggle="modal" runat="server" id="A11" href="#vendorModal">Progress Detail</a>
+                                </li>
                             </ul>
 
                             <!-- end content -->
@@ -272,6 +280,13 @@
                                     <p>
                                         <asp:LinkButton ID="lnkSoleVendor" runat="server" Text="Sole Vendor Requests" Enabled="false"></asp:LinkButton>
                                         (<small class="num-of-tasks"><asp:Label ID="lblSolVendor" runat="server" Text=""></asp:Label></small>)
+                                    </p>
+                                </li>
+                                 <li class="">
+                                    <span class="handle" style="display: none"></span>
+                                    <p>
+                                        <asp:LinkButton ID="lnkVendor" runat="server" Text="Vendor Requests" Enabled="false"></asp:LinkButton>
+                                        (<small class="num-of-tasks"><asp:Label ID="lblVendor" runat="server" Text=""></asp:Label></small>)
                                     </p>
                                 </li>
                             </ul>
@@ -623,6 +638,46 @@
                                     <asp:GridView ID="grvSoleVendorProgress"
                                         runat="server" AutoGenerateColumns="False" DataKeyNames="Id"
                                         CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" OnRowDataBound="grvSoleVendorProgress_RowDataBound">
+                                        <RowStyle CssClass="rowstyle" />
+                                        <Columns>
+                                            <asp:BoundField DataField="RequestNo" HeaderText="RequestNo No" SortExpression="RequestNo" />
+                                            <asp:TemplateField HeaderText="Request Date">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblRequestDate" runat="server" Text='<%# Eval("RequestDate", "{0:dd/MM/yyyy}")%>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:BoundField DataField="CurrentApprover" HeaderText="Current Approver" SortExpression="CurrentApprover" />
+                                        </Columns>
+                                        <FooterStyle CssClass="FooterStyle" />
+                                        <HeaderStyle CssClass="headerstyle" />
+                                        <PagerStyle CssClass="PagerStyle" />
+                                        <RowStyle CssClass="rowstyle" />
+                                    </asp:GridView>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="vendorModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        ×
+                    </button>
+                    <h4 class="modal-title" id="myVendorLabel">Vendor Approval Progress</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="well well-sm well-primary">
+                                    <asp:GridView ID="grvVendorProgress"
+                                        runat="server" AutoGenerateColumns="False" DataKeyNames="Id"
+                                        CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" OnRowDataBound="grvVendorProgress_RowDataBound">
                                         <RowStyle CssClass="rowstyle" />
                                         <Columns>
                                             <asp:BoundField DataField="RequestNo" HeaderText="RequestNo No" SortExpression="RequestNo" />

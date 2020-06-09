@@ -115,6 +115,8 @@ public partial class ShellDefault : Microsoft.Practices.CompositeWeb.Web.UI.Page
             lnkCostSharingRequest.PostBackUrl = lnkCostSharingRequest.ResolveUrl("Approval/frmCostSharingApproval.aspx");
         }
         else { lblCostSharingRequest.Text = Convert.ToString(0); }
+
+
         if (_presenter.GetPurchaseRequestsTasks() != 0)
         {
             lblpurchaserequest.Text = _presenter.GetPurchaseRequestsTasks().ToString();
@@ -184,6 +186,14 @@ public partial class ShellDefault : Microsoft.Practices.CompositeWeb.Web.UI.Page
         {
             lblSolVendor.Text = Convert.ToString(0);
         }
+
+        if (_presenter.GetVendorRequestsTasks() != 0)
+        {
+            lblVendor.Text = _presenter.GetVendorRequestsTasks().ToString();
+            lnkVendor.Enabled = true;
+            lnkVendor.PostBackUrl = lnkVendor.ResolveUrl("Approval/frmVendorApproval.aspx");
+        }
+        else { lblCostSharingRequest.Text = Convert.ToString(0); }
     }
     private void MyRequests()
     {
@@ -241,6 +251,12 @@ public partial class ShellDefault : Microsoft.Practices.CompositeWeb.Web.UI.Page
         {
             lblSoleVendorStatus.Text = ProgressStatus.InProgress.ToString();
             lblSoleVendorStatus.ForeColor = System.Drawing.Color.Green;
+
+        }
+        if (_presenter.GetVendorRequestsMyRequest() != 0)
+        {
+            lblVendorStatus.Text = ProgressStatus.InProgress.ToString();
+            lblVendorStatus.ForeColor = System.Drawing.Color.Green;
 
         }
 
@@ -313,6 +329,11 @@ public partial class ShellDefault : Microsoft.Practices.CompositeWeb.Web.UI.Page
     {
         grvSoleVendorProgress.DataSource = _presenter.ListSoleVendorApprovalProgress();
         grvSoleVendorProgress.DataBind();
+    }
+    private void BindVendorRequests()
+    {
+        grvVendorProgress.DataSource = _presenter.ListVendorApprovalProgress();
+        grvVendorProgress.DataBind();
     }
 
     protected void grvLeaveProgress_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -409,6 +430,18 @@ public partial class ShellDefault : Microsoft.Practices.CompositeWeb.Web.UI.Page
         }
     }
     protected void grvSoleVendorProgress_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (_presenter.ListSoleVendorApprovalProgress() != null)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                if (_presenter.ListSoleVendorApprovalProgress()[e.Row.RowIndex].CurrentApprover != 0)
+                    e.Row.Cells[2].Text = _presenter.GetUser(_presenter.ListSoleVendorApprovalProgress()[e.Row.RowIndex].CurrentApprover).FullName;
+            }
+        }
+    }
+
+    protected void grvVendorProgress_RowDataBound(object sender, GridViewRowEventArgs e)
     {
         if (_presenter.ListSoleVendorApprovalProgress() != null)
         {

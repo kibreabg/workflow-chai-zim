@@ -9,6 +9,7 @@ using Chai.WorkflowManagment.CoreDomain.DataAccess;
 using Chai.WorkflowManagment.CoreDomain.Admins;
 using Chai.WorkflowManagment.CoreDomain.Users;
 using Chai.WorkflowManagment.CoreDomain.Request;
+using Chai.WorkflowManagment.CoreDomain.Setting;
 using Chai.WorkflowManagment.CoreDomain.Requests;
 
 namespace Chai.WorkflowManagment.Modules.Shell.MasterPages
@@ -146,6 +147,10 @@ namespace Chai.WorkflowManagment.Modules.Shell.MasterPages
         {
             return _controller.GetSoleVendorTasks();
         }
+        public int GetVendorRequestsTasks()
+        {
+            return _controller.GetVendorTasks();
+        }
         #endregion
         #region MyRequests
         public int GetLeaveMyRequest()
@@ -179,6 +184,11 @@ namespace Chai.WorkflowManagment.Modules.Shell.MasterPages
         public int GetSoleVendorRequestsMyRequest()
         {
             return _controller.GetSoleVendorRequestsMyRequest();
+
+        }
+        public int GetVendorRequestsMyRequest()
+        {
+            return _controller.GetVendorRequestsMyRequest();
 
         }
         public int GetBidAnalysisRequestsMyRequest()
@@ -225,6 +235,10 @@ namespace Chai.WorkflowManagment.Modules.Shell.MasterPages
         public IList<SoleVendorRequest> ListSoleVendorApprovalProgress()
         {
             return _controller.GetSoleVendorInProgress();
+        }
+        public IList<Supplier> ListVendorApprovalProgress()
+        {
+            return _controller.GetVendorInProgress();
         }
         #endregion
         public AppUser GetUser(int UserId)

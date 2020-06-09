@@ -14,6 +14,7 @@ using Chai.WorkflowManagment.Shared.Navigation;
 using Chai.WorkflowManagment.Services;
 using Chai.WorkflowManagment.CoreDomain.Requests;
 using Chai.WorkflowManagment.CoreDomain.Request;
+using Chai.WorkflowManagment.CoreDomain.Setting;
 using Chai.WorkflowManagment.CoreDomain.Users;
 using System.Collections.Generic;
 using Chai.WorkflowManagment.Enums;
@@ -235,8 +236,17 @@ namespace Chai.WorkflowManagment.Modules.Shell
 
             return _workspace.SqlQuery<SoleVendorRequest>(filterExpression).Count();
         }
+        public int GetVendorTasks()
+        {
+            currentUser = GetCurrentUser().Id;
+            string filterExpression = "";
 
-    
+            filterExpression = " SELECT * FROM Suppliers INNER JOIN AppUsers on AppUsers.Id = Suppliers.CurrentApprover Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where Suppliers.ProgressStatus='InProgress' " +
+                                  " AND  ((Suppliers.CurrentApprover = '" + currentUser + "') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) order by Suppliers.Id ";
+
+            return _workspace.SqlQuery<SoleVendorRequest>(filterExpression).Count();
+        }
+
         #endregion
         #region MyRequests
         public int GetLeaveMyRequest()
@@ -339,6 +349,17 @@ namespace Chai.WorkflowManagment.Modules.Shell
                 return 0;
 
         }
+        public int GetVendorRequestsMyRequest()
+        {
+            currentUser = GetCurrentUser().Id;
+            int Count = 0;
+            Count = WorkspaceFactory.CreateReadOnly().Count<Supplier>(x => x.AppUser.Id == currentUser && x.ProgressStatus == "InProgress");
+            if (Count != 0)
+                return Count;
+            else
+                return 0;
+
+        }
         #endregion
         #region MyProgresses
         public IList<VehicleRequest> GetVehicleInProgress()
@@ -395,7 +416,12 @@ namespace Chai.WorkflowManagment.Modules.Shell
             IList<SoleVendorRequest> soleVendorRequests = WorkspaceFactory.CreateReadOnly().Query<SoleVendorRequest>(x => x.AppUser.Id == currentUser && x.ProgressStatus == "InProgress").ToList();
             return soleVendorRequests;
         }
-
+        public IList<Supplier> GetVendorInProgress()
+        {
+            currentUser = GetCurrentUser().Id;
+            IList<Supplier> vendorRequests = WorkspaceFactory.CreateReadOnly().Query<Supplier>(x => x.AppUser.Id == currentUser && x.ProgressStatus == "InProgress").ToList();
+            return vendorRequests;
+        }
         public IList<LeaveRequest> GetLeaveInProgress()
         {
             currentUser = GetCurrentUser().Id;
