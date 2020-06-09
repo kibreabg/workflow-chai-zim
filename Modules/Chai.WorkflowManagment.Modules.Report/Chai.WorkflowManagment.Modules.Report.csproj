@@ -83,8 +83,10 @@
     <Compile Include="Views\frmBankPaymentReportPresenter.cs" />
     <Compile Include="Views\frmCashPaymentReportPresenter.cs" />
     <Compile Include="Views\frmLiquidationReportPresenter.cs" />
+    <Compile Include="Views\frmCabsReportPresenter.cs" />
     <Compile Include="Views\frmTravelAdvanceReportPresenter.cs" />
     <Compile Include="Views\ExportPresenter.cs" />
+    <Compile Include="Views\frmFuelCardReportPresenter.cs" />
     <Compile Include="Views\frmVehicleReportPresenter.cs" />
     <Compile Include="Views\frmPurchaseReportPresenter.cs" />
     <Compile Include="Views\frmLeaveReportPresenter.cs" />
@@ -93,9 +95,11 @@
     <Compile Include="Views\IfrmCostSharingPaymentReportView.cs" />
     <Compile Include="Views\IfrmBankPaymentReportView.cs" />
     <Compile Include="Views\IfrmCashPaymentReportView.cs" />
+    <Compile Include="Views\IfrmCabsReportView.cs" />
     <Compile Include="Views\IfrmTravelAdvanceReportView.cs" />
     <Compile Include="Views\IfrmLiquidationReportView.cs" />
     <Compile Include="Views\IExportView.cs" />
+    <Compile Include="Views\IfrmFuelCardReportView.cs" />
     <Compile Include="Views\IfrmVehicleReportView.cs" />
     <Compile Include="Views\IfrmpurchaseReportView.cs" />
     <Compile Include="Views\IfrmLeaveReportView.cs" />

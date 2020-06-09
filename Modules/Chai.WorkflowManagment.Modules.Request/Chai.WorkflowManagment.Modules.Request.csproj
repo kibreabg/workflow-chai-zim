@@ -86,6 +86,7 @@
     <Compile Include="Views\ICostSharingRequestView.cs" />
     <Compile Include="Views\IFuelCardRequestView.cs" />
     <Compile Include="Views\ISoleVendorRequestView.cs" />
+    <Compile Include="Views\ICabRequestView.cs" />
     <Compile Include="Views\OperationalControlRequestPresenter.cs" />
     <Compile Include="Views\ExpenseLiquidationRequestPresenter.cs" />
     <Compile Include="Views\IOperationalControlRequestView.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="Views\FuelCardRequestPresenter.cs" />
     <Compile Include="Views\PurchaseRequestPresenter.cs" />
     <Compile Include="Views\SoleVendorRequestPresenter.cs" />
+    <Compile Include="Views\CabRequestPresenter.cs" />
     <Compile Include="Views\TravelLogPresenter.cs" />
     <Compile Include="Views\ITravelLogView.cs" />
     <Compile Include="Views\CashPaymentRequestPresenter.cs" />
