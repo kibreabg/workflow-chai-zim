@@ -32,6 +32,7 @@ public partial class ShellDefault : Microsoft.Practices.CompositeWeb.Web.UI.Page
             BindBankPaymentRequests();
             BindBidAnalysisRequests();
             BindSoleVendorRequests();
+            BindVendorRequests();
         }
         this._presenter.OnViewLoaded();
         MyTasks();
@@ -443,12 +444,12 @@ public partial class ShellDefault : Microsoft.Practices.CompositeWeb.Web.UI.Page
 
     protected void grvVendorProgress_RowDataBound(object sender, GridViewRowEventArgs e)
     {
-        if (_presenter.ListSoleVendorApprovalProgress() != null)
+        if (_presenter.ListVendorApprovalProgress() != null)
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
-                if (_presenter.ListSoleVendorApprovalProgress()[e.Row.RowIndex].CurrentApprover != 0)
-                    e.Row.Cells[2].Text = _presenter.GetUser(_presenter.ListSoleVendorApprovalProgress()[e.Row.RowIndex].CurrentApprover).FullName;
+                if (_presenter.ListVendorApprovalProgress()[e.Row.RowIndex].CurrentApprover != 0)
+                    e.Row.Cells[2].Text = _presenter.GetUser(_presenter.ListVendorApprovalProgress()[e.Row.RowIndex].CurrentApprover).FullName;
             }
         }
     }

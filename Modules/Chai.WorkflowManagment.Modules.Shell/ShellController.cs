@@ -244,7 +244,7 @@ namespace Chai.WorkflowManagment.Modules.Shell
             filterExpression = " SELECT * FROM Suppliers INNER JOIN AppUsers on AppUsers.Id = Suppliers.CurrentApprover Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where Suppliers.ProgressStatus='InProgress' " +
                                   " AND  ((Suppliers.CurrentApprover = '" + currentUser + "') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) order by Suppliers.Id ";
 
-            return _workspace.SqlQuery<SoleVendorRequest>(filterExpression).Count();
+            return _workspace.SqlQuery<Supplier>(filterExpression).Count();
         }
 
         #endregion
