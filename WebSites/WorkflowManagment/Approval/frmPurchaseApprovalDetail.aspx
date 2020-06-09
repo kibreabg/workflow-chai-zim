@@ -84,10 +84,9 @@
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:BoundField DataField="DeliverTo" HeaderText="Deliver To" SortExpression="DeliverTo" />
-                        <asp:BoundField DataField="Neededfor" HeaderText="Needed for" SortExpression="Neededfor" />
-                        <asp:BoundField DataField="SpecialNeed" HeaderText="Special Need" SortExpression="SpecialNeed" />
+                       <asp:BoundField DataField="SpecialNeed" HeaderText="Special Need" SortExpression="SpecialNeed" />
                          <asp:BoundField DataField="Budgeted" HeaderText="Budgeted" SortExpression="Budgeted" />
-                        <asp:BoundField DataField="Comment" HeaderText="Specification" SortExpression="Comment" />
+                        <asp:BoundField DataField="Comment" HeaderText="Purpose of Request/Activity" SortExpression="Comment" />
                         <asp:BoundField DataField="PaymentMethod" HeaderText="Payment Method" SortExpression="PaymentMethod" />
                         <asp:BoundField DataField="SuggestedSupplier" HeaderText="Suggested Supplier" SortExpression="PurposeOfTravel" />
                         <asp:BoundField DataField="TotalPrice" HeaderText="Total Price" SortExpression="TotalPurchase" />
@@ -298,7 +297,7 @@
             <tr>
                 <td style="width: 25%;">
                     <strong>
-                        <asp:Label ID="lblSpec" runat="server" Text="Specification:"></asp:Label>
+                        <asp:Label ID="lblSpec" runat="server" Text="Purpose of Request/Activity:"></asp:Label>
                     </strong></td>
                 <td style="width: 25%;">
                     <asp:Label ID="lblSpecRes" runat="server"></asp:Label>
@@ -313,7 +312,7 @@
             <Columns>
                 <asp:BoundField DataField="ItemAccount.AccountName" HeaderText="AccountName" SortExpression="ItemAccount.AccountName" />
                 <asp:BoundField DataField="ItemAccount.AccountCode" HeaderText="Account Code" SortExpression="ItemAccount.AccountCode" />
-                <asp:BoundField DataField="Item" HeaderText="Item Description" SortExpression="Item" />
+                <asp:BoundField DataField="Item" HeaderText="Item Description/Specification" SortExpression="Item" />
                 <asp:BoundField DataField="Qty" HeaderText="Quantity" SortExpression="Qty" />
                 <asp:BoundField DataField="Priceperunit" HeaderText="Price Per Unit" SortExpression="Priceperunit" />
                 <asp:BoundField DataField="EstimatedCost" HeaderText="Estimated Cost" SortExpression="EstimatedCost" />
