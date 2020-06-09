@@ -542,6 +542,45 @@ namespace Chai.WorkflowManagment.Modules.Request
         }
 
         #endregion
+        #region CabRequest
+        public CabRequest GetCabRequest(int CabRequestId)
+        {
+            return _workspace.Single<CabRequest>(x => x.Id == CabRequestId);
+        }
+        public IList<CabRequest> GetCabRequests()
+        {
+            return WorkspaceFactory.CreateReadOnly().Query<CabRequest>(null).ToList();
+        }
+        public int GetLastCabRequestId()
+        {
+            if (_workspace.Last<CabRequest>() != null)
+            {
+                return _workspace.Last<CabRequest>().Id;
+            }
+            else { return 0; }
+        }
+        public IList<CabRequest> ListCabRequests(string RequestNo, string RequestDate)
+        {
+            string filterExpression = "";
+
+            filterExpression = "SELECT * FROM CabRequests Where 1 = Case when '" + RequestNo + "' = '' Then 1 When CabRequests.CabNo = '" + RequestNo + "' Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When CabRequests.RequestDate = '" + RequestDate + "'  Then 1 END And CabRequests.AppUser_Id='" + GetCurrentUser().Id + "' ORDER BY CabRequests.Id Desc ";
+
+            return _workspace.SqlQuery<CabRequest>(filterExpression).ToList();
+        }
+        public IList<CabRequest> ListCabsNotExpensed()
+        {
+            int currentUserId = GetCurrentUser().Id;
+            return WorkspaceFactory.CreateReadOnly().Query<CabRequest>(x => x.ExpenseLiquidationStatus == "Completed" && x.ExpenseLiquidationRequest.ExpenseLiquidationRequestStatuses.Count == 0 && x.AppUser.Id == currentUserId).ToList();
+        }
+        public CabRequestDetail GetCabRequestDetail(int id)
+        {
+            return _workspace.Single<CabRequestDetail>(x => x.Id == id);
+        }
+        public CabCost GetCabCost(int id)
+        {
+            return _workspace.Single<CabCost>(x => x.Id == id);
+        }
+        #endregion
         #region Entity Manipulation
         public void SaveOrUpdateEntity<T>(T item) where T : class
         {
@@ -550,8 +589,27 @@ namespace Chai.WorkflowManagment.Modules.Request
                 _workspace.Add<T>(item);
             else
                 _workspace.Update<T>(item);
-
-            _workspace.CommitChanges();
+            try
+            {
+                _workspace.CommitChanges();
+            }
+            catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
+            {
+                Exception raise = dbEx;
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        string message = string.Format("{0}:{1}",
+                            validationErrors.Entry.Entity.ToString(),
+                            validationError.ErrorMessage);
+                        // raise a new exception nesting  
+                        // the current instance as InnerException  
+                        raise = new InvalidOperationException(message, raise);
+                    }
+                }
+                throw raise;
+            }
             _workspace.Refresh(item);
         }
         public void DeleteEntity<T>(T item) where T : class

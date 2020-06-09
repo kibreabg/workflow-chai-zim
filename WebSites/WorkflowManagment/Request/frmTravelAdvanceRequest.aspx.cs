@@ -107,6 +107,11 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             get { return ddlPayMethods.Text; }
         }
+        public string GetCardNo
+        {
+            get { return txtCardNo.Text; }
+        }
+        
         public string GetVisitingTeam
         {
             get { return txtVisitingTeam.Text; }
@@ -184,6 +189,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 txtPurposeOfTravel.Text = _presenter.CurrentTravelAdvanceRequest.PurposeOfTravel.ToString();
                 txtComments.Text = _presenter.CurrentTravelAdvanceRequest.Comments.ToString();
                 ddlPayMethods.Text = _presenter.CurrentTravelAdvanceRequest.PaymentMethod;
+                txtCardNo.Text = _presenter.CurrentTravelAdvanceRequest.CardNo;
                 txtTotal.Text = _presenter.CurrentTravelAdvanceRequest.TotalTravelAdvance.ToString();
                 ddlProject.SelectedValue = _presenter.CurrentTravelAdvanceRequest.Project.Id.ToString();
                 PopGrants(Convert.ToInt32(ddlProject.SelectedValue));
@@ -396,10 +402,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     tarDetail.ToDate = Convert.ToDateTime(txtToDate.Text);
                     DropDownList ddlModeOfTravel = e.Item.FindControl("ddlModeOfTravel") as DropDownList;
                     tarDetail.ModeOfTravel = ddlModeOfTravel.SelectedValue;
-                    TextBox txtAirFare = e.Item.FindControl("txtAirFare") as TextBox;
-                    if (!String.IsNullOrEmpty(txtAirFare.Text))
-                        tarDetail.AirFare = Convert.ToDecimal(txtAirFare.Text);
-
+                    
                     _presenter.CurrentTravelAdvanceRequest.TravelAdvanceRequestDetails.Add(tarDetail);
                     dgTravelAdvanceRequestDetail.EditItemIndex = -1;
                     BindTravelAdvanceDetails();
@@ -459,9 +462,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 tarDetail.ToDate = Convert.ToDateTime(txtToDate.Text);
                 DropDownList ddlEdtModeOfTravel = e.Item.FindControl("ddlEdtModeOfTravel") as DropDownList;
                 tarDetail.ModeOfTravel = ddlEdtModeOfTravel.SelectedValue;
-                TextBox txtAirFare = e.Item.FindControl("txtEdtAirFare") as TextBox;
-                if (!String.IsNullOrEmpty(txtAirFare.Text))
-                    tarDetail.AirFare = Convert.ToDecimal(txtAirFare.Text);
+              
+               
 
                 dgTravelAdvanceRequestDetail.EditItemIndex = -1;
                 BindTravelAdvanceDetails();
@@ -700,6 +702,15 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             catch (Exception ex)
             {
                 Master.ShowMessage(new AppMessage("Error: Unable to Update Travel Advance Cost " + ex.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
+            }
+        }
+
+        protected void ddlPayMethods_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(ddlPayMethods.SelectedValue=="CABS")
+            {
+                lblCardNo.Visible = true;
+                txtCardNo.Visible = true;
             }
         }
     }

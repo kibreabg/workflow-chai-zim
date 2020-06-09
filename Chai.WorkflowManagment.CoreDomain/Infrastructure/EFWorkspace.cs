@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Data.Objects;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -19,7 +22,22 @@ namespace Chai.WorkflowManagment.CoreDomain.Infrastructure
 
         public void CommitChanges()
         {
-            _context.SaveChanges();
+
+           
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (DbUpdateException ex)
+            {
+                UpdateException updateException = (UpdateException)ex.InnerException;
+                SqlException sqlException = (SqlException)updateException.InnerException;
+
+                foreach (SqlError error in sqlException.Errors)
+                {
+                    // TODO: Do something with your errors
+                }
+            }
         }
 
         public void Refresh(IEnumerable collection)

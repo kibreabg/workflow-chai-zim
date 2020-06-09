@@ -173,18 +173,30 @@
                                                  <section class="col col-6">
                                 <label class="label">Payment Methods</label>
                                 <label class="select">
-                                    <asp:DropDownList ID="ddlPayMethods" AutoPostBack="false" AppendDataBoundItems="true" 
+                                    <asp:DropDownList ID="ddlPayMethods" AutoPostBack="True" AppendDataBoundItems="true" 
                                         runat="server" DataValueField="Id" DataTextField="Name" CssClass="form-control">
                                         <asp:ListItem Text="--Select Payment Method--" Value="0"></asp:ListItem>
                                         <asp:ListItem>RTGs</asp:ListItem>
-                                        <asp:ListItem>USD</asp:ListItem>
+                                        <asp:ListItem>USD-Cash</asp:ListItem>
+                                        <asp:ListItem>CABS</asp:ListItem>
+                                         <asp:ListItem>USD-Bank</asp:ListItem>
+                                         <asp:ListItem>NMB</asp:ListItem>
                                     </asp:DropDownList><i></i>
                                     <asp:RequiredFieldValidator
                                         ID="RequiredFieldValidator3" runat="server" ErrorMessage="Payment Method must be selected" Display="Dynamic"
                                         CssClass="validator" ValidationGroup="saveMain" InitialValue="0"
                                         SetFocusOnError="true" ControlToValidate="ddlPayMethods"></asp:RequiredFieldValidator>
                                 </label>
-                            </section></div>
+                            </section>
+                              <section class="col col-6">
+                                <label class="label">
+                                    <asp:Label ID="lblCardNo" runat="server" Text="Card Number" Visible="True"></asp:Label></label>
+                                <label class="input">
+                                    <asp:TextBox ID="txtCardNo" runat="server" Visible="True" maxlength="16"></asp:TextBox>
+                                     <cc1:FilteredTextBoxExtender runat="server" Enabled="True" TargetControlID="txtCardNo" ID="txtCardNo_FilteredTextBoxExtender" FilterType="Numbers"></cc1:FilteredTextBoxExtender>
+                                </label>
+                            </section>
+                                                 </div>
                                                 <asp:UpdatePanel ID="upLiquidationDetail" runat="server">
                                                     <ContentTemplate>
                                                         <asp:DataGrid ID="dgExpenseLiquidationDetail" runat="server" AlternatingRowStyle-CssClass="" AutoGenerateColumns="False" CellPadding="0"

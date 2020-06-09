@@ -39,6 +39,11 @@ namespace Chai.WorkflowManagment.Modules.Report.Views
         {
             return _controller.ExportCashPayment(DateFrom, DateTo, ExportType);
         }
+
+        public DataSet ExportCabs(string DateFrom, string DateTo, string ExportType)
+        {
+            return _controller.ExportCabs(DateFrom, DateTo, ExportType);
+        }
         public CashPaymentRequest GetCashPaymentRequestRequest(string RequestId)
         {
             return _controller.GetCashPaymentRequest(RequestId);
@@ -51,6 +56,8 @@ namespace Chai.WorkflowManagment.Modules.Report.Views
         {
             return _controller.GetTravelAdvanceRequestRequest(RequestId);
         }
+      
+        
         public OperationalControlRequest GetOperationalControlRequest(string RequestId)
         {
             return _controller.GetOperationalControlRequest(RequestId);
@@ -66,6 +73,10 @@ namespace Chai.WorkflowManagment.Modules.Report.Views
         public void UpdateTravelAdvanceRequestExportStatus(TravelAdvanceRequest TravelAdvanceRequest)
         {
             _controller.SaveOrUpdateEntity(TravelAdvanceRequest);
+        }
+        public void UpdateCABsRequestExportStatus(CabRequest CabRequest)
+        {
+            _controller.SaveOrUpdateEntity(CabRequest);
         }
         public void UpdateOperationalRequestExportStatus(OperationalControlRequest OperationalControlRequest)
         {

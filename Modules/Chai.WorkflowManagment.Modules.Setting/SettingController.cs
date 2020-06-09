@@ -458,6 +458,10 @@ namespace Chai.WorkflowManagment.Modules.Setting
         {
             return WorkspaceFactory.CreateReadOnly().Query<TelephoneExtension>(null).ToList();
         }
+        public IList<TelephoneExtension> GetTelephoneExtensionforusers()
+        {
+            return WorkspaceFactory.CreateReadOnly().Query<TelephoneExtension>(null).ToList();
+        }
         public TelephoneExtension GetTelephoneExtension(int TelephoneExtensionId)
         {
             return _workspace.Single<TelephoneExtension>(x => x.Id == TelephoneExtensionId);

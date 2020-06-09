@@ -114,17 +114,27 @@
                             <section class="col col-6">
                                 <label class="label">Payment Methods</label>
                                 <label class="select">
-                                    <asp:DropDownList ID="ddlPayMethods" AutoPostBack="false" AppendDataBoundItems="true"
-                                        runat="server" DataValueField="Id" DataTextField="Name" CssClass="form-control">
+                                    <asp:DropDownList ID="ddlPayMethods" AutoPostBack="True" AppendDataBoundItems="true"
+                                        runat="server" DataValueField="Id" DataTextField="Name" CssClass="form-control" OnSelectedIndexChanged="ddlPayMethods_SelectedIndexChanged">
                                         <asp:ListItem Text="--Select Payment Method--" Value="0"></asp:ListItem>
                                         <asp:ListItem>Ecocash</asp:ListItem>
                                         <asp:ListItem>USD-Cash</asp:ListItem>
                                         <asp:ListItem>CABS</asp:ListItem>
-                                    </asp:DropDownList><i></i>
+                                         <asp:ListItem>USD-Bank</asp:ListItem>
+                                         <asp:ListItem>NMB</asp:ListItem>
+                                       </asp:DropDownList><i></i>
                                     <asp:RequiredFieldValidator
                                         ID="RequiredFieldValidator3" runat="server" ErrorMessage="Payment Method must be selected" Display="Dynamic"
                                         CssClass="validator" ValidationGroup="saveMain" InitialValue="0"
                                         SetFocusOnError="true" ControlToValidate="ddlPayMethods"></asp:RequiredFieldValidator>
+                                </label>
+                            </section>
+                             <section class="col col-6">
+                                <label class="label">
+                                    <asp:Label ID="lblCardNo" runat="server" Text="Card Number" Visible="false"></asp:Label></label>
+                                <label class="input">
+                                    <asp:TextBox ID="txtCardNo" runat="server" Visible="False" maxlength="16"></asp:TextBox>
+                                     <cc1:FilteredTextBoxExtender runat="server" Enabled="True" TargetControlID="txtCardNo" ID="txtCardNo_FilteredTextBoxExtender" FilterType="Numbers"></cc1:FilteredTextBoxExtender>
                                 </label>
                             </section>
                         </div>
@@ -256,17 +266,7 @@
                                     </ItemTemplate>
                                 </asp:TemplateColumn>
 
-                                <asp:TemplateColumn HeaderText="Air Fare">
-                                    <ItemTemplate>
-                                        <%# DataBinder.Eval(Container.DataItem, "AirFare")%>
-                                    </ItemTemplate>
-                                    <EditItemTemplate>
-                                        <asp:TextBox ID="txtEdtAirFare" runat="server" CssClass="form-control" Text=' <%# DataBinder.Eval(Container.DataItem, "AirFare")%>' Width="67px"></asp:TextBox>
-                                    </EditItemTemplate>
-                                    <FooterTemplate>
-                                        <asp:TextBox ID="txtAirFare" runat="server" CssClass="form-control" Width="67px"></asp:TextBox>
-                                    </FooterTemplate>
-                                </asp:TemplateColumn>
+                              
                                 <asp:TemplateColumn HeaderText="Actions">
                                     <EditItemTemplate>
                                         <asp:LinkButton ID="lnkUpdate" runat="server" CommandName="Update" ValidationGroup="edit" CssClass="btn btn-xs btn-default"><i class="fa fa-save"></i></asp:LinkButton>

@@ -84,6 +84,24 @@ namespace Chai.WorkflowManagment.Modules.Report
             return WorkspaceFactory.CreateReadOnly().Queryable<VehicleReport>(filterExpression).ToList();
 
         }
+
+        public IList<FuelCardReport> GetFuelCardReporto(string DateFrom, string DateTo)
+        {
+            string filterExpression = "";
+
+            filterExpression = "  SELECT FuelCardRequests.RequestedDate AS Date, dbo.FuelCardRequests.CardHolderName as Card_Holder_Name, dbo.FuelCardRequests.Year As Year, "+
+                               "  dbo.FuelCardRequests.Month as Month,dbo.FuelCardRequests.TotalReimbursement as TotalReimbursement, FuelCardRequestDetails.CardNumber as Vehicle_Reg_Number "+
+                               " From[WorkflowManagment].[dbo].FuelCardRequests "+
+                               " Inner join FuelCardRequestDetails on FuelCardRequests.Id = FuelCardRequestDetails.FuelCardRequest_Id "+
+                                                 " where FuelCardRequests.ProgressStatus = 'Completed' AND " +
+                                                 " 1 = Case when '" + DateFrom + "' = '' and  '" + DateTo + "' ='' Then 1 When FuelCardRequests.RequestDate between '" + DateFrom + "' and '" + DateTo + "' Then 1 END ";
+            return WorkspaceFactory.CreateReadOnly().Queryable<FuelCardReport>(filterExpression).ToList();
+
+        }
+
+       
+
+
         public IList<LiquidationReport> GetLiquidationReporto(string DateFrom, string DateTo)
         {
             string filterExpression = "";
@@ -117,6 +135,22 @@ namespace Chai.WorkflowManagment.Modules.Report
             return WorkspaceFactory.CreateReadOnly().Queryable<TravelAdvanceReport>(filterExpression).ToList();
 
         }
+        public IList<CabsReport> GetCabsReporto(string DateFrom, string DateTo)
+        {
+            string filterExpression = "";
+
+            filterExpression = " SELECT ExpenseLiquidationRequests.RequestDate as Date,TravelAdvanceRequests.TravelAdvanceNo as Travel_ID , ItemAccounts.AccountName as Description,TravelAdvanceRequests.CardNo,ItemAccounts.AccountCode,Projects.ProjectCode as Project_ID,Grants.GrantCode as Grant_ID " +
+                               " From  [WorkflowManagment].[dbo].TravelAdvanceRequests " +
+                                               "  Inner join TravelAdvanceRequestDetails on TravelAdvanceRequests.Id = TravelAdvanceRequestDetails.TravelAdvanceRequest_Id " +
+                                               "  Inner join TravelAdvanceCosts on TravelAdvanceRequestDetails.Id = TravelAdvanceCosts.TravelAdvanceRequestDetail_Id " +
+                                               "  Inner Join ItemAccounts on ItemAccounts.Id= TravelAdvanceCosts.ItemAccount_Id " +
+                                               "  Inner join Projects on Projects.Id = TravelAdvanceRequests.Project_Id " +
+                                               "  Inner join Grants on Grants.Id = TravelAdvanceRequests.Grant_Id " +
+                                               "  where ExpenseLiquidationRequests.ProgressStatus = 'Completed' AND TravelAdvanceRequests.PaymentMethod='CABS' AND " +
+                                               " 1 = Case when '" + DateFrom + "' = '' and  '" + DateTo + "' ='' Then 1 When TravelAdvanceRequests.RequestDate between '" + DateFrom + "' and '" + DateTo + "' Then 1 END ";
+            return WorkspaceFactory.CreateReadOnly().Queryable<CabsReport>(filterExpression).ToList();
+
+        }
         public IList<CashPaymentReport> GetCashPaymentReporto(string DateFrom, string DateTo)
         {
             string filterExpression = "";
@@ -148,6 +182,12 @@ namespace Chai.WorkflowManagment.Modules.Report
             ReportDao re = new ReportDao();
             return re.VehicleReport(datefrom, dateto);
         }
+
+        public DataSet GetFuelCardReport(string datefrom, string dateto)
+        {
+            ReportDao re = new ReportDao();
+            return re.FuelCardReport(datefrom, dateto);
+        }
         public DataSet GetLiquidationReport(string datefrom, string dateto)
         {
             ReportDao re = new ReportDao();
@@ -157,6 +197,11 @@ namespace Chai.WorkflowManagment.Modules.Report
         {
             ReportDao re = new ReportDao();
             return re.TravelAdvanceReport(datefrom, dateto);
+        }
+        public DataSet GetCabsReport(string datefrom, string dateto)
+        {
+            ReportDao re = new ReportDao();
+            return re.CabsReport(datefrom, dateto);
         }
         public DataSet GetCashPaymentReport(string datefrom, string dateto)
         {
@@ -178,11 +223,17 @@ namespace Chai.WorkflowManagment.Modules.Report
             ReportDao re = new ReportDao();
             return re.ExportBankPayment(datefrom, dateto, ExportType);
         }
+        public DataSet ExportCabs(string datefrom, string dateto, string ExportType)
+        {
+            ReportDao re = new ReportDao();
+            return re.ExportCabs(datefrom, dateto, ExportType);
+        }
         public DataSet ExportCashPayment(string datefrom, string dateto, string ExportType)
         {
             ReportDao re = new ReportDao();
             return re.ExportCashPayment(datefrom, dateto, ExportType);
         }
+        
         public DataSet ExportCostSharingPayment(string datefrom, string dateto, string ExportType)
         {
             ReportDao re = new ReportDao();
@@ -205,6 +256,8 @@ namespace Chai.WorkflowManagment.Modules.Report
         {
             return _workspace.Single<TravelAdvanceRequest>(x => x.TravelAdvanceNo == RequestId);
         }
+      
+        
         public OperationalControlRequest GetOperationalControlRequest(string RequestId)
         {
             return _workspace.Single<OperationalControlRequest>(x => x.RequestNo == RequestId);

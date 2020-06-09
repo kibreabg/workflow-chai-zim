@@ -135,8 +135,7 @@ namespace Chai.WorkflowManagment.Modules.Shell
                                     " LEFT JOIN AppUsers on AppUsers.Id = CashPaymentRequests.CurrentApprover " + 
                                     " LEFT JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 " +
                                     " WHERE CashPaymentRequests.ProgressStatus = 'InProgress'" + 
-                                        " AND ((CashPaymentRequests.CurrentApprover = '" + currentUser + "')" +
-                                        " OR (CashPaymentRequests.CurrentApproverPosition = '" + GetCurrentUser().EmployeePosition.Id + "')" +
+                                        " AND ((CashPaymentRequests.CurrentApproverPosition = '" + GetCurrentUser().EmployeePosition.Id + "')" +
                                         " OR (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "'))" +
                                         " ORDER BY CashPaymentRequests.Id";
 
@@ -151,8 +150,7 @@ namespace Chai.WorkflowManagment.Modules.Shell
                                     " LEFT JOIN AppUsers on AppUsers.Id = CostSharingRequests.CurrentApprover " +
                                     " LEFT JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 " +
                                     " WHERE CostSharingRequests.ProgressStatus = 'InProgress'" +
-                                        " AND ((CostSharingRequests.CurrentApprover = '" + currentUser + "')" +
-                                        " OR (CostSharingRequests.CurrentApproverPosition = '" + GetCurrentUser().EmployeePosition.Id + "')" +
+                                        " AND ((CostSharingRequests.CurrentApproverPosition = '" + GetCurrentUser().EmployeePosition.Id + "')" +
                                         " OR (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "'))" +
                                         " ORDER BY CostSharingRequests.Id";
 
@@ -167,8 +165,7 @@ namespace Chai.WorkflowManagment.Modules.Shell
                                     " LEFT JOIN AppUsers on AppUsers.Id = TravelAdvanceRequests.CurrentApprover " +
                                     " LEFT JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 " +
                                     " WHERE TravelAdvanceRequests.ProgressStatus = 'InProgress'" +
-                                        " AND ((TravelAdvanceRequests.CurrentApprover = '" + currentUser + "')" +
-                                        " OR (TravelAdvanceRequests.CurrentApproverPosition = '" + GetCurrentUser().EmployeePosition.Id + "')" +
+                                        " AND ((TravelAdvanceRequests.CurrentApproverPosition = '" + GetCurrentUser().EmployeePosition.Id + "')" +
                                         " OR (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "'))" +
                                         " ORDER BY TravelAdvanceRequests.RequestDate";
             return _workspace.SqlQuery<TravelAdvanceRequest>(filterExpression).Count();

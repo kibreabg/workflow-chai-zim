@@ -99,7 +99,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     {
                         if (Approver(AL.EmployeePosition.Id) != null)
                         {
-                            if (AL.EmployeePosition.PositionName == "Finance Officer")
+                            if (AL.EmployeePosition.PositionName == "Analyst, Finance")
                             {
                                 TARS.ApproverPosition = AL.EmployeePosition.Id; //So that we can entertain more than one finance manager to handle the request
                             }
@@ -143,6 +143,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             TravelAdvanceRequest.PurposeOfTravel = View.GetPurposeOfTravel;
             TravelAdvanceRequest.Comments = View.GetComments;
             TravelAdvanceRequest.PaymentMethod = View.GetPaymentMethod;
+            TravelAdvanceRequest.CardNo = View.GetCardNo;
             TravelAdvanceRequest.ProgressStatus = ProgressStatus.InProgress.ToString();
             TravelAdvanceRequest.ExportStatus = "Not Exported";
             TravelAdvanceRequest.AppUser = _adminController.GetUser(CurrentUser().Id);

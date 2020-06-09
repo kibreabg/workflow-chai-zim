@@ -1,12 +1,12 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="frmExportBankPayment.aspx.cs" Inherits="Chai.WorkflowManagment.Modules.Report.Views.frmExportBankPayment"
-    Title="Export Bank Payment" MasterPageFile="~/Shared/ModuleMaster.master" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="frmExportCabsReport.aspx.cs" Inherits="Chai.WorkflowManagment.Modules.Report.Views.frmExportCabsReport"
+    Title="Export Cabs" MasterPageFile="~/Shared/ModuleMaster.master" %>
 
 
 <asp:Content ID="content" ContentPlaceHolderID="DefaultContent" runat="Server">
     <div class="jarviswidget" id="wid-id-8" data-widget-editbutton="false" data-widget-custombutton="false">
         <header>
             <span class="widget-icon"><i class="fa fa-edit"></i></span>
-            <h2>Export Bank Payment</h2>
+            <h2>Export Cabs</h2>
         </header>
         <div>
             <div class="jarviswidget-editbox"></div>
@@ -40,15 +40,15 @@
                     </fieldset>
                     <footer>
                         <asp:Button ID="btnView" runat="server" Text="View" CssClass="btn btn-primary" OnClick="btnView_Click"></asp:Button>
-                        <asp:Button ID="btnExport" runat="server" Text="Export" CssClass="btn btn-primary" OnClick="btnExport_Click1"></asp:Button>
+                        <asp:Button ID="btnExport" runat="server" Text="Export" CssClass="btn btn-primary" OnClick="btnExport_Click"></asp:Button>
                         <asp:Button ID="btnClosepage" runat="server" Text="Close" data-dismiss="modal" CssClass="btn btn-primary" PostBackUrl="../Default.aspx"></asp:Button>
 
                     </footer>
                 </div>
             </div>
         </div>
-<div class="table-responsive" style="overflow: auto;">
-        <asp:GridView ID="grvBankPaymentRequestList"
+         <div class="table-responsive" style="overflow: auto;">
+        <asp:GridView ID="grvCabsList"
             runat="server"
             CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active">
             <RowStyle CssClass="rowstyle" />

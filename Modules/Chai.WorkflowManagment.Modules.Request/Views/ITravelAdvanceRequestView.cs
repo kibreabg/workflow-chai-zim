@@ -17,7 +17,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         int GetGrantId { get; }
 
         string GetPaymentMethod { get; }
-
+        string GetCardNo { get; }
     }
 }
 

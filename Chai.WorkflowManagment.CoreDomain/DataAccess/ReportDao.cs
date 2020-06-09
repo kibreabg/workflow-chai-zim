@@ -106,6 +106,45 @@ namespace Chai.WorkflowManagment.CoreDomain.DataAccess
                 return ds;
             }
         }
+        public DataSet CabsReport(string datefrom, string dateto)
+        {
+            string connstring = ConfigurationManager.ConnectionStrings["WorkflowManagmentReportConnectionString"].ToString();
+            using (SqlConnection cn = new SqlConnection(connstring))
+            {
+                cn.Open();
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = cn;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "SPCabsReport";
+                cmd.Parameters.AddWithValue("@DateFrom", datefrom);
+                cmd.Parameters.AddWithValue("@DateTo", dateto);
+                var da = new SqlDataAdapter(cmd);
+                var ds = new DataSet();
+                da.Fill(ds);
+                cn.Close();
+                return ds;
+            }
+        }
+        public DataSet FuelCardReport(string datefrom, string dateto)
+        {
+            string connstring = ConfigurationManager.ConnectionStrings["WorkflowManagmentReportConnectionString"].ToString();
+            using (SqlConnection cn = new SqlConnection(connstring))
+            {
+                cn.Open();
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = cn;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "SPFuelCardReport";
+                cmd.Parameters.AddWithValue("@DateFrom", datefrom);
+                cmd.Parameters.AddWithValue("@DateTo", dateto);
+                var da = new SqlDataAdapter(cmd);
+                var ds = new DataSet();
+                da.Fill(ds);
+                cn.Close();
+                return ds;
+            }
+        }
+       
         public DataSet CashPaymentReport(string datefrom, string dateto)
         {
             string connstring = ConfigurationManager.ConnectionStrings["WorkflowManagmentReportConnectionString"].ToString();
@@ -224,6 +263,27 @@ namespace Chai.WorkflowManagment.CoreDomain.DataAccess
                 return ds;
             }
         }
+        public DataSet ExportCabs(string datefrom, string dateto, string ExportType)
+        {
+            string connstring = ConfigurationManager.ConnectionStrings["WorkflowManagmentReportConnectionString"].ToString();
+            using (SqlConnection cn = new SqlConnection(connstring))
+            {
+                cn.Open();
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = cn;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "SPExportCabs";
+                cmd.Parameters.AddWithValue("@DateFrom", datefrom);
+                cmd.Parameters.AddWithValue("@DateTo", dateto);
+                cmd.Parameters.AddWithValue("@ExportType", ExportType);
+                var da = new SqlDataAdapter(cmd);
+                var ds = new DataSet();
+                da.Fill(ds);
+                cn.Close();
+                return ds;
+            }
+        }
+        
         public DataSet ExportTravelAdvance(string datefrom, string dateto, string ExportType)
         {
             string connstring = ConfigurationManager.ConnectionStrings["WorkflowManagmentReportConnectionString"].ToString();

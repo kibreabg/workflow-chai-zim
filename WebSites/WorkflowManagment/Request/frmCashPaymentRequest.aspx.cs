@@ -400,6 +400,11 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                         Master.ShowMessage(new AppMessage("Successfully did a Payment  Request, Reference No - <b>'" + _presenter.CurrentCashPaymentRequest.VoucherNo + "'</b>", Chai.WorkflowManagment.Enums.RMessageType.Info));
                         Log.Info(_presenter.CurrentUser().FullName + " has requested a Payment of Total Amount " + _presenter.CurrentCashPaymentRequest.TotalAmount.ToString());
                         btnSave.Visible = false;
+                        txtRequestDate.Enabled = false;
+                        ddlPayMethods.Enabled = false;
+                        ddlPayee.Enabled = false;
+                        txtDescription.Enabled = false;
+                        ddlAmountType.Enabled = false;
                     }
                     else
                     {
@@ -411,6 +416,13 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 else
                 {
                     Master.ShowMessage(new AppMessage("Please insert at least one Item Detail", RMessageType.Error));
+                }
+
+                foreach (DataGridItem item in dgCashPaymentDetail.Items)
+                {
+
+                    item.Cells[5].Visible = false;
+
                 }
             }
             catch (Exception ex)

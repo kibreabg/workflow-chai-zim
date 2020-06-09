@@ -92,49 +92,47 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         private string AutoNumber()
         {
-            //    return "PR-" + _presenter.CurrentUser().Id.ToString() + "-" + (_presenter.GetLastFuelCardRequestId() + 1).ToString();
-            return null;
+               return "FCR-" + _presenter.CurrentUser().Id.ToString() + "-" + (_presenter.GetLastFuelCardRequestId() + 1).ToString();
+           
         }
         private void BindFuelCardRequest()
         {
 
-            //if (_presenter.CurrentPurchaseRequest.Id > 0)
-            //{
-            //    // txtRequestNo.Text = _presenter.CurrentPurchaseRequest.RequestNo;
-            //    txtRequestDate.Text = _presenter.CurrentPurchaseRequest.RequestedDate.ToShortDateString();
-            //    txtComment.Text = _presenter.CurrentPurchaseRequest.Comment.ToString();
-                
-            //    ddlPayMethods.Text = _presenter.CurrentPurchaseRequest.PaymentMethod;
-            //    txtDeliverto.Text = _presenter.CurrentPurchaseRequest.DeliverTo.ToString();
-            //    txtdeliveryDate.Text = _presenter.CurrentPurchaseRequest.Requireddateofdelivery.ToShortDateString();
-            //    txtSuggestedSupplier.Text = _presenter.CurrentPurchaseRequest.SuggestedSupplier.ToString();
-            //    txtSpecialNeed.Text = _presenter.CurrentPurchaseRequest.SpecialNeed.ToString();
-            //    chkBudgeted.Checked = _presenter.CurrentPurchaseRequest.Budgeted;
-            //    txtTotal.Text = _presenter.CurrentPurchaseRequest.TotalPrice.ToString();
+            if (_presenter.CurrentFuelCardRequest.Id > 0)
+            {
+               
+                txtRequestDate.Text = _presenter.CurrentFuelCardRequest.RequestedDate.ToString();
+                txtMonth.Text = _presenter.CurrentFuelCardRequest.Month.ToString();
+                txtYear.Text= _presenter.CurrentFuelCardRequest.Year.ToString();
+                txtCardHolder.Text = _presenter.CurrentFuelCardRequest.CardHolderName;
+                txtTotal.Text = _presenter.CurrentFuelCardRequest.TotalReimbursement.ToString();
 
-            //}
+            }
         }
         private void SaveFuelCardRequest()
         {
             AppUser CurrentUser = _presenter.CurrentUser();
             try
             {
+               
                 _presenter.CurrentFuelCardRequest.Requester = CurrentUser.Id;
                 _presenter.CurrentFuelCardRequest.RequestedDate = Convert.ToDateTime(txtRequestDate.Text);
                 _presenter.CurrentFuelCardRequest.RequestNo = AutoNumber();
-              
-                //Determine total cost
+                _presenter.CurrentFuelCardRequest.Year = Convert.ToInt32(txtYear.Text);
+                _presenter.CurrentFuelCardRequest.Month = Convert.ToInt32(txtMonth.Text);
+                _presenter.CurrentFuelCardRequest.CardHolderName = txtCardHolder.Text;
                 decimal cost = 0;
                 
                    
                     foreach (FuelCardRequestDetail detail in _presenter.CurrentFuelCardRequest.FuelCardRequestDetails)
                     {
-                        cost = Convert.ToDecimal(cost + detail.Amount);
+                        cost = Convert.ToDecimal(cost) + Convert.ToDecimal(detail.Amount);
                     }
                 
                 _presenter.CurrentFuelCardRequest.TotalReimbursement = cost;
+                txtTotal.Text = cost.ToString();
                 //Determine total cost end
-             //   SaveFuelCardRequestStatus();
+               SaveFuelCardRequestStatus();
                 GetCurrentApprover();
             }
             catch (Exception ex)
@@ -281,7 +279,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
 
       
-
         private void BindAccount(DropDownList ddlItemAccount)
         {
             ddlItemAccount.DataSource = _presenter.GetItemAccounts();
@@ -637,15 +634,19 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         protected void btnRequest_Click(object sender, EventArgs e)
         {
+            SaveFuelCardRequest();
             try
             {
                 if (_presenter.CurrentFuelCardRequest.FuelCardRequestDetails.Count != 0)
                 {
                     //if (_presenter.CurrentFuelCardRequest.FuelCardRequestStatuses.Count != 0)
                     //{
-                    _presenter.SaveOrUpdateFuelCardRequest();
-                    //ClearForm();
-                    BindSearchPurchaseRequestGrid();
+                    
+                        _presenter.SaveOrUpdateFuelCardRequest(_presenter.CurrentFuelCardRequest);
+              
+                    
+            //ClearForm();
+            BindSearchPurchaseRequestGrid();
                     Master.ShowMessage(new AppMessage("Successfully did a Fuel Card Request, Reference No - <b>'" + _presenter.CurrentFuelCardRequest.RequestNo + "'</b> ", Chai.WorkflowManagment.Enums.RMessageType.Info));
                     Log.Info(_presenter.CurrentUser().FullName + " has requested for a Fuel Card of Total Price " + _presenter.CurrentFuelCardRequest.TotalReimbursement);
                     btnRequest.Visible = false;
@@ -889,40 +890,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 
 
                             }
-                            foreach (GridViewRow item in grvResult.Rows)
-                            {
-                                int x = grvResult.Rows.Count;
-                                if (item.RowType == DataControlRowType.DataRow)
-                                {
-                                    foreach (GridViewRow r in grvResult.Rows)
-                                    {
-
-                                        FuelCardRequestDetail detail = new FuelCardRequestDetail();
-
-                                        detail.CustomerNumber = r.Cells[0].Text.ToString();
-                                        detail.Date = r.Cells[1].Text.ToString();
-                                        detail.CardNumber = r.Cells[2].Text.ToString();
-                                        detail.CardName = r.Cells[3].Text.ToString();
-                                        detail.ReceiptNumber = r.Cells[4].Text.ToString();
-                                        detail.PastMileage = r.Cells[5].Text.ToString();
-                                        detail.CurrentMileage = r.Cells[6].Text.ToString();
-                                        detail.UnitPrice = r.Cells[7].Text.ToString();
-                                        detail.Quantity = r.Cells[8].Text.ToString();
-                                        detail.Amount = r.Cells[9].Text.ToString();
-                                        detail.Balance = r.Cells[10].Text.ToString();
-                                        detail.Location = r.Cells[11].Text.ToString();
-                                        detail.BusinessPurposeofTrip = r.Cells[12].Text.ToString();
-
-
-                                        _presenter.CurrentFuelCardRequest.FuelCardRequestDetails.Add(detail);
-
-
-
-                                    }
-
-
-                                }
-                            }
+                            
                         }
 
 
@@ -985,9 +953,41 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     }
 
 
+                foreach (GridViewRow item in grvResult.Rows)
+                {
+                    int x = grvResult.Rows.Count;
+                    if (item.RowType == DataControlRowType.DataRow)
+                    {
+                       
+
+                            FuelCardRequestDetail detail = new FuelCardRequestDetail();
+
+                            detail.CustomerNumber = item.Cells[0].Text.ToString();
+                            detail.Date = item.Cells[1].Text.ToString();
+                            detail.CardNumber = item.Cells[2].Text.ToString();
+                            detail.CardName = item.Cells[3].Text.ToString();
+                            detail.ReceiptNumber = item.Cells[4].Text.ToString();
+                            detail.PastMileage = item.Cells[5].Text.ToString();
+                            detail.CurrentMileage = item.Cells[6].Text.ToString();
+                            detail.UnitPrice = item.Cells[7].Text.ToString();
+                            detail.Quantity = item.Cells[8].Text.ToString();
+                            detail.Amount = item.Cells[9].Text.ToString();
+                            detail.Balance = item.Cells[10].Text.ToString();
+                            detail.Location = item.Cells[11].Text.ToString();
+                            detail.BusinessPurposeofTrip = item.Cells[12].Text.ToString();
 
 
+                            _presenter.CurrentFuelCardRequest.FuelCardRequestDetails.Add(detail);
+
+
+
+                        
+
+
+                    }
                 }
+
+            }
 
             }
 

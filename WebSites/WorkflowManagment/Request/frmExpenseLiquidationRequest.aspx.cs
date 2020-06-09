@@ -134,6 +134,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 txtTotalAdvance.Text = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.TotalTravelAdvance.ToString();
                 txtAdditionalComment.Text = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.AdditionalComment;
                 ddlPayMethods.Text = _presenter.CurrentTravelAdvanceRequest.PaymentMethod;
+                txtCardNo.Text = _presenter.CurrentTravelAdvanceRequest.CardNo;
                 BindExpenseLiquidationDetails();
                 BindExpenseLiquidationRequests();
             }

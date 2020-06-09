@@ -19,7 +19,7 @@ namespace Chai.WorkflowManagment.CoreDomain.Requests
         public Nullable<DateTime> ToDate { get; set; }
         public string ModeOfTravel { get; set; }
         public int DriverId { get; set; }
-        public decimal AirFare { get; set; }
+      
         public virtual TravelAdvanceRequest TravelAdvanceRequest { get; set; }
         public virtual IList<TravelAdvanceCost> TravelAdvanceCosts { get; set; }
 
