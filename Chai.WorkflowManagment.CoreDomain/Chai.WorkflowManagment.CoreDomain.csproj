@@ -97,12 +97,12 @@
     <Compile Include="IWorkspace.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Report\CashPaymentReport.cs" />
+    <Compile Include="Report\FuelCardReport.cs" />
     <Compile Include="Report\LeaveReport.cs" />
     <Compile Include="Report\LiquidationReport.cs" />
     <Compile Include="Report\PurchaseReport.cs" />
     <Compile Include="Report\CabsReport.cs" />
     <Compile Include="Report\TravelAdvanceReport.cs" />
-    <Compile Include="Report\FuelCardReport.cs" />
     <Compile Include="Report\VehicleReport.cs" />
     <Compile Include="Requests\FCRAttachment .cs" />
     <Compile Include="Requests\PRAttachment.cs" />
