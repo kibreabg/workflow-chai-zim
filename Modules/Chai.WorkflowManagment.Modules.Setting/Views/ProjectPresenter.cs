@@ -60,9 +60,9 @@ namespace Chai.WorkflowManagment.Modules.Setting.Views
         {
             return _controller.GetProjectGrant(Id);
         }
-        public IList<Project> ListProjects(string ProjectCode)
+        public IList<Project> ListProjects(string ProjectCode, string ProjectStatus)
         {
-            return _controller.ListProjects(ProjectCode);
+            return _controller.ListProjects(ProjectCode, ProjectStatus);
 
         }
         public IList<Grant> ListGrant()

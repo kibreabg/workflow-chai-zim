@@ -59,7 +59,7 @@ namespace Chai.WorkflowManagment.Modules.Setting.Views
 
         private void BindProjects()
         {
-            dgProject.DataSource = _presenter.ListProjects(txtProjectCode.Text);
+            dgProject.DataSource = _presenter.ListProjects(txtProjectCode.Text, ddlSrchStatus.SelectedValue);
             dgProject.DataBind();
             //_presenter.Commit();
         }
@@ -80,13 +80,17 @@ namespace Chai.WorkflowManagment.Modules.Setting.Views
         #endregion
         protected void btnFind_Click(object sender, EventArgs e)
         {
-            _presenter.ListProjects(ProjectCode);
             BindProjects();
         }
         protected void dgProject_CancelCommand(object source, DataGridCommandEventArgs e)
         {
             this.dgProject.EditItemIndex = -1;
             this.BindProjects();
+        }
+        protected void dgProject_PageIndexChanged(object source, DataGridPageChangedEventArgs e)
+        {
+            dgProject.CurrentPageIndex = e.NewPageIndex;
+            BindProjects();
         }
         protected void dgProject_DeleteCommand(object source, DataGridCommandEventArgs e)
         {
@@ -166,7 +170,6 @@ namespace Chai.WorkflowManagment.Modules.Setting.Views
         protected void dgProject_EditCommand(object source, DataGridCommandEventArgs e)
         {
             this.dgProject.EditItemIndex = e.Item.ItemIndex;
-
             BindProjects();
         }
         protected void dgProject_ItemDataBound(object sender, DataGridItemEventArgs e)
