@@ -23,7 +23,7 @@ namespace Chai.WorkflowManagment.Modules.Setting.Views
 
         public override void OnViewLoaded()
         {
-            View.Projects = _controller.GetProjects();
+            View.Projects = _controller.ListProjects(View.ProjectCode, View.ProjectStatus);
         }
 
         public override void OnViewInitialized()

@@ -9,7 +9,7 @@ namespace Chai.WorkflowManagment.Modules.Setting.Views
     {
         IList<Project> Projects { get; set; }
         string ProjectCode { get; }
-      
+        string ProjectStatus { get; }    
     }
 }
 

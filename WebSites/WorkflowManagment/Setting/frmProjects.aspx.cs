@@ -59,13 +59,10 @@ namespace Chai.WorkflowManagment.Modules.Setting.Views
 
         private void BindProjects()
         {
-            dgProject.DataSource = _presenter.ListProjects(txtProjectCode.Text, ddlSrchStatus.SelectedValue);
+            dgProject.DataSource = _presenter.ListProjects(txtProjectCode.Text, ddlSrchStatus.SelectedValue);            
             dgProject.DataBind();
-            //_presenter.Commit();
         }
         #region interface
-
-
         public IList<CoreDomain.Setting.Project> Projects
         {
             get
@@ -77,9 +74,18 @@ namespace Chai.WorkflowManagment.Modules.Setting.Views
                 _Projects = value;
             }
         }
+        public string ProjectCode
+        {
+            get { return txtProjectCode.Text; }
+        }
+        public string ProjectStatus
+        {
+            get { return ddlSrchStatus.SelectedValue; }
+        }
         #endregion
         protected void btnFind_Click(object sender, EventArgs e)
         {
+            dgProject.CurrentPageIndex = 0;
             BindProjects();
         }
         protected void dgProject_CancelCommand(object source, DataGridCommandEventArgs e)
@@ -371,11 +377,7 @@ namespace Chai.WorkflowManagment.Modules.Setting.Views
             ddlGrant.DataSource = _presenter.ListGrant();
             ddlGrant.DataBind();
         }
-        #endregion
-        public string ProjectCode
-        {
-            get { return txtProjectCode.Text; }
-        }
+        #endregion        
         protected void btnCancedetail_Click(object sender, EventArgs e)
         {
             PnlProGrant.Visible = false;

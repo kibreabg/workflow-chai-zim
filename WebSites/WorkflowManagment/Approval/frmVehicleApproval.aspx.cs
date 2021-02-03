@@ -96,7 +96,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
 
             for (int i = 0; i < s.Length; i++)
             {
-                if (GetWillStatus().Substring(0, 2) == s[i].Substring(0, 2))
+                if (GetWillStatus().Substring(0, 3) == s[i].Substring(0, 3))
                 {
                     ddlApprovalStatus.Items.Add(new ListItem(s[i].Replace('_', ' '), s[i].Replace('_', ' ')));
                 }
