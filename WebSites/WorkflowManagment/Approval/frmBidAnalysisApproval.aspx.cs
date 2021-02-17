@@ -47,7 +47,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             ReturnFromBidAnalysis();
             //PrintTransaction();
             //BindBidAnalysisRequestforprint();
-        
+
         }
         protected void BindJS()
         {
@@ -156,7 +156,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         private string GetWillStatus()
         {
-           
+
             ApprovalSetting AS = _presenter.GetApprovalSettingforProcess(RequestType.Bid_Analysis_Request.ToString().Replace('_', ' ').ToString(), _presenter.CurrentBidAnalysisRequest.TotalPrice);
             string will = "";
             foreach (ApprovalLevel AL in AS.ApprovalLevels)
@@ -165,7 +165,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 {
                     will = "Approve";
                     break;
-                    
+
 
                 }
                 else if (_presenter.GetUser(_presenter.CurrentBidAnalysisRequest.CurrentApprover).EmployeePosition.PositionName == AL.EmployeePosition.PositionName)
@@ -200,7 +200,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     if (_presenter.CurrentBidAnalysisRequest.ProgressStatus == ProgressStatus.Completed.ToString())
                     {
                         btnApprove.Enabled = false;
-                      //  btnPrint0.Enabled = true;
+                        //  btnPrint0.Enabled = true;
                     }
                     else
                     {
@@ -222,7 +222,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 btnPrint0.Enabled = true;
                 SendEmailToRequester();
                 //btnPurchaseOrder.Enabled = true;
-             
+
 
             }
 
@@ -242,10 +242,10 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     {
                         if (_presenter.CurrentBidAnalysisRequest.CurrentLevel == _presenter.CurrentBidAnalysisRequest.BidAnalysisRequestStatuses.Count)
                             _presenter.CurrentBidAnalysisRequest.ProgressStatus = ProgressStatus.Completed.ToString();
-                     GetNextApprover();
+                        GetNextApprover();
                         PRS.Approver = _presenter.CurrentUser().Id;
                         Log.Info(_presenter.GetUser(PRS.Approver).FullName + " has " + PRS.ApprovalStatus + " Bid Analysis Request made by " + _presenter.GetUser(_presenter.CurrentBidAnalysisRequest.AppUser.Id).FullName);
-                       // btnPurchaseOrder.Enabled = true;
+                        // btnPurchaseOrder.Enabled = true;
                     }
                     else
                     {
@@ -306,7 +306,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         private void EnableControls()
         {
-            if (_presenter.CurrentBidAnalysisRequest.CurrentLevel == _presenter.CurrentBidAnalysisRequest.BidAnalysisRequestStatuses.Count) 
+            if (_presenter.CurrentBidAnalysisRequest.CurrentLevel == _presenter.CurrentBidAnalysisRequest.BidAnalysisRequestStatuses.Count)
             {
                 if (_presenter.CurrentBidAnalysisRequest.ProgressStatus == ProgressStatus.Completed.ToString())
                 {
@@ -326,14 +326,14 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             {
                 lblRequestNoResult.Text = _presenter.CurrentBidAnalysisRequest.RequestNo;
                 lblRequestedDateResult.Text = _presenter.CurrentBidAnalysisRequest.RequestDate.ToString();
-                lblRequesterResult.Text = _presenter.GetUser(_presenter.CurrentBidAnalysisRequest.AppUser.Id).FullName; 
+                lblRequesterResult.Text = _presenter.GetUser(_presenter.CurrentBidAnalysisRequest.AppUser.Id).FullName;
                 lblTotalPriceResult.Text = _presenter.CurrentBidAnalysisRequest.TotalPrice.ToString();
                 lblpaytypeRes.Text = _presenter.CurrentBidAnalysisRequest.PaymentMethod;
                 lblCommentResult.Text = _presenter.CurrentBidAnalysisRequest.ReasonforSelection;
                 lblRequireddateofdeliveryResult.Text = _presenter.CurrentBidAnalysisRequest.SpecialNeed;
 
-              //  lblApprovalStatusResult.Text = _presenter.CurrentBidAnalysisRequest.CurrentStatus;
-                
+                //  lblApprovalStatusResult.Text = _presenter.CurrentBidAnalysisRequest.CurrentStatus;
+
 
 
                 grvStatuses.DataSource = _presenter.CurrentBidAnalysisRequest.BidAnalysisRequestStatuses;
@@ -344,13 +344,13 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             try
             {
-               
+
                 if (_presenter.CurrentBidAnalysisRequest.ProgressStatus != ProgressStatus.Completed.ToString())
                 {
                     SavePurchaseRequestStatus();
                     Session["PurchaseId"] = _presenter.CurrentBidAnalysisRequest.PurchaseRequest.Id;
                     _presenter.SaveOrUpdateBidAnalysisRequest(_presenter.CurrentBidAnalysisRequest);
-                   ShowPrint();
+                    ShowPrint();
                     EnableControls();
                     if (ddlApprovalStatus.SelectedValue != "Rejected")
                     {
@@ -362,32 +362,32 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     }
                     btnApprove.Enabled = false;
                     BindSearchPurchaseRequestGrid();
-                    pnlApproval_ModalPopupExtender.Show();
+                    ScriptManager.RegisterStartupScript(this, GetType(), "showApprovalModal", "showApprovalModal();", true);
                 }
 
                 BindBidAnalysisRequestforprint();
                 btnApprove.Enabled = false;
             }
-                catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)  
-                         {  
-                     Exception raise = dbEx;  
-             foreach (var validationErrors in dbEx.EntityValidationErrors)  
-                      {  
-                foreach (var validationError in validationErrors.ValidationErrors)  
-                          {  
-                string message = string.Format("{0}:{1}",  
-                    validationErrors.Entry.Entity.ToString(),  
-                    validationError.ErrorMessage);  
-                // raise a new exception nesting  
-                // the current instance as InnerException  
-                raise = new InvalidOperationException(message, raise);  
-                         }  
-                       }  
-        throw raise;  
-                  }  
+            catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
+            {
+                Exception raise = dbEx;
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        string message = string.Format("{0}:{1}",
+                            validationErrors.Entry.Entity.ToString(),
+                            validationError.ErrorMessage);
+                        // raise a new exception nesting  
+                        // the current instance as InnerException  
+                        raise = new InvalidOperationException(message, raise);
+                    }
+                }
+                throw raise;
+            }
 
 
-                
+
             //}
             //catch (Exception ex)
             //{
@@ -415,24 +415,24 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             lblRejectedReason.Enabled = false;
             BindPurchaseRequestStatus();
             BindBAAttachments();
-            pnlApproval_ModalPopupExtender.Show();
+            ScriptManager.RegisterStartupScript(this, GetType(), "showApprovalModal", "showApprovalModal();", true);
             //ChangeBidAnalysisLink();
 
             Session["PurchaseId"] = _presenter.CurrentBidAnalysisRequest.Id;
 
 
 
-          
-           
-          
-           
+
+
+
+
 
         }
         private void ReturnFromBidAnalysis()
         {
             if (PnlStatus == "Enabled")
             {
-                pnlApproval_ModalPopupExtender.Show();
+                ScriptManager.RegisterStartupScript(this, GetType(), "showApprovalModal", "showApprovalModal();", true);
                 _presenter.OnViewLoaded();
                 BindBAAttachments();
             }
@@ -456,8 +456,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 if (_presenter.GetUser(pr.CurrentApprover).EmployeePosition.PositionName == "Admin/HR Assisitance (Driver)" && pr.CurrentLevel == pr.BidAnalysisRequestStatuses.Count && pr.ProgressStatus == ProgressStatus.InProgress.ToString())
                 {
                     btnStatus.BackColor = System.Drawing.ColorTranslator.FromHtml("#112552");
-                    
-                   
+
+
                 }
                 else if (pr.ProgressStatus == ProgressStatus.InProgress.ToString())
                 {
@@ -501,12 +501,6 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             _presenter.CancelPage();
         }
-        protected void btnCancelPopup_Click(object sender, EventArgs e)
-        {
-            pnlApproval_ModalPopupExtender.Hide();
-            Response.Redirect("frmPurchaseApproval.aspx");
-            // pnlApproval.Visible = false;
-        }
         protected void ddlApprovalStatus_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (ddlApprovalStatus.SelectedValue == "Rejected")
@@ -514,30 +508,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 txtRejectedReason.Visible = true;
 
             }
-            pnlApproval_ModalPopupExtender.Show();
+            ScriptManager.RegisterStartupScript(this, GetType(), "showApprovalModal", "showApprovalModal();", true);
         }
-        /*    
-        protected void btnPrint_Click(object sender, EventArgs e)
-        {
-
-        }
-        private void EnableControls()
-        {
-            if (_presenter.CurrentBidAnalysisRequest.CurrentLevel == _presenter.CurrentBidAnalysisRequest.BidAnalysisRequestStatuses.Count)
-            {
-                btnPurchaseOrder.Enabled = true;
-               // SendEmailToRequester();
-                btnPrint0.Enabled = true;
-            }
-        }      
-        protected void dgPurchaseRequestDetail_ItemDataBound(object sender, DataGridItemEventArgs e)
-        {
-
-        }
-        /*  protected void lnkbidanalysis_Click(object sender, EventArgs e)
-        {
-            Response.Redirect(String.Format("frmPurchaseApprovalDetail.aspx?PurchaseRequestId={0}", _presenter.CurrentBidAnalysisRequest.Id));
-        }*/
         protected void grvPurchaseRequestList_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             if (e.CommandName != "Page")
@@ -548,23 +520,14 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 if (e.CommandName == "ViewItem")
                 {
                     reqid = Convert.ToInt32(grvPurchaseRequestList.DataKeys[0].Value);
-                   
-                    pnlDetail_ModalPopupExtender.Show();
-
-                   
+                    ScriptManager.RegisterStartupScript(this, GetType(), "showDetailModal", "showDetailModal();", true);
                     BindItemDetal();
-
                 }
             }
         }
-        #region Field Getters
-      
-
-   
-        #endregion
         private void BindItemDetal()
         {
-           // grvPurchaseRequestList.DataSource = _presenter.CurrentBidAnalysisRequest.Bidders;
+            // grvPurchaseRequestList.DataSource = _presenter.CurrentBidAnalysisRequest.Bidders;
             //grvPurchaseRequestList.DataBind();
             IList<BidderItemDetail> biddetail = new List<BidderItemDetail>();
             foreach (Bidder bider in _presenter.CurrentBidAnalysisRequest.Bidders)
@@ -573,20 +536,16 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 {
                     biddetail.Add(biderdetail);
                 }
-               
+
 
             }
             dgPurchaseRequestDetail.DataSource = biddetail;
             dgPurchaseRequestDetail.DataBind();
         }
-        protected void btnCancelPopup2_Click(object sender, EventArgs e)
-        {
-            pnlDetail.Visible = false;
-        }
         protected void btnPurchaseOrder_Click(object sender, EventArgs e)
         {
             int purchaseId = _presenter.CurrentBidAnalysisRequest.PurchaseRequest.Id;
-                Response.Redirect(String.Format("frmPurchaseOrder.aspx?BidAnalysisRequestId={0}", purchaseId));
+            Response.Redirect(String.Format("frmPurchaseOrder.aspx?BidAnalysisRequestId={0}", purchaseId));
         }
         protected void DownloadFile(object sender, EventArgs e)
         {
@@ -600,13 +559,11 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             if (_presenter.CurrentBidAnalysisRequest.Id > 0)
             {
-                pnlApproval_ModalPopupExtender.Hide();
-
                 lblRequestNoResult.Text = _presenter.CurrentBidAnalysisRequest.RequestNo.ToString();
                 lblRequestedDateResult.Text = _presenter.CurrentBidAnalysisRequest.RequestDate.ToString();
                 lblRequesterResult.Text = _presenter.GetUser(_presenter.CurrentBidAnalysisRequest.AppUser.Id).FullName;
                 lblCommentResult.Text = _presenter.CurrentBidAnalysisRequest.SelectedBy.ToString();
-              //  lblApprovalStatusResult.Text = _presenter.CurrentBidAnalysisRequest.ProgressStatus.ToString();
+                //  lblApprovalStatusResult.Text = _presenter.CurrentBidAnalysisRequest.ProgressStatus.ToString();
                 lblRequireddateofdeliveryResult.Text = _presenter.CurrentBidAnalysisRequest.SpecialNeed;
                 lblTotalPriceResult.Text = _presenter.CurrentBidAnalysisRequest.TotalPrice.ToString();
 
@@ -615,34 +572,29 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 IList<BidderItemDetail> biddetail = new List<BidderItemDetail>();
                 foreach (Bidder bider in _presenter.CurrentBidAnalysisRequest.GetBidderbyRankone())
                 {
-                    
+
                     foreach (BidderItemDetail biderdetail in bider.BidderItemDetails)
                     {
                         //if (bider.Rank == 1)
                         //{
-                            biddetail.Add(biderdetail);
+                        biddetail.Add(biderdetail);
                         //}
                         //else
                         //{
                         //    biddetail = null;
                         //}
                     }
-                    
-                   
+
+
 
                 }
 
                 dgPurchaseRequestDetail.DataSource = biddetail;
                 dgPurchaseRequestDetail.DataBind();
             }
-           // grvStatuses.DataSource = _presenter.CurrentPaymentReimbursementRequest.PaymentReimbursementRequestStatuses;
+            // grvStatuses.DataSource = _presenter.CurrentPaymentReimbursementRequest.PaymentReimbursementRequestStatuses;
             //grvStatuses.DataBind();
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         protected void dgPurchaseRequestDetail_ItemDataBound(object sender, DataGridItemEventArgs e)
         {
             //if (e.Item.ItemType == ListItemType.Item)
@@ -682,7 +634,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         protected void dgPurchaseRequestDetail_ItemCommand(object source, DataGridCommandEventArgs e)
         {
-           
+
         }
         protected void dgPurchaseRequestDetail_ItemCreated(object sender, DataGridItemEventArgs e)
         {
@@ -690,7 +642,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
 
             //foreach (Bidder detail in _presenter.CurrentBidAnalysisRequest.Bidders)
             //{
-             
+
             //    foreach (DataGridItem gvr in dgPurchaseRequestDetail.Items)
             //    {
             //        String Rank = ((Label)gvr.FindControl("lblRank")).Text;

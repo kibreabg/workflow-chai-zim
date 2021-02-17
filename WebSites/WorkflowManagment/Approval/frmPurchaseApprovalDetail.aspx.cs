@@ -266,10 +266,6 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             BindSearchPurchaseRequestGrid();
         }
-        protected void btnCancelPopup_Click(object sender, EventArgs e)
-        {
-            pnlApproval.Visible = false;
-        }
         private void PrintTransaction()
         {
             lblRequestNoResult.Text = _presenter.CurrentPurchaseRequest.RequestNo.ToString();
@@ -338,7 +334,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                         }
 
                     }
-                    pnlApproval_ModalPopupExtender.Show();
+                    ScriptManager.RegisterStartupScript(this, GetType(), "showApprovalModal", "showApprovalModal();", true);                    
                 }
             }
             catch (Exception ex)
@@ -357,7 +353,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 //_presenter.OnViewLoaded();
                 grvPurchaseRequestDetails.DataSource = _presenter.CurrentPurchaseRequest.PurchaseRequestDetails;
                 grvPurchaseRequestDetails.DataBind();
-                pnlDetail_ModalPopupExtender.Show();
+                ScriptManager.RegisterStartupScript(this, GetType(), "showDetailModal", "showDetailModal();", true);
             }
         }
         protected void grvPurchaseRequestList_SelectedIndexChanged(object sender, EventArgs e)
@@ -371,7 +367,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             BindPurchaseRequestStatus();
             txtRejectedReason.Visible = false;
             rfvRejectedReason.Enabled = false;
-            pnlApproval_ModalPopupExtender.Show();
+            ScriptManager.RegisterStartupScript(this, GetType(), "showApprovalModal", "showApprovalModal();", true);
         }
         private void PopApprovalStatus()
         {
@@ -424,7 +420,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 lblRejectedReason.Visible = false;
                 txtRejectedReason.Visible = false;
             }
-            pnlApproval_ModalPopupExtender.Show();
+            ScriptManager.RegisterStartupScript(this, GetType(), "showApprovalModal", "showApprovalModal();", true);
         }
         protected void grvPurchaseRequestList_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {

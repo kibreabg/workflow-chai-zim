@@ -21,7 +21,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 {
     public partial class frmBidAnalysisRequest : POCBasePage, IBidAnalysisRequestView
     {
-
         private BidAnalysisRequestPresenter _presenter;
         private IList<BidAnalysisRequest> _BidAnalysisRequests;
         private static readonly ILog Log = LogManager.GetLogger("AuditTrailLog");
@@ -43,11 +42,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 PurchaseRequest purchaseRequest = _presenter.GetPurchaseRequest(GetPurchaseRequestId);
                 _presenter.CurrentBidAnalysisRequest.PurchaseRequest = purchaseRequest;
 
-
                 PopBidAnalysisRequesters();
-
-
-
                 if (_presenter.CurrentBidAnalysisRequest.Id <= 0)
                 {
                     AutoNumber();
@@ -153,6 +148,10 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             get { return txtSpecialNeed.Text; }
         }
+        public string GetAdditionalComment
+        {
+            get { return txtAdditionalComments.Text; }
+        }
         public int GetProjectId
         {
             get { return Convert.ToInt32(ddlProject.SelectedValue); }
@@ -161,7 +160,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             get { return Convert.ToInt32(ddlGrant.SelectedValue); }
         }
-
         public IList<BidAnalysisRequest> BidAnalysisRequests
         {
             get
@@ -173,7 +171,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 _BidAnalysisRequests = value;
             }
         }
-
         public string GetReasonForSelection
         {
             get
@@ -181,17 +178,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 return txtselectionfor.Text;
             }
         }
-        #endregion
-
-        private void BindBidAnalysisRequests()
-        {
-            dgBidders.DataSource = _presenter.CurrentBidAnalysisRequest.Bidders;
-            dgBidders.DataBind();
-            grvAttachments.DataSource = _presenter.CurrentBidAnalysisRequest.BAAttachments;
-            grvAttachments.DataBind();
-        }
+        #endregion        
         #region Bidders
-
         private void BindSupplier(DropDownList ddlSupplier, int SupplierTypeId)
         {
             if (ddlSupplier.Items.Count > 0)
@@ -206,27 +194,19 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             ddlSupplierType.DataSource = _presenter.GetSupplierTypes();
             ddlSupplierType.DataBind();
         }
-
-
         private void BindItemdetailGrid(Bidder Tad)
         {
             bidd = Session["bidd"] as Bidder;
             dgItemDetail.DataSource = bidd.BidderItemDetails;
             dgItemDetail.DataBind();
         }
-
         private void BindBidder()
         {
             dgBidders.DataSource = _presenter.CurrentBidAnalysisRequest.Bidders;
             dgBidders.DataBind();
         }
-
         #endregion
         #region BidderItemDetail
-        //  protected void btnAddItemdetail_Click(object sender, EventArgs e)
-        //{
-        //   SetBidderItemDetail();
-        // }
         private void BindItemDetails()
         {
             Session["bidder"] = bidd;
@@ -238,7 +218,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             dgItemDetail.DataSource = bidd.BidderItemDetails;
             dgItemDetail.DataBind();
         }
-
         private void SetBidderItemDetail()
         {
 
@@ -271,10 +250,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 
 
             }
-            Master.ShowMessage(new AppMessage("Bidder Items successfully saved!", Chai.WorkflowManagment.Enums.RMessageType.Info));
+            Master.ShowMessage(new AppMessage("Bidder Items successfully saved!", RMessageType.Info));
         }
-
-
         #endregion
         #region Attachments
         protected void btnUpload_Click(object sender, EventArgs e)
@@ -289,6 +266,53 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             Response.WriteFile(filePath);
             Response.End();
         }
+        /*   protected void DeleteFile(object sender, EventArgs e)
+           {
+               string filePath = (sender as LinkButton).CommandArgument;
+               _presenter.CurrentBidAnalysisRequest.ELRAttachments.Removet(filePath);
+               File.Delete(Server.MapPath(filePath));
+               grvAttachments.DataSource = _presenter.CurrentPurchaseRequest.BidAnalysises.BAAttachments;
+               grvAttachments.DataBind();
+               //Response.Redirect(Request.Url.AbsoluteUri);
+
+
+           }*/
+        /*   private void UploadFile()
+           {
+               string fileName = Path.GetFileName(fuReciept.PostedFile.FileName);
+
+               if (fileName != String.Empty)
+               {
+                   BAAttachment attachment = new BAAttachment();
+                   attachment.FilePath = "~/BAUploads/" + fileName;
+                   fuReciept.PostedFile.SaveAs(Server.MapPath("~/BAUploads/") + fileName);
+                   //Response.Redirect(Request.Url.AbsoluteUri);
+                   _presenter.CurrentBidAnalysisRequest.ELRAttachments.Add(attachment);
+
+                   grvAttachments.DataSource = _presenter.CurrentBidAnalysisRequest.ELRAttachments;
+                   grvAttachments.DataBind();
+               }
+               else
+               {
+                   Master.ShowMessage(new AppMessage("Please select file ",  RMessageType.Error));
+               }
+           }*/
+        /*     private void BindAttachments()
+             {
+                 if (_presenter.CurrentPurchaseRequest.BidAnalysises.Id > 0)
+                 {
+                     grvAttachments.DataSource = _presenter.CurrentPurchaseRequest.BidAnalysises.BAAttachments;
+                     grvAttachments.DataBind();
+                 }
+             }*/
+        #endregion
+        private void BindBidAnalysisRequests()
+        {
+            dgBidders.DataSource = _presenter.CurrentBidAnalysisRequest.Bidders;
+            dgBidders.DataBind();
+            grvAttachments.DataSource = _presenter.CurrentBidAnalysisRequest.BAAttachments;
+            grvAttachments.DataBind();
+        }
         protected void ddlFSupplierType_SelectedIndexChanged(object sender, EventArgs e)
         {
             DropDownList ddl = (DropDownList)sender;
@@ -301,14 +325,13 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             DropDownList ddlSupplier = ddl.FindControl("ddlSupplier") as DropDownList;
             BindSupplier(ddlSupplier, Convert.ToInt32(ddl.SelectedValue));
         }
-
         protected void btnDelete_Click(object sender, EventArgs e)
         {
             _presenter.DeleteBidAnalysisRequest(_presenter.CurrentBidAnalysisRequest);
 
             BindBidAnalysisRequests();
             // btnDelete.Enabled = false;
-            Master.ShowMessage(new AppMessage("Bid Analysis Request Successfully Deleted", Chai.WorkflowManagment.Enums.RMessageType.Info));
+            Master.ShowMessage(new AppMessage("Bid Analysis Request Successfully Deleted", RMessageType.Info));
         }
         protected void btnSearch_Click(object sender, EventArgs e)
         {
@@ -329,51 +352,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             Response.Redirect("frmBidAnalysisRequest.aspx");
         }
-        /*   protected void DeleteFile(object sender, EventArgs e)
-           {
-               string filePath = (sender as LinkButton).CommandArgument;
-               _presenter.CurrentBidAnalysisRequest.ELRAttachments.Removet(filePath);
-               File.Delete(Server.MapPath(filePath));
-               grvAttachments.DataSource = _presenter.CurrentPurchaseRequest.BidAnalysises.BAAttachments;
-               grvAttachments.DataBind();
-               //Response.Redirect(Request.Url.AbsoluteUri);
-
-
-           }*/
-        /*   private void UploadFile()
-           {
-               string fileName = Path.GetFileName(fuReciept.PostedFile.FileName);
-
-               if (fileName != String.Empty)
-               {
-
-
-
-                   BAAttachment attachment = new BAAttachment();
-                   attachment.FilePath = "~/BAUploads/" + fileName;
-                   fuReciept.PostedFile.SaveAs(Server.MapPath("~/BAUploads/") + fileName);
-                   //Response.Redirect(Request.Url.AbsoluteUri);
-                   _presenter.CurrentBidAnalysisRequest.ELRAttachments.Add(attachment);
-
-                   grvAttachments.DataSource = _presenter.CurrentBidAnalysisRequest.ELRAttachments;
-                   grvAttachments.DataBind();
-
-
-               }
-               else
-               {
-                   Master.ShowMessage(new AppMessage("Please select file ", Chai.WorkflowManagment.Enums.RMessageType.Error));
-               }
-           }*/
-        /*     private void BindAttachments()
-             {
-                 if (_presenter.CurrentPurchaseRequest.BidAnalysises.Id > 0)
-                 {
-                     grvAttachments.DataSource = _presenter.CurrentPurchaseRequest.BidAnalysises.BAAttachments;
-                     grvAttachments.DataBind();
-                 }
-             }*/
-        #endregion
         private void BindBidAnalysisRequestsList()
         {
             grvBidAnalysisRequestList.DataSource = _presenter.ListBidAnalysisRequests(txtSrchRequestNo.Text, txtSrchRequestDate.Text);
@@ -432,7 +410,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 
 
         }
-        #region Bidders
         private void SaveBidAnalysis()
         {
             try
@@ -468,39 +445,39 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
 
         }
-        //protected void dgBidders_ItemCommand(object source, DataGridCommandEventArgs e)
-        //{
-        //    Chai.WorkflowManagment.CoreDomain.Requests.Bidder bidder = new Chai.WorkflowManagment.CoreDomain.Requests.Bidder();
-        //    if (e.CommandName == "AddNew")
-        //    {
-        //        try
-        //        {
-        //            DropDownList ddlSupplierType = e.Item.FindControl("ddlFSupplierType") as DropDownList;
-        //            bidder.SupplierType = _presenter.GetSupplierType(Convert.ToInt32(ddlSupplierType.SelectedValue));
-        //            DropDownList ddlSupplier = e.Item.FindControl("ddlFSupplier") as DropDownList;
-        //            bidder.Supplier = _presenter.GetSupplier(Convert.ToInt32(ddlSupplier.SelectedValue));
-        //            TextBox txtFLeadTimefromSupplier = e.Item.FindControl("txtFLeadTimefromSupplier") as TextBox;
-        //            bidder.LeadTimefromSupplier = txtFLeadTimefromSupplier.Text;
-        //            TextBox txtFContactDetails = e.Item.FindControl("txtFContactDetails") as TextBox;
-        //            bidder.ContactDetails = txtFContactDetails.Text;
-        //            TextBox txtFSpecialTermsDelivery = e.Item.FindControl("txtFSpecialTermsDeliveryy") as TextBox;
-        //            bidder.SpecialTermsDelivery = txtFSpecialTermsDelivery.Text;
-        //            TextBox txtFRank = e.Item.FindControl("txtFRank") as TextBox;
-        //            bidder.Rank = Convert.ToInt32(txtFRank.Text);
+        /*protected void dgBidders_ItemCommand(object source, DataGridCommandEventArgs e)
+        {
+            Chai.WorkflowManagment.CoreDomain.Requests.Bidder bidder = new Chai.WorkflowManagment.CoreDomain.Requests.Bidder();
+            if (e.CommandName == "AddNew")
+            {
+                try
+                {
+                    DropDownList ddlSupplierType = e.Item.FindControl("ddlFSupplierType") as DropDownList;
+                    bidder.SupplierType = _presenter.GetSupplierType(Convert.ToInt32(ddlSupplierType.SelectedValue));
+                    DropDownList ddlSupplier = e.Item.FindControl("ddlFSupplier") as DropDownList;
+                    bidder.Supplier = _presenter.GetSupplier(Convert.ToInt32(ddlSupplier.SelectedValue));
+                    TextBox txtFLeadTimefromSupplier = e.Item.FindControl("txtFLeadTimefromSupplier") as TextBox;
+                    bidder.LeadTimefromSupplier = txtFLeadTimefromSupplier.Text;
+                    TextBox txtFContactDetails = e.Item.FindControl("txtFContactDetails") as TextBox;
+                    bidder.ContactDetails = txtFContactDetails.Text;
+                    TextBox txtFSpecialTermsDelivery = e.Item.FindControl("txtFSpecialTermsDeliveryy") as TextBox;
+                    bidder.SpecialTermsDelivery = txtFSpecialTermsDelivery.Text;
+                    TextBox txtFRank = e.Item.FindControl("txtFRank") as TextBox;
+                    bidder.Rank = Convert.ToInt32(txtFRank.Text);
 
 
-        //            _presenter.CurrentBidAnalysisRequest.Bidders.Add(bidder);
+                    _presenter.CurrentBidAnalysisRequest.Bidders.Add(bidder);
 
-        //            dgBidders.EditItemIndex = -1;
-        //            BindBidder();
+                    dgBidders.EditItemIndex = -1;
+                    BindBidder();
 
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            Master.ShowMessage(new AppMessage("Error: Unable to Add Bidder " + ex.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
-        //        }
-        //    }
-        //}
+                }
+                catch (Exception ex)
+                {
+                    Master.ShowMessage(new AppMessage("Error: Unable to Add Bidder " + ex.Message,  RMessageType.Error));
+                }
+            }
+        }*/
         protected void dgBidders_UpdateCommand(object source, DataGridCommandEventArgs e)
         {
             int id = (int)dgBidders.DataKeys[e.Item.ItemIndex];
@@ -531,10 +508,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 ExceptionUtility.LogException(ex, ex.Source);
                 ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser().FullName);
             }
-
-
-
-
         }
         private void UploadFile()
         {
@@ -543,9 +516,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             {
                 if (fileName != String.Empty)
                 {
-
-
-
                     BAAttachment attachment = new BAAttachment();
                     attachment.FilePath = "~/BAUploads/" + fileName;
                     fuReciept.PostedFile.SaveAs(Server.MapPath("~/BAUploads/") + fileName);
@@ -559,28 +529,23 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 }
                 else
                 {
-                    Master.ShowMessage(new AppMessage("Please select file ", Chai.WorkflowManagment.Enums.RMessageType.Error));
+                    Master.ShowMessage(new AppMessage("Please select file ", RMessageType.Error));
                 }
             }
             catch (HttpException ex)
             {
-                Master.ShowMessage(new AppMessage("Unable to upload the file,The file is to big or The internet is too slow " + ex.InnerException.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
+                Master.ShowMessage(new AppMessage("Unable to upload the file,The file is to big or The internet is too slow " + ex.InnerException.Message, RMessageType.Error));
             }
         }
         protected void btnRequest_Click(object sender, EventArgs e)
         {
             try
             {
-                //try
-                //{
-                //  _presenter.SaveOrUpdateBidAnalysisRequest();
                 if (_presenter.CurrentBidAnalysisRequest.BAAttachments.Count != 0)
                 {
-
                     _presenter.SaveOrUpdateBidAnalysisRequest();
                     BindBidAnalysisRequests();
-
-                    Master.ShowMessage(new AppMessage("Successfully did a Bid Analysis  Request, Reference No - <b>'" + _presenter.CurrentBidAnalysisRequest.RequestNo + "'</b>", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                    Master.ShowMessage(new AppMessage("Successfully did a Bid Analysis Request, Reference No - <b>'" + _presenter.CurrentBidAnalysisRequest.RequestNo + "'</b>", RMessageType.Info));
                     Log.Info(_presenter.CurrentUser().FullName + " has requested a For a Bid Analyis");
                     //btnSave.Visible = false;
                     PrintTransaction();
@@ -588,19 +553,15 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 }
                 else
                 {
-                    Master.ShowMessage(new AppMessage("Please Attach Bid Analysis Quotation", Chai.WorkflowManagment.Enums.RMessageType.Error));
+                    Master.ShowMessage(new AppMessage("Please Attach Bid Analysis Quotation", RMessageType.Error));
                 }
                 decimal price = 0;
                 foreach (Bidder bider in _presenter.CurrentBidAnalysisRequest.Bidders)
                 {
-
-
                     if (_presenter.CurrentBidAnalysisRequest.GetBidderbyRank().Rank == 1)
                     {
-
                         foreach (BidderItemDetail biditemdet in bider.BidderItemDetails)
                         {
-
                             price = price + biditemdet.TotalCost;
                         }
                     }
@@ -628,7 +589,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         private void BindBidRequestforprint()
         {
-
             /*
            lblrequestNo.Text = _presenter.CurrentBidAnalysisRequest.RequestNo;
 
@@ -643,11 +603,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
              lblSelectedBy.Text = _presenter.CurrentBidAnalysisRequest.SelectedBy;
 
              */
-
-
-
         }
-        #endregion
         protected void dgItemDetail_ItemDataBound(object sender, DataGridItemEventArgs e)
         {
             bidd = Session["bidd"] as Bidder;

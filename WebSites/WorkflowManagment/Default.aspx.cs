@@ -85,6 +85,7 @@ public partial class ShellDefault : Microsoft.Practices.CompositeWeb.Web.UI.Page
         if (_presenter.GetLeaveTasks() != 0)
         {
             lblLeaverequests.Text = _presenter.GetLeaveTasks().ToString();
+            lblLeaverequests.ForeColor = System.Drawing.Color.Red;
             lnkLeaveRequest.Enabled = true;
             lnkLeaveRequest.PostBackUrl = ResolveUrl("Approval/frmLeaveApproval.aspx");
         }
@@ -95,6 +96,7 @@ public partial class ShellDefault : Microsoft.Practices.CompositeWeb.Web.UI.Page
         if (_presenter.GetVehicleTasks() != 0)
         {
             lblVehicleRequest.Text = _presenter.GetVehicleTasks().ToString();
+            lblVehicleRequest.ForeColor = System.Drawing.Color.Red;
             lnkVehicleRequest.Enabled = true;
             lnkVehicleRequest.PostBackUrl = ResolveUrl("Approval/frmVehicleApproval.aspx");
         }
@@ -105,6 +107,7 @@ public partial class ShellDefault : Microsoft.Practices.CompositeWeb.Web.UI.Page
         if (_presenter.GetCashPaymentRequestTasks() != 0)
         {
             lblPaymentRequest.Text = _presenter.GetCashPaymentRequestTasks().ToString();
+            lblPaymentRequest.ForeColor = System.Drawing.Color.Red;
             lnkPaymentRequest.Enabled = true;
             lnkPaymentRequest.PostBackUrl = lnkPaymentRequest.ResolveUrl("Approval/frmCashPaymentApproval.aspx");
         }
@@ -112,6 +115,7 @@ public partial class ShellDefault : Microsoft.Practices.CompositeWeb.Web.UI.Page
         if (_presenter.GetCostSharingRequestTasks() != 0)
         {
             lblCostSharingRequest.Text = _presenter.GetCostSharingRequestTasks().ToString();
+            lblCostSharingRequest.ForeColor = System.Drawing.Color.Red;
             lnkCostSharingRequest.Enabled = true;
             lnkCostSharingRequest.PostBackUrl = lnkCostSharingRequest.ResolveUrl("Approval/frmCostSharingApproval.aspx");
         }
@@ -121,6 +125,7 @@ public partial class ShellDefault : Microsoft.Practices.CompositeWeb.Web.UI.Page
         if (_presenter.GetPurchaseRequestsTasks() != 0)
         {
             lblpurchaserequest.Text = _presenter.GetPurchaseRequestsTasks().ToString();
+            lblpurchaserequest.ForeColor = System.Drawing.Color.Red;
             lnkPurchaseRequest.Enabled = true;
             lnkPurchaseRequest.PostBackUrl = ResolveUrl("Approval/frmPurchaseApprovalDetail.aspx");
         }
@@ -129,6 +134,7 @@ public partial class ShellDefault : Microsoft.Practices.CompositeWeb.Web.UI.Page
         if (_presenter.GetTravelAdvanceRequestTasks() != 0)
         {
             lblTravelAdvanceRequest.Text = _presenter.GetTravelAdvanceRequestTasks().ToString();
+            lblTravelAdvanceRequest.ForeColor = System.Drawing.Color.Red;
             lnkTravelAdvanceRequest.Enabled = true;
             lnkTravelAdvanceRequest.PostBackUrl = ResolveUrl("Approval/frmTravelAdvanceApproval.aspx");
         }
@@ -137,6 +143,7 @@ public partial class ShellDefault : Microsoft.Practices.CompositeWeb.Web.UI.Page
         if (_presenter.GetReviewExpenseLiquidationRequestsTasks() != 0)
         {
             lblreviewliquidation.Text = _presenter.GetReviewExpenseLiquidationRequestsTasks().ToString();
+            lblreviewliquidation.ForeColor = System.Drawing.Color.Red;
             lnkreviewliquidation.Enabled = true;
             lnkreviewliquidation.PostBackUrl = ResolveUrl("Approval/frmExpenseLiquidationApproval.aspx");
         }
@@ -145,9 +152,9 @@ public partial class ShellDefault : Microsoft.Practices.CompositeWeb.Web.UI.Page
         if (_presenter.GetExpenseLiquidationRequestsTasks() != 0)
         {
             lblExpenseLiquidation.Text = _presenter.GetExpenseLiquidationRequestsTasks().ToString();
+            lblExpenseLiquidation.ForeColor = System.Drawing.Color.Red;
             lnkExpenseLiquidation.Enabled = true;
             lnkExpenseLiquidation.PostBackUrl = ResolveUrl("Request/frmExpenseLiquidationRequest.aspx");
-
         }
         else
         {
@@ -156,9 +163,9 @@ public partial class ShellDefault : Microsoft.Practices.CompositeWeb.Web.UI.Page
         if (_presenter.GetBankPaymentRequestsTasks() != 0)
         {
             lblbankpayment.Text = _presenter.GetBankPaymentRequestsTasks().ToString();
+            lblbankpayment.ForeColor = System.Drawing.Color.Red;
             lnkbankpayment.Enabled = true;
             lnkbankpayment.PostBackUrl = ResolveUrl("Approval/frmOperationalControlApproval.aspx");
-
         }
         else
         {
@@ -168,9 +175,9 @@ public partial class ShellDefault : Microsoft.Practices.CompositeWeb.Web.UI.Page
         if (_presenter.GetBidAnalysisRequestsTasks() != 0)
         {
             lblBidAnalysis.Text = _presenter.GetBidAnalysisRequestsTasks().ToString();
+            lblBidAnalysis.ForeColor = System.Drawing.Color.Red;
             lnkBidAnalysis.Enabled = true;
             lnkBidAnalysis.PostBackUrl = ResolveUrl("Approval/frmBidAnalysisApproval.aspx");
-
         }
         else
         {
@@ -179,9 +186,9 @@ public partial class ShellDefault : Microsoft.Practices.CompositeWeb.Web.UI.Page
         if (_presenter.GetSoleVendorRequestsTasks() != 0)
         {
             lblSolVendor.Text = _presenter.GetSoleVendorRequestsTasks().ToString();
+            lblSolVendor.ForeColor = System.Drawing.Color.Red;
             lnkSoleVendor.Enabled = true;
             lnkSoleVendor.PostBackUrl = ResolveUrl("Approval/frmSoleVendorApproval.aspx");
-
         }
         else
         {
@@ -191,10 +198,11 @@ public partial class ShellDefault : Microsoft.Practices.CompositeWeb.Web.UI.Page
         if (_presenter.GetVendorRequestsTasks() != 0)
         {
             lblVendor.Text = _presenter.GetVendorRequestsTasks().ToString();
+            lblVendor.ForeColor = System.Drawing.Color.Red;
             lnkVendor.Enabled = true;
             lnkVendor.PostBackUrl = lnkVendor.ResolveUrl("Approval/frmVendorApproval.aspx");
         }
-        else { lblCostSharingRequest.Text = Convert.ToString(0); }
+        else { lblVendor.Text = Convert.ToString(0); }
     }
     private void MyRequests()
     {
@@ -373,7 +381,7 @@ public partial class ShellDefault : Microsoft.Practices.CompositeWeb.Web.UI.Page
                         e.Row.Cells[2].Text = "Analyst, Finance";
                 }
             }
-        }        
+        }
     }
     protected void grvCostProgress_RowDataBound(object sender, GridViewRowEventArgs e)
     {

@@ -190,14 +190,11 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         private void BindAccounts()
         {
-            //if (_presenter.CurrentCashPaymentRequest.CashPaymentRequestStatuses.Count == _presenter.CurrentCashPaymentRequest.CurrentLevel && (_presenter.CurrentUser().EmployeePosition.PositionName == "Finance Officer" || _presenter.GetUser(_presenter.CurrentCashPaymentRequest.CurrentApprover).IsAssignedJob == true))
-            if (_presenter.CurrentCashPaymentRequest.CashPaymentRequestStatuses.Count == _presenter.CurrentCashPaymentRequest.CurrentLevel)
-                {
+            if (_presenter.CurrentCashPaymentRequest.CashPaymentRequestStatuses.Count == _presenter.CurrentCashPaymentRequest.CurrentLevel && (_presenter.CurrentUser().EmployeePosition.PositionName == "Analyst, Finance"))
+            {
                 lblAccount.Visible = true;
                 lblAccountdd.Visible = true;
             }
-
-
         }
         private void BindProject(DropDownList ddlProject)
         {
@@ -246,9 +243,9 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             }
             else
             {
-                foreach(AppUser Payer in _presenter.GetAppUsersByEmployeePosition(CPRS.ApproverPosition))
+                foreach (AppUser Payer in _presenter.GetAppUsersByEmployeePosition(CPRS.ApproverPosition))
                 {
-                    if(Payer.IsAssignedJob != true)
+                    if (Payer.IsAssignedJob != true)
                     {
                         EmailSender.Send(Payer.Email, "Payment Approval", (_presenter.CurrentCashPaymentRequest.AppUser.FullName).ToUpper() + " Requests for Payment with Request No. " + (_presenter.CurrentCashPaymentRequest.RequestNo).ToUpper());
                     }
@@ -268,7 +265,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             {
                 for (int i = 0; i + 1 < CPRS.WorkflowLevel; i++)
                 {
-                    EmailSender.Send(_presenter.GetUser(_presenter.CurrentCashPaymentRequest.CashPaymentRequestStatuses[i].Approver).Email, "Payment Request Rejection", "Payment Request with Voucher No. " + (_presenter.CurrentCashPaymentRequest.VoucherNo).ToUpper()+ " made by " + (_presenter.GetUser(_presenter.CurrentCashPaymentRequest.AppUser.Id).FullName).ToUpper() + " was Rejected by " + _presenter.CurrentUser().FullName + " for this reason - '" + (CPRS.RejectedReason).ToUpper() + "'");
+                    EmailSender.Send(_presenter.GetUser(_presenter.CurrentCashPaymentRequest.CashPaymentRequestStatuses[i].Approver).Email, "Payment Request Rejection", "Payment Request with Voucher No. " + (_presenter.CurrentCashPaymentRequest.VoucherNo).ToUpper() + " made by " + (_presenter.GetUser(_presenter.CurrentCashPaymentRequest.AppUser.Id).FullName).ToUpper() + " was Rejected by " + _presenter.CurrentUser().FullName + " for this reason - '" + (CPRS.RejectedReason).ToUpper() + "'");
                 }
             }
         }

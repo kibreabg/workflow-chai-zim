@@ -97,7 +97,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 // txtRequestNo.Text = _presenter.CurrentPurchaseRequest.RequestNo;
                 txtRequestDate.Text = _presenter.CurrentPurchaseRequest.RequestedDate.ToShortDateString();
                 txtComment.Text = _presenter.CurrentPurchaseRequest.Comment.ToString();
-                
                 ddlPayMethods.Text = _presenter.CurrentPurchaseRequest.PaymentMethod;
                 txtDeliverto.Text = _presenter.CurrentPurchaseRequest.DeliverTo.ToString();
                 txtdeliveryDate.Text = _presenter.CurrentPurchaseRequest.Requireddateofdelivery.ToShortDateString();
@@ -119,7 +118,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 _presenter.CurrentPurchaseRequest.DeliverTo = txtDeliverto.Text;
                 _presenter.CurrentPurchaseRequest.Comment = txtComment.Text;
                 _presenter.CurrentPurchaseRequest.PaymentMethod = ddlPayMethods.Text;
-                _presenter.CurrentPurchaseRequest.SuggestedSupplier = txtSuggestedSupplier.Text;              
+                _presenter.CurrentPurchaseRequest.SuggestedSupplier = txtSuggestedSupplier.Text;
                 _presenter.CurrentPurchaseRequest.SpecialNeed = txtSpecialNeed.Text;
                 _presenter.CurrentPurchaseRequest.Requireddateofdelivery = Convert.ToDateTime(txtdeliveryDate.Text);
                 _presenter.CurrentPurchaseRequest.Budgeted = chkBudgeted.Checked;
@@ -127,7 +126,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 decimal cost = 0;
                 if (_presenter.CurrentPurchaseRequest.PurchaseRequestDetails.Count > 0)
                 {
-                    
+
                     foreach (PurchaseRequestDetail detail in _presenter.CurrentPurchaseRequest.PurchaseRequestDetails)
                     {
                         cost = cost + detail.EstimatedCost;
@@ -146,7 +145,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 {
                     if (ex.InnerException.InnerException.Message.Contains("Violation of UNIQUE KEY"))
                     {
-                        Master.ShowMessage(new AppMessage("Please Click Request button Again,There is a duplicate Number", Chai.WorkflowManagment.Enums.RMessageType.Error));
+                        Master.ShowMessage(new AppMessage("Please Click Request button Again,There is a duplicate Number", RMessageType.Error));
                         //AutoNumber();
                     }
                 }
@@ -319,7 +318,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             _presenter.DeletePurchaseRequest(_presenter.GetPurchaseRequestById(Convert.ToInt32(grvPurchaseRequestList.DataKeys[e.RowIndex].Value)));
 
             btnFind_Click(sender, e);
-            Master.ShowMessage(new AppMessage("Purchase Request Successfully Deleted", Chai.WorkflowManagment.Enums.RMessageType.Info));
+            Master.ShowMessage(new AppMessage("Purchase Request Successfully Deleted", RMessageType.Info));
 
         }
         protected void grvPurchaseRequestList_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -625,20 +624,20 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     _presenter.SaveOrUpdateLeavePurchase(_presenter.CurrentPurchaseRequest);
                     //ClearForm();
                     BindSearchPurchaseRequestGrid();
-                    Master.ShowMessage(new AppMessage("Successfully did a Purchase Request, Reference No - <b>'" + _presenter.CurrentPurchaseRequest.RequestNo + "'</b> ", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                    Master.ShowMessage(new AppMessage("Successfully did a Purchase Request, Reference No - <b>'" + _presenter.CurrentPurchaseRequest.RequestNo + "'</b> ", RMessageType.Info));
                     Log.Info(_presenter.CurrentUser().FullName + " has requested for a Purchase of Total Price " + _presenter.CurrentPurchaseRequest.TotalPrice);
                     btnRequest.Visible = false;
                 }
                 else
                 {
-                    Master.ShowMessage(new AppMessage("There is an error constracting Approval Process", Chai.WorkflowManagment.Enums.RMessageType.Error));
+                    Master.ShowMessage(new AppMessage("There is an error constracting Approval Process", RMessageType.Error));
 
                 }
 
             }
             else
             {
-                Master.ShowMessage(new AppMessage("You have to insert at least one purchase item detail", Chai.WorkflowManagment.Enums.RMessageType.Error));
+                Master.ShowMessage(new AppMessage("You have to insert at least one purchase item detail", RMessageType.Error));
             }
         }
         protected void btnDelete_Click(object sender, EventArgs e)
@@ -699,9 +698,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 
             if (fileName != String.Empty)
             {
-
-
-
                 PRAttachment attachment = new PRAttachment();
                 attachment.FilePath = "~/PRUploads/" + fileName;
                 fuReciept.PostedFile.SaveAs(Server.MapPath("~/PRUploads/") + fileName);
@@ -711,11 +707,12 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 grvAttachments.DataSource = _presenter.CurrentPurchaseRequest.PRAttachments;
                 grvAttachments.DataBind();
 
+                Master.ShowMessage(new AppMessage("Successfully Uploaded the Attachment!'", RMessageType.Info));
 
             }
             else
             {
-                Master.ShowMessage(new AppMessage("Please select file ", Chai.WorkflowManagment.Enums.RMessageType.Error));
+                Master.ShowMessage(new AppMessage("Please select file ", RMessageType.Error));
             }
         }
         #endregion

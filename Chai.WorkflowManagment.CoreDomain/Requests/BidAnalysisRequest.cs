@@ -18,22 +18,16 @@ namespace Chai.WorkflowManagment.CoreDomain.Requests
             this.BAAttachments = new List<BAAttachment>();
             this.Bidders = new List<Bidder>();
             this.BidAnalysisRequestDetails = new List<BidAnalysisRequestDetail>();
-
         }
         public int Id { get; set; }
-    
-     
-      
-      
         public string RequestNo { get; set; }
         public Nullable<DateTime> RequestDate { get; set; }
-        public DateTime AnalyzedDate { get; set; }
-  
-        public string SpecialNeed { get; set; }
-        
+        public DateTime AnalyzedDate { get; set; }  
+        public string SpecialNeed { get; set; }        
         public virtual Supplier Supplier { get; set; }
         public decimal TotalPrice { get; set; }
         public string ReasonforSelection { get; set; }
+        public string AdditionalComment { get; set; }
         public int SelectedBy { get; set; }
         public string Status { get; set; }
         public string PaymentMethod { get; set; }

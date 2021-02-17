@@ -18,7 +18,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 {
     public class BidAnalysisRequestPresenter : Presenter<IBidAnalysisRequestView>
     {
-
         private RequestController _controller;
         private AdminController _adminController;
         private SettingController _settingController;
@@ -38,7 +37,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             }
             CurrentBidAnalysisRequest = _controller.CurrentObject as BidAnalysisRequest;
         }
-
         public override void OnViewInitialized()
         {
             if (_bidAnalysisRequest == null)
@@ -55,8 +53,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             return _settingController.GetItemAccounts();
 
         }
-
-
         public AppUser Approver(int Position)
         {
             return _controller.Approver(Position);
@@ -149,63 +145,50 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         public void SaveOrUpdateBidAnalysisRequest()
         {
-            BidAnalysisRequest BidAnalysisRequest = CurrentBidAnalysisRequest;
-            BidAnalysisRequest.PurchaseRequest = _controller.GetPurchaseRequest(View.GetPurchaseRequestId); 
-            BidAnalysisRequest.RequestNo = View.GetRequestNo;
-            BidAnalysisRequest.RequestDate = Convert.ToDateTime(DateTime.Today.ToShortDateString());
-            BidAnalysisRequest.AnalyzedDate = Convert.ToDateTime(View.GetAnalysedDate.ToShortDateString());
-            BidAnalysisRequest.PaymentMethod = View.GetPaymentMethod;
-            BidAnalysisRequest.SpecialNeed = View.GetSpecialNeed;
-
-
-            //  BidAnalysisRequest.Supplier.Id=View.GetSupplierId;
-             BidAnalysisRequest.ReasonforSelection = View.GetReasonForSelection;
-            //   BidAnalysisRequest.SelectedBy = View.GetSelectedBy;
-
-            BidAnalysisRequest.ProgressStatus = ProgressStatus.InProgress.ToString();
+            BidAnalysisRequest bidAnalysisRequest = CurrentBidAnalysisRequest;
+            bidAnalysisRequest.PurchaseRequest = _controller.GetPurchaseRequest(View.GetPurchaseRequestId);
+            bidAnalysisRequest.RequestNo = View.GetRequestNo;
+            bidAnalysisRequest.RequestDate = Convert.ToDateTime(DateTime.Today.ToShortDateString());
+            bidAnalysisRequest.AnalyzedDate = Convert.ToDateTime(View.GetAnalysedDate.ToShortDateString());
+            bidAnalysisRequest.PaymentMethod = View.GetPaymentMethod;
+            bidAnalysisRequest.SpecialNeed = View.GetSpecialNeed;
+            bidAnalysisRequest.ReasonforSelection = View.GetReasonForSelection;
+            bidAnalysisRequest.AdditionalComment = View.GetAdditionalComment;
+            bidAnalysisRequest.ProgressStatus = ProgressStatus.InProgress.ToString();
             if (View.GetProjectId != 0)
-                BidAnalysisRequest.Project = _settingController.GetProject(View.GetProjectId);
+                bidAnalysisRequest.Project = _settingController.GetProject(View.GetProjectId);
             if (View.GetGrantId != 0)
-                BidAnalysisRequest.Grant = _settingController.GetGrant(View.GetGrantId);
-            BidAnalysisRequest.AppUser = _adminController.GetUser(CurrentUser().Id);
+                bidAnalysisRequest.Grant = _settingController.GetGrant(View.GetGrantId);
+            bidAnalysisRequest.AppUser = _adminController.GetUser(CurrentUser().Id);
 
             decimal price = 0;
             foreach (Bidder bider in CurrentBidAnalysisRequest.Bidders)
             {
-
-
                 if (CurrentBidAnalysisRequest.GetBidderbyRank().Rank == 1)
                 {
-
                     foreach (BidderItemDetail biditemdet in bider.BidderItemDetails)
                     {
-
                         price = price + biditemdet.TotalCost;
                     }
                 }
-               BidAnalysisRequest.TotalPrice  = price;
+                bidAnalysisRequest.TotalPrice = price;
                 break;
             }
-          
+
             SaveBidAnalysisRequestStatus();
             GetCurrentApprover();
 
-            _controller.SaveOrUpdateEntity(BidAnalysisRequest);
+            _controller.SaveOrUpdateEntity(bidAnalysisRequest);
             _controller.CurrentObject = null;
             if (CurrentBidAnalysisRequest.BidAnalysisRequestStatuses.Count == 0 && CurrentBidAnalysisRequest.GetBidderbyRank().Rank == 1)
                 foreach (Bidder bider in CurrentBidAnalysisRequest.Bidders)
                 {
-
-
-
-
                     foreach (BidderItemDetail detail in bider.BidderItemDetails)
                     {
                         Totalamount = Totalamount + detail.TotalCost;
                     }
 
                 }
-
         }
         public void CancelPage()
         {
@@ -303,7 +286,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             return _settingController.GetItemAccount(Id);
         }
-
         public BidderItemDetail GetBiderItemDet(int id)
         {
             return _controller.GetBiderItem(id);

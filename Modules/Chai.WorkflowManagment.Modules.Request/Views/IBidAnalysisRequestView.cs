@@ -18,7 +18,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         DateTime GetAnalysedDate { get; }
         string GetNeededFor { get; }
         string GetSpecialNeed { get; }   
-        
+        string GetAdditionalComment { get; }
         string GetReasonForSelection { get; }
         string GetPaymentMethod { get; }
         int GetProjectId { get; }

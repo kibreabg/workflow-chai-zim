@@ -3,6 +3,7 @@
 <%@ MasterType TypeName="Chai.WorkflowManagment.Modules.Shell.BaseMaster" %>
 <%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit" %>
 <asp:Content ID="Content2" ContentPlaceHolderID="DefaultContent" runat="Server">
+    <script src="../js/libs/jquery-2.0.2.min.js"></script>
     <script type="text/javascript">
         function Clickheretoprint(theid) {
             var disp_setting = "toolbar=yes,location=no,directories=yes,menubar=yes,";
@@ -17,6 +18,17 @@
             docprint.document.write('</center></body></html>');
             docprint.document.close();
             docprint.focus();
+        }
+
+        function showApprovalModal() {
+            $(document).ready(function () {
+                $('#approvalModal').modal('show');
+            });
+        }
+        function showDetailModal() {
+            $(document).ready(function () {
+                $('#detailModal').modal('show');
+            });
         }
     </script>
     <div class="jarviswidget" data-widget-editbutton="false" data-widget-custombutton="false">
@@ -84,7 +96,7 @@
                     <asp:CommandField ButtonType="Button" SelectText="Process Request" ShowSelectButton="True" />
                     <asp:TemplateField>
                         <ItemTemplate>
-                            <asp:Button runat="server" ID="btnStatus" Text="" BorderStyle="None" />
+                            <asp:Button runat="server" ID="btnStatus" Enabled="false" Text="" BorderStyle="None" />
                         </ItemTemplate>
                     </asp:TemplateField>
                 </Columns>
@@ -94,207 +106,158 @@
             </asp:GridView>
         </div>
         <div>
-            <asp:Button runat="server" ID="btnInProgress" Text="" BorderStyle="None" BackColor="#FFFF6C" />
+            <asp:Button runat="server" ID="btnInProgress" Enabled="false" Text="" BorderStyle="None" BackColor="#FFFF6C" />
             <b>In Progress</b><br />
-            <asp:Button runat="server" ID="btnComplete" Text="" BorderStyle="None" BackColor="#FF7251" />
+            <asp:Button runat="server" ID="btnComplete" Enabled="false" Text="" BorderStyle="None" BackColor="#FF7251" />
             <b>Completed</b><br />
-            <asp:Button runat="server" ID="btnAuthorized" Text="" BorderStyle="None" BackColor="#112552" />
+            <asp:Button runat="server" ID="btnAuthorized" Enabled="false" Text="" BorderStyle="None" BackColor="#112552" />
             <b>Authorized</b>
 
         </div>
         <br />
         <br />
     </div>
-    <asp:Panel ID="pnlDetail" runat="server">
+    <div class="modal fade" id="detailModal" tabindex="-1" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;</button>
+                    <h4 class="modal-title">Requested Items</h4>
                 </div>
-                <div class="modal-body no-padding">
-                    <div class="jarviswidget" data-widget-editbutton="false" data-widget-custombutton="false">
-                        <header>
-                            <span class="widget-icon"><i class="fa fa-edit"></i></span>
-                            <h2>Requested Item Detail</h2>
-                        </header>
-                        <div>
-                            <div class="jarviswidget-editbox"></div>
-                            <div class="widget-body no-padding">
-                                <div class="smart-form">
-
-                                    <asp:DataGrid ID="dgPurchaseRequestDetail" runat="server" AlternatingRowStyle-CssClass="" AutoGenerateColumns="False" CellPadding="0" CssClass="table table-striped table-bordered table-hover" DataKeyField="Id" GridLines="None" OnItemDataBound="dgPurchaseRequestDetail_ItemDataBound" PagerStyle-CssClass="paginate_button active" ShowFooter="True" OnItemCommand="dgPurchaseRequestDetail_ItemCommand" OnItemCreated="dgPurchaseRequestDetail_ItemCreated">
-                                        <Columns>
-                                            <asp:TemplateColumn HeaderText="Supplier">
-
-
-                                                <ItemTemplate>
-                                                    <%# DataBinder.Eval(Container.DataItem, "Bidder.Supplier.SupplierName")%>
-                                                </ItemTemplate>
-                                            </asp:TemplateColumn>
-                                            <asp:TemplateColumn HeaderText="Account Code">
-
-
-                                                <ItemTemplate>
-                                                    <%# DataBinder.Eval(Container.DataItem, "ItemAccount.AccountName")%>
-                                                </ItemTemplate>
-                                            </asp:TemplateColumn>
-                                            <asp:TemplateColumn HeaderText="Item">
-
-
-                                                <ItemTemplate>
-                                                    <%# DataBinder.Eval(Container.DataItem, "ItemDescription")%>
-                                                </ItemTemplate>
-                                            </asp:TemplateColumn>
-                                            <asp:TemplateColumn HeaderText="Rank">
-                                                <ItemTemplate>
-                                                    <asp:Label ID="lblRank" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "Bidder.Rank")%>'></asp:Label>
-                                                </ItemTemplate>
-                                            </asp:TemplateColumn>
-                                            <asp:TemplateColumn HeaderText="Reason For Selection">
-                                                <ItemTemplate>
-
-                                                    <asp:Label ID="lblReason" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "Bidder.GetSelectionReason")%>'></asp:Label>
-                                                </ItemTemplate>
-                                            </asp:TemplateColumn>
-                                            <asp:TemplateColumn HeaderText="Qty">
-                                                <ItemTemplate>
-                                                    <%# DataBinder.Eval(Container.DataItem, "Qty")%>
-                                                </ItemTemplate>
-
-
-                                            </asp:TemplateColumn>
-                                            <asp:TemplateColumn HeaderText="Price per unit">
-                                                <ItemTemplate>
-                                                    $  <%# DataBinder.Eval(Container.DataItem, "UnitCost")%>
-                                                </ItemTemplate>
-
-
-                                            </asp:TemplateColumn>
-                                            <asp:TemplateColumn HeaderText="Total Price">
-                                                <ItemTemplate>
-                                                    $  <%# DataBinder.Eval(Container.DataItem, "TotalCost")%>
-                                                </ItemTemplate>
-
-
-                                            </asp:TemplateColumn>
-
-
-
-
-                                        </Columns>
-                                        <PagerStyle CssClass="paginate_button active" HorizontalAlign="Center" />
-                                    </asp:DataGrid>
-
-
-                                    <footer>
-
-                                        <asp:Button ID="btnCancelPopup2" runat="server" Text="Close" data-dismiss="modal" CssClass="btn btn-primary" OnClick="btnCancelPopup2_Click"></asp:Button>
-
-                                    </footer>
-                                </div>
+                <div class="modal-body">
+                    <div class="jarviswidget-editbox"></div>
+                    <div class="widget-body no-padding">
+                        <div class="smart-form">
+                            <div style="overflow-x: auto;">
+                                <asp:DataGrid ID="dgPurchaseRequestDetail" runat="server" AlternatingRowStyle-CssClass="" AutoGenerateColumns="False" CellPadding="0" CssClass="table table-striped table-bordered table-hover" DataKeyField="Id" GridLines="None" OnItemDataBound="dgPurchaseRequestDetail_ItemDataBound" PagerStyle-CssClass="paginate_button active" ShowFooter="True" OnItemCommand="dgPurchaseRequestDetail_ItemCommand" OnItemCreated="dgPurchaseRequestDetail_ItemCreated">
+                                    <Columns>
+                                        <asp:TemplateColumn HeaderText="Supplier">
+                                            <ItemTemplate>
+                                                <%# DataBinder.Eval(Container.DataItem, "Bidder.Supplier.SupplierName")%>
+                                            </ItemTemplate>
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn HeaderText="Account Code">
+                                            <ItemTemplate>
+                                                <%# DataBinder.Eval(Container.DataItem, "ItemAccount.AccountName")%>
+                                            </ItemTemplate>
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn HeaderText="Item">
+                                            <ItemTemplate>
+                                                <%# DataBinder.Eval(Container.DataItem, "ItemDescription")%>
+                                            </ItemTemplate>
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn HeaderText="Rank">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lblRank" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "Bidder.Rank")%>'></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn HeaderText="Reason For Selection">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lblReason" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "Bidder.GetSelectionReason")%>'></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn HeaderText="Qty">
+                                            <ItemTemplate>
+                                                <%# DataBinder.Eval(Container.DataItem, "Qty")%>
+                                            </ItemTemplate>
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn HeaderText="Price per unit">
+                                            <ItemTemplate>
+                                                $  <%# DataBinder.Eval(Container.DataItem, "UnitCost")%>
+                                            </ItemTemplate>
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn HeaderText="Total Price">
+                                            <ItemTemplate>
+                                                $  <%# DataBinder.Eval(Container.DataItem, "TotalCost")%>
+                                            </ItemTemplate>
+                                        </asp:TemplateColumn>
+                                    </Columns>
+                                    <PagerStyle CssClass="paginate_button active" HorizontalAlign="Center" />
+                                </asp:DataGrid>
                             </div>
-                        </div>
-
-                    </div>
-
-
-
-                </div>
-
-
-
-
-            </div>
-
-        </div>
-
-    </asp:Panel>
-    <asp:ModalPopupExtender runat="server" BackgroundCssClass="modalBackground"
-        Enabled="True" TargetControlID="btnPop2" PopupControlID="pnlDetail" CancelControlID="btnCancelPopup2"
-        ID="pnlDetail_ModalPopupExtender">
-    </asp:ModalPopupExtender>
-    <asp:Panel ID="pnlApproval" runat="server">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                </div>
-                <div class="modal-body no-padding">
-                    <div class="jarviswidget" data-widget-editbutton="false" data-widget-custombutton="false">
-                        <header>
-                            <span class="widget-icon"><i class="fa fa-edit"></i></span>
-                            <h2>Process Request</h2>
-                        </header>
-                        <div>
-                            <div class="jarviswidget-editbox"></div>
-                            <div class="widget-body no-padding">
-                                <div class="smart-form">
-                                    <fieldset>
-
-                                        <div class="row">
-                                            <asp:Panel ID="pnlInfo" runat="server" Visible="false">
-                                                <div class="alert alert-info fade in">
-
-                                                    <i class="fa-fw fa fa-info"></i>
-                                                    <strong>Info!</strong> Please perform Bid Analysis before Approving Bid.
-                                                </div>
-                                            </asp:Panel>
-                                            <section class="col col-6">
-                                                <asp:Label ID="lblApprovalStatus" runat="server" Text="Approval Status" CssClass="label"></asp:Label>
-
-                                                <label class="select">
-                                                    <asp:DropDownList ID="ddlApprovalStatus" runat="server" OnSelectedIndexChanged="ddlApprovalStatus_SelectedIndexChanged" AutoPostBack="True">
-                                                    </asp:DropDownList><i></i>
-                                                    <asp:RequiredFieldValidator ID="RfvApprovalStatus" CssClass="validator" runat="server" ErrorMessage="Approval Status Required" InitialValue="0" ControlToValidate="ddlApprovalStatus" ValidationGroup="Save"></asp:RequiredFieldValidator>
-                                                </label>
-                                            </section>
-                                            <section class="col col-6">
-                                                <asp:Label ID="lblRejectedReason" runat="server" Text="Rejected Reason" Visible="false" CssClass="label"></asp:Label>
-
-                                                <label class="textarea">
-                                                    <asp:TextBox ID="txtRejectedReason" runat="server" Visible="false" TextMode="MultiLine"></asp:TextBox>
-                                                </label>
-                                            </section>
-
-                                        </div>
-                                        <div class="row">
-                                            <div class="row">
-                                                <section class="col col-12">
-                                                    <asp:Label ID="lblAttachments" runat="server" Text="Attachments" CssClass="label"></asp:Label>
-                                                    <asp:GridView ID="grvAttachments"
-                                                        runat="server" AutoGenerateColumns="False" DataKeyNames="Id"
-                                                        CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active">
-                                                        <RowStyle CssClass="rowstyle" />
-                                                        <Columns>
-                                                            <asp:BoundField DataField="FilePath" HeaderText="File Name" SortExpression="FilePath" />
-                                                            <asp:TemplateField>
-                                                                <ItemTemplate>
-                                                                    <asp:LinkButton ID="lnkDownload" Text="Download" CommandArgument='<%# Eval("FilePath") %>' runat="server" OnClick="DownloadFile"></asp:LinkButton>
-                                                                </ItemTemplate>
-                                                            </asp:TemplateField>
-                                                        </Columns>
-                                                        <FooterStyle CssClass="FooterStyle" />
-                                                        <HeaderStyle CssClass="headerstyle" />
-                                                        <PagerStyle CssClass="PagerStyle" />
-                                                        <RowStyle CssClass="rowstyle" />
-                                                    </asp:GridView>
-                                                </section>
-                                            </div>
-                                        </div>
-                                    </fieldset>
-                                    <footer>
-                                        <asp:Button ID="btnApprove" runat="server" Text="Save" OnClick="btnApprove_Click" Enabled="true" CssClass="btn btn-primary" ValidationGroup="Save"></asp:Button>
-                                        <asp:Button ID="btnCancelPopup" runat="server" Text="Close" data-dismiss="modal" CssClass="btn btn-primary" OnClick="btnCancelPopup_Click"></asp:Button>
-                                        <asp:Button ID="btnPrint0" runat="server" Text="Print" CssClass="btn btn-primary" OnClientClick="javascript:Clickheretoprint('divprint')" Enabled="False"></asp:Button>
-                                        <asp:Button ID="btnPurchaseOrder" runat="server" CssClass="btn btn-primary" Enabled="false" OnClick="btnPurchaseOrder_Click" Text="Purchase Order" Visible="False" />
-                                    </footer>
-                                </div>
-                            </div>
+                            <footer>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            </footer>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- /.modal-content -->
-    </asp:Panel>
+    </div>
+    <div class="modal fade" id="approvalModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;</button>
+                    <h4 class="modal-title">Process Bid Analysis</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="jarviswidget-editbox"></div>
+                    <div class="widget-body no-padding">
+                        <div class="smart-form">
+                            <fieldset>
+                                <div class="row">
+                                    <asp:Panel ID="pnlInfo" runat="server" Visible="false">
+                                        <div class="alert alert-info fade in">
+                                            <i class="fa-fw fa fa-info"></i>
+                                            <strong>Info!</strong> Please perform Bid Analysis before Approving Bid.
+                                        </div>
+                                    </asp:Panel>
+                                    <section class="col col-6">
+                                        <asp:Label ID="lblApprovalStatus" runat="server" Text="Approval Status" CssClass="label"></asp:Label>
+                                        <label class="select">
+                                            <asp:DropDownList ID="ddlApprovalStatus" runat="server" OnSelectedIndexChanged="ddlApprovalStatus_SelectedIndexChanged" AutoPostBack="True">
+                                            </asp:DropDownList><i></i>
+                                            <asp:RequiredFieldValidator ID="RfvApprovalStatus" CssClass="validator" runat="server" ErrorMessage="Approval Status Required" InitialValue="0" ControlToValidate="ddlApprovalStatus" ValidationGroup="Save"></asp:RequiredFieldValidator>
+                                        </label>
+                                    </section>
+                                    <section class="col col-6">
+                                        <asp:Label ID="lblRejectedReason" runat="server" Text="Rejected Reason" Visible="false" CssClass="label"></asp:Label>
+
+                                        <label class="textarea">
+                                            <asp:TextBox ID="txtRejectedReason" runat="server" Visible="false" TextMode="MultiLine"></asp:TextBox>
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <div class="row">
+                                        <section class="col col-12">
+                                            <asp:Label ID="lblAttachments" runat="server" Text="Attachments" CssClass="label"></asp:Label>
+                                            <asp:GridView ID="grvAttachments"
+                                                runat="server" AutoGenerateColumns="False" DataKeyNames="Id"
+                                                CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active">
+                                                <RowStyle CssClass="rowstyle" />
+                                                <Columns>
+                                                    <asp:BoundField DataField="FilePath" HeaderText="File Name" SortExpression="FilePath" />
+                                                    <asp:TemplateField>
+                                                        <ItemTemplate>
+                                                            <asp:LinkButton ID="lnkDownload" Text="Download" CommandArgument='<%# Eval("FilePath") %>' runat="server" OnClick="DownloadFile"></asp:LinkButton>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                </Columns>
+                                                <FooterStyle CssClass="FooterStyle" />
+                                                <HeaderStyle CssClass="headerstyle" />
+                                                <PagerStyle CssClass="PagerStyle" />
+                                                <RowStyle CssClass="rowstyle" />
+                                            </asp:GridView>
+                                        </section>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <footer>
+                                <asp:Button ID="btnApprove" runat="server" Text="Save" OnClick="btnApprove_Click" Enabled="true" CssClass="btn btn-primary" ValidationGroup="Save"></asp:Button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                <asp:Button ID="btnPrint0" runat="server" Text="Print" CssClass="btn btn-default" OnClientClick="javascript:Clickheretoprint('divprint')" Enabled="False"></asp:Button>
+                                <asp:Button ID="btnPurchaseOrder" runat="server" CssClass="btn btn-default" Enabled="false" OnClick="btnPurchaseOrder_Click" Text="Purchase Order" Visible="False" />
+                            </footer>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div id="divprint" style="display: none;">
         <fieldset>
             <table style="width: 100%;">
@@ -426,10 +389,6 @@
             </asp:GridView>
         </fieldset>
     </div>
-    <asp:ModalPopupExtender runat="server" BackgroundCssClass="modalBackground"
-        Enabled="True" TargetControlID="btnPop" PopupControlID="pnlApproval" CancelControlID="btnCancelPopup"
-        ID="pnlApproval_ModalPopupExtender">
-    </asp:ModalPopupExtender>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="menuContent" runat="Server">
 </asp:Content>

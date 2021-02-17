@@ -193,13 +193,16 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         private void SendEmail(OperationalControlRequestStatus OCRS)
         {
-            if (_presenter.GetUser(OCRS.Approver).IsAssignedJob != true)
+            if (_presenter.GetUser(OCRS.Approver) != null)
             {
-                EmailSender.Send(_presenter.GetUser(OCRS.Approver).Email, "Bank Payment Approval", (_presenter.CurrentOperationalControlRequest.AppUser.FullName).ToUpper() + " Requests for payment");
-            }
-            else
-            {
-                EmailSender.Send(_presenter.GetUser(_presenter.GetAssignedJobbycurrentuser(OCRS.Approver).AssignedTo).Email, "Bank Payment Approval", (_presenter.CurrentOperationalControlRequest.AppUser.FullName).ToUpper() + " Requests for payment");
+                if (_presenter.GetUser(OCRS.Approver).IsAssignedJob != true)
+                {
+                    EmailSender.Send(_presenter.GetUser(OCRS.Approver).Email, "Bank Payment Approval", (_presenter.CurrentOperationalControlRequest.AppUser.FullName).ToUpper() + " Requests for payment");
+                }
+                else
+                {
+                    EmailSender.Send(_presenter.GetUser(_presenter.GetAssignedJobbycurrentuser(OCRS.Approver).AssignedTo).Email, "Bank Payment Approval", (_presenter.CurrentOperationalControlRequest.AppUser.FullName).ToUpper() + " Requests for payment");
+                }
             }
 
         }
