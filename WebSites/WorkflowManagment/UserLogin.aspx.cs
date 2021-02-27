@@ -51,7 +51,8 @@ namespace Chai.WorkflowManagment.Modules.Shell.Views
                     if (_presenter.AuthenticateUser())
                     {
                         //_presenter.RedirectToRowUrl();
-                        Context.Response.Redirect("Default.aspx");
+                        Chai.WorkflowManagment.Modules.Request.MailScheduler.Start();
+                        Context.Response.Redirect("Default.aspx");                        
                     }
                     else
                     {

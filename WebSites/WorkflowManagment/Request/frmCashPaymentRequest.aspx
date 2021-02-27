@@ -25,21 +25,24 @@
                 <div class="smart-form">
                     <fieldset>
                         <div class="row">
-                            <%-- <section class="col col-6">
-                                <label class="label">Request No</label>
-                                <label class="input">
-                                    <asp:TextBox ID="txtVoucherNo" runat="server" ReadOnly="true"></asp:TextBox>
+                            <section class="col col-6">
+                                <div class="smart-form">
+                                    <div class="inline-group">
+                                        <label class="checkbox">
+                                            <asp:CheckBox ID="ckIsPurchase" runat="server" OnCheckedChanged="ckIsPurchase_CheckedChanged" AutoPostBack="True" />
+                                            <i></i>Is For Purchase Request?</label>
+                                    </div>
+                                </div>
+                            </section>
+                            <section class="col col-6">
+                                <asp:Label ID="lblPurReq" runat="server" Text="Purchase Request No" Visible="False"></asp:Label>
+                                <label class="select">
+                                    <asp:DropDownList ID="ddlPurchaseReq" AppendDataBoundItems="true" runat="server" Visible="false" DataValueField="Id" DataTextField="RequestNo" AutoPostBack="True">
+                                    </asp:DropDownList><i></i>
                                 </label>
-                            </section>--%>
-                            <%-- <section class="col col-6">
-                                <label class="label">Request Number</label>
-                                <label class="input">
-                                    <asp:TextBox ID="txtRequestNo" ReadOnly="true" runat="server"></asp:TextBox>
-                                    <asp:RequiredFieldValidator
-                                        ID="rfvtxtRequestNo" runat="server" ErrorMessage="Request number is required" Display="Dynamic"
-                                        CssClass="validator" ControlToValidate="txtRequestNo" EnableClientScript="False"></asp:RequiredFieldValidator>
-                                </label>
-                            </section>--%>
+                            </section>
+                        </div>
+                        <div class="row">
                             <section class="col col-6">
                                 <label class="label">Request Date</label>
                                 <label class="input">
@@ -47,10 +50,10 @@
                                     <asp:TextBox ID="txtRequestDate" ReadOnly="true" runat="server"></asp:TextBox>
                                 </label>
                             </section>
-                             <section class="col col-6">
+                            <section class="col col-6">
                                 <label class="label">Payment Methods</label>
                                 <label class="select">
-                                    <asp:DropDownList ID="ddlPayMethods" AutoPostBack="false" AppendDataBoundItems="true" 
+                                    <asp:DropDownList ID="ddlPayMethods" AutoPostBack="false" AppendDataBoundItems="true"
                                         runat="server" DataValueField="Id" DataTextField="Name" CssClass="form-control">
                                         <asp:ListItem Text="--Select Payment Method--" Value="0"></asp:ListItem>
                                         <asp:ListItem>RTGs</asp:ListItem>

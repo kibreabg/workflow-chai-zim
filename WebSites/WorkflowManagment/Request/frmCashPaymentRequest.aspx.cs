@@ -179,6 +179,19 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             ddlAccountDescription.DataTextField = "AccountName";
             ddlAccountDescription.DataBind();
         }
+        protected void ckIsPurchase_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ckIsPurchase.Checked == true)
+            {
+                lblPurReq.Visible = true;
+                ddlPurchaseReq.Visible = true;
+            }
+            else if (ckIsPurchase.Checked == false)
+            {
+                lblPurReq.Visible = false;
+                ddlPurchaseReq.Visible = false;
+            }
+        }
         protected void dgCashPaymentDetail_CancelCommand(object source, DataGridCommandEventArgs e)
         {
             this.dgCashPaymentDetail.EditItemIndex = -1;
@@ -539,7 +552,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             }
         }
         #endregion
-
 
     }
 }
