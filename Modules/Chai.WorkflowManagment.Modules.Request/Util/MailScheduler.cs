@@ -11,23 +11,25 @@ namespace Chai.WorkflowManagment.Modules.Request
     {
         public static void Start()
         {
-            IScheduler scheduler = StdSchedulerFactory.GetDefaultScheduler();
-            scheduler.Start();
+            IScheduler scheduler = StdSchedulerFactory.GetDefaultScheduler();            
 
+            TriggerKey liquidationTriggerKey = new TriggerKey("liquidationTrigger", "liquidationGroup");
             IJobDetail job = JobBuilder.Create<EmailJob>().Build();
 
-            ITrigger trigger = TriggerBuilder.Create()
+            bool exists = scheduler.CheckExists(liquidationTriggerKey);
+            if (!exists)
+            {
+                scheduler.Start();
+
+                ITrigger trigger = TriggerBuilder.Create()
                 .ForJob(job)
-                .WithIdentity("liquidationTrigger", "liquidationGroup")
+                .WithIdentity(liquidationTriggerKey)
                 .StartNow()
                 .WithCalendarIntervalSchedule(x => x
                     .WithIntervalInWeeks(1)
                     )
                 .Build();
 
-            bool flag = scheduler.CheckExists(trigger.JobKey);
-            if (!flag)
-            {
                 scheduler.ScheduleJob(job, trigger);
             }
         }

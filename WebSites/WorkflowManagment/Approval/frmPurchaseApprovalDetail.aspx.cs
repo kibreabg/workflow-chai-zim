@@ -17,6 +17,7 @@ using log4net;
 using log4net.Config;
 using Microsoft.Practices.ObjectBuilder;
 using Chai.WorkflowManagment.CoreDomain.Request;
+using System.IO;
 
 namespace Chai.WorkflowManagment.Modules.Approval.Views
 {
@@ -262,6 +263,15 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             Response.Redirect(String.Format("../Request/frmSoleVendorRequest.aspx?PurchaseRequestId={0}", _presenter.CurrentPurchaseRequest.Id));
         }
+        protected void lnkDownload_Click(object sender, EventArgs e)
+        {
+            string filePath = (sender as LinkButton).CommandArgument;
+            Response.ContentType = ContentType;
+            Response.AppendHeader("Content-Disposition", "attachment; filename=" + Path.GetFileName(filePath));
+            Response.WriteFile(filePath);
+            Response.End();
+            ScriptManager.RegisterStartupScript(this, GetType(), "showDetailModal", "showDetailModal();", true);
+        }
         protected void btnFind_Click(object sender, EventArgs e)
         {
             BindSearchPurchaseRequestGrid();
@@ -353,6 +363,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 //_presenter.OnViewLoaded();
                 grvPurchaseRequestDetails.DataSource = _presenter.CurrentPurchaseRequest.PurchaseRequestDetails;
                 grvPurchaseRequestDetails.DataBind();
+                grvdetailAttachments.DataSource = _presenter.CurrentPurchaseRequest.PRAttachments;
+                grvdetailAttachments.DataBind();
                 ScriptManager.RegisterStartupScript(this, GetType(), "showDetailModal", "showDetailModal();", true);
             }
         }
@@ -437,23 +449,6 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                         e.Row.Cells[1].Text = _presenter.GetUser(_presenter.CurrentPurchaseRequest.PurchaseRequestStatuses[e.Row.RowIndex].Approver).FullName;
                 }
             }
-        }
-        /*protected void grvPurchaseRequestDetails_RowDataBound(object sender, GridViewRowEventArgs e)
-        {
-            if (_presenter.CurrentPurchaseRequest.PurchaseRequestDetails != null)
-            {
-                if (e.Row.RowType == DataControlRowType.DataRow)
-                {
-                    if (_presenter.CurrentPurchaseRequest.PurchaseRequestDetails[e.Row.RowIndex].Id != 0)
-                    {
-                        e.Row.Cells[3].Text = _presenter.CurrentPurchaseRequest.TotalPrice.ToString();
-                        e.Row.Cells[4].Text = _presenter.CurrentPurchaseRequest.ConditionsofOrder;
-
-                    }
-                        
-                    
-                }
-            }
-        }*/
+        }             
     }
 }

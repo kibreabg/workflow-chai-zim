@@ -188,29 +188,64 @@
                 <div class="modal-body">
                     <div class="jarviswidget-editbox"></div>
                     <div class="widget-body no-padding">
-                        <div class="smart-form">
-                            <div style="overflow-x: auto;">
-                                <asp:GridView ID="grvPurchaseRequestDetails" CellPadding="5" CellSpacing="3"
-                                    runat="server" AutoGenerateColumns="False" DataKeyNames="Id"
-                                    CssClass="table table-striped table-bordered table-hover">
-                                    <RowStyle CssClass="rowstyle" />
-                                    <Columns>
-                                        <asp:BoundField DataField="Item" HeaderText="Item" SortExpression="Item" />
-                                        <asp:BoundField DataField="Priceperunit" HeaderText="Price Per Unit" SortExpression="Priceperunit" />
-                                        <asp:BoundField DataField="Qty" HeaderText="Qty" SortExpression="Qty" />
-                                        <asp:BoundField DataField="EstimatedCost" HeaderText="Estimated Cost" SortExpression="EstimatedCost" />
-                                        <asp:BoundField DataField="Project.ProjectCode" HeaderText="Project Code" />
-                                        <asp:BoundField DataField="Grant.GrantCode" HeaderText="Grant Code" />
-                                    </Columns>
-                                    <FooterStyle CssClass="FooterStyle" />
-                                    <HeaderStyle CssClass="headerstyle" />
-                                    <PagerStyle CssClass="PagerStyle" />
-                                    <RowStyle CssClass="rowstyle" />
-                                </asp:GridView>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="hr2">
+                                <ul class="nav nav-tabs">
+                                    <li class="active">
+                                        <a href="#iss1" data-toggle="tab">Details</a>
+                                    </li>
+                                    <li class="">
+                                        <a href="#iss2" data-toggle="tab">Attachments</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content padding-10">
+                                    <div class="tab-pane active" id="iss1">
+                                        <div class="smart-form">
+                                            <div style="overflow-x: auto;">
+                                                <asp:GridView ID="grvPurchaseRequestDetails" CellPadding="5" CellSpacing="3"
+                                                    runat="server" AutoGenerateColumns="False" DataKeyNames="Id"
+                                                    CssClass="table table-striped table-bordered table-hover">
+                                                    <RowStyle CssClass="rowstyle" />
+                                                    <Columns>
+                                                        <asp:BoundField DataField="Item" HeaderText="Item" SortExpression="Item" />
+                                                        <asp:BoundField DataField="Priceperunit" HeaderText="Price Per Unit" SortExpression="Priceperunit" />
+                                                        <asp:BoundField DataField="Qty" HeaderText="Qty" SortExpression="Qty" />
+                                                        <asp:BoundField DataField="EstimatedCost" HeaderText="Estimated Cost" SortExpression="EstimatedCost" />
+                                                        <asp:BoundField DataField="Project.ProjectCode" HeaderText="Project Code" />
+                                                        <asp:BoundField DataField="Grant.GrantCode" HeaderText="Grant Code" />
+                                                    </Columns>
+                                                    <FooterStyle CssClass="FooterStyle" />
+                                                    <HeaderStyle CssClass="headerstyle" />
+                                                    <PagerStyle CssClass="PagerStyle" />
+                                                    <RowStyle CssClass="rowstyle" />
+                                                </asp:GridView>
+                                            </div>
+                                            <footer>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                            </footer>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="iss2">
+                                        <asp:GridView ID="grvdetailAttachments"
+                                            runat="server" AutoGenerateColumns="False" DataKeyNames="Id"
+                                            CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active">
+                                            <RowStyle CssClass="rowstyle" />
+                                            <Columns>
+                                                <asp:BoundField DataField="FilePath" HeaderText="File Name" SortExpression="FilePath" />
+                                                <asp:TemplateField>
+                                                    <ItemTemplate>
+                                                        <asp:LinkButton ID="lnkDownload" Text="Download" CommandArgument='<%# Eval("FilePath") %>' runat="server" OnClick="lnkDownload_Click"></asp:LinkButton>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                            </Columns>
+                                            <FooterStyle CssClass="FooterStyle" />
+                                            <HeaderStyle CssClass="headerstyle" />
+                                            <PagerStyle CssClass="PagerStyle" />
+                                            <RowStyle CssClass="rowstyle" />
+                                        </asp:GridView>
+                                    </div>
+                                </div>
                             </div>
-                            <footer>
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                            </footer>
                         </div>
                     </div>
                 </div>

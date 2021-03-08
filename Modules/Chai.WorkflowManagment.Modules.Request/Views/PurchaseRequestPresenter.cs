@@ -78,7 +78,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
          {
              return _controller.GetSuperviser(superviser);
          }
-         public void SaveOrUpdateLeavePurchase(PurchaseRequest PurchaseRequest)
+         public void SaveOrUpdatePurchaseRequest(PurchaseRequest PurchaseRequest)
          {
              _controller.SaveOrUpdateEntity(PurchaseRequest);
          }

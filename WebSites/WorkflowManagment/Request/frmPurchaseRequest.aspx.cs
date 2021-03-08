@@ -391,7 +391,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     _presenter.DeletePurchaseRequestDetail(_presenter.GetPurchaseRequestDetail(id));
                     _presenter.CurrentPurchaseRequest.TotalPrice = _presenter.CurrentPurchaseRequest.TotalPrice - prd.EstimatedCost;
                     txtTotal.Text = (_presenter.CurrentPurchaseRequest.TotalPrice).ToString();
-                    _presenter.SaveOrUpdateLeavePurchase(_presenter.CurrentPurchaseRequest);
+                    _presenter.SaveOrUpdatePurchaseRequest(_presenter.CurrentPurchaseRequest);
                 }
                 else
                 {
@@ -621,7 +621,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             {
                 if (_presenter.CurrentPurchaseRequest.PurchaseRequestStatuses.Count != 0)
                 {
-                    _presenter.SaveOrUpdateLeavePurchase(_presenter.CurrentPurchaseRequest);
+                    _presenter.SaveOrUpdatePurchaseRequest(_presenter.CurrentPurchaseRequest);
                     //ClearForm();
                     BindSearchPurchaseRequestGrid();
                     Master.ShowMessage(new AppMessage("Successfully did a Purchase Request, Reference No - <b>'" + _presenter.CurrentPurchaseRequest.RequestNo + "'</b> ", RMessageType.Info));
@@ -631,9 +631,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 else
                 {
                     Master.ShowMessage(new AppMessage("There is an error constracting Approval Process", RMessageType.Error));
-
                 }
-
             }
             else
             {
@@ -666,8 +664,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             TextBox txtAccountCode = ddl.FindControl("txtFAccountCode") as TextBox;
             txtAccountCode.Text = _presenter.GetItemAccount(Convert.ToInt32(ddl.SelectedValue)).AccountCode;
         }
-
-
         #region Attachments
         protected void btnUpload_Click(object sender, EventArgs e)
         {
@@ -707,7 +703,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 grvAttachments.DataSource = _presenter.CurrentPurchaseRequest.PRAttachments;
                 grvAttachments.DataBind();
 
-                Master.ShowMessage(new AppMessage("Successfully Uploaded the Attachment!'", RMessageType.Info));
+                Master.ShowMessage(new AppMessage("Successfully Uploaded the Attachment!", RMessageType.Info));
 
             }
             else

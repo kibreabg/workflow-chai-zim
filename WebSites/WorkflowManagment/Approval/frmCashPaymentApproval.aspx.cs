@@ -379,9 +379,6 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
 
             if (fileName != String.Empty)
             {
-
-
-
                 CPRAttachment attachment = new CPRAttachment();
                 attachment.FilePath = "~/CPUploads/" + fileName;
                 fuReciept.PostedFile.SaveAs(Server.MapPath("~/CPUploads/") + fileName);
@@ -390,8 +387,6 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
 
                 grvAttachments.DataSource = _presenter.CurrentCashPaymentRequest.CPRAttachments;
                 grvAttachments.DataBind();
-
-
             }
             else
             {
@@ -457,10 +452,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         protected void grvCashPaymentRequestList_SelectedIndexChanged(object sender, EventArgs e)
         {
             _presenter.OnViewLoaded();
-
             PopApprovalStatus();
-
-
             Session["PaymentId"] = _presenter.CurrentCashPaymentRequest.Id;
             btnApprove.Enabled = true;
             BindAccounts();
@@ -511,7 +503,6 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         private void PrintTransaction()
         {
-
             lblRequesterResult.Text = _presenter.CurrentCashPaymentRequest.AppUser.FullName;
             lblRequestedDateResult.Text = _presenter.CurrentCashPaymentRequest.RequestDate.Value.ToShortDateString();
             if (_presenter.CurrentCashPaymentRequest.Supplier != null)
@@ -535,8 +526,6 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             pnlDetail.Visible = false;
         }
-
-
         protected void grvStatuses_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             if (_presenter.CurrentCashPaymentRequest.CashPaymentRequestStatuses != null)
@@ -584,7 +573,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     if (ddlProject != null)
                     {
                         BindProject(ddlProject);
-                        if (_presenter.CurrentCashPaymentRequest.CashPaymentRequestDetails[e.Item.DataSetIndex].Project.Id != 0)
+                        if (_presenter.CurrentCashPaymentRequest.CashPaymentRequestDetails[e.Item.DataSetIndex].Project != null)
                         {
                             ListItem liI = ddlProject.Items.FindByValue(_presenter.CurrentCashPaymentRequest.CashPaymentRequestDetails[e.Item.DataSetIndex].Project.Id.ToString());
                             if (liI != null)
@@ -595,7 +584,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     if (ddlAccountDescription != null)
                     {
                         BindAccountDescription(ddlAccountDescription);
-                        if (_presenter.CurrentCashPaymentRequest.CashPaymentRequestDetails[e.Item.DataSetIndex].ItemAccount.Id != 0)
+                        if (_presenter.CurrentCashPaymentRequest.CashPaymentRequestDetails[e.Item.DataSetIndex].ItemAccount != null)
                         {
                             ListItem liI = ddlAccountDescription.Items.FindByValue(_presenter.CurrentCashPaymentRequest.CashPaymentRequestDetails[e.Item.DataSetIndex].ItemAccount.Id.ToString());
                             if (liI != null)
@@ -606,7 +595,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     if (ddlEdtGrant != null)
                     {
                         BindGrant(ddlEdtGrant, Convert.ToInt32(ddlProject.SelectedValue));
-                        if (_presenter.CurrentCashPaymentRequest.CashPaymentRequestDetails[e.Item.DataSetIndex].Grant.Id != null)
+                        if (_presenter.CurrentCashPaymentRequest.CashPaymentRequestDetails[e.Item.DataSetIndex].Grant != null)
                         {
                             ListItem liI = ddlEdtGrant.Items.FindByValue(_presenter.CurrentCashPaymentRequest.CashPaymentRequestDetails[e.Item.DataSetIndex].Grant.Id.ToString());
                             if (liI != null)

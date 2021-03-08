@@ -146,7 +146,6 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             ddlVehicles.DataValueField = "ID";
             ddlVehicles.DataBind();
         }
-
         private void BindSearchVehicleRequestGrid()
         {
             grvVehicleRequestList.DataSource = _presenter.ListVehicleRequests(txtSrchRequestNo.Text, txtSrchRequestDate.Text, ddlSrchProgressStatus.SelectedValue);
@@ -205,7 +204,6 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 Log.Info(_presenter.GetUser(VRS.Approver).FullName + " has approved a Vehicle Request made by " + (_presenter.CurrentVehicleRequest.AppUser.FullName).ToUpper() + " and assigned a Car Rental company named " + (_presenter.GetCarRental(assignedVehicle.CarRental.Id).Name).ToUpper());
             }
         }
-
         private void SendEmailToRequester()
         {
             foreach (VehicleRequestDetail assignedVehicle in _presenter.CurrentVehicleRequest.VehicleRequestDetails)
@@ -233,7 +231,6 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
 
             }
         }
-
         private void GetNextApprover()
         {
             foreach (VehicleRequestStatus VRS in _presenter.CurrentVehicleRequest.VehicleRequestStatuses)
