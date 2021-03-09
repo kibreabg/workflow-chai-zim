@@ -210,6 +210,14 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             return _controller.Approver(Position);
         }
+        public IList<PurchaseRequest> GetPurchaseReqsByCurUser()
+        {
+            return _controller.GetPurchaseReqsByCurUser();
+        }
+        public PurchaseRequest GetPurchaseRequest(int id)
+        {
+            return _controller.GetPurchaseRequest(id);
+        }
         public IList<AppUser> GetUsers()
         {
             return _adminController.GetUsers();

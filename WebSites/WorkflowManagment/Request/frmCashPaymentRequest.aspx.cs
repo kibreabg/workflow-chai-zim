@@ -30,6 +30,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 BindCashPaymentRequests();
                 BindCashPaymentDetails();
                 PopPayee();
+                PopPurchaseReqs();
 
             }
             txtRequestDate.Text = DateTime.Today.Date.ToShortDateString();
@@ -122,6 +123,11 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             dgCashPaymentDetail.DataSource = _presenter.CurrentCashPaymentRequest.CashPaymentRequestDetails;
             dgCashPaymentDetail.DataBind();
         }
+        private void BindCashPaymentAttachments()
+        {
+            grvAttachments.DataSource = _presenter.CurrentCashPaymentRequest.CPRAttachments;
+            grvAttachments.DataBind();
+        }
         private void BindCashPaymentRequests()
         {
             grvCashPaymentRequestList.DataSource = _presenter.ListCashPaymentRequests(txtSrchRequestNo.Text, txtSrchRequestDate.Text);
@@ -137,20 +143,30 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             ddlPayee.DataSource = _presenter.GetSuppliers();
             ddlPayee.DataBind();
         }
+        private void PopPurchaseReqs()
+        {
+            ddlPurchaseReq.Items.Clear();
+            ListItem lst = new ListItem();
+            lst.Text = "Select Purchase Reqest";
+            lst.Value = "0";
+            ddlPurchaseReq.Items.Add(lst);
+            ddlPurchaseReq.DataSource = _presenter.GetPurchaseReqsByCurUser();
+            ddlPurchaseReq.DataBind();
+        }
         private void BindCashPaymentRequestFields()
         {
             _presenter.OnViewLoaded();
             if (_presenter.CurrentCashPaymentRequest != null)
             {
                 // txtRequestNo.Text = _presenter.CurrentCashPaymentRequest.RequestNo.ToString();
-                if(_presenter.CurrentCashPaymentRequest.Supplier != null)
+                if (_presenter.CurrentCashPaymentRequest.Supplier != null)
                 {
                     ddlPayee.SelectedValue = _presenter.CurrentCashPaymentRequest.Supplier.Id.ToString();
                 }
                 else
                 {
                     ddlPayee.SelectedValue = "0";
-                }                
+                }
                 txtDescription.Text = _presenter.CurrentCashPaymentRequest.Description;
                 ddlPayMethods.Text = _presenter.CurrentCashPaymentRequest.PaymentMethod;
                 ddlAmountType.SelectedValue = _presenter.CurrentCashPaymentRequest.AmountType;
@@ -477,6 +493,38 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             pnlWarning.Visible = false;
             _presenter.CancelPage();
+        }
+        protected void ddlPurchaseReq_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            PurchaseRequest pr = _presenter.GetPurchaseRequest(Convert.ToInt32(ddlPurchaseReq.SelectedValue));
+            foreach (PurchaseRequestDetail prd in pr.PurchaseRequestDetails)
+            {
+                CashPaymentRequestDetail cprd = new CashPaymentRequestDetail
+                {
+                    ItemAccount = prd.ItemAccount,
+                    AccountCode = prd.AccountCode,
+                    Project = prd.Project,
+                    Grant = prd.Grant,
+                    Amount = prd.EstimatedCost
+                };
+
+                _presenter.CurrentCashPaymentRequest.CashPaymentRequestDetails.Add(cprd);
+                BindCashPaymentDetails();
+            }
+            if (pr.PRAttachments.Count > 0)
+            {
+                foreach (PRAttachment pa in pr.PRAttachments)
+                {
+                    CPRAttachment cpa = new CPRAttachment
+                    {
+                        FilePath = pa.FilePath,
+                        CashPaymentRequest = _presenter.CurrentCashPaymentRequest
+                    };
+                    _presenter.CurrentCashPaymentRequest.CPRAttachments.Add(cpa);
+                }
+                BindCashPaymentAttachments();
+            }
+
         }
         protected void ddlAccountDescription_SelectedIndexChanged(object sender, EventArgs e)
         {

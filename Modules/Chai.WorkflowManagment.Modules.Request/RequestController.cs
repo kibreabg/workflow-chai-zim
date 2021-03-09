@@ -29,7 +29,7 @@ namespace Chai.WorkflowManagment.Modules.Request
         private IWorkspace _workspace;
 
         [InjectionConstructor]
-        public RequestController([ServiceDependency] IHttpContextLocatorService httpContextLocatorService, [ServiceDependency]INavigationService navigationService)
+        public RequestController([ServiceDependency] IHttpContextLocatorService httpContextLocatorService, [ServiceDependency] INavigationService navigationService)
             : base(httpContextLocatorService, navigationService)
         {
             _workspace = ZadsServices.Workspace;
@@ -120,7 +120,7 @@ namespace Chai.WorkflowManagment.Modules.Request
             string filterExpression = "";
 
             filterExpression = "SELECT * FROM CashPaymentRequests LEFT JOIN Suppliers on CashPaymentRequests.Supplier_Id = Suppliers.Id Where 1 = Case when '" + RequestNo + "' = '' Then 1 When CashPaymentRequests.VoucherNo = '" + RequestNo + "' Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When CashPaymentRequests.RequestDate = '" + RequestDate + "'  Then 1 END And CashPaymentRequests.AppUser_Id='" + GetCurrentUser().Id + "' ORDER BY CashPaymentRequests.Id Desc";
-           // return WorkspaceFactory.CreateReadOnly().Queryable<CashPaymentRequest>(filterExpression).ToList();
+            // return WorkspaceFactory.CreateReadOnly().Queryable<CashPaymentRequest>(filterExpression).ToList();
             return _workspace.SqlQuery<CashPaymentRequest>(filterExpression).ToList();
         }
         public IList<CashPaymentRequest> GetCashPaymentRequests()
@@ -144,7 +144,7 @@ namespace Chai.WorkflowManagment.Modules.Request
             }
             else { return 0; }
         }
-       
+
         public CPRAttachment GetCPRAttachment(int attachmentId)
         {
             return _workspace.Single<CPRAttachment>(x => x.Id == attachmentId);
@@ -398,6 +398,11 @@ namespace Chai.WorkflowManagment.Modules.Request
         {
             return WorkspaceFactory.CreateReadOnly().Query<PurchaseRequest>(null).ToList();
         }
+        public IList<PurchaseRequest> GetPurchaseReqsByCurUser()
+        {
+            int currentUserId = CurrentUser().Id;
+            return WorkspaceFactory.CreateReadOnly().Query<PurchaseRequest>(x => x.Requester == currentUserId).ToList();
+        }
         public PurchaseRequest GetPurchaseRequest(int PurchaseRequestId)
         {
             return _workspace.Single<PurchaseRequest>(x => x.Id == PurchaseRequestId, x => x.PurchaseRequestDetails.Select(y => y.ItemAccount), x => x.PurchaseRequestDetails.Select(z => z.Project));
@@ -530,7 +535,7 @@ namespace Chai.WorkflowManagment.Modules.Request
             return _workspace.SqlQuery<FuelCardRequest>(filterExpression).ToList();
 
         }
-     
+
         public int GetLastFuelCardRequestId()
         {
             if (_workspace.Last<FuelCardRequest>() != null)

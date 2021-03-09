@@ -37,11 +37,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 BindInitialValues();
             }
             this._presenter.OnViewLoaded();
-
-
-
         }
-
         [CreateNew]
         public PurchaseRequestPresenter Presenter
         {

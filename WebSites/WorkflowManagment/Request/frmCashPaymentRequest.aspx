@@ -37,7 +37,7 @@
                             <section class="col col-6">
                                 <asp:Label ID="lblPurReq" runat="server" Text="Purchase Request No" Visible="False"></asp:Label>
                                 <label class="select">
-                                    <asp:DropDownList ID="ddlPurchaseReq" AppendDataBoundItems="true" runat="server" Visible="false" DataValueField="Id" DataTextField="RequestNo" AutoPostBack="True">
+                                    <asp:DropDownList ID="ddlPurchaseReq" AppendDataBoundItems="true" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlPurchaseReq_SelectedIndexChanged" Visible="false" DataValueField="Id" DataTextField="RequestNo">
                                     </asp:DropDownList><i></i>
                                 </label>
                             </section>

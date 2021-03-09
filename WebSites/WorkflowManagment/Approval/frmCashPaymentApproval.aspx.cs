@@ -459,7 +459,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             BindCashPaymentRequestStatus();
             txtRejectedReason.Visible = false;
             rfvRejectedReason.Enabled = false;
-            pnlApproval_ModalPopupExtender.Show();
+            ScriptManager.RegisterStartupScript(this, GetType(), "showApprovalModal", "showApprovalModal();", true);
         }
         protected void grvCashPaymentRequestList_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
@@ -490,7 +490,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
 
                     btnApprove.Enabled = false;
                     BindSearchCashPaymentRequestGrid();
-                    pnlApproval_ModalPopupExtender.Show();
+                    ScriptManager.RegisterStartupScript(this, GetType(), "showApprovalModal", "showApprovalModal();", true);
                 }
                 PrintTransaction();
             }
@@ -551,7 +551,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 txtRejectedReason.Visible = false;
                 rfvRejectedReason.Enabled = false;
             }
-            pnlApproval_ModalPopupExtender.Show();
+            ScriptManager.RegisterStartupScript(this, GetType(), "showApprovalModal", "showApprovalModal();", true);
         }
         protected void dgCashPaymentRequestDetail_ItemDataBound(object sender, DataGridItemEventArgs e)
         {
@@ -757,6 +757,5 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             }
             pnlReimbursement_ModalPopupExtender.Show();
         }
-
     }
 }
