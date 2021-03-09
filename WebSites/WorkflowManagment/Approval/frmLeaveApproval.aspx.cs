@@ -267,7 +267,6 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             try
             {
-
                 if (_presenter.CurrentLeaveRequest.ProgressStatus != ProgressStatus.Completed.ToString())
                 {
                     SaveLeaveRequestStatus();
@@ -276,11 +275,11 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     ShowPrint();
                     if (ddlApprovalStatus.SelectedValue != "Rejected")
                     {
-                        Master.ShowMessage(new AppMessage("Leave Approval Processed ", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                        Master.ShowMessage(new AppMessage("Leave Approval Processed ", RMessageType.Info));
                     }
                     else
                     {
-                        Master.ShowMessage(new AppMessage("Leave Approval Rejected ", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                        Master.ShowMessage(new AppMessage("Leave Approval Rejected ", RMessageType.Info));
                     }
 
                     btnApprove.Enabled = false;

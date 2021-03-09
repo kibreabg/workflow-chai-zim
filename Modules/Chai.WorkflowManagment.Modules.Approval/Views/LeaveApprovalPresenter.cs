@@ -7,6 +7,7 @@ using Chai.WorkflowManagment.CoreDomain.Request;
 using Chai.WorkflowManagment.CoreDomain.Users;
 using Chai.WorkflowManagment.Shared;
 using Chai.WorkflowManagment.CoreDomain.Setting;
+using Chai.WorkflowManagment.Enums;
 
 namespace Chai.WorkflowManagment.Modules.Approval.Views
 {
@@ -81,7 +82,6 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
          public void SaveOrUpdateLeaveRequest(LeaveRequest LeaveRequest)
          {
              _controller.SaveOrUpdateEntity(LeaveRequest);
-             CalculateLeaveTaken();
              _controller.CurrentObject = null;
          }
          public void SaveOrUpdateEmployeeLeave(EmployeeLeave EmployeeLeave)
@@ -90,15 +90,18 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
          }
          private void CalculateLeaveTaken()
          {
-             if (CurrentLeaveRequest.LeaveType.LeaveTypeName.Contains("Annual"))
-             {
-                 EmployeeLeave EL = GetEmployeeLeave(CurrentLeaveRequest.Requester);
-                 if (EL != null)
-                 {
-                     EL.LeaveTaken = EL.LeaveTaken + CurrentLeaveRequest.RequestedDays;
-                     SaveOrUpdateEmployeeLeave(EL);
-                 }
-             }
+            if (CurrentLeaveRequest.CurrentLevel == CurrentLeaveRequest.LeaveRequestStatuses.Count && CurrentLeaveRequest.ProgressStatus == ProgressStatus.Completed.ToString())
+            {
+                if (CurrentLeaveRequest.LeaveType.LeaveTypeName.Contains("Annual"))
+                {
+                    EmployeeLeave EL = GetEmployeeLeave(CurrentLeaveRequest.Requester);
+                    if (EL != null)
+                    {
+                        EL.LeaveTaken = EL.LeaveTaken + CurrentLeaveRequest.RequestedDays;
+                        SaveOrUpdateEmployeeLeave(EL);
+                    }
+                }
+            }
          }
          public void CancelPage()
          {

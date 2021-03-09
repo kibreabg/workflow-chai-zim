@@ -43,7 +43,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 
 
         }
-
         private string AutoNumber()
         {
             return "LR-" + _presenter.CurrentUser().Id.ToString() + "-" + (_presenter.GetLastLeaveRequestId() + 1).ToString();
@@ -537,7 +536,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 {
                     int bal = (Convert.ToInt32(txtforward.Text) - Convert.ToInt32(txtapplyfor.Text));
                     if (bal < 0)
-
                         txtbalance.Text = Convert.ToString(0);
                     else
                         txtbalance.Text = bal.ToString();

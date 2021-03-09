@@ -345,7 +345,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     if (ddlGrant != null)
                     {
                         BindGrant(ddlGrant, Convert.ToInt32(ddlProject.SelectedValue));
-                        if (_presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestDetails[e.Item.DataSetIndex].Grant.Id != null)
+                        if (_presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestDetails[e.Item.DataSetIndex].Grant != null)
                         {
                             ListItem liI = ddlGrant.Items.FindByValue(_presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestDetails[e.Item.DataSetIndex].Grant.Id.ToString());
                             if (liI != null)
