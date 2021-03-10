@@ -310,7 +310,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             PopApprovalStatus();
             BindVehicleRequestStatus();
             BindVehicles();
-            lblProjectIDDResult.Text = _presenter.CurrentVehicleRequest.Project.ProjectCode;
+            if (_presenter.CurrentVehicleRequest.Project != null)
+                lblProjectIDDResult.Text = _presenter.CurrentVehicleRequest.Project.ProjectCode;
             if (_presenter.CurrentVehicleRequest.Grant != null)
                 lblGrantIDResult.Text = _presenter.CurrentVehicleRequest.Grant.GrantCode;
             if (_presenter.CurrentVehicleRequest.ProgressStatus == ProgressStatus.Completed.ToString())
