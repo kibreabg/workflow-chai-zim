@@ -208,11 +208,16 @@ namespace Chai.WorkflowManagment.Modules.Shell
         }
         public int GetBankPaymentTasks()
         {
-            currentUser = GetCurrentUser().Id;
             string filterExpression = "";
 
-            filterExpression = " SELECT * FROM OperationalControlRequests INNER JOIN AppUsers on AppUsers.Id = OperationalControlRequests.CurrentApprover Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where OperationalControlRequests.ProgressStatus='InProgress' " +
-                                  " AND  ((OperationalControlRequests.CurrentApprover = '" + currentUser + "') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) order by OperationalControlRequests.Id ";
+            filterExpression = " SELECT * FROM OperationalControlRequests " +
+                               " LEFT JOIN AppUsers on AppUsers.Id = OperationalControlRequests.CurrentApprover " +
+                               " LEFT JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 " +
+                               " WHERE OperationalControlRequests.ProgressStatus='InProgress' " +
+                                  " AND ((OperationalControlRequests.CurrentApprover = '" + GetCurrentUser().Id + "') " +
+                                  " OR (OperationalControlRequests.CurrentApproverPosition = '" + GetCurrentUser().EmployeePosition.Id + "') " +
+                                  " OR (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) " +
+                                  " ORDER BY OperationalControlRequests.Id ";
 
             return _workspace.SqlQuery<OperationalControlRequest>(filterExpression).Count();
         }
