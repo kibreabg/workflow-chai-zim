@@ -15,6 +15,7 @@ using log4net;
 using log4net.Config;
 using Microsoft.Practices.ObjectBuilder;
 using System.IO;
+using Chai.WorkflowManagment.CoreDomain.Users;
 
 namespace Chai.WorkflowManagment.Modules.Approval.Views
 {
@@ -122,9 +123,26 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     break;
 
                 }
-                else if (_presenter.GetUser(_presenter.CurrentOperationalControlRequest.CurrentApprover).EmployeePosition.PositionName == AL.EmployeePosition.PositionName)
+                /*else if (_presenter.GetUser(_presenter.CurrentOperationalControlRequest.CurrentApprover).EmployeePosition.PositionName == AL.EmployeePosition.PositionName)
                 {
                     will = AL.Will;
+                }*/
+                else
+                {
+                    try
+                    {
+                        if (_presenter.GetUser(_presenter.CurrentOperationalControlRequest.CurrentApprover).EmployeePosition.PositionName == AL.EmployeePosition.PositionName)
+                        {
+                            will = AL.Will;
+                        }
+                    }
+                    catch
+                    {
+                        if (_presenter.CurrentOperationalControlRequest.CurrentApproverPosition == AL.EmployeePosition.Id)
+                        {
+                            will = AL.Will;
+                        }
+                    }
                 }
 
             }
@@ -193,7 +211,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         private void SendEmail(OperationalControlRequestStatus OCRS)
         {
-            if (_presenter.GetUser(OCRS.Approver) != null)
+            if (OCRS.Approver != 0)
             {
                 if (_presenter.GetUser(OCRS.Approver).IsAssignedJob != true)
                 {
@@ -202,6 +220,20 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 else
                 {
                     EmailSender.Send(_presenter.GetUser(_presenter.GetAssignedJobbycurrentuser(OCRS.Approver).AssignedTo).Email, "Bank Payment Approval", (_presenter.CurrentOperationalControlRequest.AppUser.FullName).ToUpper() + " Requests for payment");
+                }
+            }
+            else
+            {
+                foreach (AppUser Payer in _presenter.GetAppUsersByEmployeePosition(OCRS.ApproverPosition))
+                {
+                    if (Payer.IsAssignedJob != true)
+                    {
+                        EmailSender.Send(Payer.Email, "Bank Payment Approval", (_presenter.CurrentOperationalControlRequest.AppUser.FullName).ToUpper() + " Requests for Payment with Request No. " + (_presenter.CurrentOperationalControlRequest.RequestNo).ToUpper());
+                    }
+                    else
+                    {
+                        EmailSender.Send(_presenter.GetUser(_presenter.GetAssignedJobbycurrentuser(Payer.Id).AssignedTo).Email, "Bank Payment Approval", (_presenter.CurrentOperationalControlRequest.AppUser.FullName).ToUpper() + " Requests for Payment with Request No. '" + (_presenter.CurrentOperationalControlRequest.RequestNo).ToUpper());
+                    }
                 }
             }
 
@@ -224,6 +256,12 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             {
                 if (OCRS.ApprovalStatus == null)
                 {
+                    if (OCRS.Approver == 0)
+                    {
+                        //This is to handle multiple Finance Officers responding to this request
+                        //SendEmailToFinanceOfficers;
+                        _presenter.CurrentOperationalControlRequest.CurrentApproverPosition = OCRS.ApproverPosition;
+                    }
                     SendEmail(OCRS);
                     _presenter.CurrentOperationalControlRequest.CurrentApprover = OCRS.Approver;
                     _presenter.CurrentOperationalControlRequest.CurrentLevel = OCRS.WorkflowLevel;
@@ -237,7 +275,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             foreach (OperationalControlRequestStatus OCRS in _presenter.CurrentOperationalControlRequest.OperationalControlRequestStatuses)
             {
-                if ((OCRS.Approver == _presenter.CurrentUser().Id || _presenter.CurrentUser().Id == (_presenter.GetAssignedJobbycurrentuser(OCRS.Approver) != null ? _presenter.GetAssignedJobbycurrentuser(OCRS.Approver).AssignedTo : 0)) && OCRS.WorkflowLevel == _presenter.CurrentOperationalControlRequest.CurrentLevel)
+                if ((OCRS.Approver == _presenter.CurrentUser().Id || (OCRS.ApproverPosition == _presenter.CurrentUser().EmployeePosition.Id) || _presenter.CurrentUser().Id == (_presenter.GetAssignedJobbycurrentuser(OCRS.Approver) != null ? _presenter.GetAssignedJobbycurrentuser(OCRS.Approver).AssignedTo : 0)) && OCRS.WorkflowLevel == _presenter.CurrentOperationalControlRequest.CurrentLevel)
                 {
                     OCRS.ApprovalStatus = ddlApprovalStatus.SelectedValue;
                     OCRS.RejectedReason = txtRejectedReason.Text;
@@ -352,11 +390,11 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     ShowPrint();
                     if (ddlApprovalStatus.SelectedValue != "Rejected")
                     {
-                        Master.ShowMessage(new AppMessage("Bank Payment Approval Processed", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                        Master.ShowMessage(new AppMessage("Bank Payment Approval Processed", RMessageType.Info));
                     }
                     else
                     {
-                        Master.ShowMessage(new AppMessage("Bank Payment Approval Rejected", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                        Master.ShowMessage(new AppMessage("Bank Payment Approval Rejected", RMessageType.Info));
                     }
                     btnApprove.Enabled = false;
                     BindSearchOperationalControlRequestGrid();

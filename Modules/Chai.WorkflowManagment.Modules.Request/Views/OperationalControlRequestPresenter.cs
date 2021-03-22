@@ -78,49 +78,45 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 int i = 1;
                 foreach (ApprovalLevel AL in GetApprovalSetting(RequestType.OperationalControl_Request.ToString().Replace('_', ' '), 0).ApprovalLevels)
                 {
-                    OperationalControlRequestStatus CPRS = new OperationalControlRequestStatus();
-                    CPRS.OperationalControlRequest = CurrentOperationalControlRequest;
+                    OperationalControlRequestStatus OCRS = new OperationalControlRequestStatus();
+                    OCRS.OperationalControlRequest = CurrentOperationalControlRequest;
                     //All Approver positions must be entered into the database before the approval workflow could run effectively!
                     if (AL.EmployeePosition.PositionName == "Superviser/Line Manager")
                     {
                         if (CurrentUser().Superviser != 0)
-                            CPRS.Approver = CurrentUser().Superviser.Value;
+                            OCRS.Approver = CurrentUser().Superviser.Value;
                         else
                         {
-                            CPRS.ApprovalStatus = ApprovalStatus.Approved.ToString();
-                            CPRS.Date = Convert.ToDateTime(DateTime.Today.Date.ToShortDateString());
+                            OCRS.ApprovalStatus = ApprovalStatus.Approved.ToString();
+                            OCRS.Date = Convert.ToDateTime(DateTime.Today.Date.ToShortDateString());
                         }
                     }
                     else if (AL.EmployeePosition.PositionName == "Program Manager")
                     {
                         if (CurrentOperationalControlRequest.OperationalControlRequestDetails[0].Project.Id != 0)
                         {
-                            CPRS.Approver = GetProject(CurrentOperationalControlRequest.OperationalControlRequestDetails[0].Project.Id).AppUser.Id;
+                            OCRS.Approver = GetProject(CurrentOperationalControlRequest.OperationalControlRequestDetails[0].Project.Id).AppUser.Id;
                         }
                     }
                     else
                     {
                         if (Approver(AL.EmployeePosition.Id) != null)
                         {
-                            //var strName = System.Configuration.ConfigurationManager.AppSettings["Shiella"];
-                            //This code is to handle choosing a specific finance officer to do this task from the available finance officers. 
-                            //Only the finance officer named in the web config can handle this task. Other wise the approver is set to 0
-                            string userName = System.Configuration.ConfigurationManager.AppSettings["FinanceManager"];
-                            if (AL.EmployeePosition.PositionName == "Finance Officer")
+                            if (AL.EmployeePosition.PositionName == "Analyst, Finance")
                             {
-                                CPRS.Approver = _settingController.GetUserByUserName(userName).Id;
+                                OCRS.ApproverPosition = AL.EmployeePosition.Id; //So that we can entertain more than one finance manager to handle the request
                             }
                             else
                             {
-                                CPRS.Approver = Approver(AL.EmployeePosition.Id).Id;
+                                OCRS.Approver = Approver(AL.EmployeePosition.Id).Id;
                             }
                         }
                         else
-                            CPRS.Approver = 0;
+                            OCRS.Approver = 0;
                     }
-                    CPRS.WorkflowLevel = i;
+                    OCRS.WorkflowLevel = i;
                     i++;
-                    CurrentOperationalControlRequest.OperationalControlRequestStatuses.Add(CPRS);
+                    CurrentOperationalControlRequest.OperationalControlRequestStatuses.Add(OCRS);
                 }
             }
         }
@@ -128,14 +124,14 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             if (CurrentOperationalControlRequest.OperationalControlRequestStatuses != null)
             {
-                foreach (OperationalControlRequestStatus CPRS in CurrentOperationalControlRequest.OperationalControlRequestStatuses)
+                foreach (OperationalControlRequestStatus OCRS in CurrentOperationalControlRequest.OperationalControlRequestStatuses)
                 {
-                    if (CPRS.ApprovalStatus == null)
+                    if (OCRS.ApprovalStatus == null)
                     {
-                        SendEmail(CPRS);
-                        CurrentOperationalControlRequest.CurrentApprover = CPRS.Approver;
-                        CurrentOperationalControlRequest.CurrentLevel = CPRS.WorkflowLevel;
-                        CurrentOperationalControlRequest.CurrentStatus = CPRS.ApprovalStatus;
+                        SendEmail(OCRS);
+                        CurrentOperationalControlRequest.CurrentApprover = OCRS.Approver;
+                        CurrentOperationalControlRequest.CurrentLevel = OCRS.WorkflowLevel;
+                        CurrentOperationalControlRequest.CurrentStatus = OCRS.ApprovalStatus;
                         break;
                     }
                 }
@@ -273,15 +269,15 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             return _settingController.GetApprovalSettingforProcess(RequestType, value);
         }
-        private void SendEmail(OperationalControlRequestStatus CPRS)
+        private void SendEmail(OperationalControlRequestStatus OCRS)
         {
-            if (GetSuperviser(CPRS.Approver).IsAssignedJob != true)
+            if (GetSuperviser(OCRS.Approver).IsAssignedJob != true)
             {
-                EmailSender.Send(GetSuperviser(CPRS.Approver).Email, "Bank Payment Request", (CurrentOperationalControlRequest.AppUser.FullName).ToUpper() + " Requests for Bank Payment");
+                EmailSender.Send(GetSuperviser(OCRS.Approver).Email, "Bank Payment Request", (CurrentOperationalControlRequest.AppUser.FullName).ToUpper() + " Requests for Bank Payment");
             }
             else
             {
-                EmailSender.Send(GetSuperviser(_controller.GetAssignedJobbycurrentuser(CPRS.Approver).AssignedTo).Email, "Bank Payment Request", (CurrentOperationalControlRequest.AppUser.FullName).ToUpper() + " Requests for Bank Payment");
+                EmailSender.Send(GetSuperviser(_controller.GetAssignedJobbycurrentuser(OCRS.Approver).AssignedTo).Email, "Bank Payment Request", (CurrentOperationalControlRequest.AppUser.FullName).ToUpper() + " Requests for Bank Payment");
             }
         }
         public CashPaymentRequest GetCashPaymentRequest(int paymentRequest)

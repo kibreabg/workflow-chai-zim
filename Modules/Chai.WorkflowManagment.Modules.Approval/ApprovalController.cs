@@ -128,8 +128,16 @@ namespace Chai.WorkflowManagment.Modules.Approval
             string filterExpression = "";
             if (ProgressStatus == "InProgress")
             {
-                filterExpression = " SELECT * FROM OperationalControlRequests INNER JOIN AppUsers on AppUsers.Id = OperationalControlRequests.CurrentApprover Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1  Where 1 = Case when '" + RequestNo + "' = '' Then 1 When OperationalControlRequests.VoucherNo = '" + RequestNo + "'  Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When OperationalControlRequests.RequestDate = '" + RequestDate + "'  Then 1 END AND OperationalControlRequests.ProgressStatus='" + ProgressStatus + "' " +
-                                   " AND  ((OperationalControlRequests.CurrentApprover = '" + CurrentUser().Id + "') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) order by OperationalControlRequests.Id DESC ";
+                filterExpression = " SELECT * FROM OperationalControlRequests " +
+                                   " LEFT JOIN AppUsers ON AppUsers.Id = OperationalControlRequests.CurrentApprover " +
+                                   " LEFT JOIN AssignJobs ON AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 " +
+                                   " WHERE 1 = Case when '" + RequestNo + "' = '' Then 1 When OperationalControlRequests.VoucherNo = '" + RequestNo + "' Then 1 END " +
+                                   " AND 1 = Case when '" + RequestDate + "' = '' Then 1 When OperationalControlRequests.RequestDate = '" + RequestDate + "'  Then 1 END " +
+                                   " AND OperationalControlRequests.ProgressStatus='" + ProgressStatus + "' " +
+                                   " AND ((OperationalControlRequests.CurrentApprover = '" + CurrentUser().Id + "') " +
+                                   " OR (OperationalControlRequests.CurrentApproverPosition = '" + CurrentUser().EmployeePosition.Id + "') " +
+                                   " OR (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) " +
+                                   " ORDER BY OperationalControlRequests.Id DESC ";
             }
             else if (ProgressStatus == "Not Retired" || ProgressStatus == "Retired")
             {
