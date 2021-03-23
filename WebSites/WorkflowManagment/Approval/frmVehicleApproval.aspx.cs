@@ -263,6 +263,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     {
                         foreach (VehicleRequestDetail vehicleReqDet in _presenter.CurrentVehicleRequest.VehicleRequestDetails)
                         {
+                            //If it is a Car Rental we add an additional workflow which goes to the manager. 
+                            //Else Jose will Complete it in the first run
                             if (vehicleReqDet.AssignedVehicle == "carRental")
                             {
                                 needsApproval = true;
@@ -271,24 +273,22 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                         if (needsApproval == false)
                         {
                             _presenter.CurrentVehicleRequest.CurrentLevel = _presenter.CurrentVehicleRequest.VehicleRequestStatuses.Count;
-
-                            if (_presenter.CurrentVehicleRequest.CurrentLevel == _presenter.CurrentVehicleRequest.VehicleRequestStatuses.Count)
-                            {
-
-                                _presenter.CurrentVehicleRequest.ProgressStatus = ProgressStatus.Completed.ToString();
-                                _presenter.CurrentVehicleRequest.CurrentStatus = VRS.ApprovalStatus;
-                                VRS.Approver = _presenter.CurrentUser().Id;
-                                SendEmailDriver(VRS);
-                                //SendCompletedEmail(VRS);
-                                break;
-                            }
+                            _presenter.CurrentVehicleRequest.ProgressStatus = ProgressStatus.Completed.ToString();
+                            _presenter.CurrentVehicleRequest.CurrentStatus = ProgressStatus.Completed.ToString();
+                            VRS.ApprovalStatus = ProgressStatus.Completed.ToString();
+                            VRS.Approver = _presenter.CurrentUser().Id;
+                            SendEmailDriver(VRS);
+                            //SendCompletedEmail(VRS);
+                            break;
                         }
-                        else
+                        else if (VRS.ApprovalStatus == ProgressStatus.Completed.ToString())
                         {
-                            GetNextApprover();
+                            _presenter.CurrentVehicleRequest.ProgressStatus = ProgressStatus.Completed.ToString();
+                            SendEmailDriver(VRS);
                         }
                         _presenter.CurrentVehicleRequest.CurrentStatus = VRS.ApprovalStatus;
                         GetNextApprover();
+
                     }
                     else
                     {
@@ -449,6 +449,27 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         protected void dgVehicles_ItemDataBound(object sender, DataGridItemEventArgs e)
         {
+            if (_presenter.CurrentVehicleRequest.ProgressStatus == ProgressStatus.Completed.ToString())
+            {
+                foreach (DataGridColumn col in dgVehicles.Columns)
+                {
+                    if (col.HeaderText.ToLower().Trim() == "actions")
+                    {
+                        col.Visible = false;
+                    }
+                }
+            }
+            else
+            {
+                foreach (DataGridColumn col in dgVehicles.Columns)
+                {
+                    if (col.HeaderText.ToLower().Trim() == "actions")
+                    {
+                        col.Visible = true;
+                    }
+                }
+            }
+
             if (e.Item.ItemType == ListItemType.Footer)
             {
                 DropDownList ddlCarRental = e.Item.FindControl("ddlCarRental") as DropDownList;
@@ -568,11 +589,6 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             {
                 if (_presenter.CurrentVehicleRequest.ProgressStatus != ProgressStatus.Completed.ToString())
                 {
-                    if (ddlApprovalStatus.Text != "Car Rental")
-                    {
-
-
-                    }
                     SaveVehicleRequestStatus();
                     _presenter.SaveOrUpdateVehicleRequest(_presenter.CurrentVehicleRequest);
                     ShowPrint();

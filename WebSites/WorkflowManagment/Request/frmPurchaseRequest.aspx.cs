@@ -420,42 +420,50 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             {
                 try
                 {
-                    PurchaseRequestDetail Detail = new PurchaseRequestDetail();
-                    DropDownList ddlFAccount = e.Item.FindControl("ddlFAccount") as DropDownList;
-                    Detail.ItemAccount = _presenter.GetItemAccount(int.Parse(ddlFAccount.SelectedValue));
-                    TextBox txtFAccountCode = e.Item.FindControl("txtFAccountCode") as TextBox;
-                    Detail.AccountCode = txtFAccountCode.Text;
-                    TextBox txtFItem = e.Item.FindControl("txtFItem") as TextBox;
-                    Detail.Item = txtFItem.Text;
-                    TextBox txtFQty = e.Item.FindControl("txtFQty") as TextBox;
-                    Detail.Qty = Convert.ToInt32(txtFQty.Text);
-
-                    TextBox txtFPriceperunit = e.Item.FindControl("txtFPriceperunit") as TextBox;
-                    Detail.Priceperunit = Convert.ToDecimal(txtFPriceperunit.Text);
-                    Detail.EstimatedCost = Convert.ToInt32(txtFQty.Text) * Convert.ToDecimal(txtFPriceperunit.Text);
-                    //Determine total cost
-                    decimal cost = 0;
-                    if (_presenter.CurrentPurchaseRequest.PurchaseRequestDetails.Count > 0)
+                    if (_presenter.CurrentPurchaseRequest.PurchaseRequestDetails.Count() < 1)
                     {
+                        PurchaseRequestDetail Detail = new PurchaseRequestDetail();
+                        DropDownList ddlFAccount = e.Item.FindControl("ddlFAccount") as DropDownList;
+                        Detail.ItemAccount = _presenter.GetItemAccount(int.Parse(ddlFAccount.SelectedValue));
+                        TextBox txtFAccountCode = e.Item.FindControl("txtFAccountCode") as TextBox;
+                        Detail.AccountCode = txtFAccountCode.Text;
+                        TextBox txtFItem = e.Item.FindControl("txtFItem") as TextBox;
+                        Detail.Item = txtFItem.Text;
+                        TextBox txtFQty = e.Item.FindControl("txtFQty") as TextBox;
+                        Detail.Qty = Convert.ToInt32(txtFQty.Text);
 
-                        foreach (PurchaseRequestDetail detail in _presenter.CurrentPurchaseRequest.PurchaseRequestDetails)
+                        TextBox txtFPriceperunit = e.Item.FindControl("txtFPriceperunit") as TextBox;
+                        Detail.Priceperunit = Convert.ToDecimal(txtFPriceperunit.Text);
+                        Detail.EstimatedCost = Convert.ToInt32(txtFQty.Text) * Convert.ToDecimal(txtFPriceperunit.Text);
+                        //Determine total cost
+                        decimal cost = 0;
+                        if (_presenter.CurrentPurchaseRequest.PurchaseRequestDetails.Count > 0)
                         {
-                            cost = cost + detail.EstimatedCost;
+
+                            foreach (PurchaseRequestDetail detail in _presenter.CurrentPurchaseRequest.PurchaseRequestDetails)
+                            {
+                                cost = cost + detail.EstimatedCost;
+                            }
                         }
+                        _presenter.CurrentPurchaseRequest.TotalPrice = cost;
+                        //Determine total cost end
+                        _presenter.CurrentPurchaseRequest.TotalPrice = _presenter.CurrentPurchaseRequest.TotalPrice + Detail.EstimatedCost;
+                        txtTotal.Text = (_presenter.CurrentPurchaseRequest.TotalPrice).ToString();
+                        DropDownList ddlFProject = e.Item.FindControl("ddlFProject") as DropDownList;
+                        Detail.Project = _presenter.GetProject(int.Parse(ddlFProject.SelectedValue));
+                        DropDownList ddlFGrant = e.Item.FindControl("ddlFGrant") as DropDownList;
+                        Detail.Grant = _presenter.GetGrant(int.Parse(ddlFGrant.SelectedValue));
+                        Detail.PurchaseRequest = _presenter.CurrentPurchaseRequest;
+                        _presenter.CurrentPurchaseRequest.PurchaseRequestDetails.Add(Detail);
+                        Master.ShowMessage(new AppMessage("Purchase Request Detail added successfully.", RMessageType.Info));
+                        dgPurchaseRequestDetail.EditItemIndex = -1;
+                        BindPurchaseRequestDetails();
                     }
-                    _presenter.CurrentPurchaseRequest.TotalPrice = cost;
-                    //Determine total cost end
-                    _presenter.CurrentPurchaseRequest.TotalPrice = _presenter.CurrentPurchaseRequest.TotalPrice + Detail.EstimatedCost;
-                    txtTotal.Text = (_presenter.CurrentPurchaseRequest.TotalPrice).ToString();
-                    DropDownList ddlFProject = e.Item.FindControl("ddlFProject") as DropDownList;
-                    Detail.Project = _presenter.GetProject(int.Parse(ddlFProject.SelectedValue));
-                    DropDownList ddlFGrant = e.Item.FindControl("ddlFGrant") as DropDownList;
-                    Detail.Grant = _presenter.GetGrant(int.Parse(ddlFGrant.SelectedValue));
-                    Detail.PurchaseRequest = _presenter.CurrentPurchaseRequest;
-                    _presenter.CurrentPurchaseRequest.PurchaseRequestDetails.Add(Detail);
-                    Master.ShowMessage(new AppMessage("Purchase Request Detail added successfully.", RMessageType.Info));
-                    dgPurchaseRequestDetail.EditItemIndex = -1;
-                    BindPurchaseRequestDetails();
+                    else
+                    {
+                        Master.ShowMessage(new AppMessage("You can only request ONE Item per request!", RMessageType.Error));
+                    }
+
                 }
                 catch (Exception ex)
                 {

@@ -302,136 +302,108 @@
     <div id="divprint" style="display: none;">
         <table style="width: 100%;">
             <tr>
-                <td style="width: 17%; text-align: left;">
-                    <img src="../img/CHAI%20Logo.png" width="70" height="50" /></td>
                 <td style="font-size: large; text-align: center;">
+                    <img src="../img/CHAI%20Logo.png" width="70" height="70" />
+                    <br />
                     <strong>CHAI ZIMBABWE
                             <br />
                         VEHICLE REQUEST FORM</strong></td>
             </tr>
         </table>
-        <table style="width: 100%;">
-
+        <table style="width: 75%;">
             <tr>
-                <td align="right" style="width: 576px">&nbsp;</td>
-                <td align="right" style="width: 490px" class="modal-sm">&nbsp;</td>
-                <td align="right" style="width: 280px" class="modal-sm">&nbsp;</td>
-                <td align="right" style="width: 389px">&nbsp;</td>
-                <td>&nbsp;</td>
-            </tr>
-            <tr>
-                <td style="width: 576px; height: 18px; padding-left: 15%;">
+                <td style="width: 25%;">
                     <strong>
                         <asp:Label ID="lblRequestNo" runat="server" Text="Request No:"></asp:Label>
                     </strong></td>
-                <td style="width: 490px" class="modal-sm">
+                <td style="width: 25%;">
                     <asp:Label ID="lblRequestNoResult" runat="server"></asp:Label>
                 </td>
-                <td style="width: 280px" class="modal-sm"><strong>
+                <td style="width: 25%;"><strong>
                     <asp:Label ID="lblPurposeTravel" runat="server" Text="Purpose Of Travel:"></asp:Label>
                 </strong>
                 </td>
-                <td style="width: 389px">
+                <td style="width: 25%;">
                     <asp:Label ID="lblPurposeOfTravelResult" runat="server"></asp:Label>
                 </td>
-                <td>&nbsp;</td>
             </tr>
             <tr>
-                <td style="width: 576px; height: 18px; padding-left: 15%;">
+                <td style="width: 25%;">
                     <strong>
                         <asp:Label ID="lblRequestedDate" runat="server" Text="Requested Date:"></asp:Label>
                     </strong></td>
-                <td style="width: 490px" class="modal-sm">
+                <td style="width: 25%;">
                     <asp:Label ID="lblRequestedDateResult" runat="server"></asp:Label>
                 </td>
-                <td style="width: 280px" class="modal-sm">
+                <td style="width: 25%;">
                     <strong>
                         <asp:Label ID="lblApprovalStatusPrint" runat="server" Text="Progress Status:"></asp:Label>
                     </strong>
                 </td>
-                <td style="width: 389px">
+                <td style="width: 25%;">
                     <asp:Label ID="lblApprovalStatusResult" runat="server"></asp:Label>
                 </td>
-                <td>&nbsp;</td>
             </tr>
             <tr>
-                <td style="width: 576px; height: 18px; padding-left: 15%;">
+                <td style="width: 25%;">
                     <strong>
                         <asp:Label ID="lblProjectId" runat="server" Text="ProjectID:"></asp:Label>
                     </strong></td>
-                <td style="width: 490px; padding-left: 20%;">
+                <td style="width: 25%;">
                     <asp:Label ID="lblProjectIdResult" runat="server"></asp:Label>
                 </td>
-                <td style="width: 280px" class="modal-sm">
+                <td style="width: 25%;">
                     <strong>
                         <asp:Label ID="lblDepartureTime" runat="server" Text="Departure Time:"></asp:Label>
                     </strong>
                 </td>
-                <td style="width: 389px">
+                <td style="width: 25%;">
                     <asp:Label ID="lblDepartureTimeResult" runat="server"></asp:Label>
                 </td>
-                <td>&nbsp;</td>
             </tr>
             <tr>
-                <td style="width: 576px; height: 18px; padding-left: 15%;">
+                <td style="width: 25%;">
                     <strong>
                         <asp:Label ID="lblRequester" runat="server" Text="Requester:"></asp:Label>
                     </strong></td>
-                <td style="width: 490px" class="modal-sm">
+                <td style="width: 25%;">
                     <asp:Label ID="lblRequesterResult" runat="server"></asp:Label>
                 </td>
-                <td style="width: 280px" class="modal-sm">&nbsp;</td>
-                <td style="width: 389px"></td>
-                <td>&nbsp;</td>
+                <td style="width: 25%;"></td>
+                <td style="width: 25%;"></td>
             </tr>
             <tr>
-                <td style="width: 576px; height: 18px; padding-left: 15%;">
+                <td style="width: 25%;">
                     <strong>
                         <asp:Label ID="lblDepartureDate" runat="server" Text="Departure Date:"></asp:Label>
                     </strong>
                 </td>
-                <td style="width: 490px; height: 18px;">
+                <td style="width: 25%;">
                     <asp:Label ID="lblDepartureDateResult" runat="server"></asp:Label>
                 </td>
-                <td style="width: 280px; height: 18px;">
+                <td style="width: 25%;">
                     <strong>
                         <asp:Label ID="lblReturningDate" runat="server" Text="Returning Date:"></asp:Label></strong></td>
-                <td style="width: 389px; height: 18px;">
+                <td style="width: 25%;">
                     <asp:Label ID="lblReturningDateResult" runat="server"></asp:Label>
                 </td>
-                <td style="height: 18px">&nbsp;</td>
             </tr>
             <tr>
-                <td style="width: 576px; height: 18px; padding-left: 15%;">
+                <td style="width: 25%;">
                     <strong>
                         <asp:Label ID="lblDestination" runat="server" Text="Destination:"></asp:Label>
                     </strong></td>
-                <td style="width: 490px" class="modal-sm">
+                <td style="width: 25%;">
                     <asp:Label ID="lblDestinationResult" runat="server"></asp:Label>
                 </td>
-                <td style="width: 280px" class="modal-sm">
+                <td style="width: 25%;">
                     <strong>
                         <asp:Label ID="lblNoOfPassengers" runat="server" Text="No of Passengers:"></asp:Label>
                     </strong>
                 </td>
-                <td style="width: 389px">
+                <td style="width: 25%;">
                     <asp:Label ID="lblNoOfPassengersResult" runat="server"></asp:Label>
                 </td>
-                <td>&nbsp;</td>
-            </tr>
-            <tr>
-                <td style="width: 576px; height: 18px; padding-left: 15%;">&nbsp;</td>
-                <td style="width: 490px; height: 18px;">&nbsp;</td>
-                <td style="width: 280px; height: 18px;">&nbsp;</td>
-                <td style="width: 389px; height: 18px;">&nbsp;</td>
-                <td style="height: 18px"></td>
-            </tr>
-            <tr>
-                <td style="width: 576px; height: 18px; padding-left: 15%;">&nbsp;</td>
-                <td style="width: 490px; height: 18px;">&nbsp;</td>
-                <td style="height: 18px; width: 280px;">&nbsp;</td>
-                <td></td>
-                <td></td>
             </tr>
         </table>
         <br />
