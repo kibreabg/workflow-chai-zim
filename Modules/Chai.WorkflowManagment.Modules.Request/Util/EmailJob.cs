@@ -22,7 +22,7 @@ namespace Chai.WorkflowManagment.Modules.Request
                 using (var wr = WorkspaceFactory.CreateReadOnly())
                 {
 
-                    IList<TravelAdvanceRequest> notExpensedTravelAdvances = wr.Query<TravelAdvanceRequest>(x => x.ExpenseLiquidationStatus == "Completed" && x.ExpenseLiquidationRequest == null, x => x.AppUser, x => x.Project.AppUser, x => x.ExpenseLiquidationRequest).ToList();
+                    IList<TravelAdvanceRequest> notExpensedTravelAdvances = wr.Query<TravelAdvanceRequest>(x => x.ExpenseLiquidationStatus == "Completed" && x.ExpenseLiquidationRequest == null && x.AppUser.IsActive == true, x => x.AppUser, x => x.Project.AppUser, x => x.ExpenseLiquidationRequest).ToList();
 
                     if (notExpensedTravelAdvances.Count != 0)
                     {
