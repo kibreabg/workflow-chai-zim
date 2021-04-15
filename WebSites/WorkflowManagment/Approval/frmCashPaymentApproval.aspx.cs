@@ -452,6 +452,10 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         protected void grvCashPaymentRequestList_SelectedIndexChanged(object sender, EventArgs e)
         {
             _presenter.OnViewLoaded();
+            if (_presenter.CurrentCashPaymentRequest.ProgressStatus == ProgressStatus.Completed.ToString())
+            {
+                PrintTransaction();
+            }
             PopApprovalStatus();
             Session["PaymentId"] = _presenter.CurrentCashPaymentRequest.Id;
             btnApprove.Enabled = true;

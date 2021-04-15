@@ -262,110 +262,142 @@
         <fieldset>
             <table style="width: 100%;">
                 <tr>
-                    <td style="width: 17%; text-align: left;">
-                        <img src="../img/CHAI%20Logo.png" width="70" height="50" /></td>
                     <td style="font-size: large; text-align: center;">
+                        <img src="../img/CHAI%20Logo.png" width="70" height="70" />
+                        <br />
                         <strong>CHAI ZIMBABWE
                             <br />
-                            BID ANALYSIS REQUEST FORM</strong></td>
+                            BID ANALYSIS WORKSHEET</strong></td>
                 </tr>
             </table>
-            <table style="width: 100%;">
+            <table style="width: 75%;">
                 <tr>
-                    <td align="right" style="width: 848px">&nbsp;</td>
-                    <td align="right" style="width: 390px">&nbsp;</td>
-                    <td align="right" style="width: 389px">&nbsp;</td>
-                    <td align="right" style="width: 389px">&nbsp;</td>
-                    <td>&nbsp;</td>
-                </tr>
-                <tr>
-                    <td style="width: 848px">
+                    <td style="width: 25%;">
                         <strong>
                             <asp:Label ID="lblRequestNo" runat="server" Text="Request No:"></asp:Label>
                         </strong></td>
-                    <td style="width: 390px">
+                    <td style="width: 25%;">
                         <asp:Label ID="lblRequestNoResult" runat="server"></asp:Label>
                     </td>
-                    <td style="width: 389px">&nbsp;</td>
-                    <td style="width: 389px"></td>
-                    <td>&nbsp;</td>
+                    <td style="width: 25%;">&nbsp;</td>
+                    <td style="width: 25%;"></td>
                 </tr>
                 <tr>
-                    <td style="width: 848px">
+                    <td style="width: 25%;">
                         <strong>
                             <asp:Label ID="lblRequestedDate" runat="server" Text="Requested Date:"></asp:Label>
                         </strong></td>
-                    <td style="width: 390px">
+                    <td style="width: 25%;">
                         <asp:Label ID="lblRequestedDateResult" runat="server"></asp:Label>
                     </td>
-                    <td style="width: 389px">&nbsp;</td>
-                    <td style="width: 389px"></td>
-                    <td>&nbsp;</td>
+                    <td style="width: 25%;">&nbsp;</td>
+                    <td style="width: 25%;"></td>
                 </tr>
                 <tr>
-                    <td style="width: 848px">
+                    <td style="width: 25%;">
                         <strong>
                             <asp:Label ID="lblRequester" runat="server" Text="Requester:"></asp:Label>
                         </strong></td>
-                    <td style="width: 390px">
+                    <td style="width: 25%;">
                         <asp:Label ID="lblRequesterResult" runat="server"></asp:Label>
                     </td>
-                    <td style="width: 389px">&nbsp;</td>
-                    <td style="width: 389px"></td>
-                    <td>&nbsp;</td>
+                    <td style="width: 25%;">&nbsp;</td>
+                    <td style="width: 25%;"></td>
                 </tr>
                 <tr>
-
-                    <td style="width: 848px">
+                    <td style="width: 25%;">
                         <strong>
                             <asp:Label ID="lblPaytype" runat="server" Text="Payment Method:"></asp:Label>
                         </strong></td>
-                    <td style="width: 390px">
+                    <td style="width: 25%;">
                         <asp:Label ID="lblpaytypeRes" runat="server" Text="" class="label"></asp:Label>
                     </td>
-                    <td style="width: 389px;">&nbsp;</td>
-                    <td style="width: 389px;">&nbsp;</td>
-                    <td>&nbsp;</td>
+                    <td style="width: 25%;">&nbsp;</td>
+                    <td style="width: 25%;">&nbsp;</td>
                 </tr>
                 <tr>
-                    <td style="width: 848px; height: 18px;">
+                    <td style="width: 25%;">
                         <strong>
                             <asp:Label ID="lblCommentPrint" runat="server" Text="Reason For Selection:"></asp:Label>
                         </strong></td>
-                    <td style="width: 390px; height: 18px;">
+                    <td style="width: 25%;">
                         <asp:Label ID="lblCommentResult" runat="server"></asp:Label>
                     </td>
-                    <td style="width: 389px; height: 18px;">&nbsp;</td>
-                    <td style="width: 389px; height: 18px;"></td>
-                    <td style="height: 18px">&nbsp;</td>
+                    <td style="width: 25%;">&nbsp;</td>
+                    <td style="width: 25%;"></td>
                 </tr>
-
                 <tr>
-                    <td style="width: 848px; height: 18px;">
+                    <td style="width: 25%;">
                         <strong>
                             <asp:Label ID="lblRequireddateofdelivery" runat="server" Text="Special Need:"></asp:Label>
                         </strong></td>
-                    <td style="width: 390px; height: 18px;">
+                    <td style="width: 25%;">
                         <asp:Label ID="lblRequireddateofdeliveryResult" runat="server"></asp:Label>
                     </td>
-                    <td style="width: 389px; height: 18px;">&nbsp;</td>
-                    <td style="width: 389px; height: 18px;"></td>
-                    <td style="height: 18px">&nbsp;</td>
+                    <td style="width: 25%;">&nbsp;</td>
+                    <td style="width: 25%;"></td>
                 </tr>
                 <tr>
-                    <td style="width: 848px; height: 18px;">
+                    <td style="width: 25%;">
                         <strong>
                             <asp:Label ID="lblTotalPrice" runat="server" Text="Total Price:"></asp:Label>
                         </strong></td>
-                    <td style="width: 390px; height: 18px;">
+                    <td style="width: 25%;">
                         <asp:Label ID="lblTotalPriceResult" runat="server"></asp:Label>
                     </td>
-                    <td style="width: 389px; height: 18px;">&nbsp;</td>
-                    <td style="width: 389px; height: 18px;"></td>
-                    <td style="height: 18px">&nbsp;</td>
+                    <td style="width: 25%;">&nbsp;</td>
+                    <td style="width: 25%;"></td>
                 </tr>
             </table>
             <br />
+            <asp:DataGrid ID="dgBidders" runat="server" AutoGenerateColumns="False"
+                CssClass="table table-striped table-bordered table-hover"
+                DataKeyField="Id" CellSpacing="3">
+                <Columns>
+                    <asp:TemplateColumn HeaderText="Supplier" FooterStyle-Font-Bold="true">
+                        <ItemTemplate>
+                            <%# DataBinder.Eval(Container.DataItem, "Bidder.Supplier.SupplierName")%>
+                        </ItemTemplate>
+                    </asp:TemplateColumn>
+                    <asp:TemplateColumn HeaderText="Account Code" FooterStyle-Font-Bold="true">
+                        <ItemTemplate>
+                            <%# DataBinder.Eval(Container.DataItem, "ItemAccount.AccountName")%>
+                        </ItemTemplate>
+                    </asp:TemplateColumn>
+                    <asp:TemplateColumn HeaderText="Item" FooterStyle-Font-Bold="true">
+                        <ItemTemplate>
+                            <%# DataBinder.Eval(Container.DataItem, "ItemDescription")%>
+                        </ItemTemplate>
+                    </asp:TemplateColumn>
+                    <asp:TemplateColumn HeaderText="Rank" FooterStyle-Font-Bold="true">
+                        <ItemTemplate>
+                            <asp:Label ID="lblRank" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "Bidder.Rank")%>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateColumn>
+                    <asp:TemplateColumn HeaderText="Reason For Selection" FooterStyle-Font-Bold="true">
+                        <ItemTemplate>
+                            <asp:Label ID="lblReason" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "Bidder.GetSelectionReason")%>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateColumn>
+                    <asp:TemplateColumn HeaderText="Qty" FooterStyle-Font-Bold="true">
+                        <ItemTemplate>
+                            <%# DataBinder.Eval(Container.DataItem, "Qty")%>
+                        </ItemTemplate>
+                    </asp:TemplateColumn>
+                    <asp:TemplateColumn HeaderText="Price per unit" FooterStyle-Font-Bold="true">
+                        <ItemTemplate>
+                            $  <%# DataBinder.Eval(Container.DataItem, "UnitCost")%>
+                        </ItemTemplate>
+                    </asp:TemplateColumn>
+                    <asp:TemplateColumn HeaderText="Total Price" FooterStyle-Font-Bold="true">
+                        <ItemTemplate>
+                            $  <%# DataBinder.Eval(Container.DataItem, "TotalCost")%>
+                        </ItemTemplate>
+                    </asp:TemplateColumn>
+                </Columns>
+                <HeaderStyle CssClass="headerstyle" />
+                <PagerStyle CssClass="paginate_button active" HorizontalAlign="Center" />
+            </asp:DataGrid>
             <br />
             <asp:GridView ID="grvStatuses" CellPadding="5" CellSpacing="3"
                 runat="server" AutoGenerateColumns="False" DataKeyNames="Id" OnRowDataBound="grvStatuses_RowDataBound"
@@ -387,6 +419,23 @@
                 <PagerStyle CssClass="PagerStyle" />
                 <RowStyle CssClass="rowstyle" />
             </asp:GridView>
+            <br />
+            <table style="width: 100%;">
+                <tr>
+                    <td></td>
+                    <td>Signature</td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align: right; padding-right: 12%;">Recieved By </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>___________________</td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align: right;">___________________</td>
+                </tr>
+            </table>
         </fieldset>
     </div>
 </asp:Content>
