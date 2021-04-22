@@ -92,7 +92,7 @@
 
                     <asp:ButtonField ButtonType="Button" CommandName="ViewItem" Text="View Item Detail" />
                     <asp:CommandField ButtonType="Button" SelectText="Process Request" ShowSelectButton="True" />
-                    <asp:ButtonField ButtonType="Button" CommandName="Retire" Text="Retire" />
+                    <%--<asp:ButtonField ButtonType="Button" CommandName="Retire" Text="Retire" />--%>
                     <asp:TemplateField>
                         <ItemTemplate>
                             <asp:Button runat="server" ID="btnStatus" Enabled="false" Text="" BorderStyle="None" />

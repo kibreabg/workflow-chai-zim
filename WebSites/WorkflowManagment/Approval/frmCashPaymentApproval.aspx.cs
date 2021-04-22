@@ -156,8 +156,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 ddlSrchProgressStatus.Items.Add(new ListItem(s[i].Replace('_', ' '), s[i].Replace('_', ' ')));
                 ddlSrchProgressStatus.DataBind();
             }
-            ddlSrchProgressStatus.Items.Add(new ListItem("Not Retired", "Not Retired"));
-            ddlSrchProgressStatus.Items.Add(new ListItem("Retired", "Retired"));
+            //ddlSrchProgressStatus.Items.Add(new ListItem("Not Retired", "Not Retired"));
+            //ddlSrchProgressStatus.Items.Add(new ListItem("Retired", "Retired"));
         }
         private void BindSearchCashPaymentRequestGrid()
         {
@@ -430,10 +430,10 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 {
                     if (e.Row.RowType == DataControlRowType.DataRow)
                     {
-                        if (CSR.CurrentLevel == CSR.CashPaymentRequestStatuses.Count && CSR.ProgressStatus == "Completed")
+                        /*if (CSR.CurrentLevel == CSR.CashPaymentRequestStatuses.Count && CSR.ProgressStatus == "Completed")
                             e.Row.Cells[8].Visible = true;
                         else
-                            e.Row.Cells[8].Visible = false;
+                            e.Row.Cells[8].Visible = false;*/
                     }
 
                     if (CSR.ProgressStatus == ProgressStatus.InProgress.ToString())
