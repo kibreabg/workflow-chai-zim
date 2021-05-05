@@ -169,28 +169,28 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 
                 else if (Request.QueryString["Page"].Contains("CostSharing"))
                 {
-                    CostSharingRequest CPR = _presenter.GetCostSharingPaymentRequest(Convert.ToInt32(Request.QueryString["PaymentId"]));
-                    if (CPR != null)
+                    CostSharingRequest CSR = _presenter.GetCostSharingPaymentRequest(Convert.ToInt32(Request.QueryString["PaymentId"]));
+                    if (CSR != null)
                     {
-
-
-                        foreach (CostSharingRequestDetail CPRD in CPR.CostSharingRequestDetails)
+                        foreach (CostSharingRequestDetail CSRD in CSR.CostSharingRequestDetails)
                         {
                             OperationalControlRequestDetail OCRD = new OperationalControlRequestDetail();
-                            OCRD.ItemAccount = CPRD.CostSharingRequest.ItemAccount;
-                            OCRD.Project = CPRD.Project;
-                            OCRD.Grant = CPRD.Grant;
-                            OCRD.Amount = CPRD.SharedAmount;
-                            OCRD.ActualExpendture = CPRD.SharedAmount;
-                            OCRD.AccountCode = CPRD.CostSharingRequest.ItemAccount.AccountCode;
-                            _presenter.CurrentOperationalControlRequest.TotalAmount += OCRD.Amount;
-                            _presenter.CurrentOperationalControlRequest.TotalActualExpendture += OCRD.Amount;
+                            OCRD.ItemAccount = CSRD.CostSharingRequest.ItemAccount;
+                            OCRD.Project = CSRD.Project;
+                            OCRD.Grant = CSRD.Grant;
+                            OCRD.Amount = CSRD.SharedAmount;
+                            OCRD.ActualExpendture = CSRD.SharedAmount;
+                            OCRD.AccountCode = CSRD.CostSharingRequest.ItemAccount.AccountCode;
                             OCRD.OperationalControlRequest = _presenter.CurrentOperationalControlRequest;
                             _presenter.CurrentOperationalControlRequest.OperationalControlRequestDetails.Add(OCRD);
                         }
-                        if (CPR.CSRAttachments.Count > 0)
+
+                        _presenter.CurrentOperationalControlRequest.TotalAmount = CSR.EstimatedTotalAmount;
+                        _presenter.CurrentOperationalControlRequest.TotalActualExpendture = CSR.ActualTotalAmount;
+
+                        if (CSR.CSRAttachments.Count > 0)
                         {
-                            foreach (CSRAttachment CP in CPR.CSRAttachments)
+                            foreach (CSRAttachment CP in CSR.CSRAttachments)
                             {
                                 OCRAttachment OPA = new OCRAttachment();
                                 OPA.FilePath = CP.FilePath;
@@ -290,7 +290,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 // txtRequestNo.Text = _presenter.CurrentOperationalControlRequest.RequestNo.ToString();
                 //txtPayee.Text = _presenter.CurrentOperationalControlRequest.Payee;
                 ddlBeneficiary.SelectedValue = _presenter.CurrentOperationalControlRequest.Supplier.Id.ToString();
-               
+
                 txtDescription.Text = _presenter.CurrentOperationalControlRequest.Description;
                 ddlPayMethods.Text = _presenter.CurrentOperationalControlRequest.PaymentMethod;
                 // txtVoucherNo.Text = _presenter.CurrentOperationalControlRequest.VoucherNo.ToString();

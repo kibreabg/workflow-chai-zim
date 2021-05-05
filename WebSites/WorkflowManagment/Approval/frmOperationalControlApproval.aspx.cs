@@ -419,7 +419,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             lblTotalAmountResult.Text = _presenter.CurrentOperationalControlRequest.TotalAmount.ToString();
             lblApprovalStatusResult.Text = _presenter.CurrentOperationalControlRequest.ProgressStatus.ToString();
             lblPayMethRes.Text = _presenter.CurrentOperationalControlRequest.PaymentMethod;
-            lblActualExpendtureRes.Text = _presenter.CurrentOperationalControlRequest.TotalActualExpendture != null ? _presenter.CurrentOperationalControlRequest.TotalActualExpendture.ToString() : "";
+            lblActualExpendtureRes.Text = _presenter.CurrentOperationalControlRequest.TotalActualExpendture.ToString();
             lblReimbersestatusRes.Text = _presenter.CurrentOperationalControlRequest.PaymentReimbursementStatus;
             //lblGrantIdResult.Text = _presenter.CurrentOperationalControlRequest.OperationalControlRequestDetails[0].Grant.GrantCode;
             //lblProjectIdResult.Text = _presenter.CurrentOperationalControlRequest.OperationalControlRequestDetails[0].Project.ProjectCode;
