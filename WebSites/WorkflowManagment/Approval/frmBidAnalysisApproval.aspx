@@ -318,10 +318,10 @@
                 <tr>
                     <td style="width: 25%;">
                         <strong>
-                            <asp:Label ID="lblCommentPrint" runat="server" Text="Reason For Selection:"></asp:Label>
+                            <asp:Label ID="lblWinnerSupplier" runat="server" Text="Winner Supplier:"></asp:Label>
                         </strong></td>
                     <td style="width: 25%;">
-                        <asp:Label ID="lblCommentResult" runat="server"></asp:Label>
+                        <asp:Label ID="lblWinnerSupplierResult" runat="server"></asp:Label>
                     </td>
                     <td style="width: 25%;">&nbsp;</td>
                     <td style="width: 25%;"></td>

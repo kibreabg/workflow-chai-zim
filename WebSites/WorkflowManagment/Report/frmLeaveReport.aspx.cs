@@ -60,7 +60,7 @@ namespace Chai.WorkflowManagment.Modules.Report.Views
 
             var path = Server.MapPath("LeaveReport.rdlc");
             var datasource = _presenter.GetLeaveReport(Convert.ToInt32(ddlEmployeeName.SelectedValue), Convert.ToInt32(ddlLeaveType.SelectedValue));
-            ReportDataSource s = new ReportDataSource("DataSet1", datasource.Tables[0]);
+            ReportDataSource s = new ReportDataSource("LeaveDataSet", datasource.Tables[0]);
             ReportViewer1.ProcessingMode = Microsoft.Reporting.WebForms.ProcessingMode.Local;
             ReportViewer1.LocalReport.DataSources.Clear();
             ReportViewer1.LocalReport.DataSources.Add(s);

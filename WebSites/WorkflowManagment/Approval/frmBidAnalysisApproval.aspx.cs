@@ -15,6 +15,7 @@ using log4net;
 using System.Reflection;
 using log4net.Config;
 using System.IO;
+using System.Data.Entity.Validation;
 
 namespace Chai.WorkflowManagment.Modules.Approval.Views
 {
@@ -38,15 +39,12 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     {
                         PopApprovalStatus();
                         PrintTransaction();
-                        BindBidAnalysisRequestforprint();
                     }
                 }
             }
             this._presenter.OnViewLoaded();
             BindSearchPurchaseRequestGrid();
             ReturnFromBidAnalysis();
-            //PrintTransaction();
-            //BindBidAnalysisRequestforprint();
 
         }
         protected void BindJS()
@@ -320,26 +318,6 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 }
             }
         }
-        private void BindBidAnalysisRequestforprint()
-        {
-            if (_presenter.CurrentBidAnalysisRequest.Id > 0)
-            {
-                lblRequestNoResult.Text = _presenter.CurrentBidAnalysisRequest.RequestNo;
-                lblRequestedDateResult.Text = _presenter.CurrentBidAnalysisRequest.RequestDate.ToString();
-                lblRequesterResult.Text = _presenter.GetUser(_presenter.CurrentBidAnalysisRequest.AppUser.Id).FullName;
-                lblTotalPriceResult.Text = _presenter.CurrentBidAnalysisRequest.TotalPrice.ToString();
-                lblpaytypeRes.Text = _presenter.CurrentBidAnalysisRequest.PaymentMethod;
-                lblCommentResult.Text = _presenter.CurrentBidAnalysisRequest.ReasonforSelection;
-                lblRequireddateofdeliveryResult.Text = _presenter.CurrentBidAnalysisRequest.SpecialNeed;
-
-                //  lblApprovalStatusResult.Text = _presenter.CurrentBidAnalysisRequest.CurrentStatus;
-
-
-
-                grvStatuses.DataSource = _presenter.CurrentBidAnalysisRequest.BidAnalysisRequestStatuses;
-                grvStatuses.DataBind();
-            }
-        }
         protected void btnApprove_Click(object sender, EventArgs e)
         {
             try
@@ -365,10 +343,10 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     ScriptManager.RegisterStartupScript(this, GetType(), "showApprovalModal", "showApprovalModal();", true);
                 }
 
-                BindBidAnalysisRequestforprint();
+                PrintTransaction();
                 btnApprove.Enabled = false;
             }
-            catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
+            catch (DbEntityValidationException dbEx)
             {
                 Exception raise = dbEx;
                 foreach (var validationErrors in dbEx.EntityValidationErrors)
@@ -385,16 +363,12 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 }
                 throw raise;
             }
-
-
-
-            //}
-            //catch (Exception ex)
-            //{
-            //    Master.ShowMessage(new AppMessage("There is an error approving Purchase Request", Chai.WorkflowManagment.Enums.RMessageType.Error));
-            //}
-
-
+            catch (Exception ex)
+            {
+                Master.ShowMessage(new AppMessage("Error: While Approving Bid Analysis!", RMessageType.Error));
+                ExceptionUtility.LogException(ex, ex.Source);
+                ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser().FullName);
+            }
         }
         private void BindBAAttachments()
         {
@@ -555,7 +529,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 lblRequestNoResult.Text = _presenter.CurrentBidAnalysisRequest.RequestNo.ToString();
                 lblRequestedDateResult.Text = _presenter.CurrentBidAnalysisRequest.RequestDate.ToString();
                 lblRequesterResult.Text = _presenter.GetUser(_presenter.CurrentBidAnalysisRequest.AppUser.Id).FullName;
-                lblCommentResult.Text = _presenter.CurrentBidAnalysisRequest.SelectedBy.ToString();
+                if (_presenter.CurrentBidAnalysisRequest.GetBidderbyRank() != null)
+                    lblWinnerSupplierResult.Text = _presenter.CurrentBidAnalysisRequest.GetBidderbyRank().Supplier.SupplierName;
                 lblRequireddateofdeliveryResult.Text = _presenter.CurrentBidAnalysisRequest.SpecialNeed;
                 lblTotalPriceResult.Text = _presenter.CurrentBidAnalysisRequest.TotalPrice.ToString();
                 lblpaytypeRes.Text = _presenter.CurrentBidAnalysisRequest.PaymentMethod;

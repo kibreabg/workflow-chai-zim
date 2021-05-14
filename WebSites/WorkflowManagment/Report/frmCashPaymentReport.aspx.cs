@@ -47,7 +47,7 @@ namespace Chai.WorkflowManagment.Modules.Report.Views
             var path = Server.MapPath("CashPaymentReport.rdlc");
             var datasource = _presenter.GetCashPaymentReport(txtDateFrom.Text, txtDateTo.Text);
             ReportDataSource s = new ReportDataSource("DataSet1", datasource.Tables[0]);
-            ReportViewer1.ProcessingMode = Microsoft.Reporting.WebForms.ProcessingMode.Local;
+            ReportViewer1.ProcessingMode = ProcessingMode.Local;
             ReportViewer1.LocalReport.DataSources.Clear();
             ReportViewer1.LocalReport.DataSources.Add(s);
             ReportViewer1.LocalReport.ReportPath = path;

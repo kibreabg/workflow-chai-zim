@@ -22,7 +22,7 @@ namespace Chai.WorkflowManagment.CoreDomain.DataAccess
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandText = "SPLeaveReport";
                 cmd.Parameters.AddWithValue("@EmployeeName", EmployeeName);
-                cmd.Parameters.AddWithValue("@LeaveType", LeaveType);
+                //cmd.Parameters.AddWithValue("@LeaveType", LeaveType);
                 var da = new SqlDataAdapter(cmd);
                 var ds = new DataSet();
                 da.Fill(ds);
