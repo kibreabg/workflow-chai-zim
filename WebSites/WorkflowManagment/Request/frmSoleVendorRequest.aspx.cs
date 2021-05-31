@@ -49,7 +49,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             get
             {
-                 return this._presenter;
+                return this._presenter;
             }
             set
             {
@@ -107,9 +107,12 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             get { return txtContactPersonNumber.Text; }
         }
-        public decimal GetProposedPurchasedPrice
+        public decimal GetTotalAmount
         {
-            get { return Convert.ToDecimal(txtProposedPurchasedPrice.Text); }
+            get
+            {
+                return Convert.ToDecimal(txtTotalAmount.Text);
+            }
         }
         public int GetProposedSupplier
         {
@@ -192,7 +195,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         private void ClearFormFields()
         {
             txtContactPersonNumber.Text = String.Empty;
-            txtProposedPurchasedPrice.Text = String.Empty;
+            txtTotalAmount.Text = String.Empty;
             txtSoleSource.Text = String.Empty;
 
         }
@@ -209,7 +212,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             {
                 txtRequestDate.Text = _presenter.CurrentSoleVendorRequest.RequestDate.Value.ToShortDateString();
                 txtContactPersonNumber.Text = _presenter.CurrentSoleVendorRequest.ContactPersonNumber;
-                txtProposedPurchasedPrice.Text = _presenter.CurrentSoleVendorRequest.ProposedPurchasedPrice.ToString();
+                txtTotalAmount.Text = _presenter.CurrentSoleVendorRequest.TotalAmount.ToString();
                 ddlSupplier.SelectedValue = _presenter.CurrentSoleVendorRequest.Supplier.Id.ToString();
                 ddlPayMethods.Text = _presenter.CurrentSoleVendorRequest.PaymentMethod;
                 ddlSoleVendorJustification.SelectedValue = _presenter.CurrentSoleVendorRequest.SoleVendorJustificationType.ToString();
@@ -223,6 +226,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         private void BindSoleVendorRequestDetails()
         {
+            txtTotalAmount.Text = _presenter.CurrentSoleVendorRequest.TotalAmount.ToString();
             dgSoleVenderDetail.DataSource = _presenter.CurrentSoleVendorRequest.SoleVendorRequestDetails;
             dgSoleVenderDetail.DataBind();
             grvAttachments.DataSource = _presenter.CurrentSoleVendorRequest.SVRAttachments;
@@ -233,7 +237,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             lblRequestNoresult.Text = _presenter.CurrentSoleVendorRequest.RequestNo;
             lblRequestedDateresult.Text = _presenter.CurrentSoleVendorRequest.RequestDate.ToString();
             lblContactPersonNumberRes.Text = _presenter.CurrentSoleVendorRequest.ContactPersonNumber;
-            lblProposedPurchasedpriceres.Text = _presenter.CurrentSoleVendorRequest.ProposedPurchasedPrice.ToString();
+            lblProposedPurchasedpriceres.Text = _presenter.CurrentSoleVendorRequest.TotalAmount.ToString();
             lblProposedSupplierresp.Text = _presenter.CurrentSoleVendorRequest.Supplier.SupplierName;
             lblSoleSourceJustificationPreparedByresp.Text = _presenter.CurrentSoleVendorRequest.SoleSourceJustificationPreparedBy;
             lblSoleVendorJustificationTyperes.Text = _presenter.CurrentSoleVendorRequest.SoleVendorJustificationType;
@@ -260,7 +264,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         protected void btnSave_Click(object sender, EventArgs e)
         {
             try
-            {                
+            {
                 if (_presenter.CurrentSoleVendorRequest.SVRAttachments.Count != 0)
                 {
                     _presenter.SaveOrUpdateSoleVendorRequest();
@@ -289,7 +293,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 Master.ShowMessage(new AppMessage("Error! Sole Vendor Request not processed due to " + ex.Message, RMessageType.Error));
                 ExceptionUtility.LogException(ex, ex.Source);
                 ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser().FullName);
-            }            
+            }
         }
         protected void btnDelete_Click(object sender, EventArgs e)
         {
@@ -297,7 +301,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             ClearFormFields();
             BindSoleVendorRequests();
             btnDelete.Enabled = false;
-            Master.ShowMessage(new AppMessage("Sole Vendor Request Successfully Deleted", Chai.WorkflowManagment.Enums.RMessageType.Info));
+            Master.ShowMessage(new AppMessage("Sole Vendor Request Successfully Deleted", RMessageType.Info));
         }
         protected void btnSearch_Click(object sender, EventArgs e)
         {
@@ -363,7 +367,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             }
             catch (HttpException ex)
             {
-                Master.ShowMessage(new AppMessage("Unable to upload the file,The file is to big or The internet is too slow " + ex.InnerException.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
+                Master.ShowMessage(new AppMessage("Unable to upload the file,The file is to big or The internet is too slow " + ex.InnerException.Message, RMessageType.Error));
             }
         }
         private void PopSoleVendorRequesters()
@@ -462,6 +466,13 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     TextBox txtTotalCost = e.Item.FindControl("txtTotalCost") as TextBox;
                     detail.TotalCost = Convert.ToDecimal(txtTotalCost.Text);
                     _presenter.CurrentSoleVendorRequest.SoleVendorRequestDetails.Add(detail);
+
+                    _presenter.CurrentSoleVendorRequest.TotalAmount = 0;
+                    foreach (SoleVendorRequestDetail svDetail in _presenter.CurrentSoleVendorRequest.SoleVendorRequestDetails)
+                    {
+                        _presenter.CurrentSoleVendorRequest.TotalAmount += svDetail.TotalCost;
+                    }
+
                     Master.ShowMessage(new AppMessage("Sole Vendor Detail Successfully Added.", RMessageType.Info));
                     dgSoleVenderDetail.EditItemIndex = -1;
                     BindSoleVendorRequestDetails();
@@ -482,7 +493,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             if (id > 0)
                 detail = _presenter.CurrentSoleVendorRequest.GetSoleVendorRequestDetailDetail(id);
             else
-                detail = (SoleVendorRequestDetail)_presenter.CurrentSoleVendorRequest.SoleVendorRequestDetails[e.Item.ItemIndex];
+                detail = _presenter.CurrentSoleVendorRequest.SoleVendorRequestDetails[e.Item.ItemIndex];
 
             try
             {
@@ -498,6 +509,12 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 TextBox txtTotalCost = e.Item.FindControl("txtEdtTotalCost") as TextBox;
                 detail.TotalCost = Convert.ToDecimal(txtTotalCost.Text);
 
+                _presenter.CurrentSoleVendorRequest.TotalAmount = 0;
+                foreach (SoleVendorRequestDetail svDetail in _presenter.CurrentSoleVendorRequest.SoleVendorRequestDetails)
+                {
+                    _presenter.CurrentSoleVendorRequest.TotalAmount += svDetail.TotalCost;
+                }
+
                 dgSoleVenderDetail.EditItemIndex = -1;
                 BindSoleVendorRequestDetails();
                 Master.ShowMessage(new AppMessage("Sole Vendor Detail Successfully Updated", RMessageType.Info));
@@ -510,16 +527,15 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         protected void dgSoleVenderDetail_DeleteCommand(object source, DataGridCommandEventArgs e)
         {
             int id = (int)dgSoleVenderDetail.DataKeys[e.Item.ItemIndex];
-            int TARDId = (int)dgSoleVenderDetail.DataKeys[e.Item.ItemIndex];
             SoleVendorRequestDetail tard;
 
-            if (TARDId > 0)
-                tard = _presenter.CurrentSoleVendorRequest.GetSoleVendorRequestDetailDetail(TARDId);
+            if (id > 0)
+                tard = _presenter.CurrentSoleVendorRequest.GetSoleVendorRequestDetailDetail(id);
             else
-                tard = (SoleVendorRequestDetail)_presenter.CurrentSoleVendorRequest.SoleVendorRequestDetails[e.Item.ItemIndex];
+                tard = _presenter.CurrentSoleVendorRequest.SoleVendorRequestDetails[e.Item.ItemIndex];
             try
             {
-                if (TARDId > 0)
+                if (id > 0)
                 {
                     _presenter.CurrentSoleVendorRequest.RemoveSoleVendorRequestDetail(id);
                     if (_presenter.GetSoleVendorRequestDetail(id) != null)
@@ -528,12 +544,19 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 }
                 else { _presenter.CurrentSoleVendorRequest.SoleVendorRequestDetails.Remove(tard); }
 
+                _presenter.CurrentSoleVendorRequest.TotalAmount = 0;
+                foreach (SoleVendorRequestDetail svDetail in _presenter.CurrentSoleVendorRequest.SoleVendorRequestDetails)
+                {
+                    _presenter.CurrentSoleVendorRequest.TotalAmount += svDetail.TotalCost;
+                }
 
-                Master.ShowMessage(new AppMessage("Sole Vendor Request Detail was Removed Successfully", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                BindSoleVendorRequestDetails();
+
+                Master.ShowMessage(new AppMessage("Sole Vendor Request Detail was Removed Successfully", RMessageType.Info));
             }
             catch (Exception ex)
             {
-                Master.ShowMessage(new AppMessage("Error: Unable to delete Sole Vendor Request Detail. " + ex.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
+                Master.ShowMessage(new AppMessage("Error: Unable to delete Sole Vendor Request Detail. " + ex.Message, RMessageType.Error));
             }
         }
         protected void dgSoleVenderDetail_EditCommand(object source, DataGridCommandEventArgs e)

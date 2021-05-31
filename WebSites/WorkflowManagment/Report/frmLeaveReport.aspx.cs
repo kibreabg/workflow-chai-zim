@@ -7,36 +7,36 @@ using System.Web.UI.WebControls;
 namespace Chai.WorkflowManagment.Modules.Report.Views
 {
     public partial class frmLeaveReport : POCBasePage, IfrmLeaveReportView
-	{
-		private frmLeaveReportPresenter _presenter;
+    {
+        private frmLeaveReportPresenter _presenter;
 
-		protected void Page_Load(object sender, EventArgs e)
-		{
-			if (!this.IsPostBack)
-			{
-				this._presenter.OnViewInitialized();
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!this.IsPostBack)
+            {
+                this._presenter.OnViewInitialized();
                 PopUsers();
-                PopLeaveType();
-			}
-			this._presenter.OnViewLoaded();
-		}
+                //PopLeaveType();
+            }
+            this._presenter.OnViewLoaded();
+        }
 
-		[CreateNew]
+        [CreateNew]
         public frmLeaveReportPresenter Presenter
-		{
-			get
-			{
-				return this._presenter;
-			}
-			set
-			{
-				if(value == null)
-					throw new ArgumentNullException("value");
+        {
+            get
+            {
+                return this._presenter;
+            }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException("value");
 
-				this._presenter = value;
-				this._presenter.View = this;
-			}
-		}
+                this._presenter = value;
+                this._presenter.View = this;
+            }
+        }
         public override string PageID
         {
             get
@@ -48,29 +48,31 @@ namespace Chai.WorkflowManagment.Modules.Report.Views
         {
             ddlEmployeeName.DataSource = _presenter.GetAllUsers();
             ddlEmployeeName.DataBind();
+            ddlSupervisors.DataSource = _presenter.GetAllUsers();
+            ddlSupervisors.DataBind();
         }
         private void PopLeaveType()
         {
-            ddlLeaveType.DataSource = _presenter.GetLeaveTypes();
-            ddlLeaveType.DataBind();
+            //ddlLeaveType.DataSource = _presenter.GetLeaveTypes();
+            //ddlLeaveType.DataBind();
 
         }
         private void ViewLeaveReport()
         {
 
             var path = Server.MapPath("LeaveReport.rdlc");
-            var datasource = _presenter.GetLeaveReport(Convert.ToInt32(ddlEmployeeName.SelectedValue), Convert.ToInt32(ddlLeaveType.SelectedValue));
+            var datasource = _presenter.GetLeaveReport(Convert.ToInt32(ddlEmployeeName.SelectedValue), Convert.ToInt32(ddlSupervisors.SelectedValue));
             ReportDataSource s = new ReportDataSource("LeaveDataSet", datasource.Tables[0]);
-            ReportViewer1.ProcessingMode = Microsoft.Reporting.WebForms.ProcessingMode.Local;
+            ReportViewer1.ProcessingMode = ProcessingMode.Local;
             ReportViewer1.LocalReport.DataSources.Clear();
             ReportViewer1.LocalReport.DataSources.Add(s);
             ReportViewer1.LocalReport.ReportPath = path;
             var EmployeeName = ddlEmployeeName.SelectedValue != "" ? ddlEmployeeName.SelectedValue : " ";
-            var LeaveType = ddlLeaveType.SelectedValue != "" ? ddlLeaveType.SelectedValue : " ";
+            var Supervisor = ddlSupervisors.SelectedValue != "" ? ddlSupervisors.SelectedValue : " ";
             var param4 = new ReportParameter("EmployeeName", EmployeeName);
-            var param5 = new ReportParameter("LeaveType", LeaveType);
+            var param5 = new ReportParameter("Supervisor", Supervisor);
             var parameters = new List<ReportParameter>();
-            
+
             parameters.Add(param4);
             parameters.Add(param5);
             ReportViewer1.LocalReport.SetParameters(parameters);
@@ -86,6 +88,6 @@ namespace Chai.WorkflowManagment.Modules.Report.Views
             Panel1.Visible = true;
             ViewLeaveReport();
         }
-}
+    }
 }
 

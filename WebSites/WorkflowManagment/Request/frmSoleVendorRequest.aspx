@@ -40,15 +40,6 @@
                 <div class="smart-form">
                     <fieldset>
                         <div class="row">
-                            <%--<section class="col col-6">
-                                <label class="label">Request Number</label>
-                                <label class="input">
-                                    <asp:TextBox ID="txtRequestNo" runat="server" ReadOnly="true"></asp:TextBox>
-                                    <asp:RequiredFieldValidator
-                                        ID="rfvtxtRequestNo" runat="server" ErrorMessage="Request number is required" Display="Dynamic"
-                                        CssClass="validator" ValidationGroup="save" SetFocusOnError="true" ControlToValidate="txtRequestNo"></asp:RequiredFieldValidator>
-                                </label>
-                            </section>--%>
                             <section class="col col-6">
                                 <label class="label">Request Date</label>
                                 <label class="input">
@@ -57,10 +48,18 @@
                                 </label>
                             </section>
                             <section class="col col-6">
-                                <label class="label">Proposed Purchased Price</label>
-                                <label class="input">
-                                    <asp:TextBox ID="txtProposedPurchasedPrice" runat="server"></asp:TextBox>
-                                    <cc1:FilteredTextBoxExtender runat="server" Enabled="True" TargetControlID="txtProposedPurchasedPrice" ID="FilteredTextBoxExtender2" FilterType="Numbers"></cc1:FilteredTextBoxExtender>
+                                <label class="label">Payment Methods</label>
+                                <label class="select">
+                                    <asp:DropDownList ID="ddlPayMethods" AppendDataBoundItems="true"
+                                        runat="server" DataValueField="Id" DataTextField="Name" CssClass="form-control">
+                                        <asp:ListItem Text="--Select Payment Method--" Value="0"></asp:ListItem>
+                                        <asp:ListItem>RTGs</asp:ListItem>
+                                        <asp:ListItem>USD</asp:ListItem>
+                                    </asp:DropDownList><i></i>
+                                    <asp:RequiredFieldValidator
+                                        ID="RequiredFieldValidator3" runat="server" ErrorMessage="Payment Method must be selected" Display="Dynamic"
+                                        CssClass="validator" ValidationGroup="saveMain" InitialValue="0"
+                                        SetFocusOnError="true" ControlToValidate="ddlPayMethods"></asp:RequiredFieldValidator>
                                 </label>
                             </section>
                         </div>
@@ -146,19 +145,19 @@
                             </section>
                         </div>
                         <div class="row">
-                            <section class="col col-6">
-                                <label class="label">Payment Methods</label>
-                                <label class="select">
-                                    <asp:DropDownList ID="ddlPayMethods" AppendDataBoundItems="true"
-                                        runat="server" DataValueField="Id" DataTextField="Name" CssClass="form-control">
-                                        <asp:ListItem Text="--Select Payment Method--" Value="0"></asp:ListItem>
-                                        <asp:ListItem>RTGs</asp:ListItem>
-                                        <asp:ListItem>USD</asp:ListItem>
-                                    </asp:DropDownList><i></i>
+                            <%--<section class="col col-6">
+                                <label class="label">Request Number</label>
+                                <label class="input">
+                                    <asp:TextBox ID="txtRequestNo" runat="server" ReadOnly="true"></asp:TextBox>
                                     <asp:RequiredFieldValidator
-                                        ID="RequiredFieldValidator3" runat="server" ErrorMessage="Payment Method must be selected" Display="Dynamic"
-                                        CssClass="validator" ValidationGroup="saveMain" InitialValue="0"
-                                        SetFocusOnError="true" ControlToValidate="ddlPayMethods"></asp:RequiredFieldValidator>
+                                        ID="rfvtxtRequestNo" runat="server" ErrorMessage="Request number is required" Display="Dynamic"
+                                        CssClass="validator" ValidationGroup="save" SetFocusOnError="true" ControlToValidate="txtRequestNo"></asp:RequiredFieldValidator>
+                                </label>
+                            </section>--%>
+                            <section class="col col-6">
+                                <label class="label">Total Amount</label>
+                                <label class="input">
+                                    <asp:TextBox ID="txtTotalAmount" runat="server"></asp:TextBox>                                    
                                 </label>
                             </section>
                         </div>
@@ -414,7 +413,7 @@
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:BoundField DataField="Supplier.SupplierName" HeaderText="Supplier" SortExpression="SupplierName" />
-                                            <asp:BoundField DataField="ProposedPurchasedPrice" HeaderText="Proposed Purchased Price" SortExpression="ProposedPurchasedPrice" />
+                                            <asp:BoundField DataField="TotalAmount" HeaderText="Total Amount" SortExpression="TotalAmount" />
                                             <asp:BoundField DataField="CurrentStatus" HeaderText="Status" SortExpression="CurrentStatus" />
                                             <asp:CommandField ShowSelectButton="True" />
                                         </Columns>

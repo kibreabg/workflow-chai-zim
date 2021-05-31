@@ -23,10 +23,10 @@
                                 </label>
                             </section>
                             <section class="col col-6">
-                                <label class="label">Leave Type</label>
+                                <label class="label">Supervisor</label>
                                 <label class="select">
-                                    <asp:DropDownList ID="ddlLeaveType" runat="server" AppendDataBoundItems="True" DataTextField="LeaveTypeName" DataValueField="Id">
-                                        <asp:ListItem Value="0">Select Leave Type</asp:ListItem>
+                                    <asp:DropDownList ID="ddlSupervisors" runat="server" AppendDataBoundItems="True" DataTextField="FullName" DataValueField="Id">
+                                        <asp:ListItem Value="0">Select Supervisor</asp:ListItem>
                                     </asp:DropDownList><i></i>                                    
                                 </label>
                             </section>

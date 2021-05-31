@@ -12,7 +12,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         string GetRequestNo { get; }        
         DateTime GetRequestDate { get; }
         string GetContactPersonNumber { get; }
-        decimal GetProposedPurchasedPrice { get; }
+        decimal GetTotalAmount { get; }
         int GetPurchaseRequestId { get; }
         int GetProposedSupplier { get; }
         string GetComment { get; }

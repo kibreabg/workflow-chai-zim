@@ -167,10 +167,10 @@ namespace Chai.WorkflowManagment.Modules.Report
 
         }
         #endregion
-        public DataSet GetLeaveReport(int EmployeeName, int LeaveType)
+        public DataSet GetLeaveReport(int employeeId, int supervisorId)
         {
             ReportDao re = new ReportDao();
-            return re.LeaveReport(EmployeeName, LeaveType);
+            return re.LeaveReport(employeeId, supervisorId);
         }
         public DataSet GetPurchaseReport(string datefrom, string dateto)
         {

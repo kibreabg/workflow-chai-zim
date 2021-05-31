@@ -144,7 +144,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             soleVendorRequest.RequestNo = View.GetRequestNo;
             soleVendorRequest.RequestDate = Convert.ToDateTime(DateTime.Today);
             soleVendorRequest.ContactPersonNumber = View.GetContactPersonNumber;
-            soleVendorRequest.ProposedPurchasedPrice = View.GetProposedPurchasedPrice;
+            soleVendorRequest.TotalAmount = View.GetTotalAmount;
             //  if (View.GetProposedSupplier != 0)
             soleVendorRequest.Supplier = _settingController.GetSupplier(View.GetProposedSupplier);
             soleVendorRequest.SoleSourceJustificationPreparedBy = View.GetSoleSourceJustificationPreparedBy;

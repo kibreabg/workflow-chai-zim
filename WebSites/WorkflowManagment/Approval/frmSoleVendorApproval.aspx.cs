@@ -68,7 +68,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 return "{282224A8-DCCA-4FED-AAB1-BEB6A5AA0653}";
             }
         }
-        public CoreDomain.Requests.SoleVendorRequest SoleVendorRequest
+        public SoleVendorRequest SoleVendorRequest
         {
             get
             {
@@ -284,11 +284,11 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     ShowPrint();
                     if (ddlApprovalStatus.SelectedValue != "Rejected")
                     {
-                        Master.ShowMessage(new AppMessage("Sole Vendor Approval Processed ", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                        Master.ShowMessage(new AppMessage("Sole Vendor Approval Processed ", RMessageType.Info));
                     }
                     else
                     {
-                        Master.ShowMessage(new AppMessage("Sole Vendor Request Rejected ", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                        Master.ShowMessage(new AppMessage("Sole Vendor Request Rejected ", RMessageType.Info));
                     }
                     btnApprove.Enabled = false;
 
