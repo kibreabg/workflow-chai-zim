@@ -11,7 +11,7 @@ namespace Chai.WorkflowManagment.CoreDomain.DataAccess
 {
     public class ReportDao
     {
-        public DataSet LeaveReport(int employeeId, int supervisorId)
+        public DataSet LeaveReport(int employeeId, int supervisorId, int leaveTypeId)
         {
             string connstring = ConfigurationManager.ConnectionStrings["WorkflowManagmentReportConnectionString"].ToString();
             using (SqlConnection cn = new SqlConnection(connstring))
@@ -23,6 +23,7 @@ namespace Chai.WorkflowManagment.CoreDomain.DataAccess
                 cmd.CommandText = "SPLeaveReport";
                 cmd.Parameters.AddWithValue("@EmployeeName", employeeId);
                 cmd.Parameters.AddWithValue("@Supervisor", supervisorId);
+                cmd.Parameters.AddWithValue("@LeaveType", leaveTypeId);
                 var da = new SqlDataAdapter(cmd);
                 var ds = new DataSet();
                 da.Fill(ds);

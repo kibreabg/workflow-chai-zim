@@ -50,9 +50,9 @@ namespace Chai.WorkflowManagment.Modules.Report.Views
         {
            return _controller.GetLeaveReporto(DateFrom, DateTo);
         }
-        public DataSet GetLeaveReport(int employeeId, int supervisorId)
+        public DataSet GetLeaveReport(int employeeId, int supervisorId, int leaveTypeId)
         {
-            return _controller.GetLeaveReport(employeeId, supervisorId);
+            return _controller.GetLeaveReport(employeeId, supervisorId, leaveTypeId);
         }
         // TODO: Handle other view events and set state in the view
     }

@@ -16,7 +16,7 @@ namespace Chai.WorkflowManagment.Modules.Report.Views
             {
                 this._presenter.OnViewInitialized();
                 PopUsers();
-                //PopLeaveType();
+                PopLeaveType();
             }
             this._presenter.OnViewLoaded();
         }
@@ -53,15 +53,15 @@ namespace Chai.WorkflowManagment.Modules.Report.Views
         }
         private void PopLeaveType()
         {
-            //ddlLeaveType.DataSource = _presenter.GetLeaveTypes();
-            //ddlLeaveType.DataBind();
+            ddlLeaveType.DataSource = _presenter.GetLeaveTypes();
+            ddlLeaveType.DataBind();
 
         }
         private void ViewLeaveReport()
         {
 
             var path = Server.MapPath("LeaveReport.rdlc");
-            var datasource = _presenter.GetLeaveReport(Convert.ToInt32(ddlEmployeeName.SelectedValue), Convert.ToInt32(ddlSupervisors.SelectedValue));
+            var datasource = _presenter.GetLeaveReport(Convert.ToInt32(ddlEmployeeName.SelectedValue), Convert.ToInt32(ddlSupervisors.SelectedValue), Convert.ToInt32(ddlLeaveType.SelectedValue));
             ReportDataSource s = new ReportDataSource("LeaveDataSet", datasource.Tables[0]);
             ReportViewer1.ProcessingMode = ProcessingMode.Local;
             ReportViewer1.LocalReport.DataSources.Clear();
@@ -69,12 +69,16 @@ namespace Chai.WorkflowManagment.Modules.Report.Views
             ReportViewer1.LocalReport.ReportPath = path;
             var EmployeeName = ddlEmployeeName.SelectedValue != "" ? ddlEmployeeName.SelectedValue : " ";
             var Supervisor = ddlSupervisors.SelectedValue != "" ? ddlSupervisors.SelectedValue : " ";
+            var LeaveType = ddlLeaveType.SelectedValue != "" ? ddlLeaveType.SelectedValue : " ";
             var param4 = new ReportParameter("EmployeeName", EmployeeName);
             var param5 = new ReportParameter("Supervisor", Supervisor);
-            var parameters = new List<ReportParameter>();
-
-            parameters.Add(param4);
-            parameters.Add(param5);
+            var param6 = new ReportParameter("LeaveType", LeaveType);
+            var parameters = new List<ReportParameter>
+            {
+                param4,
+                param5,
+                param6
+            };
             ReportViewer1.LocalReport.SetParameters(parameters);
 
 
