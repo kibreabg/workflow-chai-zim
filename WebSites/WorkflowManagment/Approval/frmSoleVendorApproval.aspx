@@ -329,10 +329,10 @@
                     </td>
                     <td style="width: 25%;">
                         <strong>
-                            <asp:Label ID="lblProposedPurchasedprice" runat="server" Text="Proposed Purchased price:"></asp:Label>
+                            <asp:Label ID="lblTotalAmount" runat="server" Text="Total Amount:"></asp:Label>
                         </strong></td>
                     <td style="width: 25%;">
-                        <asp:Label ID="lblProposedPurchasedpriceres" runat="server"></asp:Label>
+                        <asp:Label ID="lblTotalAmountRes" runat="server"></asp:Label>
                     </td>
                 </tr>
                 <tr>

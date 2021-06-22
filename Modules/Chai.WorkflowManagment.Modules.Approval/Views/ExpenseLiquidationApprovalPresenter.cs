@@ -77,9 +77,13 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             return _adminController.GetUser(UserId);
         }
-        public void SaveOrUpdateExpenseLiquidationRequest(ExpenseLiquidationRequest ExpenseLiquidationRequest)
+        public void SaveOrUpdateExpenseLiquidationRequest(ExpenseLiquidationRequest expenseLiquidationRequest)
         {
-            _controller.SaveOrUpdateEntity(ExpenseLiquidationRequest);
+            _controller.SaveOrUpdateEntity(expenseLiquidationRequest);
+        }
+        public void DeleteExpenseLiquidationRequest(ExpenseLiquidationRequest expenseLiquidationRequest)
+        {
+            _controller.DeleteEntity(expenseLiquidationRequest);
         }
         public ExpenseLiquidationRequest GetExpenseLiquidationRequest(int liqID)
         {
