@@ -86,7 +86,8 @@ namespace Chai.WorkflowManagment.Modules.Request
         }
         public VehicleRequest GetVehicleRequest(int id)
         {
-            return _workspace.Single<VehicleRequest>(x => x.Id == id);
+            VehicleRequest vehicleRequest = _workspace.Single<VehicleRequest>(x => x.Id == id, x => x.Project, x => x.Grant, x => x.AppUser);
+            return vehicleRequest;
         }
         public IList<VehicleRequest> ListVehicleRequests(string RequestNo, string RequestDate)
         {

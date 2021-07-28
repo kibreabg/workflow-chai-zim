@@ -96,7 +96,9 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
 
             for (int i = 0; i < s.Length; i++)
             {
-                if (GetWillStatus().Substring(0, 3) == s[i].Substring(0, 3))
+                string willStatus = GetWillStatus().Substring(0, 3);
+                string subString = s[i].Substring(0, 3);
+                if (willStatus == subString)
                 {
                     ddlApprovalStatus.Items.Add(new ListItem(s[i].Replace('_', ' '), s[i].Replace('_', ' ')));
                 }
@@ -109,6 +111,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             ApprovalSetting AS = _presenter.GetApprovalSettingforProcess(RequestType.Vehicle_Request.ToString().Replace('_', ' ').ToString(), 0);
             string will = "";
+            int currentUserId = _presenter.CurrentUser().Id;
             foreach (ApprovalLevel AL in AS.ApprovalLevels)
             {
                 if (AL.EmployeePosition.PositionName == "Superviser/Line Manager" || AL.EmployeePosition.PositionName == "Program Manager" && _presenter.CurrentVehicleRequest.CurrentLevel == 1)
@@ -116,6 +119,11 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     will = "Approve";
                     break;
 
+                }
+                else if(_presenter.CurrentVehicleRequest.CurrentApprover == currentUserId)
+                {
+                    will = AL.Will;
+                    break;
                 }
                 else if (_presenter.GetUser(_presenter.CurrentVehicleRequest.CurrentApprover).EmployeePosition.PositionName == AL.EmployeePosition.PositionName)
                 {
@@ -426,8 +434,12 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
 
                     dgVehicles.EditItemIndex = -1;
                     BindVehicles();
-                    lblProjectIDDResult.Text = _presenter.CurrentVehicleRequest.Project.ProjectCode;
-                    lblGrantIDResult.Text = _presenter.CurrentVehicleRequest.Grant.GrantCode;
+                    if (_presenter.CurrentVehicleRequest.Project != null && _presenter.CurrentVehicleRequest.Grant != null)
+                    {
+                        lblProjectIDDResult.Text = _presenter.CurrentVehicleRequest.Project.ProjectCode;
+                        lblGrantIDResult.Text = _presenter.CurrentVehicleRequest.Grant.GrantCode;
+                    }
+
                     pnlApproval_ModalPopupExtender.Show();
                     Master.ShowMessage(new AppMessage("Vehicle Information Successfully Added", RMessageType.Info));
                 }

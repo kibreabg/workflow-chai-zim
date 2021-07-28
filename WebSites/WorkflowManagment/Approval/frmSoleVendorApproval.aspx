@@ -79,7 +79,6 @@
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:BoundField DataField="ContactPersonNumber" HeaderText="Contact Person & Number" SortExpression="ContactPersonNumber" />
-                    <asp:BoundField DataField="ProposedPurchasedPrice" HeaderText="Proposed Purchased Price" SortExpression="ProposedPurchasedPrice" />
                     <asp:BoundField DataField="Supplier.SupplierName" HeaderText="Proposed Supplier" SortExpression="Supplier.SupplierName" />
                     <asp:BoundField DataField="SoleVendorJustificationType" HeaderText="Sole Vendor JustificationType" SortExpression="SoleVendorJustificationType" />
                     <asp:BoundField DataField="Project.ProjectCode" HeaderText="Project ID" SortExpression="Project.ProjectCode" />
