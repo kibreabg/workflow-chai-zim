@@ -124,6 +124,7 @@ namespace Chai.WorkflowManagment.Modules.Request
             // return WorkspaceFactory.CreateReadOnly().Queryable<CashPaymentRequest>(filterExpression).ToList();
             return _workspace.SqlQuery<CashPaymentRequest>(filterExpression).ToList();
         }
+
         public IList<CashPaymentRequest> GetCashPaymentRequests()
         {
             return WorkspaceFactory.CreateReadOnly().Query<CashPaymentRequest>(null).ToList();
@@ -348,6 +349,10 @@ namespace Chai.WorkflowManagment.Modules.Request
         public IList<LeaveRequest> GetLeaveRequests()
         {
             return WorkspaceFactory.CreateReadOnly().Query<LeaveRequest>(null).ToList();
+        }
+        public IList<LeaveRequest> GetLeaveRequestsByRequester(int requesterId)
+        {
+            return WorkspaceFactory.CreateReadOnly().Query<LeaveRequest>(x => x.Requester == requesterId && x.RequestedDate.Year == DateTime.Today.Year).ToList();
         }
         public LeaveRequest GetLeaveRequest(int LeaveRequestId)
         {

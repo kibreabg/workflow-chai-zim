@@ -271,10 +271,10 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 {
                     SaveLeaveRequestStatus();
                     _presenter.SaveOrUpdateLeaveRequest(_presenter.CurrentLeaveRequest);
-                    CalculateLeavetaken();
                     ShowPrint();
                     if (ddlApprovalStatus.SelectedValue != "Rejected")
                     {
+                        CalculateLeavetaken();
                         Master.ShowMessage(new AppMessage("Leave Approval Processed ", RMessageType.Info));
                     }
                     else
@@ -298,13 +298,26 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         private decimal CalculateLeave(EmployeeLeave empleave)
         {
-            decimal workingdays = Convert.ToDecimal((DateTime.Today.Date - empleave.StartDate).TotalDays);
-            decimal leavedays = (workingdays / 30) * empleave.Rate;
-            decimal res = empleave.BeginingBalance + leavedays - empleave.LeaveTaken;
+            int leavesTaken = 0;
+            foreach (LeaveRequest leaveRequest in _presenter.GetLeaveRequestsByRequester(_presenter.CurrentLeaveRequest.Requester))
+            {
+                leavesTaken += leaveRequest.RequestedDays;
+            }
+
+            double workingdays = 1 + ((DateTime.Today.Date - empleave.StartDate).TotalDays * 5 -
+                                    (empleave.StartDate.DayOfWeek - DateTime.Today.Date.DayOfWeek) * 2) / 7;
+
+            if (DateTime.Today.Date.DayOfWeek == DayOfWeek.Saturday)
+                workingdays--;
+            if (empleave.StartDate.DayOfWeek == DayOfWeek.Sunday)
+                workingdays--;
+
+            decimal leavedays = (Convert.ToDecimal(workingdays) / 30) * empleave.Rate;
+            decimal res = empleave.BeginingBalance + leavedays - leavesTaken;
             if (res < 0)
                 return 0;
             else
-                return Math.Round(res); ;
+                return Math.Round(res);
 
         }
         protected void grvLeaveRequestList_SelectedIndexChanged(object sender, EventArgs e)
@@ -343,12 +356,17 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         private void CalculateLeavetaken()
         {
+            int leavesTaken = 0;
             if (_presenter.CurrentLeaveRequest.CurrentLevel == _presenter.CurrentLeaveRequest.LeaveRequestStatuses.Count && _presenter.CurrentLeaveRequest.ProgressStatus == ProgressStatus.Completed.ToString())
             {
                 if (_presenter.CurrentLeaveRequest.LeaveType.LeaveTypeName.Contains("Annual"))
                 {
                     EmployeeLeave empleave = _presenter.GetEmployeeLeaveforEdit(_presenter.CurrentLeaveRequest.Requester);
-                    empleave.LeaveTaken = empleave.LeaveTaken + _presenter.CurrentLeaveRequest.RequestedDays;
+                    foreach (LeaveRequest leaveRequest in _presenter.GetLeaveRequestsByRequester(_presenter.CurrentLeaveRequest.Requester))
+                    {
+                        leavesTaken += leaveRequest.RequestedDays;
+                    }
+                    empleave.LeaveTaken = leavesTaken;
                     _presenter.SaveOrUpdateEmployeeLeave(empleave);
                 }
             }
