@@ -407,7 +407,7 @@ namespace Chai.WorkflowManagment.Modules.Request
         public IList<PurchaseRequest> GetPurchaseReqsByCurUser()
         {
             int currentUserId = CurrentUser().Id;
-            return WorkspaceFactory.CreateReadOnly().Query<PurchaseRequest>(x => x.Requester == currentUserId).ToList();
+            return WorkspaceFactory.CreateReadOnly().Query<PurchaseRequest>(x => x.ProgressStatus == "Completed").ToList();
         }
         public PurchaseRequest GetPurchaseRequest(int PurchaseRequestId)
         {

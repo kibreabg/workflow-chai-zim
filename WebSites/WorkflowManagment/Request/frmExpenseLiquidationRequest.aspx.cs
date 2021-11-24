@@ -207,8 +207,10 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 ExpenseLiquidationRequestDetail detail;
                 if (id > 0)
                     detail = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.GetExpenseLiquidationRequestDetail(id);
-                else
+                else if (index < _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestDetails.Count)
                     detail = (ExpenseLiquidationRequestDetail)_presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestDetails[index];
+                else
+                    break;
 
                 if (dgi.ItemType == ListItemType.Item || dgi.ItemType == ListItemType.AlternatingItem)
                 {
@@ -268,10 +270,10 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             ExpenseLiquidationRequest liquidation = e.Row.DataItem as ExpenseLiquidationRequest;
             if (e.Row.RowType == DataControlRowType.DataRow)
-            {               
+            {
                 e.Row.Cells[0].Text = liquidation.TravelAdvanceRequest.TravelAdvanceNo;
                 //The Rejected Expense Liquidation appears on the search grid of the requester as a Red colored row
-                if(liquidation.CurrentStatus == ApprovalStatus.Rejected.ToString())
+                if (liquidation.CurrentStatus == ApprovalStatus.Rejected.ToString())
                 {
                     e.Row.ForeColor = System.Drawing.Color.Red;
                 }

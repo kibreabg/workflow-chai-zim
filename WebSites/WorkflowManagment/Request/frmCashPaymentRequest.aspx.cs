@@ -496,6 +496,10 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         protected void ddlPurchaseReq_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //Initialize these values from empty
+            _presenter.CurrentCashPaymentRequest.CashPaymentRequestDetails = new List<CashPaymentRequestDetail>();
+            _presenter.CurrentCashPaymentRequest.TotalAmount = 0;
+
             PurchaseRequest pr = _presenter.GetPurchaseRequest(Convert.ToInt32(ddlPurchaseReq.SelectedValue));
             foreach (PurchaseRequestDetail prd in pr.PurchaseRequestDetails)
             {
@@ -507,6 +511,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     Grant = prd.Grant,
                     Amount = prd.EstimatedCost
                 };
+                //Update the Total Amount
+                _presenter.CurrentCashPaymentRequest.TotalAmount += cprd.Amount;
 
                 _presenter.CurrentCashPaymentRequest.CashPaymentRequestDetails.Add(cprd);
                 BindCashPaymentDetails();

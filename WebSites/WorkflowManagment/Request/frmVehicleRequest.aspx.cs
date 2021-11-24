@@ -94,8 +94,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         public string GetDepartureTime
         {
             get { return timepicker.Text; }
-        }
-     
+        }     
         public string GetPurposeOfTravel
         {
             get { return txtPurposeOfTravel.Text; }
@@ -138,7 +137,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         #endregion
         private string AutoNumber()
         {
-            return "VR-" + _presenter.CurrentUser().Id.ToString() + "-" + (_presenter.GetLastVehicleRequestId() + 1).ToString();
+            return "VR-" + _presenter.CurrentUser().Id.ToString() + "-";// + (_presenter.GetLastVehicleRequestId() + 1).ToString();
         }
         private void CheckApprovalSettings()
         {

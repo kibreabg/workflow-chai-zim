@@ -124,29 +124,30 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         public void SaveOrUpdateVehicleRequest()
         {
-            VehicleRequest VehicleRequest = CurrentVehicleRequest;
-            VehicleRequest.RequestNo = View.GetRequestNo;
-            VehicleRequest.RequestDate = Convert.ToDateTime(DateTime.Today.ToShortDateString());
-            VehicleRequest.DepartureDate = View.GetDepartureDate;
-            VehicleRequest.ReturningDate = View.GetReturningDate;
-            VehicleRequest.DepartureTime = View.GetDepartureTime;
-         
-            VehicleRequest.PurposeOfTravel = View.GetPurposeOfTravel;
-            VehicleRequest.Destination = View.GetDestination;
-            VehicleRequest.Comment = View.GetComment;
-            VehicleRequest.NoOfPassengers = View.GetNoOfPassengers;
-            VehicleRequest.ProgressStatus = ProgressStatus.InProgress.ToString();
+            VehicleRequest vehicleRequest = CurrentVehicleRequest;
+            vehicleRequest.RequestNo = View.GetRequestNo;
+            vehicleRequest.RequestDate = Convert.ToDateTime(DateTime.Today.ToShortDateString());
+            vehicleRequest.DepartureDate = View.GetDepartureDate;
+            vehicleRequest.ReturningDate = View.GetReturningDate;
+            vehicleRequest.DepartureTime = View.GetDepartureTime;         
+            vehicleRequest.PurposeOfTravel = View.GetPurposeOfTravel;
+            vehicleRequest.Destination = View.GetDestination;
+            vehicleRequest.Comment = View.GetComment;
+            vehicleRequest.NoOfPassengers = View.GetNoOfPassengers;
+            vehicleRequest.ProgressStatus = ProgressStatus.InProgress.ToString();
             if (View.GetProjectId != 0)
-                VehicleRequest.Project = _settingController.GetProject(View.GetProjectId);
+                vehicleRequest.Project = _settingController.GetProject(View.GetProjectId);
             if (View.GetGrantId != 0)
-                VehicleRequest.Grant = _settingController.GetGrant(View.GetGrantId);
-            VehicleRequest.AppUser = _adminController.GetUser(CurrentUser().Id);
+                vehicleRequest.Grant = _settingController.GetGrant(View.GetGrantId);
+            vehicleRequest.AppUser = _adminController.GetUser(CurrentUser().Id);
 
             if (CurrentVehicleRequest.VehicleRequestStatuses.Count == 0)
                 SaveVehicleRequestStatus();
             GetCurrentApprover();
 
-            _controller.SaveOrUpdateEntity(VehicleRequest);
+            _controller.SaveOrUpdateEntity(vehicleRequest);
+            vehicleRequest.RequestNo += vehicleRequest.Id.ToString();
+            _controller.SaveOrUpdateEntity(vehicleRequest);
             _controller.CurrentObject = null;
         }
         public void CancelPage()
