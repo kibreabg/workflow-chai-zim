@@ -120,21 +120,22 @@
                                         <asp:ListItem>Ecocash</asp:ListItem>
                                         <asp:ListItem>USD-Cash</asp:ListItem>
                                         <asp:ListItem>CABS</asp:ListItem>
-                                         <asp:ListItem>USD-Bank</asp:ListItem>
-                                         <asp:ListItem>NMB</asp:ListItem>
-                                       </asp:DropDownList><i></i>
+                                        <asp:ListItem>USD-Bank</asp:ListItem>
+                                        <asp:ListItem>USD-Mukuru</asp:ListItem>
+                                        <asp:ListItem>NMB</asp:ListItem>
+                                    </asp:DropDownList><i></i>
                                     <asp:RequiredFieldValidator
                                         ID="RequiredFieldValidator3" runat="server" ErrorMessage="Payment Method must be selected" Display="Dynamic"
                                         CssClass="validator" ValidationGroup="saveMain" InitialValue="0"
                                         SetFocusOnError="true" ControlToValidate="ddlPayMethods"></asp:RequiredFieldValidator>
                                 </label>
                             </section>
-                             <section class="col col-6">
+                            <section class="col col-6">
                                 <label class="label">
                                     <asp:Label ID="lblCardNo" runat="server" Text="Card Number" Visible="false"></asp:Label></label>
                                 <label class="input">
-                                    <asp:TextBox ID="txtCardNo" runat="server" Visible="False" maxlength="16"></asp:TextBox>
-                                     <cc1:FilteredTextBoxExtender runat="server" Enabled="True" TargetControlID="txtCardNo" ID="txtCardNo_FilteredTextBoxExtender" FilterType="Numbers"></cc1:FilteredTextBoxExtender>
+                                    <asp:TextBox ID="txtCardNo" runat="server" Visible="False" MaxLength="16"></asp:TextBox>
+                                    <cc1:FilteredTextBoxExtender runat="server" Enabled="True" TargetControlID="txtCardNo" ID="txtCardNo_FilteredTextBoxExtender" FilterType="Numbers"></cc1:FilteredTextBoxExtender>
                                 </label>
                             </section>
                         </div>
@@ -266,7 +267,7 @@
                                     </ItemTemplate>
                                 </asp:TemplateColumn>
 
-                              
+
                                 <asp:TemplateColumn HeaderText="Actions">
                                     <EditItemTemplate>
                                         <asp:LinkButton ID="lnkUpdate" runat="server" CommandName="Update" ValidationGroup="edit" CssClass="btn btn-xs btn-default"><i class="fa fa-save"></i></asp:LinkButton>
