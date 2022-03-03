@@ -393,11 +393,26 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             {
                 btnSave.Visible = false;
                 btnDelete.Visible = false;
+                //If the Request has undergone approval process hide the Actions buttons from the Details Datagrid
+                foreach (DataGridColumn col in dgCashPaymentDetail.Columns)
+                {
+                    if (col.HeaderText.ToLower().Trim() == "actions")
+                    {
+                        col.Visible = false;
+                    }
+                }
             }
             else
             {
                 btnSave.Visible = true;
                 btnDelete.Visible = true;
+                foreach (DataGridColumn col in dgCashPaymentDetail.Columns)
+                {
+                    if (col.HeaderText.ToLower().Trim() == "actions")
+                    {
+                        col.Visible = true;
+                    }
+                }
             }
         }
         protected void grvCashPaymentRequestList_PageIndexChanging(object sender, GridViewPageEventArgs e)
@@ -434,24 +449,27 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                         ddlPayee.Enabled = false;
                         txtDescription.Enabled = false;
                         ddlAmountType.Enabled = false;
+                        //Once the Request is saved hide the Actions buttons from the Details Datagrid
+                        foreach (DataGridColumn col in dgCashPaymentDetail.Columns)
+                        {
+                            if (col.HeaderText.ToLower().Trim() == "actions")
+                            {
+                                col.Visible = false;
+                            }
+                        }
                     }
                     else
                     {
                         Master.ShowMessage(new AppMessage("Please Attach Receipt", RMessageType.Error));
                     }
-
-
                 }
                 else
                 {
                     Master.ShowMessage(new AppMessage("Please insert at least one Item Detail", RMessageType.Error));
                 }
-
                 foreach (DataGridItem item in dgCashPaymentDetail.Items)
                 {
-
                     item.Cells[5].Visible = false;
-
                 }
             }
             catch (Exception ex)
@@ -459,14 +477,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 Master.ShowMessage(new AppMessage(ex.Message, RMessageType.Error));
                 ExceptionUtility.LogException(ex, ex.Source);
                 ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser().FullName);
-                if (ex.InnerException != null)
-                {
-                    if (ex.InnerException.InnerException.Message.Contains("Violation of UNIQUE KEY"))
-                    {
-                        Master.ShowMessage(new AppMessage("Please Click Request button Again,There is a duplicate Number", Chai.WorkflowManagment.Enums.RMessageType.Error));
-                        //AutoNumber();
-                    }
-                }
             }
 
         }

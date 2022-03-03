@@ -94,7 +94,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         public string GetDepartureTime
         {
             get { return timepicker.Text; }
-        }     
+        }
         public string GetPurposeOfTravel
         {
             get { return txtPurposeOfTravel.Text; }
@@ -186,7 +186,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 txtDepartureDate.Text = _presenter.CurrentVehicleRequest.DepartureDate.Value.ToShortDateString();
                 txtReturningDate.Text = _presenter.CurrentVehicleRequest.ReturningDate.Value.ToShortDateString();
                 timepicker.Text = _presenter.CurrentVehicleRequest.DepartureTime;
-              
+
                 txtPurposeOfTravel.Text = _presenter.CurrentVehicleRequest.PurposeOfTravel.ToString();
                 txtDestination.Text = _presenter.CurrentVehicleRequest.Destination;
                 txtComment.Text = _presenter.CurrentVehicleRequest.Comment;
@@ -235,13 +235,13 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 if (_presenter.CurrentVehicleRequest.VehicleRequestStatuses.Count != 0)
                 {
                     BindVehicleRequests();
-                    Master.ShowMessage(new AppMessage("Successfully did a Vehicle  Request, Reference No - <b>'" + _presenter.CurrentVehicleRequest.RequestNo + "'</b>", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                    Master.ShowMessage(new AppMessage("Successfully did a Vehicle  Request, Reference No - <b>'" + _presenter.CurrentVehicleRequest.RequestNo + "'</b>", RMessageType.Info));
                     Log.Info(_presenter.CurrentUser().FullName + " has requested a Vehicle");
                     btnSave.Visible = false;
                 }
                 else
                 {
-                    Master.ShowMessage(new AppMessage("There was an error constructing the approval process", Chai.WorkflowManagment.Enums.RMessageType.Error));
+                    Master.ShowMessage(new AppMessage("There was an error constructing the approval process", RMessageType.Error));
                 }
             }
             catch (Exception ex)
@@ -252,7 +252,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 {
                     if (ex.InnerException.InnerException.Message.Contains("Violation of UNIQUE KEY"))
                     {
-                        Master.ShowMessage(new AppMessage("Please Click Request button Again,There is a duplicate Number", Chai.WorkflowManagment.Enums.RMessageType.Error));
+                        Master.ShowMessage(new AppMessage("Please Click Request button Again,There is a duplicate Number", RMessageType.Error));
                         //AutoNumber();
                     }
                 }
@@ -264,7 +264,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             ClearFormFields();
             BindVehicleRequests();
             btnDelete.Enabled = false;
-            Master.ShowMessage(new AppMessage("Vehicle Request Successfully Deleted", Chai.WorkflowManagment.Enums.RMessageType.Info));
+            Master.ShowMessage(new AppMessage("Vehicle Request Successfully Deleted", RMessageType.Info));
         }
         protected void btnSearch_Click(object sender, EventArgs e)
         {
@@ -291,6 +291,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
 
 
-      
+
     }
 }

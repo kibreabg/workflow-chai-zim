@@ -125,7 +125,10 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         public void SaveOrUpdateVehicleRequest()
         {
             VehicleRequest vehicleRequest = CurrentVehicleRequest;
-            vehicleRequest.RequestNo = View.GetRequestNo;
+            if(vehicleRequest.Id <= 0)
+            {
+                vehicleRequest.RequestNo = View.GetRequestNo;
+            }            
             vehicleRequest.RequestDate = Convert.ToDateTime(DateTime.Today.ToShortDateString());
             vehicleRequest.DepartureDate = View.GetDepartureDate;
             vehicleRequest.ReturningDate = View.GetReturningDate;
