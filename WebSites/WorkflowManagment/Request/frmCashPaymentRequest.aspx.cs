@@ -214,24 +214,36 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         protected void dgCashPaymentDetail_DeleteCommand(object source, DataGridCommandEventArgs e)
         {
-            int id = (int)dgCashPaymentDetail.DataKeys[e.Item.ItemIndex];
-            int CPRDId = (int)dgCashPaymentDetail.DataKeys[e.Item.ItemIndex];
+            int cprid = (int)dgCashPaymentDetail.DataKeys[e.Item.ItemIndex];
             CashPaymentRequestDetail cprd;
+            decimal totalAmnt = 0;
 
-            if (CPRDId > 0)
-                cprd = _presenter.CurrentCashPaymentRequest.GetCashPaymentRequestDetail(CPRDId);
+            if (cprid > 0)
+                cprd = _presenter.CurrentCashPaymentRequest.GetCashPaymentRequestDetail(cprid);
             else
-                cprd = (CashPaymentRequestDetail)_presenter.CurrentCashPaymentRequest.CashPaymentRequestDetails[e.Item.ItemIndex];
+                cprd = _presenter.CurrentCashPaymentRequest.CashPaymentRequestDetails[e.Item.ItemIndex];
             try
             {
-                if (CPRDId > 0)
+                if (cprid > 0)
                 {
-                    _presenter.CurrentCashPaymentRequest.RemoveCashPaymentRequestDetail(id);
-                    if (_presenter.GetCashPaymentRequestDetail(id) != null)
-                        _presenter.DeleteCashPaymentRequestDetail(_presenter.GetCashPaymentRequestDetail(id));
+                    _presenter.CurrentCashPaymentRequest.CashPaymentRequestDetails.Remove(cprd);
+                    _presenter.DeleteCashPaymentRequestDetail(cprd);
+                    foreach (CashPaymentRequestDetail cpd in _presenter.CurrentCashPaymentRequest.CashPaymentRequestDetails)
+                    {
+                        totalAmnt += cpd.Amount;
+                    }
+                    _presenter.CurrentCashPaymentRequest.TotalAmount = totalAmnt;
                     _presenter.SaveOrUpdateCashPaymentRequest(_presenter.CurrentCashPaymentRequest);
                 }
-                else { _presenter.CurrentCashPaymentRequest.CashPaymentRequestDetails.Remove(cprd); }
+                else
+                {
+                    _presenter.CurrentCashPaymentRequest.CashPaymentRequestDetails.Remove(cprd);
+                    foreach (CashPaymentRequestDetail cpd in _presenter.CurrentCashPaymentRequest.CashPaymentRequestDetails)
+                    {
+                        totalAmnt += cpd.Amount;
+                    }
+                    _presenter.CurrentCashPaymentRequest.TotalAmount = totalAmnt;
+                }
                 BindCashPaymentDetails();
 
                 Master.ShowMessage(new AppMessage("Payment Request Detail was Removed Successfully", RMessageType.Info));
@@ -247,6 +259,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             if (e.CommandName == "AddNew")
             {
+                decimal totalAmnt = 0;
                 try
                 {
                     CashPaymentRequestDetail cprd = new CashPaymentRequestDetail();
@@ -261,12 +274,17 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     cprd.Project = _presenter.GetProject(Convert.ToInt32(ddlProject.SelectedValue));
                     DropDownList ddlGrant = e.Item.FindControl("ddlGrant") as DropDownList;
                     cprd.Grant = _presenter.GetGrant(int.Parse(ddlGrant.SelectedValue));
-                    _presenter.CurrentCashPaymentRequest.TotalAmount += cprd.Amount;
+
                     if (ddlAmountType.SelectedValue == "Actual Amount")
                     {
                         cprd.ActualExpendture = Convert.ToDecimal(txtAmount.Text);
                     }
                     _presenter.CurrentCashPaymentRequest.CashPaymentRequestDetails.Add(cprd);
+                    foreach (CashPaymentRequestDetail cpd in _presenter.CurrentCashPaymentRequest.CashPaymentRequestDetails)
+                    {
+                        totalAmnt += cpd.Amount;
+                    }
+                    _presenter.CurrentCashPaymentRequest.TotalAmount = totalAmnt;
 
                     dgCashPaymentDetail.EditItemIndex = -1;
                     BindCashPaymentDetails();
@@ -288,20 +306,19 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         protected void dgCashPaymentDetail_UpdateCommand(object source, DataGridCommandEventArgs e)
         {
-            decimal previousAmount = 0;
+            decimal totalAmnt = 0;
             int CPRDId = (int)dgCashPaymentDetail.DataKeys[e.Item.ItemIndex];
             CashPaymentRequestDetail cprd;
 
             if (CPRDId > 0)
                 cprd = _presenter.CurrentCashPaymentRequest.GetCashPaymentRequestDetail(CPRDId);
             else
-                cprd = (CashPaymentRequestDetail)_presenter.CurrentCashPaymentRequest.CashPaymentRequestDetails[e.Item.ItemIndex];
+                cprd = _presenter.CurrentCashPaymentRequest.CashPaymentRequestDetails[e.Item.ItemIndex];
 
             try
             {
                 cprd.CashPaymentRequest = _presenter.CurrentCashPaymentRequest;
                 TextBox txtAmount = e.Item.FindControl("txtEdtAmount") as TextBox;
-                previousAmount = cprd.Amount; //This is the Total Amount of this request before any edit
                 cprd.Amount = Convert.ToDecimal(txtAmount.Text);
                 TextBox txtEdtAccountCode = e.Item.FindControl("txtEdtAccountCode") as TextBox;
                 cprd.AccountCode = txtEdtAccountCode.Text;
@@ -311,8 +328,12 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 cprd.Project = _presenter.GetProject(Convert.ToInt32(ddlProject.SelectedValue));
                 DropDownList ddlGrant = e.Item.FindControl("ddlEdtGrant") as DropDownList;
                 cprd.Grant = _presenter.GetGrant(int.Parse(ddlGrant.SelectedValue));
-                _presenter.CurrentCashPaymentRequest.TotalAmount -= previousAmount; //Subtract the previous Total amount
-                _presenter.CurrentCashPaymentRequest.TotalAmount += cprd.Amount; //Then add the new individual amounts to the Total amount
+
+                foreach (CashPaymentRequestDetail cpd in _presenter.CurrentCashPaymentRequest.CashPaymentRequestDetails)
+                {
+                    totalAmnt += cpd.Amount;
+                }
+                _presenter.CurrentCashPaymentRequest.TotalAmount = totalAmnt;
 
                 if (ddlAmountType.SelectedValue == "Actual Amount")
                 {
