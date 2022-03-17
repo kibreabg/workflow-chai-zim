@@ -69,23 +69,48 @@ namespace Chai.WorkflowManagment.Modules.Approval
         #endregion
         #region Cash Payment Approval
         
-        public IList<CashPaymentRequest> ListCashPaymentRequests(string RequestNo, string RequestDate, string ProgressStatus)
+        public IList<CashPaymentRequest> ListCashPaymentRequests(string RequestNo, string RequestDate, string ProgressStatus, string Supplier)
         {
             string filterExpression = "";
             if (ProgressStatus == "InProgress" )
             {
-                filterExpression = " SELECT * FROM CashPaymentRequests INNER JOIN AppUsers ON (AppUsers.Id = CashPaymentRequests.CurrentApprover) OR (AppUsers.EmployeePosition_Id = CashPaymentRequests.CurrentApproverPosition AND AppUsers.Id = '" + CurrentUser().Id +"') Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where 1 = Case when '" + RequestNo + "' = '' Then 1 When CashPaymentRequests.VoucherNo = '" + RequestNo + "'  Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When CashPaymentRequests.RequestDate = '" + RequestDate + "'  Then 1 END AND CashPaymentRequests.ProgressStatus='" + ProgressStatus + "' " +
-                                   " AND  ((CashPaymentRequests.CurrentApprover = '" + CurrentUser().Id + "') or (CashPaymentRequests.CurrentApproverPosition = '" + CurrentUser().EmployeePosition.Id +"') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) order by CashPaymentRequests.Id DESC";
+                filterExpression = " SELECT * FROM CashPaymentRequests " +
+                                   " INNER JOIN AppUsers ON (AppUsers.Id = CashPaymentRequests.CurrentApprover) OR (AppUsers.EmployeePosition_Id = CashPaymentRequests.CurrentApproverPosition AND AppUsers.Id = '" + CurrentUser().Id +"') " + 
+                                   " LEFT JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 " +
+                                   " LEFT JOIN Suppliers on CashPaymentRequests.Supplier_Id = Suppliers.Id " +
+                                   " WHERE 1 = CASE WHEN '" + RequestNo + "' = '' Then 1 When CashPaymentRequests.VoucherNo = '" + RequestNo + "' Then 1 END " +
+                                   " AND 1 = CASE WHEN '" + RequestDate + "' = '' Then 1 When CashPaymentRequests.RequestDate = '" + RequestDate + "' Then 1 END " +
+                                   " AND 1 = CASE WHEN '" + Supplier + "' = '' THEN 1 WHEN CashPaymentRequests.Supplier_Id = '" + Supplier +"' THEN 1 END " +
+                                   " AND CashPaymentRequests.ProgressStatus='" + ProgressStatus + "' " +
+                                   " AND ((CashPaymentRequests.CurrentApprover = '" + CurrentUser().Id + "') OR (CashPaymentRequests.CurrentApproverPosition = '" + CurrentUser().EmployeePosition.Id +"') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) " + 
+                                   " ORDER BY CashPaymentRequests.Id DESC";
             }
             else if (ProgressStatus == "Not Retired" || ProgressStatus == "Retired")
             {
-                filterExpression = " SELECT * FROM CashPaymentRequests INNER JOIN AppUsers ON  (AppUsers.Id = CashPaymentRequests.CurrentApprover) OR (AppUsers.EmployeePosition_Id = CashPaymentRequests.CurrentApproverPosition AND AppUsers.Id = '" + CurrentUser().Id + "') Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where 1 = Case when '" + RequestNo + "' = '' Then 1 When CashPaymentRequests.VoucherNo = '" + RequestNo + "'  Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When CashPaymentRequests.RequestDate = '" + RequestDate + "'  Then 1 END AND CashPaymentRequests.ProgressStatus='Completed' AND CashPaymentRequests.PaymentReimbursementStatus = '" + ProgressStatus + "' " +
-                                         " AND  (CashPaymentRequests.CurrentApprover = '" + CurrentUser().Id + "') or (CashPaymentRequests.CurrentApproverPosition = '" + CurrentUser().EmployeePosition.Id + "') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "') order by CashPaymentRequests.Id DESC ";
+                filterExpression = " SELECT * FROM CashPaymentRequests " +
+                                   " INNER JOIN AppUsers ON (AppUsers.Id = CashPaymentRequests.CurrentApprover) OR (AppUsers.EmployeePosition_Id = CashPaymentRequests.CurrentApproverPosition AND AppUsers.Id = '" + CurrentUser().Id + "') " +
+                                   " LEFT JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 " +
+                                   " LEFT JOIN Suppliers ON CashPaymentRequests.Supplier_Id = Suppliers.Id " +
+                                   " WHERE 1 = CASE WHEN '" + RequestNo + "' = '' THEN 1 WHEN CashPaymentRequests.VoucherNo = '" + RequestNo + "'  Then 1 END " +
+                                   " AND 1 = CASE WHEN '" + RequestDate + "' = '' THEN 1 WHEN CashPaymentRequests.RequestDate = '" + RequestDate + "'  Then 1 END " +
+                                   " AND 1 = CASE WHEN '" + Supplier + "' = '' THEN 1 WHEN CashPaymentRequests.Supplier_Id = '" + Supplier + "' THEN 1 END " +
+                                   " AND CashPaymentRequests.ProgressStatus = 'Completed' AND CashPaymentRequests.PaymentReimbursementStatus = '" + ProgressStatus + "' " +
+                                   " AND  (CashPaymentRequests.CurrentApprover = '" + CurrentUser().Id + "') or (CashPaymentRequests.CurrentApproverPosition = '" + CurrentUser().EmployeePosition.Id + "') OR (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "') " +
+                                   " ORDER BY CashPaymentRequests.Id DESC ";
             }
             else if (ProgressStatus == "Completed")
             {
-                filterExpression = " SELECT * FROM CashPaymentRequests INNER JOIN AppUsers ON (AppUsers.Id = CashPaymentRequests.CurrentApprover) OR (AppUsers.EmployeePosition_Id = CashPaymentRequests.CurrentApproverPosition AND AppUsers.Id = '" + CurrentUser().Id + "') INNER JOIN CashPaymentRequestStatuses on CashPaymentRequestStatuses.CashPaymentRequest_Id = CashPaymentRequests.Id Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where 1 = Case when '" + RequestNo + "' = '' Then 1 When CashPaymentRequests.VoucherNo = '" + RequestNo + "'  Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When CashPaymentRequests.RequestDate = '" + RequestDate + "'  Then 1 END AND CashPaymentRequests.ProgressStatus='" + ProgressStatus + "' " + 
-                                       " AND  (CashPaymentRequestStatuses.ApprovalStatus Is not null  AND (CashPaymentRequestStatuses.Approver = '" + CurrentUser().Id + "') or (CashPaymentRequestStatuses.ApproverPosition = '" + CurrentUser().EmployeePosition.Id + "') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) order by CashPaymentRequests.Id DESC ";
+                filterExpression = " SELECT * FROM CashPaymentRequests " +
+                                   " INNER JOIN AppUsers ON (AppUsers.Id = CashPaymentRequests.CurrentApprover) OR (AppUsers.EmployeePosition_Id = CashPaymentRequests.CurrentApproverPosition AND AppUsers.Id = '" + CurrentUser().Id + "') " +
+                                   " INNER JOIN CashPaymentRequestStatuses ON CashPaymentRequestStatuses.CashPaymentRequest_Id = CashPaymentRequests.Id " +
+                                   " LEFT JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 " +
+                                   " LEFT JOIN Suppliers ON CashPaymentRequests.Supplier_Id = Suppliers.Id " +
+                                   " WHERE 1 = CASE WHEN '" + RequestNo + "' = '' THEN 1 WHEN CashPaymentRequests.VoucherNo = '" + RequestNo + "' THEN 1 END " +
+                                   " AND 1 = CASE WHEN '" + RequestDate + "' = '' Then 1 WHEN CashPaymentRequests.RequestDate = '" + RequestDate + "' THEN 1 END " +
+                                   " AND 1 = CASE WHEN '" + Supplier + "' = '' THEN 1 WHEN CashPaymentRequests.Supplier_Id = '" + Supplier + "' THEN 1 END " +
+                                   " AND CashPaymentRequests.ProgressStatus='" + ProgressStatus + "' " + 
+                                   " AND (CashPaymentRequestStatuses.ApprovalStatus IS NOT NULL AND (CashPaymentRequestStatuses.Approver = '" + CurrentUser().Id + "') OR (CashPaymentRequestStatuses.ApproverPosition = '" + CurrentUser().EmployeePosition.Id + "') OR (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) " +
+                                   " ORDER BY CashPaymentRequests.Id DESC ";
             }
             return _workspace.SqlQuery<CashPaymentRequest>(filterExpression).ToList();
         }

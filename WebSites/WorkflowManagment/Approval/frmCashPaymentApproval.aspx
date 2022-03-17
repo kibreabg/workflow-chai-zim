@@ -52,9 +52,17 @@
                                 </label>
                             </section>
                             <section class="col col-3">
+                                <asp:Label ID="lblSrchSupplier" runat="server" Text="Status" CssClass="label"></asp:Label>
+                                <label class="select">
+                                    <asp:DropDownList ID="ddlSrchSupplier" AppendDataBoundItems="true" DataValueField="Id" DataTextField="SupplierName" runat="server">
+                                        <asp:ListItem Value=" ">Select Supplier</asp:ListItem>
+                                    </asp:DropDownList><i></i>
+                                </label>
+                            </section>
+                            <section class="col col-3">
                                 <asp:Label ID="lblSrchProgressStatus" runat="server" Text="Status" CssClass="label"></asp:Label>
                                 <label class="select">
-                                    <asp:DropDownList ID="ddlSrchProgressStatus" runat="server">
+                                    <asp:DropDownList ID="ddlSrchProgressStatus" runat="server">                                        
                                     </asp:DropDownList><i></i>
                                 </label>
                             </section>

@@ -28,7 +28,6 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             _settingController = settingController;
             _adminController = adminController;
         }
-
         public override void OnViewLoaded()
         {
             if (View.GetCashPaymentRequestId > 0)
@@ -37,7 +36,6 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             }
             CurrentCashPaymentRequest = _controller.CurrentObject as CashPaymentRequest;
         }
-
         public override void OnViewInitialized()
         {
             if (_cashPaymentRequest == null)
@@ -74,11 +72,10 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             return _requestController.GetCashPaymentRequest(reqId);
         }
-        public IList<CashPaymentRequest> ListCashPaymentRequests(string RequestNo, string RequestDate, string ProgressStatus)
+        public IList<CashPaymentRequest> ListCashPaymentRequests(string RequestNo, string RequestDate, string ProgressStatus, string Supplier)
         {
-            return _controller.ListCashPaymentRequests(RequestNo, RequestDate, ProgressStatus);
-        }
-        
+            return _controller.ListCashPaymentRequests(RequestNo, RequestDate, ProgressStatus, Supplier);
+        }        
         public CPRAttachment GetAttachment(int attachmentId)
         {
             return _requestController.GetCPRAttachment(attachmentId);
@@ -130,6 +127,10 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         public IList<ItemAccount> ListItemAccounts()
         {
             return _settingController.GetItemAccounts();
+        }
+        public IList<Supplier> GetSuppliers()
+        {
+            return _settingController.GetSuppliers();
         }
         public void navigate(string url)
         {

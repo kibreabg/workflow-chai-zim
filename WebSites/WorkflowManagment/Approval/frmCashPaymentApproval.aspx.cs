@@ -31,6 +31,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 this._presenter.OnViewInitialized();
                 XmlConfigurator.Configure();
                 PopProgressStatus();
+                PopSuppliers();
                 BindSearchCashPaymentRequestGrid();
             }
             this._presenter.OnViewLoaded();
@@ -164,9 +165,14 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             //ddlSrchProgressStatus.Items.Add(new ListItem("Not Retired", "Not Retired"));
             //ddlSrchProgressStatus.Items.Add(new ListItem("Retired", "Retired"));
         }
+        private void PopSuppliers()
+        {
+            ddlSrchSupplier.DataSource = _presenter.GetSuppliers();
+            ddlSrchSupplier.DataBind();
+        }
         private void BindSearchCashPaymentRequestGrid()
         {
-            grvCashPaymentRequestList.DataSource = _presenter.ListCashPaymentRequests(txtSrchRequestNo.Text, txtSrchRequestDate.Text, ddlSrchProgressStatus.SelectedValue);
+            grvCashPaymentRequestList.DataSource = _presenter.ListCashPaymentRequests(txtSrchRequestNo.Text, txtSrchRequestDate.Text, ddlSrchProgressStatus.SelectedValue, ddlSrchSupplier.SelectedValue);
             grvCashPaymentRequestList.DataBind();
         }
         private void BindCashPaymentRequestStatus()
