@@ -53,8 +53,6 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     PrintTransaction();
                 }
             }
-
-
         }
         [CreateNew]
         public ExpenseLiquidationApprovalPresenter Presenter
@@ -166,7 +164,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         private void BindSearchExpenseLiquidationRequestGrid()
         {
-            grvExpenseLiquidationRequestList.DataSource = _presenter.ListExpenseLiquidationRequests(txtSrchExpenseType.Text, txtSrchRequestDate.Text, ddlSrchProgressStatus.SelectedValue);
+            grvExpenseLiquidationRequestList.DataSource = _presenter.ListExpenseLiquidationRequests(txtSrchTravelAdvNo.Text, txtSrchRequestDate.Text, ddlSrchProgressStatus.SelectedValue);
             grvExpenseLiquidationRequestList.DataBind();
         }
         private void BindExpenseLiquidationRequestStatus()
@@ -541,7 +539,6 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
 
             return sMime;
         }
-
         private void BindProject(DropDownList ddlProject)
         {
             ddlProject.DataSource = _presenter.GetProjectList();

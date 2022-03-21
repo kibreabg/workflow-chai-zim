@@ -33,9 +33,9 @@
                     <fieldset>
                         <div class="row">
                             <section class="col col-3">
-                                <asp:Label ID="lblExpenseType" runat="server" Text="Expense Type" CssClass="label"></asp:Label>
+                                <asp:Label ID="lblTravelAdvNo" runat="server" Text="Travel Advance No" CssClass="label"></asp:Label>
                                 <label class="input">
-                                    <asp:TextBox ID="txtSrchExpenseType" runat="server" Visible="true"></asp:TextBox>
+                                    <asp:TextBox ID="txtSrchTravelAdvNo" runat="server" Visible="true"></asp:TextBox>
                                 </label>
                             </section>
                             <section class="col col-3">
