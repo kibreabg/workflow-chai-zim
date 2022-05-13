@@ -31,6 +31,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 this._presenter.OnViewInitialized();
                 XmlConfigurator.Configure();
                 PopProgressStatus();
+                PopSuppliers();
                 BindSearchOperationalControlRequestGrid();
             }
             this._presenter.OnViewLoaded();
@@ -160,9 +161,14 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
 
             ddlSrchProgressStatus.Items.Add(new ListItem("Retired", "Retired"));
         }
+        private void PopSuppliers()
+        {
+            ddlSrchSupplier.DataSource = _presenter.GetSuppliers();
+            ddlSrchSupplier.DataBind();
+        }
         private void BindSearchOperationalControlRequestGrid()
         {
-            grvOperationalControlRequestList.DataSource = _presenter.ListOperationalControlRequests(txtSrchRequestNo.Text, txtSrchRequestDate.Text, ddlSrchProgressStatus.SelectedValue);
+            grvOperationalControlRequestList.DataSource = _presenter.ListOperationalControlRequests(txtSrchRequestNo.Text, txtSrchRequestDate.Text, ddlSrchProgressStatus.SelectedValue, ddlSrchSupplier.SelectedValue);
             grvOperationalControlRequestList.DataBind();
         }
         private void BindOperationalControlRequestStatus()

@@ -148,7 +148,7 @@ namespace Chai.WorkflowManagment.Modules.Approval
         }
         #endregion
         #region Operational Control Approval
-        public IList<OperationalControlRequest> ListOperationalControlRequests(string RequestNo, string RequestDate, string ProgressStatus)
+        public IList<OperationalControlRequest> ListOperationalControlRequests(string RequestNo, string RequestDate, string ProgressStatus, string Supplier)
         {
             string filterExpression = "";
             if (ProgressStatus == "InProgress")
@@ -158,6 +158,7 @@ namespace Chai.WorkflowManagment.Modules.Approval
                                    " LEFT JOIN AssignJobs ON AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 " +
                                    " WHERE 1 = Case when '" + RequestNo + "' = '' Then 1 When OperationalControlRequests.VoucherNo = '" + RequestNo + "' Then 1 END " +
                                        " AND 1 = Case when '" + RequestDate + "' = '' Then 1 When OperationalControlRequests.RequestDate = '" + RequestDate + "'  Then 1 END " +
+                                       " AND 1 = CASE WHEN '" + Supplier + "' = '' THEN 1 WHEN OperationalControlRequests.Supplier_Id = '" + Supplier + "' THEN 1 END " +
                                        " AND OperationalControlRequests.ProgressStatus='" + ProgressStatus + "' " +
                                        " AND ((OperationalControlRequests.CurrentApprover = '" + CurrentUser().Id + "') " +
                                        " OR (OperationalControlRequests.CurrentApproverPosition = '" + CurrentUser().EmployeePosition.Id + "') " +
@@ -171,6 +172,7 @@ namespace Chai.WorkflowManagment.Modules.Approval
                                    " LEFT JOIN AssignJobs ON AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 " +
                                    " WHERE 1 = Case when '" + RequestNo + "' = '' Then 1 When OperationalControlRequests.VoucherNo = '" + RequestNo + "' Then 1 END " +
                                        " AND 1 = Case when '" + RequestDate + "' = '' Then 1 When OperationalControlRequests.RequestDate = '" + RequestDate + "'  Then 1 END " +
+                                       " AND 1 = CASE WHEN '" + Supplier + "' = '' THEN 1 WHEN OperationalControlRequests.Supplier_Id = '" + Supplier + "' THEN 1 END " +
                                        " AND OperationalControlRequests.ProgressStatus = 'Completed' " +
                                        " AND OperationalControlRequests.PaymentReimbursementStatus = '" + ProgressStatus + "' " +
                                        " AND ((OperationalControlRequests.CurrentApprover = '" + CurrentUser().Id + "') " +
@@ -185,6 +187,7 @@ namespace Chai.WorkflowManagment.Modules.Approval
                                    " LEFT JOIN AssignJobs ON AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 " +
                                    " WHERE 1 = Case when '" + RequestNo + "' = '' Then 1 When OperationalControlRequests.VoucherNo = '" + RequestNo + "' Then 1 END " +
                                        " AND 1 = Case when '" + RequestDate + "' = '' Then 1 When OperationalControlRequests.RequestDate = '" + RequestDate + "'  Then 1 END " +
+                                       " AND 1 = CASE WHEN '" + Supplier + "' = '' THEN 1 WHEN OperationalControlRequests.Supplier_Id = '" + Supplier + "' THEN 1 END " +
                                        " AND OperationalControlRequests.ProgressStatus='" + ProgressStatus + "' " +
                                        " AND ((OperationalControlRequests.CurrentApprover = '" + CurrentUser().Id + "') " +
                                        " OR (OperationalControlRequests.CurrentApproverPosition = '" + CurrentUser().EmployeePosition.Id + "') " +

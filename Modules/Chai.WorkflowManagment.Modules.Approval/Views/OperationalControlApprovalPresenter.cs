@@ -37,7 +37,6 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             }
             CurrentOperationalControlRequest = _controller.CurrentObject as OperationalControlRequest;
         }
-
         public override void OnViewInitialized()
         {
             if (_OperationalControlRequest == null)
@@ -73,9 +72,9 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             return _requestController.GetOperationalControlRequest(reqId);
         }
-        public IList<OperationalControlRequest> ListOperationalControlRequests(string RequestNo, string RequestDate, string ProgressStatus)
+        public IList<OperationalControlRequest> ListOperationalControlRequests(string RequestNo, string RequestDate, string ProgressStatus, string Supplier)
         {
-            return _controller.ListOperationalControlRequests(RequestNo, RequestDate, ProgressStatus);
+            return _controller.ListOperationalControlRequests(RequestNo, RequestDate, ProgressStatus, Supplier);
         }
         public OCRAttachment GetAttachment(int attachmentId)
         {
@@ -92,6 +91,10 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         public AppUser CurrentUser()
         {
             return _controller.GetCurrentUser();
+        }
+        public IList<Supplier> GetSuppliers()
+        {
+            return _settingController.GetSuppliers();
         }
         public IList<Project> ListProjects()
         {
@@ -121,7 +124,6 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             return _settingController.GetItemAccounts();
         }
-
         public void navigate(string url)
         {
             _controller.Navigate(url);
