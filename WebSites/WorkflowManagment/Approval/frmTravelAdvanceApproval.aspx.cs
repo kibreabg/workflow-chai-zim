@@ -28,6 +28,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             {
                 this._presenter.OnViewInitialized();
                 XmlConfigurator.Configure();
+                PopRequesters();
                 PopProgressStatus();
             }
             this._presenter.OnViewLoaded();
@@ -91,6 +92,11 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             ddlAccount.DataSource = _presenter.GetAccounts();
             ddlAccount.DataBind();
 
+        }
+        private void PopRequesters()
+        {
+            ddlSrchRequesters.DataSource = _presenter.GetAppUsers();
+            ddlSrchRequesters.DataBind();
         }
         private void PopApprovalStatus()
         {
@@ -162,7 +168,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         private void BindSearchTravelAdvanceRequestGrid()
         {
-            grvTravelAdvanceRequestList.DataSource = _presenter.ListTravelAdvanceRequests(txtSrchRequestNo.Text, txtSrchRequestDate.Text, ddlSrchProgressStatus.SelectedValue);
+            grvTravelAdvanceRequestList.DataSource = _presenter.ListTravelAdvanceRequests(txtSrchRequestNo.Text, ddlSrchRequesters.SelectedValue, txtSrchRequestDate.Text, ddlSrchProgressStatus.SelectedValue);
             grvTravelAdvanceRequestList.DataBind();
         }
         private void BindTravelAdvanceRequestStatus()

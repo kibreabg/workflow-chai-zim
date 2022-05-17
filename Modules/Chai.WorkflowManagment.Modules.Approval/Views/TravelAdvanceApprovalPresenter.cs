@@ -28,7 +28,6 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             _settingController = settingController;
             _adminController = adminController;
         }
-
         public override void OnViewLoaded()
         {
             if (View.GetTravelAdvanceRequestId > 0)
@@ -37,7 +36,6 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             }
             CurrentTravelAdvanceRequest = _controller.CurrentObject as TravelAdvanceRequest;
         }
-
         public override void OnViewInitialized()
         {
             if (_TravelAdvanceRequest == null)
@@ -73,6 +71,10 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             return _adminController.GetUser(UserId);
         }
+        public IList<AppUser> GetAppUsers()
+        {
+            return _adminController.GetUsers();
+        }
         public AppUser GetSuperviser(int superviser)
         {
             return _controller.GetSuperviser(superviser);
@@ -85,9 +87,9 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             _controller.SaveOrUpdateEntity(TravelAdvanceRequest);
         }
-        public IList<TravelAdvanceRequest> ListTravelAdvanceRequests(string RequestNo, string RequestDate, string ProgressStatus)
+        public IList<TravelAdvanceRequest> ListTravelAdvanceRequests(string RequestNo, string Requester, string RequestDate, string ProgressStatus)
         {
-            return _controller.ListTravelAdvanceRequests(RequestNo, RequestDate, ProgressStatus);
+            return _controller.ListTravelAdvanceRequests(RequestNo, Requester, RequestDate, ProgressStatus);
         }
         public AppUser CurrentUser()
         {
@@ -120,13 +122,11 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         public int GetAssignedUserbycurrentuser()
         {
             return _controller.GetAssignedUserbycurrentuser();
-        }
-      
+        }      
         public void Commit()
         {
             _controller.Commit();
         }
-
         
     }
 }

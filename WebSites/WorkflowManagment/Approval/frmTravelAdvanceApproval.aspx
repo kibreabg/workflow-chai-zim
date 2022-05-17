@@ -38,6 +38,14 @@
                                 </label>
                             </section>
                             <section class="col col-3">
+                                <asp:Label ID="lblSrchRequesters" runat="server" Text="Status" CssClass="label"></asp:Label>
+                                <label class="select">
+                                    <asp:DropDownList ID="ddlSrchRequesters" AppendDataBoundItems="true" DataValueField="Id" DataTextField="FullName" runat="server">
+                                        <asp:ListItem Value=" ">Select Requester</asp:ListItem>
+                                    </asp:DropDownList><i></i>
+                                </label>
+                            </section>
+                            <section class="col col-3">
                                 <asp:Label ID="lblSrchRequestDate" runat="server" Text="Request Date" CssClass="label"></asp:Label>
                                 <label class="input">
                                     <i class="icon-append fa fa-calendar"></i>
