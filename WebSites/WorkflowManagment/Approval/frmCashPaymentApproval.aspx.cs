@@ -522,7 +522,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             lblRequestedDateResult.Text = _presenter.CurrentCashPaymentRequest.RequestDate.Value.ToShortDateString();
             if (_presenter.CurrentCashPaymentRequest.Supplier != null)
             {
-                lblPayeeResult.Text = _presenter.CurrentCashPaymentRequest.Supplier.SupplierName.ToString() != null ? _presenter.CurrentCashPaymentRequest.Supplier.SupplierName.ToString() : "";
+                lblPayeeResult.Text = _presenter.CurrentCashPaymentRequest.Supplier.SupplierName != null ? _presenter.CurrentCashPaymentRequest.Supplier.SupplierName.ToString() : "";
             }
             lblpaytypeRes.Text = _presenter.CurrentCashPaymentRequest.PaymentMethod;
             lblVoucherNoResult.Text = _presenter.CurrentCashPaymentRequest.VoucherNo;

@@ -634,7 +634,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 }
                 else
                 {
-                    Master.ShowMessage(new AppMessage("There is an error constracting Approval Process", RMessageType.Error));
+                    Master.ShowMessage(new AppMessage("There was an error while constructing the Approval Process", RMessageType.Error));
                 }
             }
             else
