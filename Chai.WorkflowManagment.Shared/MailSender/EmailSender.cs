@@ -26,7 +26,8 @@ namespace Chai.WorkflowManagment.Shared.MailSender
                 {
                     client.EnableSsl = section.Network.EnableSsl;
                     client.Timeout = 2000000;
-                    client.Credentials = new System.Net.NetworkCredential(section.Network.UserName, section.Network.Password);
+                    client.UseDefaultCredentials = false;
+                    client.Credentials = new NetworkCredential(section.Network.UserName, section.Network.Password);
                     client.Send(section.From, to, subject, body + " Click here: " + localIP );
                     client.Dispose();
                 }
@@ -52,7 +53,8 @@ namespace Chai.WorkflowManagment.Shared.MailSender
                 {
                     client.EnableSsl = section.Network.EnableSsl;
                     client.Timeout = 2000000;
-                    client.Credentials = new System.Net.NetworkCredential(section.Network.UserName, section.Network.Password);
+                    client.UseDefaultCredentials = false;
+                    client.Credentials = new NetworkCredential(section.Network.UserName, section.Network.Password);
                     client.Send(section.From, to, subject, body);
                     client.Dispose();
                 }
@@ -91,7 +93,8 @@ namespace Chai.WorkflowManagment.Shared.MailSender
                 {
                     client.EnableSsl = section.Network.EnableSsl;
                     client.Timeout = 2000000;
-                    client.Credentials = new System.Net.NetworkCredential(section.Network.UserName, section.Network.Password);
+                    client.UseDefaultCredentials = false;
+                    client.Credentials = new NetworkCredential(section.Network.UserName, section.Network.Password);
                     client.Send(mail);
                     client.Dispose();
                 }

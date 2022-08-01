@@ -640,7 +640,7 @@
                                         CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" OnRowDataBound="grvSoleVendorProgress_RowDataBound">
                                         <RowStyle CssClass="rowstyle" />
                                         <Columns>
-                                            <asp:BoundField DataField="RequestNo" HeaderText="RequestNo No" SortExpression="RequestNo" />
+                                            <asp:BoundField DataField="RequestNo" HeaderText="Request No" SortExpression="RequestNo" />
                                             <asp:TemplateField HeaderText="Request Date">
                                                 <ItemTemplate>
                                                     <asp:Label ID="lblRequestDate" runat="server" Text='<%# Eval("RequestDate", "{0:dd/MM/yyyy}")%>'></asp:Label>
@@ -680,7 +680,7 @@
                                         CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" OnRowDataBound="grvVendorProgress_RowDataBound">
                                         <RowStyle CssClass="rowstyle" />
                                         <Columns>
-                                            <asp:BoundField DataField="RequestNo" HeaderText="RequestNo No" SortExpression="RequestNo" />
+                                            <asp:BoundField DataField="RequestNo" HeaderText="Request No" SortExpression="RequestNo" />
                                             <asp:TemplateField HeaderText="Request Date">
                                                 <ItemTemplate>
                                                     <asp:Label ID="lblRequestDate" runat="server" Text='<%# Eval("RequestDate", "{0:dd/MM/yyyy}")%>'></asp:Label>
