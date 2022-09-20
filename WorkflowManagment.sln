@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebSites", "WebSites", "{F46F1E28-4EB0-4F40-8842-9945911BD8A0}"
 EndProject
@@ -10,7 +10,7 @@ EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "WorkflowManagment", "http://localhost:61090", "{CAB1B892-F12B-49E3-B9F9-14ACB5ED7DB2}"
 	ProjectSection(WebsiteProperties) = preProject
 		UseIISExpress = "true"
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.8"
 		ProjectReferences = "{20c49d35-4cea-4c93-acff-3a570ca2fed7}|Chai.WorkflowManagment.CoreDomain.dll;{a10d850f-2040-44f8-8a6e-89ba91470fae}|Chai.WorkflowManagment.Enums.dll;{1b1467b4-2bf5-4824-9fac-39c36d4c6c89}|Chai.WorkflowManagment.Modules.Admin.dll;{7b6c15bd-f5d5-40c3-8eaf-54d8a9328e65}|Chai.WorkflowManagment.Modules.Report.dll;{b6477755-f019-42bd-b33a-592b65bc6bf9}|Chai.WorkflowManagment.Modules.Shell.dll;{63c11ce1-4190-491b-a3cc-ca21cdfecd73}|Chai.WorkflowManagment.ServerControls.dll;{99145d3d-2b6d-4c6f-98a9-9bc18584bd07}|Chai.WorkflowManagment.Services.dll;{3c1c6d3d-633e-442a-bde0-0d0b9d31fdf2}|Chai.WorkflowManagment.Shared.dll;{6e8e1e43-0c9b-4b03-bb95-be86d1853cea}|Chai.WorkflowManagment.Modules.Setting.dll;{88b5eb9e-0fb5-4a23-99bd-f2b3c590f92d}|Chai.WorkflowManagment.Modules.Request.dll;{01e5590d-c115-4afd-802b-05d46f0fe13b}|Chai.WorkflowManagment.Modules.Approval.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_61090"
 		Debug.AspNetCompiler.PhysicalPath = "WebSites\WorkflowManagment\"
@@ -117,5 +117,8 @@ Global
 		{6E8E1E43-0C9B-4B03-BB95-BE86D1853CEA} = {2323152C-FB9C-41D2-AC57-8BABE27D9ED1}
 		{88B5EB9E-0FB5-4A23-99BD-F2B3C590F92D} = {2323152C-FB9C-41D2-AC57-8BABE27D9ED1}
 		{01E5590D-C115-4AFD-802B-05D46F0FE13B} = {2323152C-FB9C-41D2-AC57-8BABE27D9ED1}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1527D7D2-C694-48C4-99E9-561E34F55342}
 	EndGlobalSection
 EndGlobal
