@@ -1,24 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Web;
-using System.Linq;
-using System.Linq.Expressions;
-using Microsoft.Practices.CompositeWeb;
-using Microsoft.Practices.CompositeWeb.Interfaces;
-using Microsoft.Practices.CompositeWeb.Utility;
-using Microsoft.Practices.ObjectBuilder;
-
 using Chai.WorkflowManagment.CoreDomain;
 using Chai.WorkflowManagment.CoreDomain.DataAccess;
-using Chai.WorkflowManagment.CoreDomain.Admins;
-using Chai.WorkflowManagment.CoreDomain.Users;
-using Chai.WorkflowManagment.Services;
-using Chai.WorkflowManagment.Shared.Navigation;
-
-
-using System.Data;
 using Chai.WorkflowManagment.CoreDomain.Report;
 using Chai.WorkflowManagment.CoreDomain.Requests;
+using Chai.WorkflowManagment.Services;
+using Chai.WorkflowManagment.Shared.Navigation;
+using Microsoft.Practices.CompositeWeb;
+using Microsoft.Practices.CompositeWeb.Interfaces;
+using Microsoft.Practices.ObjectBuilder;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 
 namespace Chai.WorkflowManagment.Modules.Report
 {
@@ -27,7 +18,7 @@ namespace Chai.WorkflowManagment.Modules.Report
         private IWorkspace _workspace;
 
         [InjectionConstructor]
-        public ReportController([ServiceDependency] IHttpContextLocatorService httpContextLocatorService, [ServiceDependency]INavigationService navigationService)
+        public ReportController([ServiceDependency] IHttpContextLocatorService httpContextLocatorService, [ServiceDependency] INavigationService navigationService)
             : base(httpContextLocatorService, navigationService)
         {
             _workspace = ZadsServices.Workspace;
@@ -46,7 +37,7 @@ namespace Chai.WorkflowManagment.Modules.Report
                                " FROM [WorkflowManagment].[dbo].[LeaveRequests] Inner join AppUsers on AppUsers.Id = [LeaveRequests].Requester " +
                                " Inner Join LeaveTypes on LeaveTypes.Id = [LeaveRequests].LeaveType_Id " +
                                " where 1 = Case when '" + DateFrom + "' = '' and  '" + DateTo + "' ='' Then 1 When LeaveRequests.RequestedDate between '" + DateFrom + "' and '" + DateTo + "' Then 1 END AND " +
-                               " [LeaveRequests].ProgressStatus = 'Completed' " ;
+                               " [LeaveRequests].ProgressStatus = 'Completed' ";
 
             return WorkspaceFactory.CreateReadOnly().Queryable<LeaveReport>(filterExpression).ToList();
 
@@ -89,17 +80,17 @@ namespace Chai.WorkflowManagment.Modules.Report
         {
             string filterExpression = "";
 
-            filterExpression = "  SELECT FuelCardRequests.RequestedDate AS Date, dbo.FuelCardRequests.CardHolderName as Card_Holder_Name, dbo.FuelCardRequests.Year As Year, "+
-                               "  dbo.FuelCardRequests.Month as Month,dbo.FuelCardRequests.TotalReimbursement as TotalReimbursement, FuelCardRequestDetails.CardNumber as Vehicle_Reg_Number "+
-                               " From[WorkflowManagment].[dbo].FuelCardRequests "+
-                               " Inner join FuelCardRequestDetails on FuelCardRequests.Id = FuelCardRequestDetails.FuelCardRequest_Id "+
+            filterExpression = "  SELECT FuelCardRequests.RequestedDate AS Date, dbo.FuelCardRequests.CardHolderName as Card_Holder_Name, dbo.FuelCardRequests.Year As Year, " +
+                               "  dbo.FuelCardRequests.Month as Month,dbo.FuelCardRequests.TotalReimbursement as TotalReimbursement, FuelCardRequestDetails.CardNumber as Vehicle_Reg_Number " +
+                               " From[WorkflowManagment].[dbo].FuelCardRequests " +
+                               " Inner join FuelCardRequestDetails on FuelCardRequests.Id = FuelCardRequestDetails.FuelCardRequest_Id " +
                                                  " where FuelCardRequests.ProgressStatus = 'Completed' AND " +
                                                  " 1 = Case when '" + DateFrom + "' = '' and  '" + DateTo + "' ='' Then 1 When FuelCardRequests.RequestDate between '" + DateFrom + "' and '" + DateTo + "' Then 1 END ";
             return WorkspaceFactory.CreateReadOnly().Queryable<FuelCardReport>(filterExpression).ToList();
 
         }
 
-       
+
 
 
         public IList<LiquidationReport> GetLiquidationReporto(string DateFrom, string DateTo)
@@ -218,7 +209,7 @@ namespace Chai.WorkflowManagment.Modules.Report
             ReportDao re = new ReportDao();
             return re.CostSharingPaymentReport(datefrom, dateto);
         }
-        public DataSet ExportBankPayment(string datefrom, string dateto,string ExportType)
+        public DataSet ExportBankPayment(string datefrom, string dateto, string ExportType)
         {
             ReportDao re = new ReportDao();
             return re.ExportBankPayment(datefrom, dateto, ExportType);
@@ -233,7 +224,7 @@ namespace Chai.WorkflowManagment.Modules.Report
             ReportDao re = new ReportDao();
             return re.ExportCashPayment(datefrom, dateto, ExportType);
         }
-        
+
         public DataSet ExportCostSharingPayment(string datefrom, string dateto, string ExportType)
         {
             ReportDao re = new ReportDao();
@@ -256,8 +247,8 @@ namespace Chai.WorkflowManagment.Modules.Report
         {
             return _workspace.Single<TravelAdvanceRequest>(x => x.TravelAdvanceNo == RequestId);
         }
-      
-        
+
+
         public OperationalControlRequest GetOperationalControlRequest(string RequestId)
         {
             return _workspace.Single<OperationalControlRequest>(x => x.RequestNo == RequestId);

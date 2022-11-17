@@ -4,17 +4,12 @@ using Chai.WorkflowManagment.CoreDomain.Users;
 using Chai.WorkflowManagment.Enums;
 using Chai.WorkflowManagment.Shared;
 using Chai.WorkflowManagment.Shared.MailSender;
+using log4net;
+using log4net.Config;
 using Microsoft.Practices.ObjectBuilder;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using log4net;
-using System.Reflection;
-using log4net.Config;
 
 namespace Chai.WorkflowManagment.Modules.Request.Views
 {
@@ -90,7 +85,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             {
 
                 txtRequestDate.Text = DateTime.Today.Date.ToShortDateString();
-               
+
 
             }
         }
@@ -137,7 +132,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 _presenter.CurrentLeaveRequest.Forward = txtforward.Text != "" ? int.Parse(txtforward.Text) : 0;
 
                 SaveLeaveRequestStatus();
-               
+
             }
             catch (Exception ex)
             {
@@ -263,24 +258,24 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 {
                     GetCurrentApprover();
                     _presenter.SaveOrUpdateLeaveRequest(_presenter.CurrentLeaveRequest);
-                   
+
                     ClearForm();
                     BindSearchLeaveRequestGrid();
                     Master.ShowMessage(new AppMessage("Successfully did a Leave  Request, Reference No - <b>'" + _presenter.CurrentLeaveRequest.RequestNo + "'</b>", Chai.WorkflowManagment.Enums.RMessageType.Info));
                     Log.Info(_presenter.CurrentUser().FullName + " has requested for a Leave Type of " + ddlLeaveType.SelectedValue);
                 }
                 else if (ddlLeaveType.SelectedItem.Text == "Annual Leave" && Convert.ToInt32(txtapplyfor.Text) < (txtforward.Text != "" ? Convert.ToInt32(txtforward.Text) : 0))
-                    {
-                        GetCurrentApprover();
-                        _presenter.SaveOrUpdateLeaveRequest(_presenter.CurrentLeaveRequest);
-                        ClearForm();
-                        BindSearchLeaveRequestGrid();
-                        Master.ShowMessage(new AppMessage("Successfully did a Leave  Request, Reference No - <b>'" + _presenter.CurrentLeaveRequest.RequestNo + "'</b>", Chai.WorkflowManagment.Enums.RMessageType.Info));
-                        Log.Info(_presenter.CurrentUser().FullName + " has requested for a Leave Type of " + ddlLeaveType.SelectedValue);
-                    }
-                    else
-                    { Master.ShowMessage(new AppMessage("You don't have sufficient Annual Leave days", Chai.WorkflowManagment.Enums.RMessageType.Error)); }
-                
+                {
+                    GetCurrentApprover();
+                    _presenter.SaveOrUpdateLeaveRequest(_presenter.CurrentLeaveRequest);
+                    ClearForm();
+                    BindSearchLeaveRequestGrid();
+                    Master.ShowMessage(new AppMessage("Successfully did a Leave  Request, Reference No - <b>'" + _presenter.CurrentLeaveRequest.RequestNo + "'</b>", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                    Log.Info(_presenter.CurrentUser().FullName + " has requested for a Leave Type of " + ddlLeaveType.SelectedValue);
+                }
+                else
+                { Master.ShowMessage(new AppMessage("You don't have sufficient Annual Leave days", Chai.WorkflowManagment.Enums.RMessageType.Error)); }
+
             }
             else
             {
@@ -548,7 +543,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         protected void txtDateFrom_TextChanged(object sender, EventArgs e)
         {
-           // CalculateRequestedDays();
+            // CalculateRequestedDays();
         }
         protected void txtDateTo_TextChanged(object sender, EventArgs e)
         {

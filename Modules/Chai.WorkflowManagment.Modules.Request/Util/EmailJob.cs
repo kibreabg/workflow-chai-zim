@@ -1,15 +1,11 @@
 ﻿using Chai.WorkflowManagment.CoreDomain.DataAccess;
 using Chai.WorkflowManagment.CoreDomain.Requests;
-using Chai.WorkflowManagment.Services;
-using Chai.WorkflowManagment.Shared.MailSender;
-using Chai.WorkflowManagment.Shared.Navigation;
 using Chai.WorkflowManagment.Shared;
-using Microsoft.Practices.CompositeWeb.Interfaces;
+using Chai.WorkflowManagment.Shared.MailSender;
 using Quartz;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Chai.WorkflowManagment.Modules.Request
 {

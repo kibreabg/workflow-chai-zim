@@ -1,39 +1,39 @@
-﻿using System;
-using Microsoft.Practices.ObjectBuilder;
+﻿using Microsoft.Practices.ObjectBuilder;
 using Microsoft.Reporting.WebForms;
+using System;
 using System.Collections.Generic;
 
 namespace Chai.WorkflowManagment.Modules.Report.Views
 {
     public partial class frmVehicleReport : POCBasePage, IfrmVehicleReportView
-	{
-		private frmVehicleReportPresenter _presenter;
+    {
+        private frmVehicleReportPresenter _presenter;
 
-		protected void Page_Load(object sender, EventArgs e)
-		{
-			if (!this.IsPostBack)
-			{
-				this._presenter.OnViewInitialized();
-			}
-			this._presenter.OnViewLoaded();
-		}
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!this.IsPostBack)
+            {
+                this._presenter.OnViewInitialized();
+            }
+            this._presenter.OnViewLoaded();
+        }
 
-		[CreateNew]
+        [CreateNew]
         public frmVehicleReportPresenter Presenter
-		{
-			get
-			{
-				return this._presenter;
-			}
-			set
-			{
-				if(value == null)
-					throw new ArgumentNullException("value");
+        {
+            get
+            {
+                return this._presenter;
+            }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException("value");
 
-				this._presenter = value;
-				this._presenter.View = this;
-			}
-		}
+                this._presenter = value;
+                this._presenter.View = this;
+            }
+        }
         public override string PageID
         {
             get
@@ -46,11 +46,11 @@ namespace Chai.WorkflowManagment.Modules.Report.Views
 
             var path = Server.MapPath("VehicleReport.rdlc");
             var datasource = _presenter.GetVehicleReport(txtDateFrom.Text, txtDateTo.Text);
-            ReportDataSource s = new ReportDataSource("DataSet1", datasource.Tables[0]);
-            ReportViewer1.ProcessingMode = Microsoft.Reporting.WebForms.ProcessingMode.Local;
-            ReportViewer1.LocalReport.DataSources.Clear();
-            ReportViewer1.LocalReport.DataSources.Add(s);
-            ReportViewer1.LocalReport.ReportPath = path;
+            ReportDataSource s = new ReportDataSource("VehicleReportDataSet", datasource.Tables[0]);
+            rvVehicleReport.ProcessingMode = ProcessingMode.Local;
+            rvVehicleReport.LocalReport.DataSources.Clear();
+            rvVehicleReport.LocalReport.DataSources.Add(s);
+            rvVehicleReport.LocalReport.ReportPath = path;
             var DateFrom = txtDateFrom.Text != "" ? txtDateFrom.Text : " ";
             var DateTo = txtDateTo.Text != "" ? txtDateTo.Text : " ";
             var param4 = new ReportParameter("DateFrom", DateFrom);
@@ -59,7 +59,7 @@ namespace Chai.WorkflowManagment.Modules.Report.Views
 
             parameters.Add(param4);
             parameters.Add(param5);
-            ReportViewer1.LocalReport.SetParameters(parameters);
+            rvVehicleReport.LocalReport.SetParameters(parameters);
 
 
         }
@@ -69,10 +69,10 @@ namespace Chai.WorkflowManagment.Modules.Report.Views
         }
         protected void btnView_Click(object sender, EventArgs e)
         {
-            Panel1.Visible = true;
+            pnlVehicleReport.Visible = true;
             ViewVehicleReport();
         }
-        
-}
+
+    }
 }
 

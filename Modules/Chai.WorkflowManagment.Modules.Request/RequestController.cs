@@ -1,26 +1,17 @@
-using System;
-using System.Collections.Generic;
-using System.Web;
-using System.Linq;
-using System.Linq.Expressions;
-using Microsoft.Practices.CompositeWeb;
-using Microsoft.Practices.CompositeWeb.Interfaces;
-using Microsoft.Practices.CompositeWeb.Utility;
-using Microsoft.Practices.ObjectBuilder;
-
 using Chai.WorkflowManagment.CoreDomain;
 using Chai.WorkflowManagment.CoreDomain.DataAccess;
-using Chai.WorkflowManagment.CoreDomain.Admins;
+using Chai.WorkflowManagment.CoreDomain.Request;
+using Chai.WorkflowManagment.CoreDomain.Requests;
+using Chai.WorkflowManagment.CoreDomain.TravelLogs;
 using Chai.WorkflowManagment.CoreDomain.Users;
 using Chai.WorkflowManagment.Services;
 using Chai.WorkflowManagment.Shared.Navigation;
-
-
-using System.Data;
-using Chai.WorkflowManagment.CoreDomain.Requests;
-using Chai.WorkflowManagment.CoreDomain.TravelLogs;
-using Chai.WorkflowManagment.Enums;
-using Chai.WorkflowManagment.CoreDomain.Request;
+using Microsoft.Practices.CompositeWeb;
+using Microsoft.Practices.CompositeWeb.Interfaces;
+using Microsoft.Practices.ObjectBuilder;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Chai.WorkflowManagment.Modules.Request
 {
@@ -352,7 +343,7 @@ namespace Chai.WorkflowManagment.Modules.Request
         }
         public IList<LeaveRequest> GetLeaveRequestsByRequester(int requesterId)
         {
-            return WorkspaceFactory.CreateReadOnly().Query<LeaveRequest>(x => x.Requester == requesterId && x.RequestedDate.Year == DateTime.Today.Year).ToList();
+            return WorkspaceFactory.CreateReadOnly().Query<LeaveRequest>(x => x.Requester == requesterId && x.RequestedDate.Year == DateTime.Today.Year && x.CurrentStatus == "Issued").ToList();
         }
         public LeaveRequest GetLeaveRequest(int LeaveRequestId)
         {

@@ -38,16 +38,16 @@
             </div>
         </div>
     </div>
-    <asp:Panel ID="Panel1" runat="server" BackColor="White" Visible="false">
-        <rsweb:ReportViewer ID="ReportViewer1" runat="server" Font-Names="Verdana" Font-Size="8pt" WaitMessageFont-Names="Verdana" WaitMessageFont-Size="14pt" Width="100%">
-            <LocalReport ReportPath="Report\LeaveReport.rdlc">
+    <asp:Panel ID="pnlVehicleReport" runat="server" BackColor="White" Visible="false">
+        <rsweb:ReportViewer ID="rvVehicleReport" runat="server" Font-Names="Verdana" Font-Size="8pt" WaitMessageFont-Names="Verdana" WaitMessageFont-Size="14pt" Width="100%">
+            <LocalReport ReportPath="Report\VehicleReport.rdlc">
                 <DataSources>
-                    <rsweb:ReportDataSource DataSourceId="ObjectDataSource1" Name="GetLeaveReport" />
+                    <rsweb:ReportDataSource DataSourceId="odsVehicleReport" Name="GetVehicleReport" />
                 </DataSources>
             </LocalReport>
         </rsweb:ReportViewer>
     </asp:Panel>
-    <asp:ObjectDataSource ID="ObjectDataSource1" runat="server" SelectMethod="GetLeaveReport" TypeName="Chai.WorkflowManagment.Modules.Report.ReportController">
+    <asp:ObjectDataSource ID="odsVehicleReport" runat="server" SelectMethod="GetVehicleReport" TypeName="Chai.WorkflowManagment.Modules.Report.ReportController">
         <SelectParameters>
             <asp:FormParameter FormField="txtDateFrom" Name="DateFrom" Type="String" />
             <asp:FormParameter FormField="txtDateTo" Name="DateTo" Type="String" />
