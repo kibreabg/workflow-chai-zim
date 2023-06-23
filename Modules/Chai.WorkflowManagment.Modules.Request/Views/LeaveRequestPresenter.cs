@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Practices.ObjectBuilder;
-using Microsoft.Practices.CompositeWeb;
-using Chai.WorkflowManagment.CoreDomain.Request;
-using Chai.WorkflowManagment.Shared;
-using Chai.WorkflowManagment.CoreDomain.Users;
+﻿using Chai.WorkflowManagment.CoreDomain.Request;
 using Chai.WorkflowManagment.CoreDomain.Setting;
+using Chai.WorkflowManagment.CoreDomain.Users;
+using Chai.WorkflowManagment.Shared;
+using Microsoft.Practices.CompositeWeb;
+using Microsoft.Practices.ObjectBuilder;
+using System;
+using System.Collections.Generic;
 
 namespace Chai.WorkflowManagment.Modules.Request.Views
 {
@@ -96,6 +95,10 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         public LeaveRequest GetLeaveRequestById(int id)
         {
             return _controller.GetLeaveRequest(id);
+        }
+        public IList<LeaveRequest> GetAnnualLeaveRequestsByRequester(int requesterId)
+        {
+            return _controller.GetAnnualLeaveRequestsByRequester(requesterId);
         }
         public ApprovalSetting GetApprovalSetting(string RequestType, int value)
         {

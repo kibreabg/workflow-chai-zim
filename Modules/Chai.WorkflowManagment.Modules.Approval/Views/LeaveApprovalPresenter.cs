@@ -120,9 +120,9 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             return _controller.GetLeaveRequest(id);
         }
-        public IList<LeaveRequest> GetLeaveRequestsByRequester(int requesterId)
+        public IList<LeaveRequest> GetAnnualLeaveRequestsByRequester(int requesterId)
         {
-            return _requestController.GetLeaveRequestsByRequester(requesterId);
+            return _requestController.GetAnnualLeaveRequestsByRequester(requesterId);
         }
         public ApprovalSetting GetApprovalSetting(string RequestType, int value)
         {

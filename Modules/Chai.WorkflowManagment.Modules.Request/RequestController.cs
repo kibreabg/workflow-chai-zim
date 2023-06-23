@@ -341,9 +341,9 @@ namespace Chai.WorkflowManagment.Modules.Request
         {
             return WorkspaceFactory.CreateReadOnly().Query<LeaveRequest>(null).ToList();
         }
-        public IList<LeaveRequest> GetLeaveRequestsByRequester(int requesterId)
+        public IList<LeaveRequest> GetAnnualLeaveRequestsByRequester(int requesterId)
         {
-            return WorkspaceFactory.CreateReadOnly().Query<LeaveRequest>(x => x.Requester == requesterId && x.RequestedDate.Year == DateTime.Today.Year && x.CurrentStatus == "Issued").ToList();
+            return WorkspaceFactory.CreateReadOnly().Query<LeaveRequest>(x => x.Requester == requesterId && x.LeaveType.LeaveTypeName.Contains("Annual") && x.RequestedDate.Year == DateTime.Today.Year && x.CurrentStatus == "Issued").ToList();
         }
         public LeaveRequest GetLeaveRequest(int LeaveRequestId)
         {

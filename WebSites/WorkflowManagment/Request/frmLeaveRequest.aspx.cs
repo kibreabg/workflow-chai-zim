@@ -249,37 +249,29 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         protected void btnRequest_Click(object sender, EventArgs e)
         {
-
             SaveLeaveRequest();
 
             if (_presenter.CurrentLeaveRequest.LeaveRequestStatuses.Count != 0)
             {
-                if (ddlLeaveType.SelectedItem.Text != "Annual Leave")
+                if (ddlLeaveType.SelectedItem.Text == "Annual Leave" && Convert.ToInt32(txtapplyfor.Text) < (txtforward.Text != "" ? Convert.ToInt32(txtforward.Text) : 0))
+                {
+                    Master.ShowMessage(new AppMessage("You don't have sufficient Annual Leave days", RMessageType.Error));
+                }
+                else
                 {
                     GetCurrentApprover();
                     _presenter.SaveOrUpdateLeaveRequest(_presenter.CurrentLeaveRequest);
 
                     ClearForm();
                     BindSearchLeaveRequestGrid();
-                    Master.ShowMessage(new AppMessage("Successfully did a Leave  Request, Reference No - <b>'" + _presenter.CurrentLeaveRequest.RequestNo + "'</b>", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                    Master.ShowMessage(new AppMessage("Successfully did a Leave  Request, Reference No - <b>'" + _presenter.CurrentLeaveRequest.RequestNo + "'</b>", RMessageType.Info));
                     Log.Info(_presenter.CurrentUser().FullName + " has requested for a Leave Type of " + ddlLeaveType.SelectedValue);
                 }
-                else if (ddlLeaveType.SelectedItem.Text == "Annual Leave" && Convert.ToInt32(txtapplyfor.Text) < (txtforward.Text != "" ? Convert.ToInt32(txtforward.Text) : 0))
-                {
-                    GetCurrentApprover();
-                    _presenter.SaveOrUpdateLeaveRequest(_presenter.CurrentLeaveRequest);
-                    ClearForm();
-                    BindSearchLeaveRequestGrid();
-                    Master.ShowMessage(new AppMessage("Successfully did a Leave  Request, Reference No - <b>'" + _presenter.CurrentLeaveRequest.RequestNo + "'</b>", Chai.WorkflowManagment.Enums.RMessageType.Info));
-                    Log.Info(_presenter.CurrentUser().FullName + " has requested for a Leave Type of " + ddlLeaveType.SelectedValue);
-                }
-                else
-                { Master.ShowMessage(new AppMessage("You don't have sufficient Annual Leave days", Chai.WorkflowManagment.Enums.RMessageType.Error)); }
 
             }
             else
             {
-                Master.ShowMessage(new AppMessage("There is an error constracting Approval Process", Chai.WorkflowManagment.Enums.RMessageType.Error));
+                Master.ShowMessage(new AppMessage("There is an error constracting Approval Process", RMessageType.Error));
 
             }
         }
@@ -322,7 +314,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             _presenter.DeleteLeaveRequestg(_presenter.GetLeaveRequestById(Convert.ToInt32(grvLeaveRequestList.DataKeys[e.RowIndex].Value)));
 
             btnFind_Click(sender, e);
-            Master.ShowMessage(new AppMessage("Leave Request Successfully Deleted", Chai.WorkflowManagment.Enums.RMessageType.Info));
+            Master.ShowMessage(new AppMessage("Leave Request Successfully Deleted", RMessageType.Info));
 
         }
         protected void grvLeaveRequestList_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -431,11 +423,24 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             _presenter.CancelPage();
         }
-        private decimal CalculateLeave(EmployeeLeave empleave)
+        private decimal CalculateAnnualLeaveDays(EmployeeLeave empleave)
         {
-            decimal workingdays = Convert.ToDecimal((DateTime.Today.Date - empleave.StartDate).TotalDays);
-            decimal leavedays = (workingdays / 30) * empleave.Rate;
-            decimal res = (empleave.BeginingBalance + leavedays) - empleave.LeaveTaken;
+            int leavesTaken = 0;
+            foreach (LeaveRequest leaveRequest in _presenter.GetAnnualLeaveRequestsByRequester(_presenter.CurrentLeaveRequest.Requester))
+            {
+                leavesTaken += leaveRequest.RequestedDays;
+            }
+
+            double workingdays = 1 + ((DateTime.Today.Date - empleave.StartDate).TotalDays * 5 -
+                                    (empleave.StartDate.DayOfWeek - DateTime.Today.Date.DayOfWeek) * 2) / 7;
+
+            if (DateTime.Today.Date.DayOfWeek == DayOfWeek.Saturday)
+                workingdays--;
+            if (empleave.StartDate.DayOfWeek == DayOfWeek.Sunday)
+                workingdays--;
+
+            decimal leavedays = (Convert.ToDecimal(workingdays) / 30) * empleave.Rate;
+            decimal res = empleave.BeginingBalance + leavedays - leavesTaken;
             if (res < 0)
                 return 0;
             else
@@ -448,26 +453,25 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             {
                 txtAddress.Visible = true;
                 lblAddress.Visible = true;
-
                 txtCompReason.Visible = false;
                 lblCompReason.Visible = false;
                 lblBalance.Visible = true;
                 lblforward.Visible = true;
                 txtforward.Visible = true;
                 txtbalance.Visible = true;
+
                 EmployeeLeave empleave = _presenter.GetEmployeeLeave();
                 if (empleave != null)
                 {
-                    txtforward.Text = CalculateLeave(empleave).ToString();
+                    txtforward.Text = CalculateAnnualLeaveDays(empleave).ToString();
                     lblOpeningBalance.Visible = true;
                     lblOBValue.Visible = true;
                     lblOBValue.Text = Convert.ToInt32(empleave.BeginingBalance).ToString();
                 }
                 else
                 {
-                    lblnoempleavesetting.Text = "Your Leave setting is not defined,Please contact HR Officer.";
+                    lblnoempleavesetting.Text = "Your Leave setting is not defined, please contact the HR Officer.";
                 }
-
 
             }
             else if (ddlLeaveType.SelectedItem.Text.Contains("Compassionate"))
@@ -480,13 +484,9 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 lblforward.Visible = false;
                 txtforward.Visible = false;
                 txtbalance.Visible = false;
-
-
             }
             else if (ddlLeaveType.SelectedItem.Text.Contains("Sick Leave"))
             {
-
-
                 txtCompReason.Visible = false;
                 lblCompReason.Visible = false;
                 txtAddress.Visible = false;
@@ -495,13 +495,9 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 lblforward.Visible = false;
                 txtforward.Visible = false;
                 txtbalance.Visible = false;
-
-
             }
             else
             {
-
-
                 txtCompReason.Visible = false;
                 lblCompReason.Visible = false;
                 txtAddress.Visible = false;
@@ -520,7 +516,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 ClearForm();
 
                 btnDelete.Visible = false;
-                Master.ShowMessage(new AppMessage("Leave Request Successfully Deleted", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                Master.ShowMessage(new AppMessage("Leave Request Successfully Deleted", RMessageType.Info));
             }
         }
         private void GetLeaveBalance()
@@ -537,7 +533,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 }
                 else
                 {
-                    Master.ShowMessage(new AppMessage("Please Insert Leave day's brought forward OR I wish to apply for ", Chai.WorkflowManagment.Enums.RMessageType.Error));
+                    Master.ShowMessage(new AppMessage("Please Insert Leave day's brought forward OR I wish to apply for ", RMessageType.Error));
                 }
             }
         }

@@ -1,18 +1,13 @@
 ﻿using Chai.WorkflowManagment.CoreDomain.Request;
+using Chai.WorkflowManagment.CoreDomain.Setting;
 using Chai.WorkflowManagment.Enums;
 using Chai.WorkflowManagment.Shared;
 using Chai.WorkflowManagment.Shared.MailSender;
+using log4net;
+using log4net.Config;
 using Microsoft.Practices.ObjectBuilder;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
-using Chai.WorkflowManagment.CoreDomain.Setting;
-using log4net;
-using System.Reflection;
-using log4net.Config;
 
 namespace Chai.WorkflowManagment.Modules.Approval.Views
 {
@@ -296,10 +291,10 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
 
 
         }
-        private decimal CalculateLeave(EmployeeLeave empleave)
+        private decimal CalculateAnnualLeaveDays(EmployeeLeave empleave)
         {
             int leavesTaken = 0;
-            foreach (LeaveRequest leaveRequest in _presenter.GetLeaveRequestsByRequester(_presenter.CurrentLeaveRequest.Requester))
+            foreach (LeaveRequest leaveRequest in _presenter.GetAnnualLeaveRequestsByRequester(_presenter.CurrentLeaveRequest.Requester))
             {
                 leavesTaken += leaveRequest.RequestedDays;
             }
@@ -322,11 +317,6 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         protected void grvLeaveRequestList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Session["ApprovalLevel"] = true;
-
-            //  Convert.ToInt32(grvLeaveRequestList.SelectedDataKey.Value);
-            //pnlApproval.Visible = true;
-
             _presenter.OnViewLoaded();
             PopApprovalStatus();
             pnlApproval_ModalPopupExtender.Show();
@@ -342,11 +332,11 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 EmployeeLeave empleave = _presenter.GetEmployeeLeave(_presenter.CurrentLeaveRequest.Requester);
                 if (empleave != null)
                 {
-                    lblViewBalRes.Text = CalculateLeave(empleave).ToString();//calculate leave
+                    lblViewBalRes.Text = CalculateAnnualLeaveDays(empleave).ToString();
                 }
                 else
                 {
-                    lblViewBalRes.Text = "Emplyee Annual Leave setting is not defined,Please Contact HR Officer.";
+                    lblViewBalRes.Text = "Emplyee Annual Leave setting is not defined, please contact the HR officer.";
                 }
             }
             BindLeaveRequestStatus();
@@ -362,7 +352,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 if (_presenter.CurrentLeaveRequest.LeaveType.LeaveTypeName.Contains("Annual"))
                 {
                     EmployeeLeave empleave = _presenter.GetEmployeeLeaveforEdit(_presenter.CurrentLeaveRequest.Requester);
-                    foreach (LeaveRequest leaveRequest in _presenter.GetLeaveRequestsByRequester(_presenter.CurrentLeaveRequest.Requester))
+                    foreach (LeaveRequest leaveRequest in _presenter.GetAnnualLeaveRequestsByRequester(_presenter.CurrentLeaveRequest.Requester))
                     {
                         leavesTaken += leaveRequest.RequestedDays;
                     }
