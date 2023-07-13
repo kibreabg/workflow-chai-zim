@@ -327,8 +327,10 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             lblrequesteddaysres.Text = _presenter.CurrentLeaveRequest.RequestedDays.ToString();
             if (_presenter.CurrentLeaveRequest.LeaveType.LeaveTypeName.Contains("Annual"))
             {
-                lblViewBalance.Visible = true;
-                lblViewBalRes.Visible = true;
+                lblLeaveBroughtForward.Visible = true;
+                lblLeaveBroughtForwardRes.Visible = true;
+                lblLeaveBroughtForwardRes.Text = _presenter.CurrentLeaveRequest.Forward.ToString();
+                /*
                 EmployeeLeave empleave = _presenter.GetEmployeeLeave(_presenter.CurrentLeaveRequest.Requester);
                 if (empleave != null)
                 {
@@ -338,6 +340,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 {
                     lblViewBalRes.Text = "Emplyee Annual Leave setting is not defined, please contact the HR officer.";
                 }
+                */
             }
             BindLeaveRequestStatus();
             ShowPrint();

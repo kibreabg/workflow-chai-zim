@@ -145,9 +145,9 @@
                                                 <asp:Label ID="lblrequesteddaysres" runat="server" Text="" CssClass="label"></asp:Label>
                                             </section>
                                             <section class="col col-3">
-                                                <asp:Label ID="lblViewBalance" runat="server" Text="Employee Leave Balance" CssClass="label" Visible="false"></asp:Label>
+                                                <asp:Label ID="lblLeaveBroughtForward" runat="server" Text="Leave days brought forward" CssClass="label" Visible="false"></asp:Label>
 
-                                                <asp:Label ID="lblViewBalRes" runat="server" Text="" CssClass="label" Visible="false"></asp:Label>
+                                                <asp:Label ID="lblLeaveBroughtForwardRes" runat="server" Text="" CssClass="label" Visible="false"></asp:Label>
                                             </section>
 
                                         </div>
