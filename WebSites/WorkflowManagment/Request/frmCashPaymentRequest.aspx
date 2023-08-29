@@ -59,6 +59,7 @@
                                         <asp:ListItem>RTGs</asp:ListItem>
                                         <asp:ListItem>USD</asp:ListItem>
                                         <asp:ListItem>USD-Mukuru</asp:ListItem>
+                                        <asp:ListItem>CABS USD</asp:ListItem>
                                     </asp:DropDownList><i></i>
                                     <asp:RequiredFieldValidator
                                         ID="RequiredFieldValidator3" runat="server" ErrorMessage="Payment Method must be selected" Display="Dynamic"

@@ -101,19 +101,19 @@
                                                             <asp:TextBox ID="txtRequestDate" ReadOnly="true" runat="server"></asp:TextBox>
                                                         </label>
                                                     </section>
-                                                       <section class="col col-6">
+                                                    <section class="col col-6">
                                                         <label class="label">Expense Type</label>
                                                         <label class="select">
-                                                          <asp:DropDownList ID="ddlExpenseType" runat="server" AppendDataBoundItems="True">
-                                                           <asp:ListItem Value=" ">Select Expense Type</asp:ListItem>
-                                                           <asp:ListItem Value="Advance">Advance</asp:ListItem>
-                                                           <asp:ListItem Value="Claim">Claim</asp:ListItem>
-                                                         </asp:DropDownList><i></i>
+                                                            <asp:DropDownList ID="ddlExpenseType" runat="server" AppendDataBoundItems="True">
+                                                                <asp:ListItem Value=" ">Select Expense Type</asp:ListItem>
+                                                                <asp:ListItem Value="Advance">Advance</asp:ListItem>
+                                                                <asp:ListItem Value="Claim">Claim</asp:ListItem>
+                                                            </asp:DropDownList><i></i>
                                                             <asp:RequiredFieldValidator ID="RfvExpenseType" runat="server" ControlToValidate="ddlExpenseType" ErrorMessage="Expense Type Required" InitialValue=" " SetFocusOnError="True" ValidationGroup="Save">*</asp:RequiredFieldValidator>
-                                                      </label>
+                                                        </label>
                                                     </section>
-                                                    </div>
-                                                 <div class="row">
+                                                </div>
+                                                <div class="row">
                                                     <section class="col col-6">
                                                         <label class="label">Comment</label>
                                                         <label class="input">
@@ -121,22 +121,24 @@
                                                         </label>
                                                     </section>
                                                 </div>
-                                                   <div class="row">
-                                                 <section class="col col-6">
-                                <label class="label">Payment Methods</label>
-                                <label class="select">
-                                    <asp:DropDownList ID="ddlPayMethods" AutoPostBack="false" AppendDataBoundItems="true" 
-                                        runat="server" DataValueField="Id" DataTextField="Name" CssClass="form-control">
-                                        <asp:ListItem Text="--Select Payment Method--" Value="0"></asp:ListItem>
-                                        <asp:ListItem>RTGs</asp:ListItem>
-                                        <asp:ListItem>USD</asp:ListItem>
-                                    </asp:DropDownList><i></i>
-                                    <asp:RequiredFieldValidator
-                                        ID="RequiredFieldValidator3" runat="server" ErrorMessage="Payment Method must be selected" Display="Dynamic"
-                                        CssClass="validator" ValidationGroup="saveMain" InitialValue="0"
-                                        SetFocusOnError="true" ControlToValidate="ddlPayMethods"></asp:RequiredFieldValidator>
-                                </label>
-                            </section></div>
+                                                <div class="row">
+                                                    <section class="col col-6">
+                                                        <label class="label">Payment Methods</label>
+                                                        <label class="select">
+                                                            <asp:DropDownList ID="ddlPayMethods" AutoPostBack="false" AppendDataBoundItems="true"
+                                                                runat="server" DataValueField="Id" DataTextField="Name" CssClass="form-control">
+                                                                <asp:ListItem Text="--Select Payment Method--" Value="0"></asp:ListItem>
+                                                                <asp:ListItem>RTGs</asp:ListItem>
+                                                                <asp:ListItem>USD</asp:ListItem>
+                                                                <asp:ListItem>CABS USD</asp:ListItem>
+                                                            </asp:DropDownList><i></i>
+                                                            <asp:RequiredFieldValidator
+                                                                ID="RequiredFieldValidator3" runat="server" ErrorMessage="Payment Method must be selected" Display="Dynamic"
+                                                                CssClass="validator" ValidationGroup="saveMain" InitialValue="0"
+                                                                SetFocusOnError="true" ControlToValidate="ddlPayMethods"></asp:RequiredFieldValidator>
+                                                        </label>
+                                                    </section>
+                                                </div>
                                                 <asp:DataGrid ID="dgPaymentReimbursementDetail" runat="server" AlternatingRowStyle-CssClass="" AutoGenerateColumns="False" CellPadding="0"
                                                     CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active" DataKeyField="Id"
                                                     GridLines="None" OnItemDataBound="dgPaymentReimbursementDetail_ItemDataBound" ShowFooter="True">
@@ -220,7 +222,7 @@
                             ConfirmText="Are you sure" Enabled="True" TargetControlID="btnDelete">
                         </cc1:ConfirmButtonExtender>
                         <asp:Button ID="btnCancel" runat="server" CssClass="btn btn-primary" OnClick="btnCancel_Click" Text="New" />
-                          <asp:Button ID="btnClosepage" runat="server" Text="Close" data-dismiss="modal" CssClass="btn btn-primary" PostBackUrl="../Default.aspx"></asp:Button>
+                        <asp:Button ID="btnClosepage" runat="server" Text="Close" data-dismiss="modal" CssClass="btn btn-primary" PostBackUrl="../Default.aspx"></asp:Button>
                     </footer>
                 </div>
             </div>

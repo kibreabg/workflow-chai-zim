@@ -46,6 +46,7 @@
                                         <asp:ListItem Text="--Select Payment Method--" Value="0"></asp:ListItem>
                                         <asp:ListItem>RTGs</asp:ListItem>
                                         <asp:ListItem>USD</asp:ListItem>
+                                        <asp:ListItem>CABS USD</asp:ListItem>
                                     </asp:DropDownList><i></i>
                                     <asp:RequiredFieldValidator
                                         ID="RequiredFieldValidator3" runat="server" ErrorMessage="Payment Method must be selected" Display="Dynamic"
