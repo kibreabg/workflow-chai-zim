@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using Chai.WorkflowManagment.CoreDomain.Requests;
-using Chai.WorkflowManagment.CoreDomain.Setting;
+﻿using Chai.WorkflowManagment.CoreDomain.Requests;
 using Chai.WorkflowManagment.Enums;
 using Chai.WorkflowManagment.Shared;
 using log4net;
 using log4net.Config;
 using Microsoft.Practices.ObjectBuilder;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 
 namespace Chai.WorkflowManagment.Modules.Request.Views
 {
@@ -99,6 +95,10 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         public string GetPaymentMethod
         {
             get { return ddlPayMethods.Text; }
+        }
+        public string GetTaxClearances
+        {
+            get { return ddlTaxClearancesResult.Text; }
         }
         #endregion
         private string AutoNumber()
@@ -197,15 +197,28 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         protected void ckIsPurchase_CheckedChanged(object sender, EventArgs e)
         {
-            if (ckIsPurchase.Checked == true)
+            if (ckIsPurchase.Checked)
             {
                 lblPurReq.Visible = true;
                 ddlPurchaseReq.Visible = true;
             }
-            else if (ckIsPurchase.Checked == false)
+            else if (!ckIsPurchase.Checked)
             {
                 lblPurReq.Visible = false;
                 ddlPurchaseReq.Visible = false;
+            }
+        }
+        protected void ckTaxClearances_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ckTaxClearances.Checked)
+            {
+                lblTaxClearancesResult.Visible = true;
+                ddlTaxClearancesResult.Visible = true;
+            }
+            else if (!ckTaxClearances.Checked)
+            {
+                lblTaxClearancesResult.Visible = false;
+                ddlTaxClearancesResult.Visible = false;
             }
         }
         protected void dgCashPaymentDetail_CancelCommand(object source, DataGridCommandEventArgs e)

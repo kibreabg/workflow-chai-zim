@@ -14,6 +14,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         string GetVoucherNo { get; }
         string GetAmountType { get; }
         string GetPaymentMethod { get; }
+        string GetTaxClearances { get; }
     }
 }
 

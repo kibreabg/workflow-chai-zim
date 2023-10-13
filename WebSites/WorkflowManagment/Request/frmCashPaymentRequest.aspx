@@ -44,6 +44,29 @@
                         </div>
                         <div class="row">
                             <section class="col col-6">
+                                <div class="smart-form">
+                                    <div class="inline-group">
+                                        <label class="checkbox">
+                                            <asp:CheckBox ID="ckTaxClearances" runat="server" OnCheckedChanged="ckTaxClearances_CheckedChanged" AutoPostBack="True" />
+                                            <i></i>Tax Clearances?</label>
+                                    </div>
+                                </div>
+                            </section>
+                            <section class="col col-6">
+                                <asp:Label ID="lblTaxClearancesResult" runat="server" Text="Tax Clearances?" Visible="false"></asp:Label>
+                                <label class="select">
+                                    <asp:DropDownList ID="ddlTaxClearancesResult" runat="server" Visible="false">
+                                        <asp:ListItem Value="">Select Response</asp:ListItem>
+                                        <asp:ListItem Value="Yes">Yes</asp:ListItem>
+                                        <asp:ListItem Value="No">No</asp:ListItem>
+                                        <asp:ListItem Value="Not Applicable">Not Applicable</asp:ListItem>
+                                    </asp:DropDownList><i></i>
+                                </label>
+                                <asp:RequiredFieldValidator ID="rfvddlTaxClearancesResult" runat="server" ControlToValidate="ddlTaxClearancesResult" CssClass="validator" Display="Dynamic" ErrorMessage="Tax Clearance Response Required" SetFocusOnError="true" ValidationGroup="request"></asp:RequiredFieldValidator>
+                            </section>
+                        </div>
+                        <div class="row">
+                            <section class="col col-6">
                                 <label class="label">Request Date</label>
                                 <label class="input">
                                     <i class="icon-append fa fa-calendar"></i>

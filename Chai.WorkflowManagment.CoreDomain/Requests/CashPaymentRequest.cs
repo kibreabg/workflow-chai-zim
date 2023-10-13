@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Chai.WorkflowManagment.CoreDomain.Setting;
+﻿using Chai.WorkflowManagment.CoreDomain.Setting;
 using Chai.WorkflowManagment.CoreDomain.Users;
+using System;
+using System.Collections.Generic;
 
 namespace Chai.WorkflowManagment.CoreDomain.Requests
 {
@@ -11,7 +9,7 @@ namespace Chai.WorkflowManagment.CoreDomain.Requests
     {
         public CashPaymentRequest()
         {
-            
+
             this.CashPaymentRequestDetails = new List<CashPaymentRequestDetail>();
             this.CashPaymentRequestStatuses = new List<CashPaymentRequestStatus>();
             this.CPRAttachments = new List<CPRAttachment>();
@@ -33,6 +31,7 @@ namespace Chai.WorkflowManagment.CoreDomain.Requests
         public string PaymentReimbursementStatus { get; set; }
         public string ExportStatus { get; set; }
         public string AmountType { get; set; }
+        public string TaxClearances { get; set; }
         public virtual AppUser AppUser { get; set; }
         public virtual Supplier Supplier { get; set; }
         public virtual PaymentReimbursementRequest PaymentReimbursementRequest { get; set; }

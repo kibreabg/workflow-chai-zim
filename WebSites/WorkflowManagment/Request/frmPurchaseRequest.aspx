@@ -61,7 +61,6 @@
                         </div>
 
                         <div class="row">
-
                             <section class="col col-4">
                                 <label class="label">
                                     Required date of delivery</label>

@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Practices.ObjectBuilder;
-using Microsoft.Practices.CompositeWeb;
+﻿using Chai.WorkflowManagment.CoreDomain.Requests;
 using Chai.WorkflowManagment.CoreDomain.Setting;
-using Chai.WorkflowManagment.Shared;
-using Chai.WorkflowManagment.CoreDomain.Requests;
-using Chai.WorkflowManagment.Modules.Admin;
 using Chai.WorkflowManagment.CoreDomain.Users;
-using Chai.WorkflowManagment.Modules.Setting;
 using Chai.WorkflowManagment.Enums;
+using Chai.WorkflowManagment.Modules.Admin;
+using Chai.WorkflowManagment.Modules.Setting;
+using Chai.WorkflowManagment.Shared;
 using Chai.WorkflowManagment.Shared.MailSender;
+using Microsoft.Practices.CompositeWeb;
+using Microsoft.Practices.ObjectBuilder;
+using System;
+using System.Collections.Generic;
 
 namespace Chai.WorkflowManagment.Modules.Request.Views
 {
@@ -139,37 +138,38 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         public void SaveOrUpdateCashPaymentRequest()
         {
-            CashPaymentRequest CashPaymentRequest = CurrentCashPaymentRequest;
-            if (CashPaymentRequest.Id <= 0)
+            CashPaymentRequest cashPaymentRequest = CurrentCashPaymentRequest;
+            if (cashPaymentRequest.Id <= 0)
             {
-                CashPaymentRequest.RequestNo = View.GetRequestNo;
-                CashPaymentRequest.VoucherNo = View.GetVoucherNo;
+                cashPaymentRequest.RequestNo = View.GetRequestNo;
+                cashPaymentRequest.VoucherNo = View.GetVoucherNo;
             }
-            CashPaymentRequest.RequestDate = Convert.ToDateTime(DateTime.Today.ToShortDateString());
-            CashPaymentRequest.Payee = "";
-            CashPaymentRequest.Description = View.GetDescription;
-            CashPaymentRequest.AmountType = View.GetAmountType;
-            CashPaymentRequest.PaymentMethod = View.GetPaymentMethod;
-            CashPaymentRequest.ProgressStatus = ProgressStatus.InProgress.ToString();
-            CashPaymentRequest.AppUser = _adminController.GetUser(CurrentUser().Id);
-            CashPaymentRequest.Supplier = _settingController.GetSupplier(View.GetPayee);
+            cashPaymentRequest.RequestDate = Convert.ToDateTime(DateTime.Today.ToShortDateString());
+            cashPaymentRequest.Payee = "";
+            cashPaymentRequest.Description = View.GetDescription;
+            cashPaymentRequest.AmountType = View.GetAmountType;
+            cashPaymentRequest.PaymentMethod = View.GetPaymentMethod;
+            cashPaymentRequest.TaxClearances = View.GetTaxClearances;
+            cashPaymentRequest.ProgressStatus = ProgressStatus.InProgress.ToString();
+            cashPaymentRequest.AppUser = _adminController.GetUser(CurrentUser().Id);
+            cashPaymentRequest.Supplier = _settingController.GetSupplier(View.GetPayee);
             if (View.GetAmountType != "Actual Amount")
             {
-                CashPaymentRequest.PaymentReimbursementStatus = "Not Retired";
+                cashPaymentRequest.PaymentReimbursementStatus = "Not Retired";
             }
             else
             {
-                CashPaymentRequest.PaymentReimbursementStatus = "Retired";
-                CashPaymentRequest.TotalActualExpendture = CashPaymentRequest.TotalAmount;
+                cashPaymentRequest.PaymentReimbursementStatus = "Retired";
+                cashPaymentRequest.TotalActualExpendture = cashPaymentRequest.TotalAmount;
             }
 
-            CashPaymentRequest.ExportStatus = "Not Exported";
+            cashPaymentRequest.ExportStatus = "Not Exported";
             if (CurrentCashPaymentRequest.CashPaymentRequestStatuses.Count == 0)
                 SaveCashPaymentRequestStatus();
 
             GetCurrentApprover();
 
-            _controller.SaveOrUpdateEntity(CashPaymentRequest);
+            _controller.SaveOrUpdateEntity(cashPaymentRequest);
 
 
         }
