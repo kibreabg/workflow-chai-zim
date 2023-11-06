@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using Chai.WorkflowManagment.CoreDomain.Requests;
+﻿using Chai.WorkflowManagment.CoreDomain.Requests;
 using Chai.WorkflowManagment.CoreDomain.Setting;
+using Chai.WorkflowManagment.CoreDomain.Users;
 using Chai.WorkflowManagment.Enums;
-using Chai.WorkflowManagment.Modules.Approval.Views;
 using Chai.WorkflowManagment.Shared;
 using Chai.WorkflowManagment.Shared.MailSender;
 using log4net;
 using log4net.Config;
 using Microsoft.Practices.ObjectBuilder;
+using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
-using Chai.WorkflowManagment.CoreDomain.Users;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 
 namespace Chai.WorkflowManagment.Modules.Approval.Views
 {
@@ -419,13 +416,10 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 if (e.Row.RowType == DataControlRowType.DataRow)
                 {
 
-                    if (e.Row.RowType == DataControlRowType.DataRow)
-                    {
-                        if (CSR.CurrentLevel == CSR.CostSharingRequestStatuses.Count && CSR.ProgressStatus == "Completed")
-                            e.Row.Cells[9].Visible = true;
-                        else
-                            e.Row.Cells[9].Visible = false;
-                    }
+                    if (CSR.CurrentLevel == CSR.CostSharingRequestStatuses.Count && CSR.ProgressStatus == "Completed")
+                        e.Row.Cells[10].Visible = true;
+                    else
+                        e.Row.Cells[10].Visible = false;
 
                     if (CSR.ProgressStatus == ProgressStatus.InProgress.ToString())
                     {

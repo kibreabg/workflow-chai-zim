@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Chai.WorkflowManagment.CoreDomain.Setting;
+﻿using Chai.WorkflowManagment.CoreDomain.Setting;
 using Chai.WorkflowManagment.CoreDomain.Users;
+using System;
+using System.Collections.Generic;
 
 namespace Chai.WorkflowManagment.CoreDomain.Requests
 {
@@ -28,13 +26,13 @@ namespace Chai.WorkflowManagment.CoreDomain.Requests
         public int CurrentApproverPosition { get; set; }
         public int CurrentLevel { get; set; }
         public string CurrentStatus { get; set; }
-       
         public string ProgressStatus { get; set; }
         public string PaymentReimbursementStatus { get; set; }
         public string ExportStatus { get; set; }
         public string AmountType { get; set; }
+        public string TaxClearances { get; set; }
         public virtual ItemAccount ItemAccount { get; set; }
-        
+
         public virtual AppUser AppUser { get; set; }
         public virtual IList<CostSharingRequestDetail> CostSharingRequestDetails { get; set; }
         public virtual IList<CostSharingRequestStatus> CostSharingRequestStatuses { get; set; }

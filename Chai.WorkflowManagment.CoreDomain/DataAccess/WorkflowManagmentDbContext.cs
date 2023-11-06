@@ -1,16 +1,12 @@
-﻿using System;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Data.Objects;
-
-using Chai.WorkflowManagment.CoreDomain.Admins;
-using Chai.WorkflowManagment.CoreDomain.Users;
-using Chai.WorkflowManagment.CoreDomain.Infrastructure;
-using Chai.WorkflowManagment.CoreDomain.Setting;
-using Chai.WorkflowManagment.CoreDomain.Requests;
-using Chai.WorkflowManagment.CoreDomain.TravelLogs;
-using Chai.WorkflowManagment.CoreDomain.Request;
+﻿using Chai.WorkflowManagment.CoreDomain.Admins;
 using Chai.WorkflowManagment.CoreDomain.Approval;
+using Chai.WorkflowManagment.CoreDomain.Infrastructure;
+using Chai.WorkflowManagment.CoreDomain.Request;
+using Chai.WorkflowManagment.CoreDomain.Requests;
+using Chai.WorkflowManagment.CoreDomain.Setting;
+using Chai.WorkflowManagment.CoreDomain.TravelLogs;
+using Chai.WorkflowManagment.CoreDomain.Users;
+using System.Data.Entity;
 
 
 namespace Chai.WorkflowManagment.CoreDomain.DataAccess
@@ -94,7 +90,7 @@ namespace Chai.WorkflowManagment.CoreDomain.DataAccess
         public DbSet<CabCost> CabCosts { get; set; }
         public DbSet<ExpenseLiquidationRequest> ExpenseLiquidationRequests { get; set; }
         public DbSet<ExpenseLiquidationRequestStatus> ExpenseLiquidationRequestStatuses { get; set; }
-        public DbSet<ExpenseLiquidationRequestDetail> ExpenseLiquidationRequestDetails { get; set; }        
+        public DbSet<ExpenseLiquidationRequestDetail> ExpenseLiquidationRequestDetails { get; set; }
         public DbSet<ELRAttachment> ELRAttachments { get; set; }
         public DbSet<LeaveRequest> LeaveRequests { get; set; }
         public DbSet<LeaveRequestStatus> LeaveRequestStatuses { get; set; }
@@ -106,6 +102,9 @@ namespace Chai.WorkflowManagment.CoreDomain.DataAccess
         public DbSet<PurchaseRequest> PurchaseRequests { get; set; }
         public DbSet<PurchaseRequestDetail> PurchaseRequestDetail { get; set; }
         public DbSet<PurchaseRequestStatus> PurchaseRequestStatuses { get; set; }
+        public DbSet<StationaryRequest> StationaryRequests { get; set; }
+        public DbSet<StationaryRequestDetail> StationaryRequestDetails { get; set; }
+        public DbSet<StationaryRequestStatus> StationaryRequestStatuses { get; set; }
         public DbSet<BidAnalysisRequestDetail> BidAnalysisRequestDetail { get; set; }
         public DbSet<BAAttachment> BAAttachments { get; set; }
         public DbSet<Bidder> Bidders { get; set; }

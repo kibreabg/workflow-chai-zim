@@ -1,11 +1,5 @@
-﻿using Chai.WorkflowManagment.CoreDomain.Approval;
-using Chai.WorkflowManagment.CoreDomain.Setting;
-using Chai.WorkflowManagment.CoreDomain.Users;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
 
 namespace Chai.WorkflowManagment.CoreDomain.Requests
 {

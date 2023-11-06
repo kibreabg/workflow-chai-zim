@@ -208,19 +208,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 ddlPurchaseReq.Visible = false;
             }
         }
-        protected void ckTaxClearances_CheckedChanged(object sender, EventArgs e)
-        {
-            if (ckTaxClearances.Checked)
-            {
-                lblTaxClearancesResult.Visible = true;
-                ddlTaxClearancesResult.Visible = true;
-            }
-            else if (!ckTaxClearances.Checked)
-            {
-                lblTaxClearancesResult.Visible = false;
-                ddlTaxClearancesResult.Visible = false;
-            }
-        }
         protected void dgCashPaymentDetail_CancelCommand(object source, DataGridCommandEventArgs e)
         {
             this.dgCashPaymentDetail.EditItemIndex = -1;

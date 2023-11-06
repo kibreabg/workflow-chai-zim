@@ -99,7 +99,6 @@
                             </section>
                         </div>
                         <div class="row">
-
                             <section class="col col-6">
                                 <label class="label">Item Account</label>
                                 <label class="select">
@@ -108,6 +107,18 @@
                                     </asp:DropDownList><i></i>
                                     <asp:RequiredFieldValidator ID="rfvddlAccountDescription" runat="server" ControlToValidate="ddlAccountDescription" CssClass="validator" Display="Dynamic" ErrorMessage="Account Name must be selected" InitialValue="0" SetFocusOnError="true" ValidationGroup="request"></asp:RequiredFieldValidator>
                                 </label>
+                            </section>
+                            <section class="col col-6">
+                                <label class="label">Tax Clearances?</label>
+                                <label class="select">
+                                    <asp:DropDownList ID="ddlTaxClearancesResult" runat="server">
+                                        <asp:ListItem Value="">Select Response</asp:ListItem>
+                                        <asp:ListItem Value="Yes">Yes</asp:ListItem>
+                                        <asp:ListItem Value="No">No</asp:ListItem>
+                                        <asp:ListItem Value="Not Applicable">Not Applicable</asp:ListItem>
+                                    </asp:DropDownList><i></i>
+                                </label>
+                                <asp:RequiredFieldValidator ID="rfvddlTaxClearancesResult" runat="server" ControlToValidate="ddlTaxClearancesResult" CssClass="validator" Display="Dynamic" ErrorMessage="Tax Clearance Response Required" SetFocusOnError="true" ValidationGroup="request"></asp:RequiredFieldValidator>
                             </section>
                         </div>
                     </fieldset>

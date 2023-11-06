@@ -13,12 +13,11 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         string GetPayee { get; }
         string GetDescription { get; }
         string GetVoucherNo { get; }
-
         int ItemAccountId { get; }
-
         decimal EstimatedTotalAmount { get; }
         string GetAmountType { get;  }
         string GetPaymentMethod { get; }
+        string GetTaxClearances { get; }
 
     }
 }

@@ -44,18 +44,9 @@
                         </div>
                         <div class="row">
                             <section class="col col-6">
-                                <div class="smart-form">
-                                    <div class="inline-group">
-                                        <label class="checkbox">
-                                            <asp:CheckBox ID="ckTaxClearances" runat="server" OnCheckedChanged="ckTaxClearances_CheckedChanged" AutoPostBack="True" />
-                                            <i></i>Tax Clearances?</label>
-                                    </div>
-                                </div>
-                            </section>
-                            <section class="col col-6">
-                                <asp:Label ID="lblTaxClearancesResult" runat="server" Text="Tax Clearances?" Visible="false"></asp:Label>
+                                <label class="label">Tax Clearances?</label>
                                 <label class="select">
-                                    <asp:DropDownList ID="ddlTaxClearancesResult" runat="server" Visible="false">
+                                    <asp:DropDownList ID="ddlTaxClearancesResult" runat="server">
                                         <asp:ListItem Value="">Select Response</asp:ListItem>
                                         <asp:ListItem Value="Yes">Yes</asp:ListItem>
                                         <asp:ListItem Value="No">No</asp:ListItem>

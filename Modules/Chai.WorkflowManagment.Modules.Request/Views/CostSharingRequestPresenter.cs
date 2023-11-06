@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Practices.ObjectBuilder;
-using Microsoft.Practices.CompositeWeb;
+﻿using Chai.WorkflowManagment.CoreDomain.Requests;
 using Chai.WorkflowManagment.CoreDomain.Setting;
-using Chai.WorkflowManagment.Shared;
-using Chai.WorkflowManagment.CoreDomain.Requests;
-using Chai.WorkflowManagment.Modules.Admin;
 using Chai.WorkflowManagment.CoreDomain.Users;
-using Chai.WorkflowManagment.Modules.Setting;
 using Chai.WorkflowManagment.Enums;
+using Chai.WorkflowManagment.Modules.Admin;
+using Chai.WorkflowManagment.Modules.Setting;
+using Chai.WorkflowManagment.Shared;
 using Chai.WorkflowManagment.Shared.MailSender;
+using Microsoft.Practices.CompositeWeb;
+using Microsoft.Practices.ObjectBuilder;
+using System;
+using System.Collections.Generic;
 
 namespace Chai.WorkflowManagment.Modules.Request.Views
 {
@@ -73,7 +72,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         private void SaveCostSharingRequestStatus()
         {
-            if (GetApprovalSetting(RequestType.CostSharing_Request.ToString().Replace('_', ' '),0) != null)
+            if (GetApprovalSetting(RequestType.CostSharing_Request.ToString().Replace('_', ' '), 0) != null)
             {
                 int i = 1;
                 foreach (ApprovalLevel AL in GetApprovalSetting(RequestType.CostSharing_Request.ToString().Replace('_', ' '), 0).ApprovalLevels)
@@ -139,38 +138,36 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         public void SaveOrUpdateCostSharingRequest()
         {
-            CostSharingRequest CostSharingRequest = CurrentCostSharingRequest;
-            CostSharingRequest.RequestNo = View.GetRequestNo;
-            CostSharingRequest.RequestDate = Convert.ToDateTime(DateTime.Today.ToShortDateString());
-            CostSharingRequest.Payee = View.GetPayee;
-            CostSharingRequest.Description = View.GetDescription;
-            CostSharingRequest.EstimatedTotalAmount = View.EstimatedTotalAmount;
-            CostSharingRequest.ItemAccount = _settingController.GetItemAccount(View.ItemAccountId);
-            CostSharingRequest.VoucherNo = View.GetVoucherNo;
-           CostSharingRequest.PaymentMethod = View.GetPaymentMethod;
-            CostSharingRequest.ProgressStatus = ProgressStatus.InProgress.ToString();
-            CostSharingRequest.AppUser = _adminController.GetUser(CurrentUser().Id);
+            CostSharingRequest costSharingRequest = CurrentCostSharingRequest;
+            costSharingRequest.RequestNo = View.GetRequestNo;
+            costSharingRequest.RequestDate = Convert.ToDateTime(DateTime.Today.ToShortDateString());
+            costSharingRequest.Payee = View.GetPayee;
+            costSharingRequest.Description = View.GetDescription;
+            costSharingRequest.EstimatedTotalAmount = View.EstimatedTotalAmount;
+            costSharingRequest.ItemAccount = _settingController.GetItemAccount(View.ItemAccountId);
+            costSharingRequest.VoucherNo = View.GetVoucherNo;
+            costSharingRequest.PaymentMethod = View.GetPaymentMethod;
+            costSharingRequest.TaxClearances = View.GetTaxClearances;
+            costSharingRequest.ProgressStatus = ProgressStatus.InProgress.ToString();
+            costSharingRequest.AppUser = _adminController.GetUser(CurrentUser().Id);
             if (View.GetAmountType != "Actual Amount")
             {
-                CostSharingRequest.PaymentReimbursementStatus = "Not Retired";
+                costSharingRequest.PaymentReimbursementStatus = "Not Retired";
             }
             else
             {
-                CostSharingRequest.PaymentReimbursementStatus = "Retired";
-                CostSharingRequest.ActualTotalAmount = CostSharingRequest.EstimatedTotalAmount;
+                costSharingRequest.PaymentReimbursementStatus = "Retired";
+                costSharingRequest.ActualTotalAmount = costSharingRequest.EstimatedTotalAmount;
             }
-          
-            CostSharingRequest.ExportStatus = "Not Exported";
+
+            costSharingRequest.ExportStatus = "Not Exported";
             if (CurrentCostSharingRequest.CostSharingRequestStatuses.Count == 0)
                 SaveCostSharingRequestStatus();
 
             SaveCostSharingDetail();
-           
-
-           
         }
         public void SaveOrUpdateCostSharingRequest(CostSharingRequest CostSharingRequest)
-        { 
+        {
             GetCurrentApprover();
             _controller.SaveOrUpdateEntity(CostSharingRequest);
             _controller.CurrentObject = null;
@@ -195,12 +192,11 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 
                 }
             }
-        }        
+        }
         public void RemoveCostSharingDetail()
         {
             foreach (CostSharingRequestDetail CSRD in CurrentCostSharingRequest.CostSharingRequestDetails)
             {
-                
                 CurrentCostSharingRequest.RemoveCostSharingRequestDetails(CSRD.Id);
                 if (CSRD.Id > 0)
                 {
