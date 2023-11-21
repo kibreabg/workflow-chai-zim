@@ -336,7 +336,6 @@ namespace Chai.WorkflowManagment.Modules.Request
         }
         #endregion
         #region LeaveRequest
-
         public IList<LeaveRequest> GetLeaveRequests()
         {
             return WorkspaceFactory.CreateReadOnly().Query<LeaveRequest>(null).ToList();
@@ -349,7 +348,6 @@ namespace Chai.WorkflowManagment.Modules.Request
         {
             return _workspace.Single<LeaveRequest>(x => x.Id == LeaveRequestId);
         }
-
         public IList<LeaveRequest> ListLeaveRequests(string RequestNo, string RequestDate)
         {
             string filterExpression = "";
@@ -390,7 +388,6 @@ namespace Chai.WorkflowManagment.Modules.Request
         }
         #endregion
         #region PurchaseRequest
-
         public IList<PurchaseRequest> GetPurchaseRequests()
         {
             return WorkspaceFactory.CreateReadOnly().Query<PurchaseRequest>(null).ToList();
@@ -444,6 +441,34 @@ namespace Chai.WorkflowManagment.Modules.Request
             { return 0; }
         }
 
+        #endregion
+        #region Stationary Request
+        public StationaryRequest GetStationaryRequest(int stationaryRequestId)
+        {
+            return _workspace.Single<StationaryRequest>(x => x.Id == stationaryRequestId, x => x.StationaryRequestDetails.Select(y => y.ItemAccount));
+        }
+        public IList<StationaryRequest> GetStationaryRequests()
+        {
+            return WorkspaceFactory.CreateReadOnly().Query<StationaryRequest>(null).ToList();
+        }
+        public int GetLastStationaryRequestId()
+        {
+            if (_workspace.Last<StationaryRequest>() != null)
+            {
+                return _workspace.Last<StationaryRequest>().Id;
+            }
+            else
+            { return 0; }
+        }
+        public IList<StationaryRequest> ListStationaryRequests(string RequestNo, string RequestDate)
+        {
+            string filterExpression = "SELECT  *  FROM StationaryRequests WHERE 1 = CASE WHEN '" + RequestNo + "' = '' THEN 1 WHEN StationaryRequests.RequestNo = '" + RequestNo + "'  THEN 1 END AND  1 = CASE WHEN '" + RequestDate + "' = '' THEN 1 WHEN StationaryRequests.RequestedDate = '" + RequestDate + "'  THEN 1 END AND StationaryRequests.Requester='" + GetCurrentUser().Id + "' ORDER BY StationaryRequests.Id Desc ";
+            return _workspace.SqlQuery<StationaryRequest>(filterExpression).ToList();
+        }
+        public StationaryRequestDetail GetStationaryRequestDetail(int stationaryRequestDetailId)
+        {
+            return _workspace.Single<StationaryRequestDetail>(x => x.Id == stationaryRequestDetailId);
+        }
         #endregion
         #region Sole Vendor Requests
         public IList<SoleVendorRequest> GetSoleVendorRequests()
@@ -594,6 +619,7 @@ namespace Chai.WorkflowManagment.Modules.Request
             try
             {
                 _workspace.CommitChanges();
+                //_workspace.Refresh(item);
             }
             catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
             {
@@ -612,7 +638,7 @@ namespace Chai.WorkflowManagment.Modules.Request
                 }
                 throw raise;
             }
-            _workspace.Refresh(item);
+
         }
         public void DeleteEntity<T>(T item) where T : class
         {

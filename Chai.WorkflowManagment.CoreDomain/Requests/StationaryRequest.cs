@@ -18,7 +18,6 @@ namespace Chai.WorkflowManagment.CoreDomain.Requests
         public string DeliverTo { get; set; }
         public string SpecialNeed { get; set; }
         public string PurposeOfRequest { get; set; }
-        public decimal TotalPrice { get; set; }
         public int CurrentApprover { get; set; }
         public int CurrentLevel { get; set; }
         public string CurrentStatus { get; set; }
