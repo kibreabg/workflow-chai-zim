@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace Chai.WorkflowManagment.Modules.Request.Views
 {
-    public class StationaryRequestPresenter : Presenter<IStationaryRequestView>
+    public class InventoryRequestPresenter : Presenter<IInventoryRequestView>
     {
 
         // NOTE: Uncomment the following code if you want ObjectBuilder to inject the module controller
@@ -18,50 +18,50 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         //
         private RequestController _controller;
         private SettingController _settingcontroller;
-        private StationaryRequest _stationaryRequest;
-        public StationaryRequestPresenter([CreateNew] RequestController controller, [CreateNew] SettingController settingcontroller)
+        private InventoryRequest _InventoryRequest;
+        public InventoryRequestPresenter([CreateNew] RequestController controller, [CreateNew] SettingController settingcontroller)
         {
             _controller = controller;
             _settingcontroller = settingcontroller;
         }
         public override void OnViewLoaded()
         {
-            if (View.StationaryRequestId > 0)
+            if (View.InventoryRequestId > 0)
             {
-                _controller.CurrentObject = _controller.GetStationaryRequest(View.StationaryRequestId);
+                _controller.CurrentObject = _controller.GetInventoryRequest(View.InventoryRequestId);
             }
-            CurrentStationaryRequest = _controller.CurrentObject as StationaryRequest;
+            CurrentInventoryRequest = _controller.CurrentObject as InventoryRequest;
         }
-        public StationaryRequest CurrentStationaryRequest
+        public InventoryRequest CurrentInventoryRequest
         {
             get
             {
-                if (_stationaryRequest == null)
+                if (_InventoryRequest == null)
                 {
-                    int id = View.StationaryRequestId;
+                    int id = View.InventoryRequestId;
                     if (id > 0)
-                        _stationaryRequest = _controller.GetStationaryRequest(id);
+                        _InventoryRequest = _controller.GetInventoryRequest(id);
                     else
-                        _stationaryRequest = new StationaryRequest();
+                        _InventoryRequest = new InventoryRequest();
                 }
-                return _stationaryRequest;
+                return _InventoryRequest;
             }
-            set { _stationaryRequest = value; }
+            set { _InventoryRequest = value; }
         }
         public override void OnViewInitialized()
         {
-            if (_stationaryRequest == null)
+            if (_InventoryRequest == null)
             {
-                int id = View.StationaryRequestId;
+                int id = View.InventoryRequestId;
                 if (id > 0)
-                    _controller.CurrentObject = _controller.GetStationaryRequest(id);
+                    _controller.CurrentObject = _controller.GetInventoryRequest(id);
                 else
-                    _controller.CurrentObject = new StationaryRequest();
+                    _controller.CurrentObject = new InventoryRequest();
             }
         }
-        public IList<StationaryRequest> GetStationaryRequests()
+        public IList<InventoryRequest> GetInventoryRequests()
         {
-            return _controller.GetStationaryRequests();
+            return _controller.GetInventoryRequests();
         }
         public AppUser Approver(int Position)
         {
@@ -75,25 +75,25 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             return _controller.GetSuperviser(superviser);
         }
-        public void SaveOrUpdateStationaryRequest(StationaryRequest StationaryRequest)
+        public void SaveOrUpdateInventoryRequest(InventoryRequest InventoryRequest)
         {
-            _controller.SaveOrUpdateEntity(StationaryRequest);
+            _controller.SaveOrUpdateEntity(InventoryRequest);
         }
-        public int GetLastStationaryRequestId()
+        public int GetLastInventoryRequestId()
         {
-            return _controller.GetLastStationaryRequestId();
+            return _controller.GetLastInventoryRequestId();
         }
         public void CancelPage()
         {
             _controller.Navigate(String.Format("~/Setting/Default.aspx?{0}=3", AppConstants.TABID));
         }
-        public void DeleteStationaryRequest(StationaryRequest StationaryRequest)
+        public void DeleteInventoryRequest(InventoryRequest InventoryRequest)
         {
-            _controller.DeleteEntity(StationaryRequest);
+            _controller.DeleteEntity(InventoryRequest);
         }
-        public StationaryRequest GetStationaryRequestById(int id)
+        public InventoryRequest GetInventoryRequestById(int id)
         {
-            return _controller.GetStationaryRequest(id);
+            return _controller.GetInventoryRequest(id);
         }
         public ApprovalSetting GetApprovalSetting(string RequestType, decimal value)
         {
@@ -107,9 +107,9 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             return _controller.GetAssignedJobbycurrentuser(UserId);
         }
-        public IList<StationaryRequest> ListStationaryRequests(string requestNo, string RequestDate)
+        public IList<InventoryRequest> ListInventoryRequests(string requestNo, string RequestDate)
         {
-            return _controller.ListStationaryRequests(requestNo, RequestDate);
+            return _controller.ListInventoryRequests(requestNo, RequestDate);
         }
         public IList<ItemAccount> GetItemAccounts()
         {
@@ -123,17 +123,17 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             return _settingcontroller.GetProjects();
         }
-        public StationaryRequestDetail GetStationaryRequestDetail(int Id)
+        public InventoryRequestDetail GetInventoryRequestDetail(int Id)
         {
-            return _controller.GetStationaryRequestDetail(Id);
+            return _controller.GetInventoryRequestDetail(Id);
         }
         public AppUser CurrentUser()
         {
             return _controller.GetCurrentUser();
         }
-        public void DeleteStationaryRequestDetail(StationaryRequestDetail StationaryRequestDetail)
+        public void DeleteInventoryRequestDetail(InventoryRequestDetail InventoryRequestDetail)
         {
-            _controller.DeleteEntity(StationaryRequestDetail);
+            _controller.DeleteEntity(InventoryRequestDetail);
         }
         public void Commit()
         {

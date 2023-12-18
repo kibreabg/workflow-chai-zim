@@ -139,7 +139,7 @@
     <Compile Include="Requests\LeaveRequest.cs" />
     <Compile Include="Requests\LeaveRequestStatus.cs" />
     <Compile Include="Requests\FuelCardRequest.cs" />
-    <Compile Include="Requests\StationaryRequest.cs" />
+    <Compile Include="Requests\InventoryRequest.cs" />
     <Compile Include="Requests\PurchaseRequest.cs" />
     <Compile Include="Requests\FuelCardRequestDetail.cs" />
     <Compile Include="Requests\PurchaseRequestDetail.cs" />
@@ -148,8 +148,8 @@
     <Compile Include="Requests\SoleVendorRequest.cs" />
     <Compile Include="Requests\SoleVendorRequestDetail.cs" />
     <Compile Include="Requests\SoleVendorRequestStatus.cs" />
-    <Compile Include="Requests\StationaryRequestDetail.cs" />
-    <Compile Include="Requests\StationaryRequestStatus.cs" />
+    <Compile Include="Requests\InventoryRequestDetail.cs" />
+    <Compile Include="Requests\InventoryRequestStatus.cs" />
     <Compile Include="Requests\SVRAttachment.cs" />
     <Compile Include="Requests\CabCost.cs" />
     <Compile Include="Requests\TravelAdvanceCost.cs" />

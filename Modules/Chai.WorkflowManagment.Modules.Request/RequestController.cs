@@ -442,32 +442,32 @@ namespace Chai.WorkflowManagment.Modules.Request
         }
 
         #endregion
-        #region Stationary Request
-        public StationaryRequest GetStationaryRequest(int stationaryRequestId)
+        #region Inventory Request
+        public InventoryRequest GetInventoryRequest(int InventoryRequestId)
         {
-            return _workspace.Single<StationaryRequest>(x => x.Id == stationaryRequestId, x => x.StationaryRequestDetails.Select(y => y.ItemAccount));
+            return _workspace.Single<InventoryRequest>(x => x.Id == InventoryRequestId, x => x.InventoryRequestDetails.Select(y => y.ItemAccount));
         }
-        public IList<StationaryRequest> GetStationaryRequests()
+        public IList<InventoryRequest> GetInventoryRequests()
         {
-            return WorkspaceFactory.CreateReadOnly().Query<StationaryRequest>(null).ToList();
+            return WorkspaceFactory.CreateReadOnly().Query<InventoryRequest>(null).ToList();
         }
-        public int GetLastStationaryRequestId()
+        public int GetLastInventoryRequestId()
         {
-            if (_workspace.Last<StationaryRequest>() != null)
+            if (_workspace.Last<InventoryRequest>() != null)
             {
-                return _workspace.Last<StationaryRequest>().Id;
+                return _workspace.Last<InventoryRequest>().Id;
             }
             else
             { return 0; }
         }
-        public IList<StationaryRequest> ListStationaryRequests(string RequestNo, string RequestDate)
+        public IList<InventoryRequest> ListInventoryRequests(string RequestNo, string RequestDate)
         {
-            string filterExpression = "SELECT  *  FROM StationaryRequests WHERE 1 = CASE WHEN '" + RequestNo + "' = '' THEN 1 WHEN StationaryRequests.RequestNo = '" + RequestNo + "'  THEN 1 END AND  1 = CASE WHEN '" + RequestDate + "' = '' THEN 1 WHEN StationaryRequests.RequestedDate = '" + RequestDate + "'  THEN 1 END AND StationaryRequests.Requester='" + GetCurrentUser().Id + "' ORDER BY StationaryRequests.Id Desc ";
-            return _workspace.SqlQuery<StationaryRequest>(filterExpression).ToList();
+            string filterExpression = "SELECT  *  FROM InventoryRequests WHERE 1 = CASE WHEN '" + RequestNo + "' = '' THEN 1 WHEN InventoryRequests.RequestNo = '" + RequestNo + "'  THEN 1 END AND  1 = CASE WHEN '" + RequestDate + "' = '' THEN 1 WHEN InventoryRequests.RequestedDate = '" + RequestDate + "'  THEN 1 END AND InventoryRequests.Requester='" + GetCurrentUser().Id + "' ORDER BY InventoryRequests.Id Desc ";
+            return _workspace.SqlQuery<InventoryRequest>(filterExpression).ToList();
         }
-        public StationaryRequestDetail GetStationaryRequestDetail(int stationaryRequestDetailId)
+        public InventoryRequestDetail GetInventoryRequestDetail(int InventoryRequestDetailId)
         {
-            return _workspace.Single<StationaryRequestDetail>(x => x.Id == stationaryRequestDetailId);
+            return _workspace.Single<InventoryRequestDetail>(x => x.Id == InventoryRequestDetailId);
         }
         #endregion
         #region Sole Vendor Requests

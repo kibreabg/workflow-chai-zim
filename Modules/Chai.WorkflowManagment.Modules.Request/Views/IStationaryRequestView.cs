@@ -2,12 +2,12 @@
 
 namespace Chai.WorkflowManagment.Modules.Request.Views
 {
-    public interface IStationaryRequestView
+    public interface IInventoryRequestView
     {
-        StationaryRequest StationaryRequest { get; set; }
+        InventoryRequest InventoryRequest { get; set; }
         string RequestNo { get; }
         string RequestDate { get; }
-        int StationaryRequestId { get; }
+        int InventoryRequestId { get; }
     }
 }
 
