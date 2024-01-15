@@ -1,32 +1,26 @@
-using System;
-using System.Collections.Generic;
-using System.Web;
-using System.Linq;
-using System.Linq.Expressions;
-using Microsoft.Practices.CompositeWeb;
-using Microsoft.Practices.CompositeWeb.Interfaces;
-using Microsoft.Practices.CompositeWeb.Utility;
-using Microsoft.Practices.ObjectBuilder;
-
 using Chai.WorkflowManagment.CoreDomain;
+using Chai.WorkflowManagment.CoreDomain.Approval;
 using Chai.WorkflowManagment.CoreDomain.DataAccess;
-using Chai.WorkflowManagment.CoreDomain.Admins;
+using Chai.WorkflowManagment.CoreDomain.Request;
+using Chai.WorkflowManagment.CoreDomain.Requests;
 using Chai.WorkflowManagment.CoreDomain.Users;
 using Chai.WorkflowManagment.Services;
 using Chai.WorkflowManagment.Shared.Navigation;
+using Microsoft.Practices.CompositeWeb;
+using Microsoft.Practices.CompositeWeb.Interfaces;
+using Microsoft.Practices.ObjectBuilder;
+using System.Collections.Generic;
 using System.Data;
-using Chai.WorkflowManagment.CoreDomain.Requests;
-using Chai.WorkflowManagment.CoreDomain.Request;
-using Chai.WorkflowManagment.CoreDomain.Approval;
+using System.Linq;
 
 namespace Chai.WorkflowManagment.Modules.Approval
 {
     public class ApprovalController : ControllerBase
     {
-        private IWorkspace _workspace;
+        private readonly IWorkspace _workspace;
 
         [InjectionConstructor]
-        public ApprovalController([ServiceDependency] IHttpContextLocatorService httpContextLocatorService, [ServiceDependency]INavigationService navigationService)
+        public ApprovalController([ServiceDependency] IHttpContextLocatorService httpContextLocatorService, [ServiceDependency] INavigationService navigationService)
             : base(httpContextLocatorService, navigationService)
         {
             _workspace = ZadsServices.Workspace;
@@ -68,21 +62,21 @@ namespace Chai.WorkflowManagment.Modules.Approval
         }
         #endregion
         #region Cash Payment Approval
-        
+
         public IList<CashPaymentRequest> ListCashPaymentRequests(string RequestNo, string RequestDate, string ProgressStatus, string Supplier)
         {
             string filterExpression = "";
-            if (ProgressStatus == "InProgress" )
+            if (ProgressStatus == "InProgress")
             {
                 filterExpression = " SELECT * FROM CashPaymentRequests " +
-                                   " INNER JOIN AppUsers ON (AppUsers.Id = CashPaymentRequests.CurrentApprover) OR (AppUsers.EmployeePosition_Id = CashPaymentRequests.CurrentApproverPosition AND AppUsers.Id = '" + CurrentUser().Id +"') " + 
+                                   " INNER JOIN AppUsers ON (AppUsers.Id = CashPaymentRequests.CurrentApprover) OR (AppUsers.EmployeePosition_Id = CashPaymentRequests.CurrentApproverPosition AND AppUsers.Id = '" + CurrentUser().Id + "') " +
                                    " LEFT JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 " +
                                    " LEFT JOIN Suppliers on CashPaymentRequests.Supplier_Id = Suppliers.Id " +
                                    " WHERE 1 = CASE WHEN '" + RequestNo + "' = '' Then 1 When CashPaymentRequests.VoucherNo = '" + RequestNo + "' Then 1 END " +
                                    " AND 1 = CASE WHEN '" + RequestDate + "' = '' Then 1 When CashPaymentRequests.RequestDate = '" + RequestDate + "' Then 1 END " +
-                                   " AND 1 = CASE WHEN '" + Supplier + "' = '' THEN 1 WHEN CashPaymentRequests.Supplier_Id = '" + Supplier +"' THEN 1 END " +
+                                   " AND 1 = CASE WHEN '" + Supplier + "' = '' THEN 1 WHEN CashPaymentRequests.Supplier_Id = '" + Supplier + "' THEN 1 END " +
                                    " AND CashPaymentRequests.ProgressStatus='" + ProgressStatus + "' " +
-                                   " AND ((CashPaymentRequests.CurrentApprover = '" + CurrentUser().Id + "') OR (CashPaymentRequests.CurrentApproverPosition = '" + CurrentUser().EmployeePosition.Id +"') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) " + 
+                                   " AND ((CashPaymentRequests.CurrentApprover = '" + CurrentUser().Id + "') OR (CashPaymentRequests.CurrentApproverPosition = '" + CurrentUser().EmployeePosition.Id + "') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) " +
                                    " ORDER BY CashPaymentRequests.Id DESC";
             }
             else if (ProgressStatus == "Not Retired" || ProgressStatus == "Retired")
@@ -108,7 +102,7 @@ namespace Chai.WorkflowManagment.Modules.Approval
                                    " WHERE 1 = CASE WHEN '" + RequestNo + "' = '' THEN 1 WHEN CashPaymentRequests.VoucherNo = '" + RequestNo + "' THEN 1 END " +
                                    " AND 1 = CASE WHEN '" + RequestDate + "' = '' Then 1 WHEN CashPaymentRequests.RequestDate = '" + RequestDate + "' THEN 1 END " +
                                    " AND 1 = CASE WHEN '" + Supplier + "' = '' THEN 1 WHEN CashPaymentRequests.Supplier_Id = '" + Supplier + "' THEN 1 END " +
-                                   " AND CashPaymentRequests.ProgressStatus='" + ProgressStatus + "' " + 
+                                   " AND CashPaymentRequests.ProgressStatus='" + ProgressStatus + "' " +
                                    " AND (CashPaymentRequestStatuses.ApprovalStatus IS NOT NULL AND (CashPaymentRequestStatuses.Approver = '" + CurrentUser().Id + "') OR (CashPaymentRequestStatuses.ApproverPosition = '" + CurrentUser().EmployeePosition.Id + "') OR (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) " +
                                    " ORDER BY CashPaymentRequests.Id DESC ";
             }
@@ -126,7 +120,7 @@ namespace Chai.WorkflowManagment.Modules.Approval
             }
             else if (ProgressStatus == "Not Retired" || ProgressStatus == "Retired")
 
-                filterExpression = " SELECT * FROM CostSharingRequests INNER JOIN AppUsers ON (AppUsers.Id = CostSharingRequests.CurrentApprover) OR (AppUsers.EmployeePosition_Id = CostSharingRequests.CurrentApproverPosition AND AppUsers.Id = '" + CurrentUser().Id + "') Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where 1 = Case when '" + RequestNo + "' = '' Then 1 When CostSharingRequests.VoucherNo = '" + RequestNo + "'  Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When CostSharingRequests.RequestDate = '" + RequestDate + "'  Then 1 END AND CostSharingRequests.ProgressStatus='Completed' AND CostSharingRequests.PaymentReimbursementStatus = '"+ProgressStatus+"'" +
+                filterExpression = " SELECT * FROM CostSharingRequests INNER JOIN AppUsers ON (AppUsers.Id = CostSharingRequests.CurrentApprover) OR (AppUsers.EmployeePosition_Id = CostSharingRequests.CurrentApproverPosition AND AppUsers.Id = '" + CurrentUser().Id + "') Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where 1 = Case when '" + RequestNo + "' = '' Then 1 When CostSharingRequests.VoucherNo = '" + RequestNo + "'  Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When CostSharingRequests.RequestDate = '" + RequestDate + "'  Then 1 END AND CostSharingRequests.ProgressStatus='Completed' AND CostSharingRequests.PaymentReimbursementStatus = '" + ProgressStatus + "'" +
                                        " AND  (CostSharingRequests.CurrentApprover = '" + CurrentUser().Id + "') or (CostSharingRequests.CurrentApproverPosition = '" + CurrentUser().EmployeePosition.Id + "') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "') order by CostSharingRequests.Id DESC ";
             else if (ProgressStatus == "Completed")
             {
@@ -215,16 +209,16 @@ namespace Chai.WorkflowManagment.Modules.Approval
             if (!ProgressStatus.Equals("Completed"))
             {
 
-            filterExpression = " SELECT * FROM TravelAdvanceRequests " +
-                               " INNER JOIN AppUsers ON (AppUsers.Id = TravelAdvanceRequests.CurrentApprover) OR (AppUsers.EmployeePosition_Id = TravelAdvanceRequests.CurrentApproverPosition AND AppUsers.Id = '" + CurrentUser().Id + "') " +
-                               " LEFT JOIN AssignJobs ON AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 " +
-                               " WHERE 1 = CASE WHEN '" + RequestNo + "' = '' THEN 1 WHEN TravelAdvanceRequests.TravelAdvanceNo = '" + RequestNo + "'  Then 1 END " +
-                               " AND 1 = CASE WHEN '" + Requester + "' = '' THEN 1 WHEN TravelAdvanceRequests.AppUser_Id = '" + Requester + "'  THEN 1 END " +
-                               " AND 1 = CASE WHEN '" + RequestDate + "' = '' THEN 1 WHEN TravelAdvanceRequests.RequestDate = '" + RequestDate + "'  Then 1 END " +
-                               " AND TravelAdvanceRequests.ProgressStatus = '" + ProgressStatus + "' " +
-                               " AND ((TravelAdvanceRequests.CurrentApprover = '" + CurrentUser().Id + "') OR (TravelAdvanceRequests.CurrentApproverPosition = '" + CurrentUser().EmployeePosition.Id + "') OR (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) " +
-                               " ORDER BY TravelAdvanceRequests.Id Desc";
-        
+                filterExpression = " SELECT * FROM TravelAdvanceRequests " +
+                                   " INNER JOIN AppUsers ON (AppUsers.Id = TravelAdvanceRequests.CurrentApprover) OR (AppUsers.EmployeePosition_Id = TravelAdvanceRequests.CurrentApproverPosition AND AppUsers.Id = '" + CurrentUser().Id + "') " +
+                                   " LEFT JOIN AssignJobs ON AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 " +
+                                   " WHERE 1 = CASE WHEN '" + RequestNo + "' = '' THEN 1 WHEN TravelAdvanceRequests.TravelAdvanceNo = '" + RequestNo + "'  Then 1 END " +
+                                   " AND 1 = CASE WHEN '" + Requester + "' = '' THEN 1 WHEN TravelAdvanceRequests.AppUser_Id = '" + Requester + "'  THEN 1 END " +
+                                   " AND 1 = CASE WHEN '" + RequestDate + "' = '' THEN 1 WHEN TravelAdvanceRequests.RequestDate = '" + RequestDate + "'  Then 1 END " +
+                                   " AND TravelAdvanceRequests.ProgressStatus = '" + ProgressStatus + "' " +
+                                   " AND ((TravelAdvanceRequests.CurrentApprover = '" + CurrentUser().Id + "') OR (TravelAdvanceRequests.CurrentApproverPosition = '" + CurrentUser().EmployeePosition.Id + "') OR (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) " +
+                                   " ORDER BY TravelAdvanceRequests.Id Desc";
+
             }
             else
             {
@@ -247,7 +241,7 @@ namespace Chai.WorkflowManagment.Modules.Approval
         {
             string filterExpression = "";
 
-            filterExpression = " SELECT * FROM ExpenseLiquidationRequests " + 
+            filterExpression = " SELECT * FROM ExpenseLiquidationRequests " +
                                " INNER JOIN AppUsers ON AppUsers.Id = ExpenseLiquidationRequests.CurrentApprover " +
                                " INNER JOIN TravelAdvanceRequests ON TravelAdvanceRequests.Id = ExpenseLiquidationRequests.Id " +
                                " LEFT JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 " +
@@ -281,7 +275,7 @@ namespace Chai.WorkflowManagment.Modules.Approval
             }
             else
             {
-                filterExpression = " SELECT  *  FROM LeaveRequests INNER JOIN AppUsers on AppUsers.Id=LeaveRequests.CurrentApprover INNER JOIN LeaveRequestStatuses on LeaveRequestStatuses.LeaveRequest_Id = LeaveRequests.Id Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where 1 = Case when '" + RequestNo + "' = '' Then 1 When LeaveRequests.RequestNo = '" + RequestNo + "'  Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When LeaveRequests.RequestedDate = '" + RequestDate + "'  Then 1 END AND LeaveRequests.ProgressStatus='" + ProgressStatus + "'  " + 
+                filterExpression = " SELECT  *  FROM LeaveRequests INNER JOIN AppUsers on AppUsers.Id=LeaveRequests.CurrentApprover INNER JOIN LeaveRequestStatuses on LeaveRequestStatuses.LeaveRequest_Id = LeaveRequests.Id Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where 1 = Case when '" + RequestNo + "' = '' Then 1 When LeaveRequests.RequestNo = '" + RequestNo + "'  Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When LeaveRequests.RequestedDate = '" + RequestDate + "'  Then 1 END AND LeaveRequests.ProgressStatus='" + ProgressStatus + "'  " +
                                           " AND  ( LeaveRequestStatuses.ApprovalStatus Is not null AND (LeaveRequestStatuses.Approver = '" + CurrentUser().Id + "') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) order by LeaveRequests.Id DESC ";
             }
 
@@ -316,11 +310,11 @@ namespace Chai.WorkflowManagment.Modules.Approval
             }
             else
             { return null; }
-           
+
         }
         public AssignJob GetAssignedJobbycurrentuser(int UserId)
         {
-           // int userId = GetCurrentUser().Id;
+            // int userId = GetCurrentUser().Id;
             IList<AssignJob> AJ = _workspace.All<AssignJob>(x => x.AppUser.Id == UserId && x.Status == true).ToList();
             if (AJ.Count != 0)
             {
@@ -331,16 +325,13 @@ namespace Chai.WorkflowManagment.Modules.Approval
         }
         #endregion
         #region BidAnalysisApproval
-
         public BidAnalysisRequest GetBidAnalysisRequest(int BidAnalysisId)
         {
             return _workspace.Single<BidAnalysisRequest>(x => x.Id == BidAnalysisId);
-            //x => x.Bidders.Select(y => y.ItemAccount), x => x.PurchaseRequestDetails.Select(z => z.project), x => x.Bidders.Select(z => z.Supplier), x => x.BidAnalysises.Bidders.Select(z => z.BidderItemDetails.Select(y => y.ItemAccount)), x => x.PurchaseOrders.PurchaseOrderDetails);
         }
         public IList<BidAnalysisRequest> ListBidAnalysisRequests(string RequestNo, string RequestDate, string ProgressStatus)
         {
-            string filterExpression = "";
-
+            string filterExpression;
             if (ProgressStatus != "Completed")
             {
                 filterExpression = " SELECT  *  FROM BidAnalysisRequests INNER JOIN AppUsers on AppUsers.Id=BidAnalysisRequests.CurrentApprover  Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where 1 = Case when '" + RequestNo + "' = '' Then 1 When BidAnalysisRequests.RequestNo = '" + RequestNo + "'  Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When BidAnalysisRequests.RequestDate = '" + RequestDate + "'  Then 1 END AND BidAnalysisRequests.ProgressStatus='" + ProgressStatus + "' " +
@@ -368,7 +359,6 @@ namespace Chai.WorkflowManagment.Modules.Approval
         }
         #endregion
         #region PurchaseApproval
-
         public PurchaseRequest GetPurchaseRequest(int PurchaseId)
         {
             return _workspace.Single<PurchaseRequest>(x => x.Id == PurchaseId);
@@ -389,7 +379,6 @@ namespace Chai.WorkflowManagment.Modules.Approval
                                            "   (PurchaseRequestStatuses.ApprovalStatus Is not null AND (PurchaseRequestStatuses.Approver = '" + CurrentUser().Id + "') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) order by PurchaseRequests.Id DESC ";
             }
             return _workspace.SqlQuery<PurchaseRequest>(filterExpression).ToList();
-
         }
 
         #endregion
@@ -423,7 +412,44 @@ namespace Chai.WorkflowManagment.Modules.Approval
             else { return 0; }
         }
         #endregion
-        
+        #region InventoryApproval
+        public InventoryRequest GetInventoryRequest(int inventoryId)
+        {
+            return _workspace.Single<InventoryRequest>(x => x.Id == inventoryId);
+        }
+        public IList<InventoryRequest> ListInventoryRequests(string RequestNo, string RequestDate, string ProgressStatus)
+        {
+            string filterExpression;
+
+            if (ProgressStatus != "Completed")
+            {
+                filterExpression = " SELECT  *  FROM InventoryRequests " +
+                                   " INNER JOIN AppUsers on AppUsers.Id = InventoryRequests.CurrentApprover " +
+                                   " LEFT JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 " +
+                                   " WHERE 1 = Case when '" + RequestNo + "' = '' THEN 1 WHEN InventoryRequests.RequestNo = '" + RequestNo + "'  THEN 1 END " +
+                                   " AND  1 = CASE WHEN '" + RequestDate + "' = '' THEN 1 WHEN InventoryRequests.RequestedDate = '" + RequestDate + "'  THEN 1 END " +
+                                   " AND InventoryRequests.ProgressStatus='" + ProgressStatus + "' " +
+                                   " AND ((InventoryRequests.CurrentApprover = '" + CurrentUser().Id + "') OR (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) " +
+                                   " ORDER BY InventoryRequests.Id DESC";
+            }
+            else
+            {
+                filterExpression = " SELECT  *  FROM InventoryRequests " +
+                                   " INNER JOIN AppUsers on AppUsers.Id = InventoryRequests.CurrentApprover " +
+                                   " INNER JOIN InventoryRequestStatuses on InventoryRequestStatuses.InventoryRequest_Id = InventoryRequests.Id " +
+                                   " LEFT JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 " +
+                                   " WHERE 1 = Case when '" + RequestNo + "' = '' Then 1 When InventoryRequests.RequestNo = '" + RequestNo + "'  Then 1 END " +
+                                   " AND 1 = CASE WHEN '" + RequestDate + "' = '' Then 1 When InventoryRequests.RequestedDate = '" + RequestDate + "'  Then 1 END " +
+                                   " AND InventoryRequests.ProgressStatus = '" + ProgressStatus + "' AND " +
+                                   " (InventoryRequestStatuses.ApprovalStatus IS NOT NULL AND " +
+                                   " (InventoryRequestStatuses.Approver = '" + CurrentUser().Id + "') OR (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) " +
+                                   " ORDER BY InventoryRequests.Id DESC ";
+            }
+            return _workspace.SqlQuery<InventoryRequest>(filterExpression).ToList();
+        }
+
+        #endregion
+
 
         #region FuelCardApproval
         public FuelCardRequest GetFuelCardRequest(int FuelCardRequestId)
@@ -446,7 +472,7 @@ namespace Chai.WorkflowManagment.Modules.Approval
 
             return _workspace.SqlQuery<FuelCardRequest>(filterExpression).ToList();
         }
-      
+
         #endregion
         #region Entity Manipulation
         public void SaveOrUpdateEntity<T>(T item) where T : class
@@ -458,9 +484,9 @@ namespace Chai.WorkflowManagment.Modules.Approval
                 _workspace.Update<T>(item);
 
             _workspace.CommitChanges();
-            
+
             _workspace.Refresh(item);
-           
+
         }
         public void DeleteEntity<T>(T item) where T : class
         {

@@ -1,16 +1,15 @@
-using System;
-using System.Collections.Generic;
-using Microsoft.Practices.ObjectBuilder;
+using Chai.WorkflowManagment.CoreDomain.Admins;
+using Chai.WorkflowManagment.CoreDomain.DataAccess;
+using Chai.WorkflowManagment.CoreDomain.Request;
+using Chai.WorkflowManagment.CoreDomain.Requests;
+using Chai.WorkflowManagment.CoreDomain.Setting;
+using Chai.WorkflowManagment.CoreDomain.Users;
 using Microsoft.Practices.CompositeWeb;
 using Microsoft.Practices.CompositeWeb.Interfaces;
+using Microsoft.Practices.ObjectBuilder;
+using System;
+using System.Collections.Generic;
 using System.Linq;
-
-using Chai.WorkflowManagment.CoreDomain.DataAccess;
-using Chai.WorkflowManagment.CoreDomain.Admins;
-using Chai.WorkflowManagment.CoreDomain.Users;
-using Chai.WorkflowManagment.CoreDomain.Request;
-using Chai.WorkflowManagment.CoreDomain.Setting;
-using Chai.WorkflowManagment.CoreDomain.Requests;
 
 namespace Chai.WorkflowManagment.Modules.Shell.MasterPages
 {
@@ -51,7 +50,7 @@ namespace Chai.WorkflowManagment.Modules.Shell.MasterPages
             get { return _tabId; }
         }
 
-        
+
         public IHttpContext CurrentContext
         {
             get { return Controller.GetCurrentContext(); }
@@ -64,17 +63,17 @@ namespace Chai.WorkflowManagment.Modules.Shell.MasterPages
                 return Controller.GetCurrentUser();
             }
         }
-        
+
         public bool UserIsAuthenticated
         {
-            get { return Controller.UserIsAuthenticated;}
+            get { return Controller.UserIsAuthenticated; }
         }
 
         public void Navigate(string url)
         {
             Controller.Navigate(url);
         }
-        
+
         public Tab ActiveTab
         {
             get { return Controller.ActiveTab(_tabId); }
@@ -82,9 +81,9 @@ namespace Chai.WorkflowManagment.Modules.Shell.MasterPages
 
         public IEnumerable<Tab> GetListOfAllTabs()
         {
-            using(var vr = WorkspaceFactory.CreateReadOnly())
+            using (var vr = WorkspaceFactory.CreateReadOnly())
             {
-                return vr.Query<Tab>(null, x => x.PocModule, x => x.TabRoles.Select(z => z.Role), x => x.TaskPans, x => x.TaskPans.Select(y => y.TaskPanNodes.Select(w => w.Node).Select(e => e.NodeRoles.Select(r => r.Role))), x => x.TaskPans.Select(y => y.TaskPanNodes.Select(w => w.Node).Select(z=>z.PocModule))).ToList();
+                return vr.Query<Tab>(null, x => x.PocModule, x => x.TabRoles.Select(z => z.Role), x => x.TaskPans, x => x.TaskPans.Select(y => y.TaskPanNodes.Select(w => w.Node).Select(e => e.NodeRoles.Select(r => r.Role))), x => x.TaskPans.Select(y => y.TaskPanNodes.Select(w => w.Node).Select(z => z.PocModule))).ToList();
             }
         }
         #region ReimbersmentStatus
@@ -151,6 +150,10 @@ namespace Chai.WorkflowManagment.Modules.Shell.MasterPages
         {
             return _controller.GetVendorTasks();
         }
+        public int GetInventoryRequestsTasks()
+        {
+            return _controller.GetInventoryTasks();
+        }
         #endregion
         #region MyRequests
         public int GetLeaveMyRequest()
@@ -189,17 +192,19 @@ namespace Chai.WorkflowManagment.Modules.Shell.MasterPages
         public int GetVendorRequestsMyRequest()
         {
             return _controller.GetVendorRequestsMyRequest();
-
+        }
+        public int GetInventoryRequestsMyRequest()
+        {
+            return _controller.GetInventoryRequestsMyRequest();
         }
         public int GetBidAnalysisRequestsMyRequest()
         {
             return _controller.GetBidAnalysisRequestsMyRequest();
-
         }
         public int GetBankRequestsMyRequest()
         {
             return _controller.GetBankRequestsMyRequest();
-        }              
+        }
         public IList<LeaveRequest> ListLeaveApprovalProgress()
         {
             return _controller.GetLeaveInProgress();
@@ -240,10 +245,14 @@ namespace Chai.WorkflowManagment.Modules.Shell.MasterPages
         {
             return _controller.GetVendorInProgress();
         }
+        public IList<InventoryRequest> ListInventoryApprovalProgress()
+        {
+            return _controller.GetInventoryInProgress();
+        }
         #endregion
         public AppUser GetUser(int UserId)
         {
             return _controller.GetUser(UserId);
-        }        
+        }
     }
 }

@@ -1,18 +1,10 @@
-using System;
-using System.Data;
-using System.Configuration;
-using System.Web;
-using System.Web.Security;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Web.UI.HtmlControls;
-using Chai.WorkflowManagment.Modules.Shell.Views;
-using Microsoft.Practices.ObjectBuilder;
-using Chai.WorkflowManagment.Modules.Shell.MasterPages;
-using Chai.WorkflowManagment.Shared;
 using Chai.WorkflowManagment.CoreDomain.Users;
 using Chai.WorkflowManagment.Enums;
+using Chai.WorkflowManagment.Modules.Shell.MasterPages;
+using Chai.WorkflowManagment.Shared;
+using Microsoft.Practices.ObjectBuilder;
+using System;
+using System.Web.UI.WebControls;
 
 public partial class ShellDefault : Microsoft.Practices.CompositeWeb.Web.UI.Page, IBaseMasterView
 {
@@ -33,6 +25,7 @@ public partial class ShellDefault : Microsoft.Practices.CompositeWeb.Web.UI.Page
             BindBidAnalysisRequests();
             BindSoleVendorRequests();
             BindVendorRequests();
+            BindInventoryRequests();
         }
         this._presenter.OnViewLoaded();
         MyTasks();
@@ -69,7 +62,7 @@ public partial class ShellDefault : Microsoft.Practices.CompositeWeb.Web.UI.Page
     {
         get { return Request.QueryString[AppConstants.NODEID]; }
     }
-    public Chai.WorkflowManagment.CoreDomain.Users.AppUser CurrentUser
+    public AppUser CurrentUser
     {
         get
         {
@@ -203,6 +196,15 @@ public partial class ShellDefault : Microsoft.Practices.CompositeWeb.Web.UI.Page
             lnkVendor.PostBackUrl = lnkVendor.ResolveUrl("Approval/frmVendorApproval.aspx");
         }
         else { lblVendor.Text = Convert.ToString(0); }
+
+        if (_presenter.GetInventoryRequestsTasks() != 0)
+        {
+            lblInventory.Text = _presenter.GetInventoryRequestsTasks().ToString();
+            lblInventory.ForeColor = System.Drawing.Color.Red;
+            lnkInventory.Enabled = true;
+            lnkInventory.PostBackUrl = lnkVendor.ResolveUrl("Approval/frmInventoryApproval.aspx");
+        }
+        else { lblInventory.Text = Convert.ToString(0); }
     }
     private void MyRequests()
     {
@@ -266,7 +268,11 @@ public partial class ShellDefault : Microsoft.Practices.CompositeWeb.Web.UI.Page
         {
             lblVendorStatus.Text = ProgressStatus.InProgress.ToString();
             lblVendorStatus.ForeColor = System.Drawing.Color.Green;
-
+        }
+        if (_presenter.GetInventoryRequestsMyRequest() != 0)
+        {
+            lblInventoryStatus.Text = ProgressStatus.InProgress.ToString();
+            lblInventoryStatus.ForeColor = System.Drawing.Color.Green;
         }
 
     }
@@ -343,6 +349,11 @@ public partial class ShellDefault : Microsoft.Practices.CompositeWeb.Web.UI.Page
     {
         grvVendorProgress.DataSource = _presenter.ListVendorApprovalProgress();
         grvVendorProgress.DataBind();
+    }
+    private void BindInventoryRequests()
+    {
+        grvInventoryProgress.DataSource = _presenter.ListInventoryApprovalProgress();
+        grvInventoryProgress.DataBind();
     }
 
     protected void grvLeaveProgress_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -460,5 +471,11 @@ public partial class ShellDefault : Microsoft.Practices.CompositeWeb.Web.UI.Page
                     e.Row.Cells[2].Text = _presenter.GetUser(_presenter.ListVendorApprovalProgress()[e.Row.RowIndex].CurrentApprover).FullName;
             }
         }
+    }
+
+    protected void grvInventoryProgress_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (_presenter.ListInventoryApprovalProgress() != null && e.Row.RowType == DataControlRowType.DataRow && _presenter.ListInventoryApprovalProgress()[e.Row.RowIndex].CurrentApprover != 0)
+            e.Row.Cells[2].Text = _presenter.GetUser(_presenter.ListInventoryApprovalProgress()[e.Row.RowIndex].CurrentApprover).FullName;
     }
 }

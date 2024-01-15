@@ -1,23 +1,17 @@
-using System;
-using System.Web.SessionState;
+using Chai.WorkflowManagment.CoreDomain;
+using Chai.WorkflowManagment.CoreDomain.Admins;
+using Chai.WorkflowManagment.CoreDomain.DataAccess;
+using Chai.WorkflowManagment.CoreDomain.Request;
+using Chai.WorkflowManagment.CoreDomain.Requests;
+using Chai.WorkflowManagment.CoreDomain.Setting;
+using Chai.WorkflowManagment.CoreDomain.Users;
+using Chai.WorkflowManagment.Services;
+using Chai.WorkflowManagment.Shared.Navigation;
 using Microsoft.Practices.CompositeWeb;
 using Microsoft.Practices.CompositeWeb.Interfaces;
 using Microsoft.Practices.ObjectBuilder;
-using Microsoft.Practices.CompositeWeb.Web;
-using System.Linq;
-using System.Linq.Expressions;
-
-using Chai.WorkflowManagment.CoreDomain;
-using Chai.WorkflowManagment.CoreDomain.DataAccess;
-using Chai.WorkflowManagment.CoreDomain.Admins;
-using Chai.WorkflowManagment.Shared.Navigation;
-using Chai.WorkflowManagment.Services;
-using Chai.WorkflowManagment.CoreDomain.Requests;
-using Chai.WorkflowManagment.CoreDomain.Request;
-using Chai.WorkflowManagment.CoreDomain.Setting;
-using Chai.WorkflowManagment.CoreDomain.Users;
 using System.Collections.Generic;
-using Chai.WorkflowManagment.Enums;
+using System.Linq;
 
 namespace Chai.WorkflowManagment.Modules.Shell
 {
@@ -254,6 +248,13 @@ namespace Chai.WorkflowManagment.Modules.Shell
 
             return _workspace.SqlQuery<Supplier>(filterExpression).Count();
         }
+        public int GetInventoryTasks()
+        {
+            currentUser = GetCurrentUser().Id;
+            string filterExpression = " SELECT * FROM InventoryRequests INNER JOIN AppUsers on AppUsers.Id = InventoryRequests.CurrentApprover LEFT JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where InventoryRequests.ProgressStatus='InProgress' " +
+                      " AND  ((InventoryRequests.CurrentApprover = '" + currentUser + "') OR (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) ORDER BY InventoryRequests.Id ";
+            return _workspace.SqlQuery<InventoryRequest>(filterExpression).Count();
+        }
 
         #endregion
         #region MyRequests
@@ -366,7 +367,16 @@ namespace Chai.WorkflowManagment.Modules.Shell
                 return Count;
             else
                 return 0;
-
+        }
+        public int GetInventoryRequestsMyRequest()
+        {
+            currentUser = GetCurrentUser().Id;
+            int Count = 0;
+            Count = WorkspaceFactory.CreateReadOnly().Count<InventoryRequest>(x => x.Requester == currentUser && x.ProgressStatus == "InProgress");
+            if (Count != 0)
+                return Count;
+            else
+                return 0;
         }
         #endregion
         #region MyProgresses
@@ -429,6 +439,12 @@ namespace Chai.WorkflowManagment.Modules.Shell
             currentUser = GetCurrentUser().Id;
             IList<Supplier> vendorRequests = WorkspaceFactory.CreateReadOnly().Query<Supplier>(x => x.AppUser.Id == currentUser && x.ProgressStatus == "InProgress").ToList();
             return vendorRequests;
+        }
+        public IList<InventoryRequest> GetInventoryInProgress()
+        {
+            currentUser = GetCurrentUser().Id;
+            IList<InventoryRequest> inventoryRequests = WorkspaceFactory.CreateReadOnly().Query<InventoryRequest>(x => x.Requester == currentUser && x.ProgressStatus == "InProgress").ToList();
+            return inventoryRequests;
         }
         public IList<LeaveRequest> GetLeaveInProgress()
         {
