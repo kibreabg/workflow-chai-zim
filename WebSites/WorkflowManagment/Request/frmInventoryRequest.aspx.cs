@@ -24,7 +24,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             if (!this.IsPostBack)
             {
-                //CheckApprovalSettings();
+                CheckApprovalSettings();
                 this._presenter.OnViewInitialized();
                 XmlConfigurator.Configure();
                 BindSearchInventoryRequestGrid();
@@ -218,11 +218,10 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 }
             }
         }
-        private void BindAccount(DropDownList ddlItemAccount)
+        private void BindInventoryItem(DropDownList ddlItemName)
         {
-            ddlItemAccount.DataSource = _presenter.GetItemAccounts();
-            ddlItemAccount.DataBind();
-
+            ddlItemName.DataSource = _presenter.GetInventories();
+            ddlItemName.DataBind();
         }
         protected void btnCancel_Click(object sender, EventArgs e)
         {
@@ -245,20 +244,9 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         protected void grvInventoryRequestList_RowDataBound(object sender, GridViewRowEventArgs e)
         {
-            //LeaveRequest leaverequest = e.Row.DataItem as LeaveRequest;
-            //if (leaverequest != null)
-            //{
-            //    if (leaverequest.GetLeaveRequestStatusworkflowLevel(1).ApprovalStatus != null)
-            //    {
-            //        e.Row.Cells[5].Enabled = false;
-            //        e.Row.Cells[6].Enabled = false;
-            //    }
-
-            //}
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
-                //LinkButton db = (LinkButton)e.Row.Cells[5].Controls[0];
-                //db.OnClientClick = "return confirm('Are you sure you want to delete this Recieve?');";
+                // Add Implementation
             }
         }
         protected void grvInventoryRequestList_PageIndexChanging(object sender, GridViewPageEventArgs e)
@@ -341,12 +329,12 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     if (!_presenter.CurrentInventoryRequest.InventoryRequestDetails.Any())
                     {
                         InventoryRequestDetail Detail = new InventoryRequestDetail();
-                        DropDownList ddlFAccount = e.Item.FindControl("ddlFAccount") as DropDownList;
-                        Detail.ItemAccount = _presenter.GetItemAccount(int.Parse(ddlFAccount.SelectedValue));
-                        TextBox txtFAccountCode = e.Item.FindControl("txtFAccountCode") as TextBox;
-                        Detail.AccountCode = txtFAccountCode.Text;
-                        TextBox txtFItem = e.Item.FindControl("txtFItem") as TextBox;
-                        Detail.Item = txtFItem.Text;
+                        DropDownList ddlFItemName = e.Item.FindControl("ddlFItemName") as DropDownList;
+                        Detail.Inventory = _presenter.GetInventory(int.Parse(ddlFItemName.SelectedValue));
+                        TextBox txtFCategory = e.Item.FindControl("txtFCategory") as TextBox;
+                        Detail.Category = txtFCategory.Text;
+                        TextBox txtFUnit = e.Item.FindControl("txtFUnit") as TextBox;
+                        Detail.Unit = txtFUnit.Text;
                         TextBox txtFQty = e.Item.FindControl("txtFQty") as TextBox;
                         Detail.Qty = Convert.ToInt32(txtFQty.Text);
                         Detail.InventoryRequest = _presenter.CurrentInventoryRequest;
@@ -373,20 +361,20 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             if (e.Item.ItemType == ListItemType.Footer)
             {
-                DropDownList ddlFItemAccount = e.Item.FindControl("ddlFAccount") as DropDownList;
-                BindAccount(ddlFItemAccount);
+                DropDownList ddlFItemName = e.Item.FindControl("ddlFItemName") as DropDownList;
+                BindInventoryItem(ddlFItemName);
             }
             else
             {
                 if (_presenter.CurrentInventoryRequest.InventoryRequestDetails != null)
                 {
-                    DropDownList ddlItemAccount = e.Item.FindControl("ddlAccount") as DropDownList;
-                    if (ddlItemAccount != null)
+                    DropDownList ddlItemName = e.Item.FindControl("ddlItemName") as DropDownList;
+                    if (ddlItemName != null)
                     {
-                        BindAccount(ddlItemAccount);
-                        if (_presenter.CurrentInventoryRequest.InventoryRequestDetails[e.Item.DataSetIndex].ItemAccount != null)
+                        BindInventoryItem(ddlItemName);
+                        if (_presenter.CurrentInventoryRequest.InventoryRequestDetails[e.Item.DataSetIndex].Inventory != null)
                         {
-                            ListItem liI = ddlItemAccount.Items.FindByValue(_presenter.CurrentInventoryRequest.InventoryRequestDetails[e.Item.DataSetIndex].ItemAccount.Id.ToString());
+                            ListItem liI = ddlItemName.Items.FindByValue(_presenter.CurrentInventoryRequest.InventoryRequestDetails[e.Item.DataSetIndex].Inventory.Id.ToString());
                             if (liI != null)
                                 liI.Selected = true;
                         }
@@ -406,12 +394,12 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 
             try
             {
-                DropDownList ddlAccount = e.Item.FindControl("ddlAccount") as DropDownList;
-                Detail.ItemAccount = _presenter.GetItemAccount(int.Parse(ddlAccount.SelectedValue));
-                TextBox txtAccountCode = e.Item.FindControl("txtAccountCode") as TextBox;
-                Detail.AccountCode = txtAccountCode.Text;
-                TextBox txtItem = e.Item.FindControl("txtItem") as TextBox;
-                Detail.Item = txtItem.Text;
+                DropDownList ddlItemName = e.Item.FindControl("ddlItemName") as DropDownList;
+                Detail.Inventory = _presenter.GetInventory(int.Parse(ddlItemName.SelectedValue));
+                TextBox txtCategory = e.Item.FindControl("txtCategory") as TextBox;
+                Detail.Category = txtCategory.Text;
+                TextBox txtUnit = e.Item.FindControl("txtUnit") as TextBox;
+                Detail.Unit = txtUnit.Text;
                 TextBox txtQty = e.Item.FindControl("txtQty") as TextBox;
                 Detail.Qty = Convert.ToInt32(txtQty.Text);
                 Detail.InventoryRequest = _presenter.CurrentInventoryRequest;
@@ -425,10 +413,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 ExceptionUtility.LogException(ex, ex.Source);
                 ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser().FullName);
             }
-
-
-
-
         }
         #endregion
         protected void btnRequest_Click(object sender, EventArgs e)
@@ -473,11 +457,13 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser().FullName);
             }
         }
-        protected void ddlFAccount_SelectedIndexChanged(object sender, EventArgs e)
+        protected void ddlFItemName_SelectedIndexChanged(object sender, EventArgs e)
         {
             DropDownList ddl = (DropDownList)sender;
-            TextBox txtAccountCode = ddl.FindControl("txtFAccountCode") as TextBox;
-            txtAccountCode.Text = _presenter.GetItemAccount(Convert.ToInt32(ddl.SelectedValue)).AccountCode;
+            TextBox txtFCategory = ddl.FindControl("txtFCategory") as TextBox;
+            txtFCategory.Text = _presenter.GetInventory(Convert.ToInt32(ddl.SelectedValue)).Category;
+            TextBox txtFUnit = ddl.FindControl("txtFUnit") as TextBox;
+            txtFUnit.Text = _presenter.GetInventory(Convert.ToInt32(ddl.SelectedValue)).Unit;
         }
 
     }

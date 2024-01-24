@@ -110,52 +110,52 @@
                                         ShowFooter="True">
 
                                         <Columns>
-                                            <asp:TemplateColumn HeaderText="Account Name">
+                                            <asp:TemplateColumn HeaderText="Item Name">
                                                 <EditItemTemplate>
-                                                    <asp:DropDownList ID="ddlAccount" runat="server" CssClass="form-control"
-                                                        AppendDataBoundItems="True" DataTextField="AccountName" DataValueField="Id"
+                                                    <asp:DropDownList ID="ddlItemName" runat="server" CssClass="form-control"
+                                                        AppendDataBoundItems="True" DataTextField="ItemName" DataValueField="Id"
                                                         ValidationGroup="proedit">
-                                                        <asp:ListItem Value="0">Select Account</asp:ListItem>
+                                                        <asp:ListItem Value="0">Select Item</asp:ListItem>
                                                     </asp:DropDownList>
-                                                    <asp:RequiredFieldValidator ID="RfvAccount" runat="server" CssClass="validator"
-                                                        ControlToValidate="ddlAccount" ErrorMessage="Account Description Required"
+                                                    <asp:RequiredFieldValidator ID="RfvItemName" runat="server" CssClass="validator"
+                                                        ControlToValidate="ddlItemName" ErrorMessage="Inventory Item Required"
                                                         InitialValue="0" SetFocusOnError="True" ValidationGroup="proedit"></asp:RequiredFieldValidator>
                                                 </EditItemTemplate>
                                                 <FooterTemplate>
-                                                    <asp:DropDownList ID="ddlFAccount" runat="server" CssClass="form-control"
-                                                        AppendDataBoundItems="True" DataTextField="AccountName" DataValueField="Id"
-                                                        EnableViewState="true" ValidationGroup="proadd" AutoPostBack="True" OnSelectedIndexChanged="ddlFAccount_SelectedIndexChanged">
-                                                        <asp:ListItem Value="0">Select Account</asp:ListItem>
+                                                    <asp:DropDownList ID="ddlFItemName" runat="server" CssClass="form-control"
+                                                        AppendDataBoundItems="True" DataTextField="ItemName" DataValueField="Id"
+                                                        EnableViewState="true" ValidationGroup="proadd" AutoPostBack="True" OnSelectedIndexChanged="ddlFItemName_SelectedIndexChanged">
+                                                        <asp:ListItem Value="0">Select Item</asp:ListItem>
                                                     </asp:DropDownList>
-                                                    <asp:RequiredFieldValidator ID="RfvFAccount" runat="server" CssClass="validator"
-                                                        ControlToValidate="ddlFAccount" Display="Dynamic"
-                                                        ErrorMessage="Account Description Required" InitialValue="0" SetFocusOnError="True"
+                                                    <asp:RequiredFieldValidator ID="RfvFItemName" runat="server" CssClass="validator"
+                                                        ControlToValidate="ddlFItemName" Display="Dynamic"
+                                                        ErrorMessage="Inventory Item Required" InitialValue="0" SetFocusOnError="True"
                                                         ValidationGroup="proadd"></asp:RequiredFieldValidator>
                                                 </FooterTemplate>
                                                 <ItemTemplate>
-                                                    <%# DataBinder.Eval(Container.DataItem, "ItemAccount.AccountName")%>
+                                                    <%# DataBinder.Eval(Container.DataItem, "Inventory.ItemName")%>
                                                 </ItemTemplate>
                                             </asp:TemplateColumn>
-                                            <asp:TemplateColumn HeaderText="Account Code">
+                                            <asp:TemplateColumn HeaderText="Category">
                                                 <ItemTemplate>
-                                                    <%# DataBinder.Eval(Container.DataItem, "AccountCode")%>
+                                                    <%# DataBinder.Eval(Container.DataItem, "Category")%>
                                                 </ItemTemplate>
                                                 <EditItemTemplate>
-                                                    <asp:TextBox ID="txtAccountCode" runat="server" CssClass="form-control" Enabled="false" Text=' <%# DataBinder.Eval(Container.DataItem, "AccountCode")%>'></asp:TextBox>
+                                                    <asp:TextBox ID="txtCategory" runat="server" CssClass="form-control" Enabled="false" Text=' <%# DataBinder.Eval(Container.DataItem, "Category")%>'></asp:TextBox>
                                                 </EditItemTemplate>
                                                 <FooterTemplate>
-                                                    <asp:TextBox ID="txtFAccountCode" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
+                                                    <asp:TextBox ID="txtFCategory" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
                                                 </FooterTemplate>
                                             </asp:TemplateColumn>
                                             <asp:TemplateColumn HeaderText="Item">
                                                 <ItemTemplate>
-                                                    <%# DataBinder.Eval(Container.DataItem, "Item")%>
+                                                    <%# DataBinder.Eval(Container.DataItem, "Unit")%>
                                                 </ItemTemplate>
                                                 <EditItemTemplate>
-                                                    <asp:TextBox ID="txtItem" runat="server" CssClass="form-control" Text=' <%# DataBinder.Eval(Container.DataItem, "Item")%>'></asp:TextBox>
+                                                    <asp:TextBox ID="txtUnit" runat="server" CssClass="form-control" Text=' <%# DataBinder.Eval(Container.DataItem, "Unit")%>'></asp:TextBox>
                                                 </EditItemTemplate>
                                                 <FooterTemplate>
-                                                    <asp:TextBox ID="txtFItem" runat="server" CssClass="form-control"></asp:TextBox>
+                                                    <asp:TextBox ID="txtFUnit" runat="server" CssClass="form-control"></asp:TextBox>
                                                 </FooterTemplate>
                                             </asp:TemplateColumn>
                                             <asp:TemplateColumn HeaderText="Qty">

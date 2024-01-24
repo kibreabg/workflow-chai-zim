@@ -445,7 +445,7 @@ namespace Chai.WorkflowManagment.Modules.Request
         #region Inventory Request
         public InventoryRequest GetInventoryRequest(int InventoryRequestId)
         {
-            return _workspace.Single<InventoryRequest>(x => x.Id == InventoryRequestId, x => x.InventoryRequestDetails.Select(y => y.ItemAccount));
+            return _workspace.Single<InventoryRequest>(x => x.Id == InventoryRequestId, x => x.InventoryRequestDetails.Select(y => y.Inventory));
         }
         public IList<InventoryRequest> GetInventoryRequests()
         {

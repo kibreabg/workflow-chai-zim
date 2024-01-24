@@ -36,12 +36,12 @@ namespace Chai.WorkflowManagment.CoreDomain.DataAccess
         public DbSet<Grant> Grants { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<ProjectGrant> ProjectGrants { get; set; }
-
         public DbSet<EmployeePosition> EmployeePositions { get; set; }
         public DbSet<LeaveType> LeaveTypes { get; set; }
         public DbSet<ExpenseType> ExpenseTypes { get; set; }
         public DbSet<EmployeeLeave> EmployeeLeaves { get; set; }
         public DbSet<ItemAccount> ItemAccounts { get; set; }
+        public DbSet<Inventory> Inventories { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<VendorRequestStatus> VendorRequestStatuses { get; set; }
         public DbSet<VendorAttachment> VendorAttachments { get; set; }

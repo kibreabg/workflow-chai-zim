@@ -168,6 +168,7 @@
     <Compile Include="Setting\ApprovalSetting.cs" />
     <Compile Include="Setting\Beneficiary.cs" />
     <Compile Include="Setting\ExpenseType.cs" />
+    <Compile Include="Setting\Inventory.cs" />
     <Compile Include="Setting\TelephoneExtension.cs" />
     <Compile Include="Setting\Vehicle.cs" />
     <Compile Include="Setting\CarRental.cs" />

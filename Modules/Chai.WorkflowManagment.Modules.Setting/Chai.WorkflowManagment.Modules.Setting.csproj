@@ -84,7 +84,9 @@
     <Compile Include="Views\BeneficiaryPresenter.cs" />
     <Compile Include="Views\IExpenseTypeView.cs" />
     <Compile Include="Views\ExpenseTypePresenter.cs" />
+    <Compile Include="Views\IInventoryView.cs" />
     <Compile Include="Views\ITelephoneExtensionView.cs" />
+    <Compile Include="Views\InventoryPresenter.cs" />
     <Compile Include="Views\IVendorRequestView.cs" />
     <Compile Include="Views\TelephoneExtensionPresenter.cs" />
     <Compile Include="Views\VehiclePresenter.cs" />

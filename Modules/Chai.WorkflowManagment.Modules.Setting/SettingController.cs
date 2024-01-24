@@ -1,23 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Web;
-using System.Linq;
-using System.Linq.Expressions;
-using Microsoft.Practices.CompositeWeb;
-using Microsoft.Practices.CompositeWeb.Interfaces;
-using Microsoft.Practices.CompositeWeb.Utility;
-using Microsoft.Practices.ObjectBuilder;
-
 using Chai.WorkflowManagment.CoreDomain;
 using Chai.WorkflowManagment.CoreDomain.DataAccess;
-using Chai.WorkflowManagment.CoreDomain.Admins;
+using Chai.WorkflowManagment.CoreDomain.Setting;
 using Chai.WorkflowManagment.CoreDomain.Users;
 using Chai.WorkflowManagment.Services;
 using Chai.WorkflowManagment.Shared.Navigation;
-
-
-using System.Data;
-using Chai.WorkflowManagment.CoreDomain.Setting;
+using Microsoft.Practices.CompositeWeb;
+using Microsoft.Practices.CompositeWeb.Interfaces;
+using Microsoft.Practices.ObjectBuilder;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Chai.WorkflowManagment.Modules.Setting
 {
@@ -136,6 +127,24 @@ namespace Chai.WorkflowManagment.Modules.Setting
         public ItemAccount GetDefaultItemAccount()
         {
             return _workspace.Single<ItemAccount>(x => x.AccountCode == "13110");
+        }
+        #endregion
+        #region Inventory
+        public IList<Inventory> GetInventories()
+        {
+            return WorkspaceFactory.CreateReadOnly().Query<Inventory>(x => x.Status == "Active").OrderBy(x => x.ItemName).ToList();
+        }
+        public Inventory GetInventory(int inventoryId)
+        {
+            return _workspace.Single<Inventory>(x => x.Id == inventoryId);
+        }
+        public IList<Inventory> ListInventories(string itemName)
+        {
+            string filterExpression = "SELECT  *  FROM Inventories " +
+                                      " Where Status = 'Active' " +
+                                      " AND 1 = CASE WHEN '" + itemName + "' = '' THEN 1 WHEN Inventories.ItemName = '" + itemName + "'  Then 1 END";
+            return _workspace.SqlQuery<Inventory>(filterExpression).ToList();
+
         }
         #endregion
         #region Grant

@@ -95,7 +95,7 @@
     <Compile Include="Views\IBidAnalysisRequestView.cs" />
     <Compile Include="Views\ICostSharingRequestView.cs" />
     <Compile Include="Views\IFuelCardRequestView.cs" />
-    <Compile Include="Views\IStationaryRequestView.cs" />
+    <Compile Include="Views\IInventoryRequestView.cs" />
     <Compile Include="Views\ISoleVendorRequestView.cs" />
     <Compile Include="Views\ICabRequestView.cs" />
     <Compile Include="Views\OperationalControlRequestPresenter.cs" />
@@ -111,7 +111,7 @@
     <Compile Include="Views\DashboardPresenter.cs" />
     <Compile Include="Views\LeaveRequestPresenter.cs" />
     <Compile Include="Views\FuelCardRequestPresenter.cs" />
-    <Compile Include="Views\StationaryRequestPresenter.cs" />
+    <Compile Include="Views\InventoryRequestPresenter.cs" />
     <Compile Include="Views\PurchaseRequestPresenter.cs" />
     <Compile Include="Views\SoleVendorRequestPresenter.cs" />
     <Compile Include="Views\CabRequestPresenter.cs" />

@@ -7,10 +7,10 @@ namespace Chai.WorkflowManagment.CoreDomain.Requests
     public partial class InventoryRequestDetail : IEntity
     {
         public int Id { get; set; }
-        public string Item { get; set; }
+        public string Category { get; set; }
+        public string Unit { get; set; }
         public int Qty { get; set; }
-        public virtual ItemAccount ItemAccount { get; set; }
-        public string AccountCode { get; set; }
+        public virtual Inventory Inventory { get; set; }
         public virtual InventoryRequest InventoryRequest { get; set; }
     }
 }

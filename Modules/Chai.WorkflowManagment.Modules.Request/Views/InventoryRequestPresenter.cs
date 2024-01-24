@@ -12,12 +12,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 {
     public class InventoryRequestPresenter : Presenter<IInventoryRequestView>
     {
-
-        // NOTE: Uncomment the following code if you want ObjectBuilder to inject the module controller
-        //       The code will not work in the Shell module, as a module controller is not created by default
-        //
-        private RequestController _controller;
-        private SettingController _settingcontroller;
+        private readonly RequestController _controller;
+        private readonly SettingController _settingcontroller;
         private InventoryRequest _InventoryRequest;
         public InventoryRequestPresenter([CreateNew] RequestController controller, [CreateNew] SettingController settingcontroller)
         {
@@ -111,13 +107,13 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             return _controller.ListInventoryRequests(requestNo, RequestDate);
         }
-        public IList<ItemAccount> GetItemAccounts()
+        public IList<Inventory> GetInventories()
         {
-            return _settingcontroller.GetItemAccounts();
+            return _settingcontroller.GetInventories();
         }
-        public ItemAccount GetItemAccount(int Id)
+        public Inventory GetInventory(int Id)
         {
-            return _settingcontroller.GetItemAccount(Id);
+            return _settingcontroller.GetInventory(Id);
         }
         public IList<Project> GetProjects()
         {
