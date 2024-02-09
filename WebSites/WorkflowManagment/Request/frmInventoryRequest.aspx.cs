@@ -326,27 +326,20 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             {
                 try
                 {
-                    if (!_presenter.CurrentInventoryRequest.InventoryRequestDetails.Any())
-                    {
-                        InventoryRequestDetail Detail = new InventoryRequestDetail();
-                        DropDownList ddlFItemName = e.Item.FindControl("ddlFItemName") as DropDownList;
-                        Detail.Inventory = _presenter.GetInventory(int.Parse(ddlFItemName.SelectedValue));
-                        TextBox txtFCategory = e.Item.FindControl("txtFCategory") as TextBox;
-                        Detail.Category = txtFCategory.Text;
-                        TextBox txtFUnit = e.Item.FindControl("txtFUnit") as TextBox;
-                        Detail.Unit = txtFUnit.Text;
-                        TextBox txtFQty = e.Item.FindControl("txtFQty") as TextBox;
-                        Detail.Qty = Convert.ToInt32(txtFQty.Text);
-                        Detail.InventoryRequest = _presenter.CurrentInventoryRequest;
-                        _presenter.CurrentInventoryRequest.InventoryRequestDetails.Add(Detail);
-                        Master.ShowMessage(new AppMessage("Inventory Request Detail added successfully.", RMessageType.Info));
-                        dgInventoryRequestDetail.EditItemIndex = -1;
-                        BindInventoryRequestDetails();
-                    }
-                    else
-                    {
-                        Master.ShowMessage(new AppMessage("You can only request ONE Item per request!", RMessageType.Error));
-                    }
+                    InventoryRequestDetail Detail = new InventoryRequestDetail();
+                    DropDownList ddlFItemName = e.Item.FindControl("ddlFItemName") as DropDownList;
+                    Detail.Inventory = _presenter.GetInventory(int.Parse(ddlFItemName.SelectedValue));
+                    TextBox txtFCategory = e.Item.FindControl("txtFCategory") as TextBox;
+                    Detail.Category = txtFCategory.Text;
+                    TextBox txtFUnit = e.Item.FindControl("txtFUnit") as TextBox;
+                    Detail.Unit = txtFUnit.Text;
+                    TextBox txtFQty = e.Item.FindControl("txtFQty") as TextBox;
+                    Detail.Qty = Convert.ToInt32(txtFQty.Text);
+                    Detail.InventoryRequest = _presenter.CurrentInventoryRequest;
+                    _presenter.CurrentInventoryRequest.InventoryRequestDetails.Add(Detail);
+                    Master.ShowMessage(new AppMessage("Inventory Request Detail added successfully.", RMessageType.Info));
+                    dgInventoryRequestDetail.EditItemIndex = -1;
+                    BindInventoryRequestDetails();
 
                 }
                 catch (Exception ex)
