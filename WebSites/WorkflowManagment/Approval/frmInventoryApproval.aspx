@@ -188,7 +188,7 @@
                                                     CssClass="table table-striped table-bordered table-hover">
                                                     <RowStyle CssClass="rowstyle" />
                                                     <Columns>
-                                                        <asp:BoundField DataField="Item" HeaderText="Item" SortExpression="Item" />
+                                                        <asp:BoundField DataField="Inventory.ItemName" HeaderText="Item Name" SortExpression="Inventory.ItemName" />
                                                         <asp:BoundField DataField="Qty" HeaderText="Qty" SortExpression="Qty" />
                                                     </Columns>
                                                     <FooterStyle CssClass="FooterStyle" />
@@ -305,9 +305,7 @@
             CssClass="table table-striped table-bordered table-hover">
             <RowStyle CssClass="rowstyle" />
             <Columns>
-                <asp:BoundField DataField="ItemAccount.AccountName" HeaderText="AccountName" SortExpression="ItemAccount.AccountName" />
-                <asp:BoundField DataField="ItemAccount.AccountCode" HeaderText="Account Code" SortExpression="ItemAccount.AccountCode" />
-                <asp:BoundField DataField="Item" HeaderText="Item Description/Specification" SortExpression="Item" />
+                <asp:BoundField DataField="Inventory.ItemName" HeaderText="Item Name" SortExpression="Inventory.ItemName" />
                 <asp:BoundField DataField="Qty" HeaderText="Quantity" SortExpression="Qty" />
             </Columns>
             <FooterStyle CssClass="FooterStyle" />
