@@ -219,6 +219,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             lblRequesterResult.Text = _presenter.GetUser(_presenter.CurrentInventoryRequest.Requester).FullName;
             lblSpecialNeedResult.Text = _presenter.CurrentInventoryRequest.SpecialNeed;
             lblDelivertoResult.Text = _presenter.CurrentInventoryRequest.DeliverTo;
+            lblReqDateResult.Text = _presenter.CurrentInventoryRequest.RequiredDateOfDelivery.ToShortDateString();
+            lblPurpReqRes.Text = _presenter.CurrentInventoryRequest.PurposeOfRequest;
             grvDetails.DataSource = _presenter.CurrentInventoryRequest.InventoryRequestDetails;
             grvDetails.DataBind();
 

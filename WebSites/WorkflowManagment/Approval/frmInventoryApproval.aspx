@@ -246,13 +246,29 @@
                     <asp:Label ID="lblRequesterResult" runat="server"></asp:Label></td>
                 <td style="width: 25%;">
                     <strong>
-                        <asp:Label ID="lblSuggestedSupplier" runat="server" Text="Suggested Supplier:"></asp:Label>
+                        <asp:Label ID="lblDeliverTo" runat="server" Text="Deliver To:"></asp:Label>
                     </strong>
                 </td>
                 <td style="width: 25%;">
-                    <asp:Label ID="lblSuggestedSupplierResult" runat="server"></asp:Label>
+                    <asp:Label ID="lblDelivertoResult" runat="server"></asp:Label>
                 </td>
-                <td style="width: 25%;">&nbsp;</td>
+            </tr>
+            <tr>
+                <td style="width: 25%;">
+                    <strong>
+                        <asp:Label ID="lblReqDate" runat="server" Text="Required Date Of Delivery:"></asp:Label>
+                    </strong>
+                </td>
+                <td style="width: 25%;">
+                    <asp:Label ID="lblReqDateResult" runat="server"></asp:Label>
+                </td>
+                <td style="width: 25%;">
+                    <strong>
+                        <asp:Label ID="lblPurpReq" runat="server" Text="Purpose of Request/Activity:"></asp:Label>
+                    </strong></td>
+                <td style="width: 25%;">
+                    <asp:Label ID="lblPurpReqRes" runat="server"></asp:Label>
+                </td>
             </tr>
             <tr>
                 <td style="width: 25%;">
@@ -262,42 +278,6 @@
                 <td style="width: 25%;">
                     <asp:Label ID="lblSpecialNeedResult" runat="server"></asp:Label>
                 </td>
-                <td style="width: 25%;">
-                    <strong>
-                        <asp:Label ID="lblDeliverTo" runat="server" Text="Deliver To:"></asp:Label>
-                    </strong>
-                </td>
-                <td style="width: 25%;">
-                    <asp:Label ID="lblDelivertoResult" runat="server"></asp:Label>
-                </td>
-            </tr>
-
-            <tr>
-                <td style="width: 25%;">
-                    <strong>
-                        <asp:Label ID="lblPaymentMeth" runat="server" Text="Payment Method:"></asp:Label>
-                    </strong></td>
-                <td style="width: 25%;">
-                    <asp:Label ID="lblPayMethRes" runat="server"></asp:Label>
-                </td>
-                <td style="width: 25%;">
-                    <strong>
-                        <asp:Label ID="lblReqDate" runat="server" Text="Required Date Of Delivery:"></asp:Label>
-                    </strong>
-                </td>
-                <td style="width: 25%;">
-                    <asp:Label ID="lblReqDateResult" runat="server"></asp:Label>
-                </td>
-            </tr>
-            <tr>
-                <td style="width: 25%;">
-                    <strong>
-                        <asp:Label ID="lblSpec" runat="server" Text="Purpose of Request/Activity:"></asp:Label>
-                    </strong></td>
-                <td style="width: 25%;">
-                    <asp:Label ID="lblSpecRes" runat="server"></asp:Label>
-                </td>
-
             </tr>
         </table>
         <br />
