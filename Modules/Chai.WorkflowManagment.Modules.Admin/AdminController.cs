@@ -1,20 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Web;
-using System.Linq;
-using System.Linq.Expressions;
-using Microsoft.Practices.CompositeWeb;
-using Microsoft.Practices.CompositeWeb.Interfaces;
-using Microsoft.Practices.CompositeWeb.Utility;
-using Microsoft.Practices.ObjectBuilder;
-
 using Chai.WorkflowManagment.CoreDomain;
-using Chai.WorkflowManagment.CoreDomain.DataAccess;
 using Chai.WorkflowManagment.CoreDomain.Admins;
+using Chai.WorkflowManagment.CoreDomain.DataAccess;
+using Chai.WorkflowManagment.CoreDomain.Setting;
 using Chai.WorkflowManagment.CoreDomain.Users;
 using Chai.WorkflowManagment.Services;
 using Chai.WorkflowManagment.Shared.Navigation;
-using Chai.WorkflowManagment.CoreDomain.Setting;
+using Microsoft.Practices.CompositeWeb;
+using Microsoft.Practices.CompositeWeb.Interfaces;
+using Microsoft.Practices.ObjectBuilder;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 
 namespace Chai.WorkflowManagment.Modules.Admin
@@ -24,7 +20,7 @@ namespace Chai.WorkflowManagment.Modules.Admin
         private IWorkspace _workspace;
 
         [InjectionConstructor]
-        public AdminController([ServiceDependency] IHttpContextLocatorService httpContextLocatorService, [ServiceDependency]INavigationService navigationService)
+        public AdminController([ServiceDependency] IHttpContextLocatorService httpContextLocatorService, [ServiceDependency] INavigationService navigationService)
             : base(httpContextLocatorService, navigationService)
         {
             _workspace = ZadsServices.Workspace;
@@ -148,7 +144,7 @@ namespace Chai.WorkflowManagment.Modules.Admin
         {
             if (node.Id <= 0)
             {
-                
+
 
                 using (var wr = WorkspaceFactory.CreateReadOnly())
                 {
@@ -209,14 +205,14 @@ namespace Chai.WorkflowManagment.Modules.Admin
         #region Drivers
         public IList<AppUser> GetDrivers()
         {
-            return WorkspaceFactory.CreateReadOnly().Query<AppUser>(x => x.EmployeePosition.PositionName == "Driver" || x.EmployeePosition.PositionName == "Admin/HR Assisitance (Driver)").ToList();
+            return WorkspaceFactory.CreateReadOnly().Query<AppUser>(x => x.EmployeePosition.PositionName == "Driver" || x.EmployeePosition.PositionName == "Admin/HR Assisitance (Driver)" || x.EmployeePosition.PositionName == "Administration Assistant (Driver)").ToList();
         }
 
         public AppUser GetAssignDriver(int Id)
         {
             return _workspace.Single<AppUser>(x => x.Id == Id);
         }
-       
+
         #endregion
 
         #region Entity Manipulation
