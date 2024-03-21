@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using Chai.WorkflowManagment.CoreDomain.Requests;
+﻿using Chai.WorkflowManagment.CoreDomain.Requests;
 using Chai.WorkflowManagment.CoreDomain.Setting;
 using Chai.WorkflowManagment.Enums;
 using Chai.WorkflowManagment.Shared;
 using log4net;
 using log4net.Config;
 using Microsoft.Practices.ObjectBuilder;
+using System;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 
 namespace Chai.WorkflowManagment.Modules.Request.Views
 {
@@ -111,7 +107,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             get { return txtCardNo.Text; }
         }
-        
+
         public string GetVisitingTeam
         {
             get { return txtVisitingTeam.Text; }
@@ -250,7 +246,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 {
                     _presenter.SaveOrUpdateTARequest();
                     BindTravelAdvanceRequests();
-                    Master.ShowMessage(new AppMessage("Successfully did a Travel Advance Request, Reference No - <b>'" + _presenter.CurrentTravelAdvanceRequest.TravelAdvanceNo + "'</b> ", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                    Master.ShowMessage(new AppMessage("Successfully did a Travel Advance Request, Reference No - <b>'" + _presenter.CurrentTravelAdvanceRequest.TravelAdvanceNo + "'</b> ", RMessageType.Info));
                     Log.Info(_presenter.CurrentUser().FullName + " has requested a Travel Advance of Total Amount " + _presenter.CurrentTravelAdvanceRequest.TotalTravelAdvance.ToString());
                     btnSave.Visible = false;
                     PrintTransaction();
@@ -258,18 +254,15 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 }
                 else
                 {
-                    Master.ShowMessage(new AppMessage("Please insert at least one Item Detail", Chai.WorkflowManagment.Enums.RMessageType.Error));
+                    Master.ShowMessage(new AppMessage("Please insert at least one Item Detail", RMessageType.Error));
                 }
             }
             catch (Exception ex)
             {
-                if (ex.InnerException != null)
+                if (ex.InnerException != null && ex.InnerException.InnerException.Message.Contains("Violation of UNIQUE KEY"))
                 {
-                    if (ex.InnerException.InnerException.Message.Contains("Violation of UNIQUE KEY"))
-                    {
-                        Master.ShowMessage(new AppMessage("Please Click Request button Again,There is a duplicate Number", Chai.WorkflowManagment.Enums.RMessageType.Error));
-                        AutoNumber();
-                    }
+                    Master.ShowMessage(new AppMessage("Please Click Request button Again. There is a duplicate Number", RMessageType.Error));
+                    AutoNumber();
                 }
             }
         }
@@ -280,7 +273,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             btnDelete.Enabled = false;
             btnSave.Enabled = false;
             BindTravelAdvanceRequests();
-            Master.ShowMessage(new AppMessage("Travel Advance Request Successfully Deleted", Chai.WorkflowManagment.Enums.RMessageType.Info));
+            Master.ShowMessage(new AppMessage("Travel Advance Request Successfully Deleted", RMessageType.Info));
         }
         protected void btnFind_Click(object sender, EventArgs e)
         {
@@ -370,11 +363,11 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 else { _presenter.CurrentTravelAdvanceRequest.TravelAdvanceRequestDetails.Remove(tard); }
                 BindTravelAdvanceDetails();
 
-                Master.ShowMessage(new AppMessage("Travel Advance Request Detail was Removed Successfully", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                Master.ShowMessage(new AppMessage("Travel Advance Request Detail was Removed Successfully", RMessageType.Info));
             }
             catch (Exception ex)
             {
-                Master.ShowMessage(new AppMessage("Error: Unable to delete Travel Advance Request Detail. " + ex.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
+                Master.ShowMessage(new AppMessage("Error: Unable to delete Travel Advance Request Detail. " + ex.Message, RMessageType.Error));
             }
         }
         protected void dgTravelAdvanceRequestDetail_EditCommand(object source, DataGridCommandEventArgs e)
@@ -402,14 +395,14 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     tarDetail.ToDate = Convert.ToDateTime(txtToDate.Text);
                     DropDownList ddlModeOfTravel = e.Item.FindControl("ddlModeOfTravel") as DropDownList;
                     tarDetail.ModeOfTravel = ddlModeOfTravel.SelectedValue;
-                    
+
                     _presenter.CurrentTravelAdvanceRequest.TravelAdvanceRequestDetails.Add(tarDetail);
                     dgTravelAdvanceRequestDetail.EditItemIndex = -1;
                     BindTravelAdvanceDetails();
                 }
                 catch (Exception ex)
                 {
-                    Master.ShowMessage(new AppMessage("Error: Unable to Save Travel Advance Detail " + ex.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
+                    Master.ShowMessage(new AppMessage("Error: Unable to Save Travel Advance Detail " + ex.Message, RMessageType.Error));
                 }
             }
 
@@ -462,16 +455,16 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 tarDetail.ToDate = Convert.ToDateTime(txtToDate.Text);
                 DropDownList ddlEdtModeOfTravel = e.Item.FindControl("ddlEdtModeOfTravel") as DropDownList;
                 tarDetail.ModeOfTravel = ddlEdtModeOfTravel.SelectedValue;
-              
-               
+
+
 
                 dgTravelAdvanceRequestDetail.EditItemIndex = -1;
                 BindTravelAdvanceDetails();
-                Master.ShowMessage(new AppMessage("Travel Advance Detail Successfully Updated", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                Master.ShowMessage(new AppMessage("Travel Advance Detail Successfully Updated", RMessageType.Info));
             }
             catch (Exception ex)
             {
-                Master.ShowMessage(new AppMessage("Error: Unable to Update Travel Advance Detail " + ex.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
+                Master.ShowMessage(new AppMessage("Error: Unable to Update Travel Advance Detail " + ex.Message, RMessageType.Error));
             }
         }
         protected void dgTravelAdvanceRequestDetail_SelectedIndexChanged(object sender, EventArgs e)
@@ -525,7 +518,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     txtTotal.Text = _presenter.CurrentTravelAdvanceRequest.TotalTravelAdvance.ToString();
                     _presenter.SaveOrUpdateTARequest(_presenter.CurrentTravelAdvanceRequest);
                 }
-                else {
+                else
+                {
 
                     _presenter.CurrentTravelAdvanceRequest.GetTravelAdvanceRequestDetail(Convert.ToInt32(hfDetailId.Value)).TravelAdvanceCosts.Remove(taco);
                     _presenter.CurrentTravelAdvanceRequest.TotalTravelAdvance = _presenter.CurrentTravelAdvanceRequest.TotalTravelAdvance - taco.Total;
@@ -533,11 +527,11 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 }
                 BindCostsGrid(taco.TravelAdvanceRequestDetail);
                 pnlTACost_ModalPopupExtender.Show();
-                Master.ShowMessage(new AppMessage("Travel Advance Cost was removed successfully", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                Master.ShowMessage(new AppMessage("Travel Advance Cost was removed successfully", RMessageType.Info));
             }
             catch (Exception ex)
             {
-                Master.ShowMessage(new AppMessage("Error: Unable to delete Travel Advance Cost. " + ex.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
+                Master.ShowMessage(new AppMessage("Error: Unable to delete Travel Advance Cost. " + ex.Message, RMessageType.Error));
             }
         }
         protected void dgTravelAdvanceRequestCost_EditCommand(object source, DataGridCommandEventArgs e)
@@ -591,7 +585,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 }
                 catch (Exception ex)
                 {
-                    Master.ShowMessage(new AppMessage("Error: Unable to Save Travel Advance Cost " + ex.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
+                    Master.ShowMessage(new AppMessage("Error: Unable to Save Travel Advance Cost " + ex.Message, RMessageType.Error));
                 }
             }
         }
@@ -654,7 +648,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 
 
 
-                       
+
                     }
 
                 }
@@ -697,17 +691,17 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 dgTravelAdvanceRequestCost.EditItemIndex = -1;
                 BindCostsGrid(taCost.TravelAdvanceRequestDetail);
                 pnlTACost_ModalPopupExtender.Show();
-                Master.ShowMessage(new AppMessage("Travel Advance Cost Successfully Updated", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                Master.ShowMessage(new AppMessage("Travel Advance Cost Successfully Updated", RMessageType.Info));
             }
             catch (Exception ex)
             {
-                Master.ShowMessage(new AppMessage("Error: Unable to Update Travel Advance Cost " + ex.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
+                Master.ShowMessage(new AppMessage("Error: Unable to Update Travel Advance Cost " + ex.Message, RMessageType.Error));
             }
         }
 
         protected void ddlPayMethods_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(ddlPayMethods.SelectedValue=="CABS")
+            if (ddlPayMethods.SelectedValue == "CABS")
             {
                 lblCardNo.Visible = true;
                 txtCardNo.Visible = true;
