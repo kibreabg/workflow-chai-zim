@@ -1,17 +1,4 @@
-﻿using Chai.WorkflowManagment.CoreDomain.Request;
-using Chai.WorkflowManagment.CoreDomain.Setting;
-using Chai.WorkflowManagment.CoreDomain.Users;
-using Chai.WorkflowManagment.Enums;
-using Chai.WorkflowManagment.Shared;
-using Chai.WorkflowManagment.Shared.MailSender;
-using log4net;
-using log4net.Config;
-using Microsoft.Practices.ObjectBuilder;
-using System;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-
-namespace Chai.WorkflowManagment.Modules.Request.Views
+﻿namespace Chai.WorkflowManagment.Modules.Request.Views
 {
     public partial class frmLeaveRequest : POCBasePage, ILeaveRequestView
     {
@@ -427,16 +414,10 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 leavesTaken += leaveRequest.RequestedDays;
             }
 
-            double workingdays = 1 + ((DateTime.Today.Date - empleave.StartDate).TotalDays * 5 -
-                                    (empleave.StartDate.DayOfWeek - DateTime.Today.Date.DayOfWeek) * 2) / 7;
-
-            if (DateTime.Today.Date.DayOfWeek == DayOfWeek.Saturday)
-                workingdays--;
-            if (empleave.StartDate.DayOfWeek == DayOfWeek.Sunday)
-                workingdays--;
-
+            decimal workingdays = Convert.ToDecimal((DateTime.Today.Date - empleave.StartDate).TotalDays);
             decimal leavedays = (Convert.ToDecimal(workingdays) / 30) * empleave.Rate;
             decimal res = empleave.BeginingBalance + leavedays - leavesTaken;
+
             if (res < 0)
                 return 0;
             else
