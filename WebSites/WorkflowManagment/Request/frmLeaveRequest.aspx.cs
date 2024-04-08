@@ -1,4 +1,17 @@
-﻿namespace Chai.WorkflowManagment.Modules.Request.Views
+﻿using Chai.WorkflowManagment.CoreDomain.Request;
+using Chai.WorkflowManagment.CoreDomain.Setting;
+using Chai.WorkflowManagment.CoreDomain.Users;
+using Chai.WorkflowManagment.Enums;
+using Chai.WorkflowManagment.Shared;
+using Chai.WorkflowManagment.Shared.MailSender;
+using log4net;
+using log4net.Config;
+using Microsoft.Practices.ObjectBuilder;
+using System;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+namespace Chai.WorkflowManagment.Modules.Request.Views
 {
     public partial class frmLeaveRequest : POCBasePage, ILeaveRequestView
     {
