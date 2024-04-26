@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using Chai.WorkflowManagment.CoreDomain.Setting;
+﻿using Chai.WorkflowManagment.CoreDomain.Setting;
 using Chai.WorkflowManagment.Enums;
 using Chai.WorkflowManagment.Shared;
 using Microsoft.Practices.ObjectBuilder;
+using System;
+using System.Collections.Generic;
+using System.Web.UI.WebControls;
 
 namespace Chai.WorkflowManagment.Modules.Setting.Views
 {
@@ -91,14 +88,14 @@ namespace Chai.WorkflowManagment.Modules.Setting.Views
             {
                 CarRental.Status = "InActive";
                 _presenter.SaveOrUpdateCarRental(CarRental);
-                
+
                 BindCarRentals();
 
-                Master.ShowMessage(new AppMessage("Car Rental was Removed Successfully", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                Master.ShowMessage(new AppMessage("Car Rental was Removed Successfully", RMessageType.Info));
             }
             catch (Exception ex)
             {
-                Master.ShowMessage(new AppMessage("Error: Unable to delete Car Rental. " + ex.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
+                Master.ShowMessage(new AppMessage("Error: Unable to delete Car Rental. " + ex.Message, RMessageType.Error));
             }
         }
         protected void dgCarRental_ItemCommand(object source, DataGridCommandEventArgs e)
@@ -115,15 +112,50 @@ namespace Chai.WorkflowManagment.Modules.Setting.Views
                     CarRental.PhoneNo = txtPhone.Text;
                     TextBox txtContact = e.Item.FindControl("txtContactAddress") as TextBox;
                     CarRental.ContactAddress = txtContact.Text;
+                    CarRental.Status = "Active";
                     SaveCarRental(CarRental);
                     dgCarRental.EditItemIndex = -1;
                     BindCarRentals();
                 }
                 catch (Exception ex)
                 {
-                    Master.ShowMessage(new AppMessage("Error: Unable to Add Car Rental " + ex.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
+                    Master.ShowMessage(new AppMessage("Error: Unable to Add Car Rental " + ex.Message, RMessageType.Error));
                 }
             }
+        }
+        protected void dgCarRental_UpdateCommand(object source, DataGridCommandEventArgs e)
+        {
+
+            int id = (int)dgCarRental.DataKeys[e.Item.ItemIndex];
+            CarRental CarRental = _presenter.GetCarRentalById(id);
+
+            try
+            {
+                TextBox txtName = e.Item.FindControl("txtEdtCarRentalName") as TextBox;
+                CarRental.Name = txtName.Text;
+                TextBox txtPhone = e.Item.FindControl("txtEdtPhoneNo") as TextBox;
+                CarRental.PhoneNo = txtPhone.Text;
+                TextBox txtContact = e.Item.FindControl("txtEdtContactAddress") as TextBox;
+                CarRental.ContactAddress = txtContact.Text;
+                CarRental.Status = "Active";
+                SaveCarRental(CarRental);
+                dgCarRental.EditItemIndex = -1;
+                BindCarRentals();
+            }
+            catch (Exception ex)
+            {
+                Master.ShowMessage(new AppMessage("Error: Unable to Update Car Rental. " + ex.Message, RMessageType.Error));
+            }
+        }
+        protected void dgCarRental_EditCommand(object source, DataGridCommandEventArgs e)
+        {
+            this.dgCarRental.EditItemIndex = e.Item.ItemIndex;
+
+            BindCarRentals();
+        }
+        protected void dgCarRental_ItemDataBound(object sender, DataGridItemEventArgs e)
+        {
+
         }
         private void SaveCarRental(CarRental CarRental)
         {
@@ -147,39 +179,5 @@ namespace Chai.WorkflowManagment.Modules.Setting.Views
                 Master.ShowMessage(new AppMessage(ex.Message, RMessageType.Error));
             }
         }
-        protected void dgCarRental_EditCommand(object source, DataGridCommandEventArgs e)
-        {
-            this.dgCarRental.EditItemIndex = e.Item.ItemIndex;
-
-            BindCarRentals();
-        }
-        protected void dgCarRental_ItemDataBound(object sender, DataGridItemEventArgs e)
-        {
-
-        }
-        protected void dgCarRental_UpdateCommand(object source, DataGridCommandEventArgs e)
-        {
-
-            int id = (int)dgCarRental.DataKeys[e.Item.ItemIndex];
-            CarRental CarRental = _presenter.GetCarRentalById(id);
-
-            try
-            {
-                TextBox txtName = e.Item.FindControl("txtEdtCarRentalName") as TextBox;
-                CarRental.Name = txtName.Text;
-                TextBox txtPhone = e.Item.FindControl("txtEdtPhoneNo") as TextBox;
-                CarRental.PhoneNo = txtPhone.Text;
-                TextBox txtContact = e.Item.FindControl("txtEdtContactAddress") as TextBox;
-                CarRental.ContactAddress = txtContact.Text;
-                CarRental.Status = "Active";
-                SaveCarRental(CarRental);
-                dgCarRental.EditItemIndex = -1;
-                BindCarRentals();
-            }
-            catch (Exception ex)
-            {
-                Master.ShowMessage(new AppMessage("Error: Unable to Update Car Rental. " + ex.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
-            }
-        }        
     }
 }

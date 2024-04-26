@@ -205,7 +205,7 @@ namespace Chai.WorkflowManagment.Modules.Admin
         #region Drivers
         public IList<AppUser> GetDrivers()
         {
-            return WorkspaceFactory.CreateReadOnly().Query<AppUser>(x => x.EmployeePosition.PositionName == "Driver" || x.EmployeePosition.PositionName == "Admin/HR Assisitance (Driver)" || x.EmployeePosition.PositionName == "Administration Assistant (Driver)").ToList();
+            return WorkspaceFactory.CreateReadOnly().Query<AppUser>(x => x.IsActive && x.EmployeePosition.PositionName == "Driver" || x.EmployeePosition.PositionName == "Admin/HR Assisitance (Driver)" || x.EmployeePosition.PositionName == "Administration Assistant (Driver)").ToList();
         }
 
         public AppUser GetAssignDriver(int Id)
