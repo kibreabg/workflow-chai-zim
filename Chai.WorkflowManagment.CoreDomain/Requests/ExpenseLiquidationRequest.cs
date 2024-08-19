@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
 
 namespace Chai.WorkflowManagment.CoreDomain.Requests
 {
@@ -17,13 +15,14 @@ namespace Chai.WorkflowManagment.CoreDomain.Requests
         public int Id { get; set; }
         public Nullable<DateTime> RequestDate { get; set; }
         public Nullable<DateTime> TravelAdvRequestDate { get; set; }
-        public string ExpenseType { get; set; }        
+        public string ExpenseType { get; set; }
         public string Comment { get; set; }
         public string ExpenseReimbersmentType { get; set; }
         public string ReimbersmentNo { get; set; }
         public string ExportStatus { get; set; }
         public string PaymentMethod { get; set; }
         public int CurrentApprover { get; set; }
+        public int CurrentApproverPosition { get; set; }
         public int CurrentLevel { get; set; }
         public string CurrentStatus { get; set; }
         public string ProgressStatus { get; set; }

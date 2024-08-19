@@ -62,7 +62,6 @@ namespace Chai.WorkflowManagment.Modules.Approval
         }
         #endregion
         #region Cash Payment Approval
-
         public IList<CashPaymentRequest> ListCashPaymentRequests(string RequestNo, string RequestDate, string ProgressStatus, string Supplier)
         {
             string filterExpression = "";
@@ -239,19 +238,16 @@ namespace Chai.WorkflowManagment.Modules.Approval
         #region Expense Liquidation Approval
         public IList<ExpenseLiquidationRequest> ListExpenseLiquidationRequests(string travelAdvNo, string requestDate, string progressStatus)
         {
-            string filterExpression = "";
-
-            filterExpression = " SELECT * FROM ExpenseLiquidationRequests " +
-                               " INNER JOIN AppUsers ON AppUsers.Id = ExpenseLiquidationRequests.CurrentApprover " +
-                               " INNER JOIN TravelAdvanceRequests ON TravelAdvanceRequests.Id = ExpenseLiquidationRequests.Id " +
-                               " LEFT JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 " +
-                               " WHERE 1 = CASE WHEN '" + travelAdvNo + "' = '' THEN 1 WHEN TravelAdvanceRequests.TravelAdvanceNo = '" + travelAdvNo + "'  THEN 1 END " +
-                               " AND 1 = CASE WHEN '" + requestDate + "' = '' THEN 1 WHEN ExpenseLiquidationRequests.RequestDate = '" + requestDate + "'  Then 1 END " +
-                               " AND ExpenseLiquidationRequests.ProgressStatus='" + progressStatus + "' " +
-                               " AND (ExpenseLiquidationRequests.CurrentStatus != 'Rejected' OR ExpenseLiquidationRequests.CurrentStatus IS NULL) " +
-                               " AND ((ExpenseLiquidationRequests.CurrentApprover = '" + CurrentUser().Id + "') OR (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) " +
-                               " ORDER BY ExpenseLiquidationRequests.Id DESC";
-
+            string filterExpression = " SELECT * FROM ExpenseLiquidationRequests " +
+                   " INNER JOIN AppUsers ON (AppUsers.Id = ExpenseLiquidationRequests.CurrentApprover) OR(AppUsers.EmployeePosition_Id = ExpenseLiquidationRequests.CurrentApproverPosition AND AppUsers.Id = '" + CurrentUser().Id + "') " +
+                   " INNER JOIN TravelAdvanceRequests ON TravelAdvanceRequests.Id = ExpenseLiquidationRequests.Id " +
+                   " LEFT JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 " +
+                   " WHERE 1 = CASE WHEN '" + travelAdvNo + "' = '' THEN 1 WHEN TravelAdvanceRequests.TravelAdvanceNo = '" + travelAdvNo + "'  THEN 1 END " +
+                   " AND 1 = CASE WHEN '" + requestDate + "' = '' THEN 1 WHEN ExpenseLiquidationRequests.RequestDate = '" + requestDate + "'  Then 1 END " +
+                   " AND ExpenseLiquidationRequests.ProgressStatus='" + progressStatus + "' " +
+                   " AND (ExpenseLiquidationRequests.CurrentStatus != 'Rejected' OR ExpenseLiquidationRequests.CurrentStatus IS NULL) " +
+                   " AND ((ExpenseLiquidationRequests.CurrentApprover = '" + CurrentUser().Id + "') OR (ExpenseLiquidationRequests.CurrentApproverPosition = '" + CurrentUser().EmployeePosition.Id + "') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) " +
+                   " ORDER BY ExpenseLiquidationRequests.Id DESC";
             return _workspace.SqlQuery<ExpenseLiquidationRequest>(filterExpression).ToList();
         }
         public DataSet ExportTravelAdvance(int LiquidationId)

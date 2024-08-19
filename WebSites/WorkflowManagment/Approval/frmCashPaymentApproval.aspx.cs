@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using Chai.WorkflowManagment.CoreDomain.Requests;
+﻿using Chai.WorkflowManagment.CoreDomain.Requests;
 using Chai.WorkflowManagment.CoreDomain.Setting;
 using Chai.WorkflowManagment.CoreDomain.Users;
 using Chai.WorkflowManagment.Enums;
-using Chai.WorkflowManagment.Modules.Approval.Views;
 using Chai.WorkflowManagment.Shared;
 using Chai.WorkflowManagment.Shared.MailSender;
 using log4net;
 using log4net.Config;
 using Microsoft.Practices.ObjectBuilder;
+using System;
 using System.IO;
+using System.Linq;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 
 namespace Chai.WorkflowManagment.Modules.Approval.Views
 {
@@ -128,10 +124,6 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     will = "Approve";
                     break;
                 }
-                /*else if (_presenter.GetUser(_presenter.CurrentCashPaymentRequest.CurrentApprover).EmployeePosition.PositionName == AL.EmployeePosition.PositionName)
-                {
-                    will = AL.Will;
-                }*/
                 else
                 {
                     try
@@ -401,7 +393,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             }
             else
             {
-                Master.ShowMessage(new AppMessage("Please select file ", Chai.WorkflowManagment.Enums.RMessageType.Error));
+                Master.ShowMessage(new AppMessage("Please select file ", RMessageType.Error));
             }
         }
         protected void DownloadFile(object sender, EventArgs e)
@@ -496,11 +488,11 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     ShowPrint();
                     if (ddlApprovalStatus.SelectedValue != "Rejected")
                     {
-                        Master.ShowMessage(new AppMessage("Payment Approval Processed", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                        Master.ShowMessage(new AppMessage("Payment Approval Processed", RMessageType.Info));
                     }
                     else
                     {
-                        Master.ShowMessage(new AppMessage("Payment Approval Rejected", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                        Master.ShowMessage(new AppMessage("Payment Approval Rejected", RMessageType.Info));
                     }
 
                     btnApprove.Enabled = false;
@@ -695,7 +687,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     _presenter.CurrentCashPaymentRequest.PaymentReimbursementStatus = "Retired";
                     _presenter.SaveOrUpdateCashPaymentRequest(_presenter.CurrentCashPaymentRequest);
                     btnPrintReimburse.Enabled = true;
-                    Master.ShowMessage(new AppMessage("Payment Retired Successfully", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                    Master.ShowMessage(new AppMessage("Payment Retired Successfully", RMessageType.Info));
                     BindSearchCashPaymentRequestGrid();
                     //btnReimburse.Enabled = false;
                     pnlReimbursement_ModalPopupExtender.Show();

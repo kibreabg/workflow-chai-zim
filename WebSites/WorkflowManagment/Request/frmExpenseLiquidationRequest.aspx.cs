@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using Chai.WorkflowManagment.CoreDomain.Requests;
-using Chai.WorkflowManagment.CoreDomain.Users;
+﻿using Chai.WorkflowManagment.CoreDomain.Requests;
 using Chai.WorkflowManagment.Enums;
 using Chai.WorkflowManagment.Shared;
 using log4net;
 using log4net.Config;
 using Microsoft.Practices.ObjectBuilder;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 
 namespace Chai.WorkflowManagment.Modules.Request.Views
 {
@@ -306,12 +303,9 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         protected void grvStatuses_RowDataBound(object sender, GridViewRowEventArgs e)
         {
-            if (_presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestStatuses != null)
+            if (_presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestStatuses != null && e.Row.RowType == DataControlRowType.DataRow && _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestStatuses[e.Row.RowIndex].Approver != 0)
             {
-                if (e.Row.RowType == DataControlRowType.DataRow)
-                {
-                    e.Row.Cells[1].Text = _presenter.GetUser(_presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestStatuses[e.Row.RowIndex].Approver).FullName;
-                }
+                e.Row.Cells[1].Text = _presenter.GetUser(_presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestStatuses[e.Row.RowIndex].Approver).FullName;
             }
         }
         protected void dgExpenseLiquidationDetail_ItemDataBound(object sender, DataGridItemEventArgs e)

@@ -1,29 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Practices.ObjectBuilder;
-using Microsoft.Practices.CompositeWeb;
+﻿using Chai.WorkflowManagment.CoreDomain.Requests;
 using Chai.WorkflowManagment.CoreDomain.Setting;
-using Chai.WorkflowManagment.Shared;
-using Chai.WorkflowManagment.CoreDomain.Requests;
-using Chai.WorkflowManagment.Modules.Admin;
 using Chai.WorkflowManagment.CoreDomain.Users;
-using Chai.WorkflowManagment.Modules.Setting;
 using Chai.WorkflowManagment.Enums;
+using Chai.WorkflowManagment.Modules.Admin;
+using Chai.WorkflowManagment.Modules.Setting;
+using Chai.WorkflowManagment.Shared;
 using Chai.WorkflowManagment.Shared.MailSender;
+using Microsoft.Practices.CompositeWeb;
+using Microsoft.Practices.ObjectBuilder;
+using System;
+using System.Collections.Generic;
 
 namespace Chai.WorkflowManagment.Modules.Request.Views
 {
     public class ExpenseLiquidationRequestPresenter : Presenter<IExpenseLiquidationRequestView>
     {
-
-        // NOTE: Uncomment the following code if you want ObjectBuilder to inject the module controller
-        //       The code will not work in the Shell module, as a module controller is not created by default
-        //
-        private RequestController _controller;
-        private AdminController _adminController;
-        private SettingController _settingController;
-        private TravelAdvanceRequest _TravelAdvanceRequest;
+        private readonly RequestController _controller;
+        private readonly AdminController _adminController;
+        private readonly SettingController _settingController;
+        private TravelAdvanceRequest _travelAdvanceRequest;
         public ExpenseLiquidationRequestPresenter([CreateNew] RequestController controller, AdminController adminController, SettingController settingController)
         {
             _controller = controller;
@@ -37,40 +32,32 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 _controller.CurrentObject = _controller.GetTravelAdvanceRequest(View.GetTARequestId);
             }
             CurrentTravelAdvanceRequest = _controller.CurrentObject as TravelAdvanceRequest;
-            if (CurrentTravelAdvanceRequest != null)
+            if (CurrentTravelAdvanceRequest != null && CurrentTravelAdvanceRequest.ExpenseLiquidationRequest == null)
             {
-                if (CurrentTravelAdvanceRequest.ExpenseLiquidationRequest == null)
-                { CurrentTravelAdvanceRequest.ExpenseLiquidationRequest = new ExpenseLiquidationRequest(); }
+                CurrentTravelAdvanceRequest.ExpenseLiquidationRequest = new ExpenseLiquidationRequest();
             }
         }
         public override void OnViewInitialized()
         {
-            //if (_TravelAdvanceRequest == null)
-            //{
-            //    int id = View.GetTARequestId;
-            //    if (id > 0)
-            //        _controller.CurrentObject = _controller.GetTravelAdvanceRequest(id);
-            //    else
-            //        _controller.CurrentObject = new TravelAdvanceRequest();
-            //}
+            // Nothing to implement here
         }
         public TravelAdvanceRequest CurrentTravelAdvanceRequest
         {
             get
             {
-                if (_TravelAdvanceRequest == null)
+                if (_travelAdvanceRequest == null)
                 {
                     int id = View.GetTARequestId;
                     if (id > 0)
-                        _TravelAdvanceRequest = _controller.GetTravelAdvanceRequest(id);
+                        _travelAdvanceRequest = _controller.GetTravelAdvanceRequest(id);
                     else
-                        _TravelAdvanceRequest = new TravelAdvanceRequest();
+                        _travelAdvanceRequest = new TravelAdvanceRequest();
                 }
-                return _TravelAdvanceRequest;
+                return _travelAdvanceRequest;
             }
             set
             {
-                _TravelAdvanceRequest = value;
+                _travelAdvanceRequest = value;
             }
         }
         public IList<ExpenseLiquidationRequest> GetExpenseLiquidationRequests()
@@ -85,7 +72,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 foreach (ApprovalLevel AL in GetApprovalSetting(RequestType.ExpenseLiquidation_Request.ToString().Replace('_', ' '), 0).ApprovalLevels)
                 {
                     ExpenseLiquidationRequestStatus ELRS = new ExpenseLiquidationRequestStatus();
-                    ELRS.ExpenseLiquidationRequest = _TravelAdvanceRequest.ExpenseLiquidationRequest;
+                    ELRS.ExpenseLiquidationRequest = _travelAdvanceRequest.ExpenseLiquidationRequest;
 
                     if (AL.EmployeePosition.PositionName == "Superviser/Line Manager")
                     {
@@ -99,29 +86,38 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     }
                     else if (AL.EmployeePosition.PositionName == "Program Manager")
                     {
-                        if (_TravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestDetails[0].Project.Id != 0)
+                        if (_travelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestDetails[0].Project.Id != 0)
                         {
-                            ELRS.Approver = GetProject(_TravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestDetails[0].Project.Id).AppUser.Id;
+                            ELRS.Approver = GetProject(_travelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestDetails[0].Project.Id).AppUser.Id;
                         }
                     }
                     else
                     {
                         if (Approver(AL.EmployeePosition.Id) != null)
-                            ELRS.Approver = Approver(AL.EmployeePosition.Id).Id;
+                        {
+                            if (AL.EmployeePosition.PositionName == "Analyst, Finance")
+                            {
+                                ELRS.ApproverPosition = AL.EmployeePosition.Id; //So that we can entertain more than one finance manager to handle the request
+                            }
+                            else
+                            {
+                                ELRS.Approver = Approver(AL.EmployeePosition.Id).Id;
+                            }
+                        }
                         else
                             ELRS.Approver = 0;
                     }
                     ELRS.WorkflowLevel = i;
                     i++;
-                    _TravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestStatuses.Add(ELRS);
+                    _travelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestStatuses.Add(ELRS);
                 }
             }
         }
         private void GetCurrentApprover()
         {
-            if (_TravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestStatuses != null)
+            if (_travelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestStatuses != null)
             {
-                foreach (ExpenseLiquidationRequestStatus ELRS in _TravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestStatuses)
+                foreach (ExpenseLiquidationRequestStatus ELRS in _travelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestStatuses)
                 {
                     if (ELRS.ApprovalStatus == null || ELRS.ApprovalStatus == "Rejected")
                     {
@@ -233,7 +229,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             if (GetSuperviser(ELRS.Approver).IsAssignedJob != true)
             {
-                EmailSender.Send(GetSuperviser(ELRS.Approver).Email, "Expense Liquidation Request", (CurrentTravelAdvanceRequest.AppUser.FullName).ToUpper() + " Requests for Expense Liquidation for Travel Advance No. '" + (CurrentTravelAdvanceRequest.TravelAdvanceNo).ToUpper()+ "'");
+                EmailSender.Send(GetSuperviser(ELRS.Approver).Email, "Expense Liquidation Request", (CurrentTravelAdvanceRequest.AppUser.FullName).ToUpper() + " Requests for Expense Liquidation for Travel Advance No. '" + (CurrentTravelAdvanceRequest.TravelAdvanceNo).ToUpper() + "'");
             }
             else
             {

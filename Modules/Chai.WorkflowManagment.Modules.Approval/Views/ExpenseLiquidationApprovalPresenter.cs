@@ -1,26 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Practices.ObjectBuilder;
-using Microsoft.Practices.CompositeWeb;
+﻿using Chai.WorkflowManagment.CoreDomain.Requests;
 using Chai.WorkflowManagment.CoreDomain.Setting;
-using Chai.WorkflowManagment.Shared;
-using Chai.WorkflowManagment.CoreDomain.Requests;
-using Chai.WorkflowManagment.Modules.Admin;
 using Chai.WorkflowManagment.CoreDomain.Users;
-using Chai.WorkflowManagment.Modules.Setting;
+using Chai.WorkflowManagment.Modules.Admin;
 using Chai.WorkflowManagment.Modules.Request;
+using Chai.WorkflowManagment.Modules.Setting;
+using Microsoft.Practices.CompositeWeb;
+using Microsoft.Practices.ObjectBuilder;
+using System.Collections.Generic;
 using System.Data;
 
 namespace Chai.WorkflowManagment.Modules.Approval.Views
 {
     public class ExpenseLiquidationApprovalPresenter : Presenter<IExpenseLiquidationApprovalView>
     {
-        private ApprovalController _controller;
-        private RequestController _requestController;
+        private readonly ApprovalController _controller;
+        private readonly RequestController _requestController;
         private ExpenseLiquidationRequest _expenseLiquidationRequest;
-        private SettingController _settingController;
-        private AdminController _adminController;
+        private readonly SettingController _settingController;
+        private readonly AdminController _adminController;
 
         public ExpenseLiquidationApprovalPresenter([CreateNew] ApprovalController controller, RequestController requestController, SettingController settingController, AdminController adminController)
         {
@@ -39,7 +36,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         }
         public override void OnViewInitialized()
         {
-
+            // Not implemented
         }
         public ExpenseLiquidationRequest CurrentExpenseLiquidationRequest
         {
@@ -76,6 +73,10 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         public AppUser GetUser(int UserId)
         {
             return _adminController.GetUser(UserId);
+        }
+        public IList<AppUser> GetAppUsersByEmployeePosition(int employeePosition)
+        {
+            return _settingController.GetAppUsersByEmployeePosition(employeePosition);
         }
         public void SaveOrUpdateExpenseLiquidationRequest(ExpenseLiquidationRequest expenseLiquidationRequest)
         {
@@ -117,10 +118,6 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             return _controller.GetCurrentUser();
         }
-        public AssignJob GetAssignedJobbycurrentuser()
-        {
-            return _controller.GetAssignedJobbycurrentuser();
-        }
         public ApprovalSetting GetApprovalSettingforProcess(string Requesttype, decimal value)
         {
             return _settingController.GetApprovalSettingforProcess(Requesttype, value);
@@ -132,6 +129,10 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         public AssignJob GetAssignedJobbycurrentuser(int userId)
         {
             return _controller.GetAssignedJobbycurrentuser(userId);
+        }
+        public AssignJob GetAssignedJobbycurrentuser()
+        {
+            return _controller.GetAssignedJobbycurrentuser();
         }
         public int GetAssignedUserbycurrentuser()
         {
