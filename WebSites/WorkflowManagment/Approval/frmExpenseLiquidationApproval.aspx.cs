@@ -68,7 +68,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 return "{136836C4-1353-4DEF-A912-BF65AA84497C}";
             }
         }
-        private void ShowControls()
+        private void ShowReimbersmentControls()
         {
             if (_presenter.CurrentExpenseLiquidationRequest.ExpenseLiquidationRequestStatuses.Count == _presenter.CurrentExpenseLiquidationRequest.CurrentLevel && _presenter.CurrentExpenseLiquidationRequest.CurrentApproverPosition == _presenter.CurrentUser().EmployeePosition.Id)
             {
@@ -124,15 +124,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     string subString = s[i].Substring(0, 3);
                     if (willStatus == subString)
                     {
-                        if (_presenter.CurrentExpenseLiquidationRequest.CurrentApproverPosition > 0)
-                        {
-                            ddlApprovalStatus.Items.Add(new ListItem(ApprovalStatus.Reviewed.ToString().Replace('_', ' '), s[i].Replace('_', ' ')));
-                        }
-                        else
-                        {
-                            ddlApprovalStatus.Items.Add(new ListItem(s[i].Replace('_', ' '), s[i].Replace('_', ' ')));
-                        }
-
+                        ddlApprovalStatus.Items.Add(new ListItem(s[i].Replace('_', ' '), s[i].Replace('_', ' ')));
                     }
                 }
 
@@ -151,24 +143,14 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     will = "Approve";
                     break;
                 }
-                else
+                else if (_presenter.CurrentExpenseLiquidationRequest.CurrentApprover != 0 && _presenter.GetUser(_presenter.CurrentExpenseLiquidationRequest.CurrentApprover).EmployeePosition.PositionName == AL.EmployeePosition.PositionName)
                 {
-                    try
-                    {
-                        if (_presenter.GetUser(_presenter.CurrentExpenseLiquidationRequest.CurrentApprover).EmployeePosition.PositionName == AL.EmployeePosition.PositionName)
-                        {
-                            will = AL.Will;
-                        }
-                    }
-                    catch
-                    {
-                        if (_presenter.CurrentExpenseLiquidationRequest.CurrentApproverPosition == AL.EmployeePosition.Id)
-                        {
-                            will = AL.Will;
-                        }
-                    }
+                    will = AL.Will;
                 }
-
+                else if (_presenter.CurrentExpenseLiquidationRequest.CurrentApprover == 0 && _presenter.CurrentExpenseLiquidationRequest.CurrentApproverPosition == AL.EmployeePosition.Id)
+                {
+                    will = AL.Will;
+                }
             }
             return will;
         }
@@ -328,7 +310,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             _presenter.OnViewLoaded();
             PopApprovalStatus();
             btnApprove.Enabled = true;
-            ShowControls();
+            // ShowReimbersmentControls()
             grvAttachments.DataSource = _presenter.CurrentExpenseLiquidationRequest.ELRAttachments;
             grvAttachments.DataBind();
             BindExpenseLiquidationRequestStatus();

@@ -239,14 +239,15 @@ namespace Chai.WorkflowManagment.Modules.Approval
         public IList<ExpenseLiquidationRequest> ListExpenseLiquidationRequests(string travelAdvNo, string requestDate, string progressStatus)
         {
             string filterExpression = " SELECT * FROM ExpenseLiquidationRequests " +
-                   " INNER JOIN AppUsers ON (AppUsers.Id = ExpenseLiquidationRequests.CurrentApprover) OR(AppUsers.EmployeePosition_Id = ExpenseLiquidationRequests.CurrentApproverPosition AND AppUsers.Id = '" + CurrentUser().Id + "') " +
+                   " INNER JOIN AppUsers ON (AppUsers.Id = ExpenseLiquidationRequests.CurrentApprover) OR (AppUsers.EmployeePosition_Id = ExpenseLiquidationRequests.CurrentApproverPosition AND AppUsers.Id = '" + CurrentUser().Id + "') " +
                    " INNER JOIN TravelAdvanceRequests ON TravelAdvanceRequests.Id = ExpenseLiquidationRequests.Id " +
                    " LEFT JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 " +
                    " WHERE 1 = CASE WHEN '" + travelAdvNo + "' = '' THEN 1 WHEN TravelAdvanceRequests.TravelAdvanceNo = '" + travelAdvNo + "'  THEN 1 END " +
                    " AND 1 = CASE WHEN '" + requestDate + "' = '' THEN 1 WHEN ExpenseLiquidationRequests.RequestDate = '" + requestDate + "'  Then 1 END " +
+                   " AND AppUsers.UserName != 'bmukono' " +
                    " AND ExpenseLiquidationRequests.ProgressStatus='" + progressStatus + "' " +
                    " AND (ExpenseLiquidationRequests.CurrentStatus != 'Rejected' OR ExpenseLiquidationRequests.CurrentStatus IS NULL) " +
-                   " AND ((ExpenseLiquidationRequests.CurrentApprover = '" + CurrentUser().Id + "') OR (ExpenseLiquidationRequests.CurrentApproverPosition = '" + CurrentUser().EmployeePosition.Id + "') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) " +
+                   " AND ((ExpenseLiquidationRequests.CurrentApprover = '" + CurrentUser().Id + "') OR (ExpenseLiquidationRequests.CurrentApproverPosition = '" + CurrentUser().EmployeePosition.Id + "') OR (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) " +
                    " ORDER BY ExpenseLiquidationRequests.Id DESC";
             return _workspace.SqlQuery<ExpenseLiquidationRequest>(filterExpression).ToList();
         }

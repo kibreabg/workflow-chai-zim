@@ -180,10 +180,11 @@ namespace Chai.WorkflowManagment.Modules.Shell
         {
             currentUser = GetCurrentUser().Id;
             string filterExpression = " SELECT * FROM ExpenseLiquidationRequests " +
-                                      " LEFT JOIN AppUsers on AppUsers.Id = ExpenseLiquidationRequests.CurrentApprover " +
+                                      " INNER JOIN AppUsers ON (AppUsers.Id = ExpenseLiquidationRequests.CurrentApprover) OR (AppUsers.EmployeePosition_Id = ExpenseLiquidationRequests.CurrentApproverPosition AND AppUsers.Id = '" + GetCurrentUser().Id + "') " +
                                       " LEFT JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 " +
                                       " WHERE ExpenseLiquidationRequests.ProgressStatus='InProgress' " +
                                           " AND (ExpenseLiquidationRequests.CurrentStatus != 'Rejected' OR ExpenseLiquidationRequests.CurrentStatus IS NULL) " +
+                                          " AND AppUsers.UserName != 'bmukono' " +
                                           " AND ((ExpenseLiquidationRequests.CurrentApprover = '" + currentUser + "') " +
                                           " OR (ExpenseLiquidationRequests.CurrentApproverPosition = '" + GetCurrentUser().EmployeePosition.Id + "')" +
                                           " OR (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) " +
