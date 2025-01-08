@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Chai.WorkflowManagment.Shared;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
@@ -8,6 +9,8 @@ using System.Data.Objects;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Transactions;
+
 
 namespace Chai.WorkflowManagment.CoreDomain.Infrastructure
 {
@@ -22,22 +25,33 @@ namespace Chai.WorkflowManagment.CoreDomain.Infrastructure
 
         public void CommitChanges()
         {
-
-           
-            try
+            using (var scope = new TransactionScope())
             {
-                _context.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                UpdateException updateException = (UpdateException)ex.InnerException;
-                SqlException sqlException = (SqlException)updateException.InnerException;
-
-                foreach (SqlError error in sqlException.Errors)
+                try
                 {
-                    // TODO: Do something with your errors
+                    _context.SaveChanges();
+                    scope.Complete();
+                }
+                catch (DbUpdateException ex)
+                {
+                    ExceptionUtility.LogException(ex, ex.Source);
+                    ExceptionUtility.NotifySystemOps(ex, ex.Source);
+                    UpdateException updateException = (UpdateException)ex.InnerException;
+                    SqlException sqlException = (SqlException)updateException.InnerException;
+
+
+                    foreach (SqlError error in sqlException.Errors)
+                    {
+                        // TODO: Do something with your errors
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ExceptionUtility.LogException(ex, ex.Source);
+                    ExceptionUtility.NotifySystemOps(ex, ex.Source);
                 }
             }
+
         }
 
         public void Refresh(IEnumerable collection)
@@ -85,7 +99,7 @@ namespace Chai.WorkflowManagment.CoreDomain.Infrastructure
             return result.SingleOrDefault();
         }
 
-        public T Last<T>() where T : class,IEntity
+        public T Last<T>() where T : class, IEntity
         {
             return _context.Set<T>().OrderByDescending(x => x.Id).FirstOrDefault();
         }
