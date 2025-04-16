@@ -32,7 +32,7 @@
                     </fieldset>
                     <footer>
                         <asp:Button ID="btnFind" runat="server" Text="Find" OnClick="btnFind_Click" CssClass="btn btn-primary"></asp:Button>
-                          <asp:Button ID="btnClosepage" runat="server" Text="Close" data-dismiss="modal" CssClass="btn btn-primary" PostBackUrl="../Default.aspx"></asp:Button>
+                        <asp:Button ID="btnClosepage" runat="server" Text="Close" data-dismiss="modal" CssClass="btn btn-primary" PostBackUrl="../Default.aspx"></asp:Button>
                     </footer>
                 </div>
             </div>
@@ -71,11 +71,11 @@
                         <%# DataBinder.Eval(Container.DataItem, "SupplierName")%>
                     </ItemTemplate>
                     <EditItemTemplate>
-                        <asp:TextBox ID="txtSupplierName" runat="server" CssClass="form-control" Text=' <%# DataBinder.Eval(Container.DataItem, "SupplierName")%>'></asp:TextBox>
+                        <asp:TextBox ID="txtSupplierName" runat="server" placeholder="Supplier Name" CssClass="form-control" Text=' <%# DataBinder.Eval(Container.DataItem, "SupplierName")%>'></asp:TextBox>
                         <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" CssClass="validator" ControlToValidate="txtSupplierName" ErrorMessage="Supplier Name Required" ValidationGroup="1">*</asp:RequiredFieldValidator>
                     </EditItemTemplate>
                     <FooterTemplate>
-                        <asp:TextBox ID="txtFSupplierName" runat="server" CssClass="form-control"></asp:TextBox>
+                        <asp:TextBox ID="txtFSupplierName" runat="server" placeholder="Supplier Name" CssClass="form-control"></asp:TextBox>
                         <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" CssClass="validator" ControlToValidate="txtFSupplierName" ErrorMessage="Supplier Name Required" ValidationGroup="2">*</asp:RequiredFieldValidator>
                     </FooterTemplate>
                 </asp:TemplateColumn>
@@ -84,11 +84,11 @@
                         <%# DataBinder.Eval(Container.DataItem, "SupplierAddress")%>
                     </ItemTemplate>
                     <EditItemTemplate>
-                        <asp:TextBox ID="txtSupplierAddress" runat="server" CssClass="form-control" Text=' <%# DataBinder.Eval(Container.DataItem, "SupplierAddress")%>'></asp:TextBox>
+                        <asp:TextBox ID="txtSupplierAddress" runat="server" placeholder="Supplier Address" CssClass="form-control" Text=' <%# DataBinder.Eval(Container.DataItem, "SupplierAddress")%>'></asp:TextBox>
 
                     </EditItemTemplate>
                     <FooterTemplate>
-                        <asp:TextBox ID="txtFSupplierAddress" runat="server" CssClass="form-control"></asp:TextBox>
+                        <asp:TextBox ID="txtFSupplierAddress" runat="server" placeholder="Supplier Address" CssClass="form-control"></asp:TextBox>
 
                     </FooterTemplate>
                 </asp:TemplateColumn>
@@ -97,10 +97,10 @@
                         <%# DataBinder.Eval(Container.DataItem, "SupplierContact")%>
                     </ItemTemplate>
                     <EditItemTemplate>
-                        <asp:TextBox ID="txtSupplierContact" runat="server" CssClass="form-control" Text=' <%# DataBinder.Eval(Container.DataItem, "SupplierContact")%>'></asp:TextBox>
+                        <asp:TextBox ID="txtSupplierContact" runat="server" placeholder="Contact" CssClass="form-control" Text=' <%# DataBinder.Eval(Container.DataItem, "SupplierContact")%>'></asp:TextBox>
                     </EditItemTemplate>
                     <FooterTemplate>
-                        <asp:TextBox ID="txtFSupplierContact" runat="server" CssClass="form-control"></asp:TextBox>
+                        <asp:TextBox ID="txtFSupplierContact" runat="server" placeholder="Contact" CssClass="form-control"></asp:TextBox>
                     </FooterTemplate>
                 </asp:TemplateColumn>
                 <asp:TemplateColumn HeaderText="Supplier Contact Phone No">
@@ -108,24 +108,24 @@
                         <%# DataBinder.Eval(Container.DataItem, "ContactPhone")%>
                     </ItemTemplate>
                     <EditItemTemplate>
-                        <asp:TextBox ID="txtSupplierphoneContact" runat="server" CssClass="form-control" Text=' <%# DataBinder.Eval(Container.DataItem, "ContactPhone")%>'></asp:TextBox>
+                        <asp:TextBox ID="txtSupplierphoneContact" runat="server" placeholder="Contact Phone No" CssClass="form-control" Text=' <%# DataBinder.Eval(Container.DataItem, "ContactPhone")%>'></asp:TextBox>
                     </EditItemTemplate>
                     <FooterTemplate>
-                        <asp:TextBox ID="txtFSupplierphoneContact" runat="server" CssClass="form-control"></asp:TextBox>
+                        <asp:TextBox ID="txtFSupplierphoneContact" runat="server" placeholder="Contact Phone No" CssClass="form-control"></asp:TextBox>
                     </FooterTemplate>
                 </asp:TemplateColumn>
-                 <asp:TemplateColumn HeaderText="Email">
+                <asp:TemplateColumn HeaderText="Email">
                     <ItemTemplate>
                         <%# DataBinder.Eval(Container.DataItem, "Email")%>
                     </ItemTemplate>
                     <EditItemTemplate>
-                        <asp:TextBox ID="txtSupplierEmail" runat="server" CssClass="form-control" Text=' <%# DataBinder.Eval(Container.DataItem, "Email")%>'></asp:TextBox>
+                        <asp:TextBox ID="txtSupplierEmail" runat="server" placeholder="Email" CssClass="form-control" Text=' <%# DataBinder.Eval(Container.DataItem, "Email")%>'></asp:TextBox>
                     </EditItemTemplate>
                     <FooterTemplate>
-                        <asp:TextBox ID="txtFSupplierEmail" runat="server" CssClass="form-control"></asp:TextBox>
+                        <asp:TextBox ID="txtFSupplierEmail" runat="server" placeholder="Email" CssClass="form-control"></asp:TextBox>
                     </FooterTemplate>
                 </asp:TemplateColumn>
-                
+
                 <asp:TemplateColumn HeaderText="Actions">
                     <EditItemTemplate>
                         <asp:LinkButton ID="lnkUpdate" runat="server" CommandName="Update" ValidationGroup="1" CssClass="btn btn-xs btn-default"><i class="fa fa-save"></i></asp:LinkButton>
