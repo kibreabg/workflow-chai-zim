@@ -10,7 +10,7 @@ namespace Chai.WorkflowManagment.Shared.MailSender
     {
         public static bool Send(string to, string subject, string body)
         {
-            string localIP = "http://zimops/ZWFM/UserLogin";
+            string localIP = "http://10.139.1.25/ZWFM/UserLogin.aspx";
             string publicIp = "http://zimops.clintonhealthaccess.org:444/ZWFM/UserLogin.aspx";
 
             SmtpSection section = (SmtpSection)ConfigurationManager.GetSection("system.net/mailSettings/smtp");
