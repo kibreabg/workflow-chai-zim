@@ -1,13 +1,13 @@
 ﻿using Chai.WorkflowManagment.CoreDomain.Admins;
 using Chai.WorkflowManagment.CoreDomain.Approval;
 using Chai.WorkflowManagment.CoreDomain.Infrastructure;
+using Chai.WorkflowManagment.CoreDomain.Library;
 using Chai.WorkflowManagment.CoreDomain.Request;
 using Chai.WorkflowManagment.CoreDomain.Requests;
 using Chai.WorkflowManagment.CoreDomain.Setting;
 using Chai.WorkflowManagment.CoreDomain.TravelLogs;
 using Chai.WorkflowManagment.CoreDomain.Users;
 using System.Data.Entity;
-
 
 namespace Chai.WorkflowManagment.CoreDomain.DataAccess
 {
@@ -18,7 +18,6 @@ namespace Chai.WorkflowManagment.CoreDomain.DataAccess
         {
             if (disableProxy)
                 ObjContext().ContextOptions.ProxyCreationEnabled = false;
-
         }
 
         public DbSet<AppUser> AppUsers { get; set; }
@@ -117,16 +116,12 @@ namespace Chai.WorkflowManagment.CoreDomain.DataAccess
         public DbSet<FuelCardRequestDetail> FuelCardRequestDetails { get; set; }
         public DbSet<FuelCardRequestStatus> FuelCardRequestStatuses { get; set; }
         public DbSet<FCRAttachment> FCRAttachments { get; set; }
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            //modelBuilder.Entity<AppUser>().HasMany(p => p.AppUserRoles).WithMany();
-            //modelBuilder.Entity<Node>().HasMany(p => p.NodeRoles).WithMany();
-            //modelBuilder.Entity<Tab>().HasMany(p => p.TabRoles).WithMany();
-            //modelBuilder.Entity<Tab>().HasMany(p => p.TaskPans).WithMany();
-            //modelBuilder.Entity<TaskPan>().HasMany(p => p.TaskPanNodes).WithMany();
 
-
-            base.OnModelCreating(modelBuilder);
-        }
+        public DbSet<Author> Authors { get; set; }
+        public DbSet<Book> Books { get; set; }
+        public DbSet<Genre> Genres { get; set; }
+        public DbSet<Loan> Loans { get; set; }
+        public DbSet<Reservation> Reservations { get; set; }
+        public DbSet<Review> Reviews { get; set; }
     }
 }
