@@ -123,3 +123,5 @@ $tf*/
 /.vs/WorkflowManagment/CopilotIndices/17.12.38.29086
 /.vs/WorkflowManagment/config/applicationhost.config
 /.vs/WorkflowManagment/CopilotIndices/17.14.939.21063
+/.vs
+/Chai.WorkflowManagment.CoreDomain/.vs

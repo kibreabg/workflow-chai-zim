@@ -51,6 +51,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chai.WorkflowManagment.Modu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chai.WorkflowManagment.Modules.Approval", "Modules\Chai.WorkflowManagment.Modules.Approval\Chai.WorkflowManagment.Modules.Approval.csproj", "{01E5590D-C115-4AFD-802B-05D46F0FE13B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chai.WorkflowManagment.Modules.Library", "Chai.WorkflowManagment.Modules.Library\Chai.WorkflowManagment.Modules.Library.csproj", "{5E32A455-F6A2-4C35-BF6D-50141BDB0D2E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -105,6 +107,10 @@ Global
 		{01E5590D-C115-4AFD-802B-05D46F0FE13B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01E5590D-C115-4AFD-802B-05D46F0FE13B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{01E5590D-C115-4AFD-802B-05D46F0FE13B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E32A455-F6A2-4C35-BF6D-50141BDB0D2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E32A455-F6A2-4C35-BF6D-50141BDB0D2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E32A455-F6A2-4C35-BF6D-50141BDB0D2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E32A455-F6A2-4C35-BF6D-50141BDB0D2E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -117,6 +123,7 @@ Global
 		{6E8E1E43-0C9B-4B03-BB95-BE86D1853CEA} = {2323152C-FB9C-41D2-AC57-8BABE27D9ED1}
 		{88B5EB9E-0FB5-4A23-99BD-F2B3C590F92D} = {2323152C-FB9C-41D2-AC57-8BABE27D9ED1}
 		{01E5590D-C115-4AFD-802B-05D46F0FE13B} = {2323152C-FB9C-41D2-AC57-8BABE27D9ED1}
+		{5E32A455-F6A2-4C35-BF6D-50141BDB0D2E} = {2323152C-FB9C-41D2-AC57-8BABE27D9ED1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1527D7D2-C694-48C4-99E9-561E34F55342}
