@@ -28,6 +28,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 this._presenter.OnViewInitialized();
                 XmlConfigurator.Configure();
                 PopProgressStatus();
+                PopPayee();
                 BindSearchCostSharingRequestGrid();
             }
             this._presenter.OnViewLoaded();
@@ -158,9 +159,19 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             ddlSrchProgressStatus.Items.Add(new ListItem("Retired", "Retired"));
 
         }
+        private void PopPayee()
+        {
+            ddlSrchPayee.Items.Clear();
+            ListItem lst = new ListItem();
+            lst.Text = " Select Payee ";
+            lst.Value = "";
+            ddlSrchPayee.Items.Add(lst);
+            ddlSrchPayee.DataSource = _presenter.GetSuppliers();
+            ddlSrchPayee.DataBind();
+        }
         private void BindSearchCostSharingRequestGrid()
         {
-            grvCostSharingRequestList.DataSource = _presenter.ListCostSharingRequests(txtSrchRequestNo.Text, txtSrchRequestDate.Text, ddlSrchProgressStatus.SelectedValue);
+            grvCostSharingRequestList.DataSource = _presenter.ListCostSharingRequests(txtSrchRequestNo.Text, txtSrchRequestDate.Text, ddlSrchProgressStatus.SelectedValue, ddlSrchPayee.SelectedValue);
             grvCostSharingRequestList.DataBind();
         }
         private void BindCostSharingRequestStatus()

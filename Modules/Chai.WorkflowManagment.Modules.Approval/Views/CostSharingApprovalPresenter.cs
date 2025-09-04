@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Practices.ObjectBuilder;
-using Microsoft.Practices.CompositeWeb;
+﻿using Chai.WorkflowManagment.CoreDomain.Requests;
 using Chai.WorkflowManagment.CoreDomain.Setting;
-using Chai.WorkflowManagment.Shared;
-using Chai.WorkflowManagment.CoreDomain.Requests;
-using Chai.WorkflowManagment.Modules.Admin;
 using Chai.WorkflowManagment.CoreDomain.Users;
-using Chai.WorkflowManagment.Modules.Setting;
+using Chai.WorkflowManagment.Modules.Admin;
 using Chai.WorkflowManagment.Modules.Request;
+using Chai.WorkflowManagment.Modules.Setting;
+using Microsoft.Practices.CompositeWeb;
+using Microsoft.Practices.ObjectBuilder;
+using System.Collections.Generic;
 
 namespace Chai.WorkflowManagment.Modules.Approval.Views
 {
@@ -81,9 +78,9 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             return _requestController.GetCostSharingRequest(reqId);
         }
-        public IList<CostSharingRequest> ListCostSharingRequests(string RequestNo, string RequestDate, string ProgressStatus)
+        public IList<CostSharingRequest> ListCostSharingRequests(string RequestNo, string RequestDate, string ProgressStatus, string Payee)
         {
-            return _controller.ListCostSharingRequests(RequestNo, RequestDate, ProgressStatus);
+            return _controller.ListCostSharingRequests(RequestNo, RequestDate, ProgressStatus, Payee);
         }
         public CSRAttachment GetAttachment(int attachmentId)
         {
@@ -96,6 +93,10 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         public IList<Account> GetAccounts()
         {
             return _settingController.GetAccounts();
+        }
+        public IList<Supplier> GetSuppliers()
+        {
+            return _settingController.GetSuppliers();
         }
         public AppUser CurrentUser()
         {
@@ -148,11 +149,11 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         public int GetAssignedUserbycurrentuser()
         {
             return _controller.GetAssignedUserbycurrentuser();
-        }       
+        }
         public void Commit()
         {
             _controller.Commit();
-        }        
+        }
     }
 }
 

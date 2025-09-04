@@ -109,22 +109,45 @@ namespace Chai.WorkflowManagment.Modules.Approval
         }
         #endregion
         #region Cost Sharing Approval
-        public IList<CostSharingRequest> ListCostSharingRequests(string RequestNo, string RequestDate, string ProgressStatus)
+        public IList<CostSharingRequest> ListCostSharingRequests(string RequestNo, string RequestDate, string ProgressStatus, string Payee)
         {
             string filterExpression = "";
             if (ProgressStatus == "InProgress")
             {
-                filterExpression = " SELECT * FROM CostSharingRequests INNER JOIN AppUsers ON (AppUsers.Id = CostSharingRequests.CurrentApprover) OR (AppUsers.EmployeePosition_Id = CostSharingRequests.CurrentApproverPosition AND AppUsers.Id = '" + CurrentUser().Id + "') Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where 1 = Case when '" + RequestNo + "' = '' Then 1 When CostSharingRequests.VoucherNo = '" + RequestNo + "'  Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When CostSharingRequests.RequestDate = '" + RequestDate + "'  Then 1 END AND CostSharingRequests.ProgressStatus='" + ProgressStatus + "' " +
-                                       " AND  ((CostSharingRequests.CurrentApprover = '" + CurrentUser().Id + "') or (CostSharingRequests.CurrentApproverPosition = '" + CurrentUser().EmployeePosition.Id + "') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) order by CostSharingRequests.Id DESC ";
+                filterExpression = " SELECT * FROM CostSharingRequests " +
+                                   " INNER JOIN AppUsers ON (AppUsers.Id = CostSharingRequests.CurrentApprover) OR (AppUsers.EmployeePosition_Id = CostSharingRequests.CurrentApproverPosition AND AppUsers.Id = '" + CurrentUser().Id + "') " +
+                                   " LEFT JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 " +
+                                   " WHERE 1 = CASE WHEN '" + RequestNo + "' = '' THEN 1 WHEN CostSharingRequests.VoucherNo = '" + RequestNo + "' THEN 1 END " +
+                                   " AND 1 = CASE WHEN '" + RequestDate + "' = '' THEN 1 WHEN CostSharingRequests.RequestDate = '" + RequestDate + "' THEN 1 END " +
+                                   " AND 1 = CASE WHEN '" + Payee + "' = '' THEN 1 WHEN CostSharingRequests.Payee = '" + Payee + "' THEN 1 END " +
+                                   " AND CostSharingRequests.ProgressStatus='" + ProgressStatus + "' " +
+                                   " AND ((CostSharingRequests.CurrentApprover = '" + CurrentUser().Id + "') OR (CostSharingRequests.CurrentApproverPosition = '" + CurrentUser().EmployeePosition.Id + "') OR (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) " +
+                                   " ORDER BY CostSharingRequests.Id DESC ";
             }
             else if (ProgressStatus == "Not Retired" || ProgressStatus == "Retired")
-
-                filterExpression = " SELECT * FROM CostSharingRequests INNER JOIN AppUsers ON (AppUsers.Id = CostSharingRequests.CurrentApprover) OR (AppUsers.EmployeePosition_Id = CostSharingRequests.CurrentApproverPosition AND AppUsers.Id = '" + CurrentUser().Id + "') Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where 1 = Case when '" + RequestNo + "' = '' Then 1 When CostSharingRequests.VoucherNo = '" + RequestNo + "'  Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When CostSharingRequests.RequestDate = '" + RequestDate + "'  Then 1 END AND CostSharingRequests.ProgressStatus='Completed' AND CostSharingRequests.PaymentReimbursementStatus = '" + ProgressStatus + "'" +
-                                       " AND  (CostSharingRequests.CurrentApprover = '" + CurrentUser().Id + "') or (CostSharingRequests.CurrentApproverPosition = '" + CurrentUser().EmployeePosition.Id + "') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "') order by CostSharingRequests.Id DESC ";
+            {
+                filterExpression = " SELECT * FROM CostSharingRequests " +
+                                   " INNER JOIN AppUsers ON (AppUsers.Id = CostSharingRequests.CurrentApprover) OR (AppUsers.EmployeePosition_Id = CostSharingRequests.CurrentApproverPosition AND AppUsers.Id = '" + CurrentUser().Id + "') " +
+                                   " LEFT JOIN AssignJobs ON AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 " +
+                                   " WHERE 1 = Case when '" + RequestNo + "' = '' THEN 1 WHEN CostSharingRequests.VoucherNo = '" + RequestNo + "' THEN 1 END " +
+                                   " AND 1 = CASE WHEN '" + RequestDate + "' = '' Then 1 When CostSharingRequests.RequestDate = '" + RequestDate + "'  Then 1 END " +
+                                   " AND 1 = CASE WHEN '" + Payee + "' = '' THEN 1 WHEN CostSharingRequests.Payee = '" + Payee + "' THEN 1 END " +
+                                   " AND CostSharingRequests.ProgressStatus = 'Completed' AND CostSharingRequests.PaymentReimbursementStatus = '" + ProgressStatus + "'" +
+                                   " AND (CostSharingRequests.CurrentApprover = '" + CurrentUser().Id + "') OR (CostSharingRequests.CurrentApproverPosition = '" + CurrentUser().EmployeePosition.Id + "') OR (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "') " +
+                                   " ORDER BY CostSharingRequests.Id DESC ";
+            }
             else if (ProgressStatus == "Completed")
             {
-                filterExpression = " SELECT * FROM CostSharingRequests INNER JOIN AppUsers ON (AppUsers.Id = CostSharingRequests.CurrentApprover) OR (AppUsers.EmployeePosition_Id = CostSharingRequests.CurrentApproverPosition AND AppUsers.Id = '" + CurrentUser().Id + "') INNER JOIN CostSharingRequestStatuses on CostSharingRequestStatuses.CostSharingRequest_Id = CostSharingRequests.Id  Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where 1 = Case when '" + RequestNo + "' = '' Then 1 When CostSharingRequests.VoucherNo = '" + RequestNo + "'  Then 1 END And  1 = Case when '" + RequestDate + "' = '' Then 1 When CostSharingRequests.RequestDate = '" + RequestDate + "'  Then 1 END AND CostSharingRequests.ProgressStatus='" + ProgressStatus + "' " +
-                                           " AND  (CostSharingRequestStatuses.ApprovalStatus Is not null  AND (CostSharingRequestStatuses.Approver = '" + CurrentUser().Id + "') OR (CostSharingRequestStatuses.ApproverPosition = '" + CurrentUser().EmployeePosition.Id + "') or (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) order by CostSharingRequests.Id DESC";
+                filterExpression = " SELECT * FROM CostSharingRequests " +
+                                   " INNER JOIN AppUsers ON (AppUsers.Id = CostSharingRequests.CurrentApprover) OR (AppUsers.EmployeePosition_Id = CostSharingRequests.CurrentApproverPosition AND AppUsers.Id = '" + CurrentUser().Id + "') " +
+                                   " INNER JOIN CostSharingRequestStatuses ON CostSharingRequestStatuses.CostSharingRequest_Id = CostSharingRequests.Id " +
+                                   " LEFT JOIN AssignJobs ON AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 " +
+                                   " WHERE 1 = Case when '" + RequestNo + "' = '' Then 1 When CostSharingRequests.VoucherNo = '" + RequestNo + "'  THEN 1 END " +
+                                   " AND 1 = Case when '" + RequestDate + "' = '' Then 1 When CostSharingRequests.RequestDate = '" + RequestDate + "' THEN 1 END " +
+                                   " AND 1 = CASE WHEN '" + Payee + "' = '' THEN 1 WHEN CostSharingRequests.Payee = '" + Payee + "' THEN 1 END " +
+                                   " AND CostSharingRequests.ProgressStatus = '" + ProgressStatus + "' " +
+                                   " AND (CostSharingRequestStatuses.ApprovalStatus IS NOT NULL AND (CostSharingRequestStatuses.Approver = '" + CurrentUser().Id + "') OR (CostSharingRequestStatuses.ApproverPosition = '" + CurrentUser().EmployeePosition.Id + "') OR (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "')) " +
+                                   " ORDER BY CostSharingRequests.Id DESC";
             }
             return _workspace.SqlQuery<CostSharingRequest>(filterExpression).ToList();
         }
