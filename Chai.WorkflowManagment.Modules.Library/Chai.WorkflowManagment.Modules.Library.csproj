@@ -66,6 +66,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -77,6 +78,8 @@
     <Compile Include="LibraryController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequestModuleInitializer.cs" />
+    <Compile Include="Views\BookListPresenter.cs" />
+    <Compile Include="Views\IBookListView.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Chai.WorkflowManagment.CoreDomain\Chai.WorkflowManagment.CoreDomain.csproj">
@@ -92,5 +95,6 @@
       <Name>Chai.WorkflowManagment.Shared</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

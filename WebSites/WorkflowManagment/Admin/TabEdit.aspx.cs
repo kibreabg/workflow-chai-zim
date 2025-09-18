@@ -1,10 +1,10 @@
-﻿using System;
-using System.Web.UI.WebControls;
-using Microsoft.Practices.ObjectBuilder;
-using Chai.WorkflowManagment.Enums;
-using Chai.WorkflowManagment.CoreDomain.Admins;
+﻿using Chai.WorkflowManagment.CoreDomain.Admins;
 using Chai.WorkflowManagment.CoreDomain.Users;
+using Chai.WorkflowManagment.Enums;
 using Chai.WorkflowManagment.Shared;
+using Microsoft.Practices.ObjectBuilder;
+using System;
+using System.Web.UI.WebControls;
 
 namespace Chai.WorkflowManagment.Modules.Admin.Views
 {
@@ -20,7 +20,7 @@ namespace Chai.WorkflowManagment.Modules.Admin.Views
                 this._presenter.OnViewInitialized();
                 PopNodesToDdl();
                 btnDelete.Attributes.Add("onclick", "return confirm(\"Are you sure?\")");
-                
+
             }
             this._presenter.OnViewLoaded();
         }
@@ -91,7 +91,7 @@ namespace Chai.WorkflowManagment.Modules.Admin.Views
         public void BindPopupMenus()
         {
             lsbNodes.Items.Clear();
-            foreach (PopupMenu  tn in _presenter.CurrentTab.PopupMenus)
+            foreach (PopupMenu tn in _presenter.CurrentTab.PopupMenus)
             {
                 lsbNodes.Items.Add(new ListItem(tn.Node.Title, tn.Id.ToString()));
             }
@@ -106,12 +106,12 @@ namespace Chai.WorkflowManagment.Modules.Admin.Views
         {
             try
             {
-                PopupMenu  pm = new PopupMenu();
+                PopupMenu pm = new PopupMenu();
                 pm.Tab = _presenter.CurrentTab;
                 pm.Node = _presenter.GetNode(int.Parse(ddlNodes.SelectedValue));
                 pm.Position = _presenter.CurrentTab.PopupMenus.Count + 1;
                 _presenter.CurrentTab.PopupMenus.Add(pm);
-                                                
+
                 _presenter.SaveOrUpdateTab();
                 PopNodesToDdl();
                 BindPopupMenus();
@@ -123,11 +123,11 @@ namespace Chai.WorkflowManagment.Modules.Admin.Views
             }
 
         }
-       
+
         protected void butRemoveaction_Click(object sender, EventArgs e)
         {
             int id = int.Parse(lsbNodes.SelectedValue);
-            
+
             try
             {
                 PopupMenu pm = _presenter.CurrentTab.GetPopupMenu(id);
@@ -185,12 +185,14 @@ namespace Chai.WorkflowManagment.Modules.Admin.Views
                 CheckBox chkView = (CheckBox)ri.FindControl("chkViewAllowed");
                 if (chkView.Checked)
                 {
-                    if (!tab.Exists(Convert.ToInt32(ViewState[ri.ClientID])))
+                    if (!tab.Exists(Convert.ToInt32(ViewState[ri.UniqueID])))
                     {
-                        TabRole np = new TabRole();
-                        np.Tab = tab;
-                        np.Role = _presenter.GetRole((int)ViewState[ri.ClientID]);
-                        np.ViewAllowed = chkView.Checked;
+                        TabRole np = new TabRole
+                        {
+                            Tab = tab,
+                            Role = _presenter.GetRole((int)ViewState[ri.UniqueID]),
+                            ViewAllowed = chkView.Checked
+                        };
 
                         tab.TabRoles.Add(np);
                     }
@@ -206,8 +208,8 @@ namespace Chai.WorkflowManagment.Modules.Admin.Views
                 CheckBox chkView = (CheckBox)e.Item.FindControl("chkViewAllowed");
                 if (_presenter.CurrentTab != null)
                     chkView.Checked = this._presenter.CurrentTab.ViewAllowed(role);
-                
-                this.ViewState[e.Item.ClientID] = role.Id;
+
+                this.ViewState[e.Item.UniqueID] = role.Id;
             }
 
         }
@@ -216,16 +218,16 @@ namespace Chai.WorkflowManagment.Modules.Admin.Views
         {
             //try
             //{
-                int id = _presenter.SaveOrUpdateTab();
+            int id = _presenter.SaveOrUpdateTab();
 
-                if (int.Parse(GetNodeId) <= 0)
-                {
-                    Master.TransferMessage(new AppMessage("Tab was saved successfully", Chai.WorkflowManagment.Enums.RMessageType.Info));
-                    string url = String.Format("~/Admin/TabEdit.aspx?{0}=0&{1}={2}", AppConstants.TABID, AppConstants.NODEID, id);
-                    _presenter.Navigate(url);
-                }
-                else
-                    Master.ShowMessage(new AppMessage("Tab was saved successfully", Chai.WorkflowManagment.Enums.RMessageType.Info));
+            if (int.Parse(GetNodeId) <= 0)
+            {
+                Master.TransferMessage(new AppMessage("Tab was saved successfully", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                string url = String.Format("~/Admin/TabEdit.aspx?{0}=0&{1}={2}", AppConstants.TABID, AppConstants.NODEID, id);
+                _presenter.Navigate(url);
+            }
+            else
+                Master.ShowMessage(new AppMessage("Tab was saved successfully", Chai.WorkflowManagment.Enums.RMessageType.Info));
             //}
             //catch (Exception ex)
             //{
@@ -263,7 +265,7 @@ namespace Chai.WorkflowManagment.Modules.Admin.Views
         {
             get { return Request.QueryString[AppConstants.NODEID]; }
         }
-            
+
         public string GetModuleId
         {
             get { return ddlModule.SelectedValue; }
@@ -294,13 +296,13 @@ namespace Chai.WorkflowManagment.Modules.Admin.Views
                 _presenter.Navigate(url);
             }
         }
-        
+
         protected void ibtDown_Click(object sender, System.Web.UI.ImageClickEventArgs e)
         {
-            if (_presenter.CurrentTab.Id >0)
+            if (_presenter.CurrentTab.Id > 0)
             {
                 string url = SelfUrl();
-                _presenter.MoveDownTab();                
+                _presenter.MoveDownTab();
                 _presenter.Navigate(url);
             }
         }
@@ -309,8 +311,8 @@ namespace Chai.WorkflowManagment.Modules.Admin.Views
         {
             string url = SelfUrl();
 
-            if(e.CommandName =="MoveUp")
-            {                                
+            if (e.CommandName == "MoveUp")
+            {
                 _presenter.MoveUpTaskPan(Convert.ToInt32(e.CommandArgument));
                 _presenter.Navigate(url);
             }
@@ -320,6 +322,6 @@ namespace Chai.WorkflowManagment.Modules.Admin.Views
                 _presenter.Navigate(url);
             }
         }
-}
+    }
 }
 
