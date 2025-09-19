@@ -20,9 +20,17 @@ namespace Chai.WorkflowManagment.Modules.Library.Views
         {
             // TODO: Implement code that will be executed the first time the view loads
         }
-        public IList<Book> ListBooks(string authorId)
+        public IList<Book> ListBooks(string authorId, string genreId, string title)
         {
-            return _libraryController.ListBooks(authorId);
+            return _libraryController.ListBooks(authorId, genreId, title);
+        }
+        public IList<Author> GetAuthors()
+        {
+            return _libraryController.GetAuthors();
+        }
+        public IList<Genre> GetGenres()
+        {
+            return _libraryController.GetGenres();
         }
     }
 

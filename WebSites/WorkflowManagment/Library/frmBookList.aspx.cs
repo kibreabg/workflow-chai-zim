@@ -12,8 +12,9 @@ namespace Chai.WorkflowManagment.Modules.Library.Views
             if (!this.IsPostBack)
             {
                 this._presenter.OnViewInitialized();
-                //BindProgram();
-                GrvBookList.DataSource = _presenter.ListBooks(txtAuthor.Text);
+                BindAuthors();
+                BindGenres();
+                GrvBookList.DataSource = _presenter.ListBooks(ddlSrchAuthors.SelectedValue, ddlSrchGenres.SelectedValue, txtSrchTitle.Text);
                 GrvBookList.DataBind();
 
             }
@@ -43,36 +44,28 @@ namespace Chai.WorkflowManagment.Modules.Library.Views
                 return "{30b6d941-bf37-4b4e-bfb7-00e9d105f99c}";
             }
         }
-        public void BindProgram()
+        public void BindAuthors()
         {
-            //ddlSrchSrchProgram.DataSource = _presenter.GetPrograms();
-            //ddlSrchSrchProgram.DataBind();
+            ddlSrchAuthors.DataSource = _presenter.GetAuthors();
+            ddlSrchAuthors.DataBind();
         }
-        protected void GrvBookList_RowDataBound(object sender, System.Web.UI.WebControls.GridViewRowEventArgs e)
+        public void BindGenres()
         {
-            //if (_presenter.ListBooks(txtSrchEmpNo.Text, txtSrchSrchFullName.Text, int.Parse(ddlSrchSrchProgram.SelectedValue), ddlEmpStatus.SelectedValue) != null)
-            //{
-            //    if (e.Row.RowType == DataControlRowType.DataRow)
-            //    {
-            //        Book emp = e.Row.DataItem as Book;
-            //        e.Row.Cells[2].Text = emp.GetBookProgram();
-            //        e.Row.Cells[3].Text = emp.GetBookPosition();
-            //        e.Row.Cells[4].Text = emp.AppUser.HiredDate.ToString();
-            //        e.Row.Cells[5].Text = emp.AppUser.IsActive == true ? "Active" : "In-Active";
-            //        e.Row.Cells[5].ForeColor = emp.AppUser.IsActive == true ? System.Drawing.Color.LawnGreen : System.Drawing.Color.Red;
-            //    }
-
-            //}
+            ddlSrchGenres.DataSource = _presenter.GetGenres();
+            ddlSrchGenres.DataBind();
+        }
+        protected void GrvBookList_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
         }
         protected void GrvBookList_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             GrvBookList.PageIndex = e.NewPageIndex;
-            GrvBookList.DataSource = _presenter.ListBooks(txtAuthor.Text);
+            GrvBookList.DataSource = _presenter.ListBooks(ddlSrchAuthors.SelectedValue, ddlSrchGenres.SelectedValue, txtSrchTitle.Text);
             GrvBookList.DataBind();
         }
         protected void BtnFind_Click(object sender, EventArgs e)
         {
-            GrvBookList.DataSource = _presenter.ListBooks(txtAuthor.Text);
+            GrvBookList.DataSource = _presenter.ListBooks(ddlSrchAuthors.SelectedValue, ddlSrchGenres.SelectedValue, txtSrchTitle.Text);
             GrvBookList.DataBind();
         }
 

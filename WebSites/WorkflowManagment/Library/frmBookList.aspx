@@ -16,36 +16,28 @@
                     <fieldset>
                         <div class="row">
                             <section class="col col-3">
-                                <asp:Label ID="lblSrchAuthor" runat="server" Text="Author" CssClass="label"></asp:Label>
-                                <label class="input">
-                                    <asp:TextBox ID="txtAuthor" runat="server" Visible="true"></asp:TextBox>
-                                </label>
-                            </section>
-                            <%--<section class="col col-3">
-                                <asp:Label ID="lblSrchFullName" runat="server" Text="Full Name" CssClass="label"></asp:Label>
-                                <label class="input">
-                                    <asp:TextBox ID="txtSrchSrchFullName" runat="server" Visible="true"></asp:TextBox>
-                                </label>
-                            </section>
-                            <section class="col col-3">
-                                <asp:Label ID="lblSrchProgram" runat="server" Text="Project" CssClass="label"></asp:Label>
+                                <asp:Label ID="lblSrchAuthors" runat="server" Text="Author" CssClass="label"></asp:Label>
                                 <label class="select">
-                                    <asp:DropDownList ID="ddlSrchSrchProgram" runat="server" AppendDataBoundItems="True" DataTextField="ProgramName" DataValueField="Id">
-                                        <asp:ListItem Value="0">Select Program</asp:ListItem>
+                                    <asp:DropDownList ID="ddlSrchAuthors" runat="server" AppendDataBoundItems="True" DataTextField="Name" DataValueField="Id">
+                                        <asp:ListItem Value="">Select Author</asp:ListItem>
                                     </asp:DropDownList><i></i>
                                 </label>
                             </section>
                             <section class="col col-3">
-                                <asp:Label ID="lblEmpStatus" runat="server" Text="Book Status" CssClass="label"></asp:Label>
+                                <asp:Label ID="lblSrchGenres" runat="server" Text="Genre" CssClass="label"></asp:Label>
                                 <label class="select">
-                                    <asp:DropDownList ID="ddlEmpStatus" runat="server" AppendDataBoundItems="True">
-                                        <asp:ListItem Value="True">Active</asp:ListItem>
-                                        <asp:ListItem Value="False">In Active</asp:ListItem>
+                                    <asp:DropDownList ID="ddlSrchGenres" runat="server" AppendDataBoundItems="True" DataTextField="Name" DataValueField="Id">
+                                        <asp:ListItem Value="">Select Genre</asp:ListItem>
                                     </asp:DropDownList><i></i>
                                 </label>
-                            </section>--%>
+                            </section>
+                            <section class="col col-3">
+                                <asp:Label ID="lblSrchTitle" runat="server" Text="Title" CssClass="label"></asp:Label>
+                                <label class="select">
+                                    <asp:textbox ID="txtSrchTitle" runat="server" CssClass="form-control" placeholder="Enter Keyword"></asp:textbox>
+                                </label>
+                            </section>
                         </div>
-
                     </fieldset>
                     <footer>
                         <asp:Button ID="btnFind" runat="server" Text="Find" CssClass="btn btn-primary" OnClick="BtnFind_Click"></asp:Button>
@@ -62,12 +54,12 @@
             Style="text-align: left" AllowPaging="True" OnPageIndexChanging="GrvBookList_PageIndexChanging"
             Visible="True" PageSize="20">
             <Columns>
-                <asp:BoundField DataField="FirstName" HeaderText="First Name" />
-                <asp:BoundField DataField="LastName" HeaderText="Last Name" />
-                <asp:BoundField HeaderText="Program" />
-                <asp:BoundField HeaderText="Position" />
-                <asp:BoundField HeaderText="Hired Date" />
-                <asp:BoundField HeaderText="Status" />
+                <asp:BoundField DataField="Title" HeaderText="Title" />
+                <asp:BoundField DataField="ISBN" HeaderText="ISBN" />
+                <asp:BoundField DataField="PublishedYear" HeaderText="Published Year" />
+                <asp:BoundField DataField="CopiesAvailable" HeaderText="Copies Available" />
+                <asp:BoundField DataField="Author.Name" HeaderText="Author" />
+                <asp:BoundField DataField="Genre.Name" HeaderText="Genre" />
             </Columns>
             <PagerStyle CssClass="paginate_button active" HorizontalAlign="Center" />
         </asp:GridView>
