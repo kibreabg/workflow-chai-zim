@@ -4,9 +4,9 @@ using System.Web.UI.WebControls;
 
 namespace Chai.WorkflowManagment.Modules.Library.Views
 {
-    public partial class BookList : POCBasePage, IBookListView
+    public partial class BookList : POCBasePage, IBooksView
     {
-        private BookListPresenter _presenter;
+        private BooksPresenter _presenter;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!this.IsPostBack)
@@ -22,7 +22,7 @@ namespace Chai.WorkflowManagment.Modules.Library.Views
 
         }
         [CreateNew]
-        public BookListPresenter Presenter
+        public BooksPresenter Presenter
         {
             get
             {
@@ -46,12 +46,12 @@ namespace Chai.WorkflowManagment.Modules.Library.Views
         }
         public void BindAuthors()
         {
-            ddlSrchAuthors.DataSource = _presenter.GetAuthors();
+            ddlSrchAuthors.DataSource = BooksPresenter.GetAuthors();
             ddlSrchAuthors.DataBind();
         }
         public void BindGenres()
         {
-            ddlSrchGenres.DataSource = _presenter.GetGenres();
+            ddlSrchGenres.DataSource = BooksPresenter.GetGenres();
             ddlSrchGenres.DataBind();
         }
         protected void GrvBookList_RowDataBound(object sender, GridViewRowEventArgs e)

@@ -5,10 +5,10 @@ using System.Collections.Generic;
 
 namespace Chai.WorkflowManagment.Modules.Library.Views
 {
-    public class BookListPresenter : Presenter<IBookListView>
+    public class BooksPresenter : Presenter<IBooksView>
     {
         private readonly LibraryController _libraryController;
-        public BookListPresenter([CreateNew] LibraryController libraryController)
+        public BooksPresenter([CreateNew] LibraryController libraryController)
         {
             _libraryController = libraryController;
         }
@@ -24,13 +24,13 @@ namespace Chai.WorkflowManagment.Modules.Library.Views
         {
             return _libraryController.ListBooks(authorId, genreId, title);
         }
-        public IList<Author> GetAuthors()
+        public static IList<Author> GetAuthors()
         {
-            return _libraryController.GetAuthors();
+            return LibraryController.GetAuthors();
         }
-        public IList<Genre> GetGenres()
+        public static IList<Genre> GetGenres()
         {
-            return _libraryController.GetGenres();
+            return LibraryController.GetGenres();
         }
     }
 

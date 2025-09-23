@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="frmBookList.aspx.cs" Inherits="Chai.WorkflowManagment.Modules.Library.Views.BookList"
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Books.aspx.cs" Inherits="Chai.WorkflowManagment.Modules.Library.Views.BookList"
     Title="Default" MasterPageFile="~/Shared/ModuleMaster.master" %>
 
 <%@ MasterType TypeName="Chai.WorkflowManagment.Modules.Shell.BaseMaster" %>

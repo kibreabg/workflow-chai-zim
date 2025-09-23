@@ -6,6 +6,7 @@ using Chai.WorkflowManagment.Shared.Navigation;
 using Microsoft.Practices.CompositeWeb;
 using Microsoft.Practices.CompositeWeb.Interfaces;
 using Microsoft.Practices.ObjectBuilder;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,7 +14,7 @@ namespace Chai.WorkflowManagment.Modules.Library
 {
     public class LibraryController : ControllerBase
     {
-        private IWorkspace _workspace;
+        private readonly IWorkspace _workspace;
 
         [InjectionConstructor]
         public LibraryController([ServiceDependency] IHttpContextLocatorService httpContextLocatorService, [ServiceDependency] INavigationService navigationService)
@@ -37,7 +38,7 @@ namespace Chai.WorkflowManagment.Modules.Library
         #endregion
 
         #region Book
-        public IList<Book> GetBooks()
+        public static IList<Book> GetBooks()
         {
             return WorkspaceFactory.CreateReadOnly().Query<Book>(null).OrderBy(x => x.Id).ToList();
         }
@@ -58,10 +59,23 @@ namespace Chai.WorkflowManagment.Modules.Library
                                       "ORDER BY Books.Id Desc";
             return _workspace.SqlQuery<Book>(filterExpression).ToList();
         }
+        public void SaveOrUpdateBook(Book book)
+        {
+            if (book.Id <= 0)
+            {
+                using (var wr = WorkspaceFactory.CreateReadOnly())
+                {
+                    if (wr.Single<Book>(x => x.ISBN == book.ISBN) != null)
+                        throw new InvalidOperationException("A book with the same ISBN already exists.");
+                }
+            }
+
+            SaveOrUpdateEntity<Book>(book);
+        }
         #endregion
 
         #region Author
-        public IList<Author> GetAuthors()
+        public static IList<Author> GetAuthors()
         {
             return WorkspaceFactory.CreateReadOnly().Query<Author>(null).OrderBy(x => x.Name).ToList();
         }
@@ -72,13 +86,33 @@ namespace Chai.WorkflowManagment.Modules.Library
         #endregion
 
         #region Genre
-        public IList<Genre> GetGenres()
+        public static IList<Genre> GetGenres()
         {
             return WorkspaceFactory.CreateReadOnly().Query<Genre>(null).OrderBy(x => x.Name).ToList();
         }
         public Genre GetGenre(int id)
         {
             return _workspace.Single<Genre>(x => x.Id == id);
+        }
+        #endregion
+
+        #region Entity Manipulation
+        public void SaveOrUpdateEntity<T>(T item) where T : class
+        {
+            IEntity entity = (IEntity)item;
+            if (entity.Id == 0)
+                _workspace.Add<T>(item);
+            else
+                _workspace.Update<T>(item);
+
+            _workspace.CommitChanges();
+            _workspace.Refresh(item);
+        }
+        public void DeleteEntity<T>(T item) where T : class
+        {
+            _workspace.Delete<T>(item);
+            _workspace.CommitChanges();
+            _workspace.Refresh(item);
         }
         #endregion
     }

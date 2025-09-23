@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Chai.WorkflowManagment.Shared
+﻿namespace Chai.WorkflowManagment.Shared
 {
 
     public static class AppConstants
     {
-        public const string TABID =  "tabid";
+        public const string TABID = "tabid";
         public const string NODEID = "nodeid";
         public const string USERID = "userid";
         public const string ROLEID = "roleid";
@@ -22,6 +19,8 @@ namespace Chai.WorkflowManagment.Shared
 
         public const string PRODUCTID = "proid";
         public const string TESTID = "testid";
+
+        public const string BOOKID = "bookid";
         public static string DeleteConfirmation()
         {
             return "javascript:return confirm('Are you sure you want to delete it?');";
