@@ -1,7 +1,6 @@
 ﻿using Chai.WorkflowManagment.CoreDomain.Library;
 using Chai.WorkflowManagment.Enums;
 using Chai.WorkflowManagment.Shared;
-using log4net;
 using log4net.Config;
 using Microsoft.Practices.ObjectBuilder;
 using System;
@@ -12,7 +11,6 @@ namespace Chai.WorkflowManagment.Modules.Library.Views
     public partial class BookEdit : POCBasePage, IBookEditView
     {
         private BookEditPresenter _presenter;
-        private static readonly ILog Log = LogManager.GetLogger("AuditTrailLog");
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!this.IsPostBack)
@@ -97,17 +95,17 @@ namespace Chai.WorkflowManagment.Modules.Library.Views
 
         public void BindAuthors()
         {
-            DdlAuthor.Items.Insert(0, new ListItem("---Select Author---", "0"));
-            DdlAuthor.SelectedIndex = 0;
             DdlAuthor.DataSource = BookEditPresenter.GetAuthors();
             DdlAuthor.DataBind();
+            DdlAuthor.Items.Insert(0, new ListItem("---Select Author---", "0"));
+            DdlAuthor.SelectedIndex = 0;
         }
         public void BindGenres()
         {
-            DdlGenre.Items.Insert(0, new ListItem("---Select Genre---", "0"));
-            DdlGenre.SelectedIndex = 0;
             DdlGenre.DataSource = BookEditPresenter.GetGenres();
             DdlGenre.DataBind();
+            DdlGenre.Items.Insert(0, new ListItem("---Select Genre---", "0"));
+            DdlGenre.SelectedIndex = 0;
         }
         private void ClearFormFields()
         {
@@ -171,6 +169,10 @@ namespace Chai.WorkflowManagment.Modules.Library.Views
         {
             ClearFormFields();
             BtnDelete.Visible = false;
+        }
+        protected void BtnSearch_Click(object sender, EventArgs e)
+        {
+            _presenter.RedirectToBooks();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Practices.ObjectBuilder;
+﻿using Chai.WorkflowManagment.Shared;
+using Microsoft.Practices.ObjectBuilder;
 using System;
 using System.Web.UI.WebControls;
 
@@ -69,6 +70,10 @@ namespace Chai.WorkflowManagment.Modules.Library.Views
             GrvBookList.DataBind();
         }
 
+        protected void GrvBookList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _presenter.RedirectPage(string.Format("BookEdit.aspx?BookId={0}&{1}=0", GrvBookList.SelectedDataKey.Value, AppConstants.TABID));
+        }
     }
 }
 

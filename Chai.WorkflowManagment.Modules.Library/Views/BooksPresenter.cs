@@ -32,6 +32,10 @@ namespace Chai.WorkflowManagment.Modules.Library.Views
         {
             return LibraryController.GetGenres();
         }
+        public void RedirectPage(string url)
+        {
+            _libraryController.Navigate(url);
+        }
     }
 
 }

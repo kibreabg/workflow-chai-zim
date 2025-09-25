@@ -20,7 +20,11 @@ namespace Chai.WorkflowManagment.Modules.Library.Views
 
         public override void OnViewLoaded()
         {
-
+            if (View.GetBookId > 0)
+            {
+                _libraryController.CurrentObject = _libraryController.GetBook(View.GetBookId);
+            }
+            CurrentBook = _libraryController.CurrentObject as Book;
         }
 
         public override void OnViewInitialized()
@@ -41,6 +45,10 @@ namespace Chai.WorkflowManagment.Modules.Library.Views
                         _book = new Book();
                 }
                 return _book;
+            }
+            set
+            {
+                _book = value;
             }
         }
         public AppUser CurrentUser()

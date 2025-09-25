@@ -46,12 +46,12 @@
                             <section class="col col-6">
                                 <label class="label">Author</label>
                                 <label class="select">
-                                    <asp:DropDownList ID="DdlAuthor" runat="server" DataValueField="Id" 
+                                    <asp:DropDownList ID="DdlAuthor" runat="server" DataValueField="Id"
                                         DataTextField="Name">
                                     </asp:DropDownList><i></i>
                                     <asp:RequiredFieldValidator
                                         ID="RfvDdlAuthor" runat="server" ErrorMessage="Author is required" Display="Dynamic"
-                                        CssClass="validator" ValidationGroup="saveMain" InitialValue="0"
+                                        CssClass="validator" ValidationGroup="save" InitialValue="0"
                                         SetFocusOnError="true" ControlToValidate="DdlAuthor"></asp:RequiredFieldValidator>
                                 </label>
                             </section>
@@ -62,7 +62,7 @@
                                     </asp:DropDownList><i></i>
                                     <asp:RequiredFieldValidator
                                         ID="RfvGrant" runat="server" ErrorMessage="Genre is required" Display="Dynamic"
-                                        CssClass="validator" ValidationGroup="saveMain" InitialValue="0"
+                                        CssClass="validator" ValidationGroup="save" InitialValue="0"
                                         SetFocusOnError="true" ControlToValidate="DdlGenre"></asp:RequiredFieldValidator>
                                 </label>
                             </section>
@@ -73,14 +73,18 @@
                                 <label class="input">
                                     <i class="icon-append fa fa-clock-o"></i>
                                     <asp:TextBox ID="TxtPublishedYear" CssClass="form-control timepicker-orient-top" Text="" runat="server"></asp:TextBox>
+                                    <cc1:FilteredTextBoxExtender runat="server" Enabled="True" TargetControlID="TxtPublishedYear"
+                                        ID="FtbeTxtPublishedYear" FilterType="Numbers">
+                                    </cc1:FilteredTextBoxExtender>
                                 </label>
                             </section>
                             <section class="col col-6">
                                 <label class="label">Copies Available</label>
                                 <label class="input">
                                     <asp:TextBox ID="TxtCopiesAvailable" runat="server"></asp:TextBox>
-                                    <cc1:FilteredTextBoxExtender runat="server" Enabled="True" TargetControlID="TxtCopiesAvailable" 
-                                        ID="TxtCopiesAvailable_FilteredTextBoxExtender" FilterType="Numbers"></cc1:FilteredTextBoxExtender>
+                                    <cc1:FilteredTextBoxExtender runat="server" Enabled="True" TargetControlID="TxtCopiesAvailable"
+                                        ID="FtbeTxtCopiesAvailable" FilterType="Numbers">
+                                    </cc1:FilteredTextBoxExtender>
                                 </label>
                             </section>
                         </div>
@@ -89,13 +93,14 @@
                     <footer>
                         <asp:Button ID="BtnSave" runat="server" Text="Save" CausesValidation="true" ValidationGroup="save"
                             OnClick="BtnSave_Click" CssClass="btn btn-primary"></asp:Button>
-                        <asp:Button ID="BtnDelete" runat="server" CausesValidation="False" 
+                        <asp:Button ID="BtnDelete" runat="server" CausesValidation="False"
                             OnClick="BtnDelete_Click" CssClass="btn btn-primary" Text="Delete"></asp:Button>
 
                         <cc1:ConfirmButtonExtender ID="BtnDelete_ConfirmButtonExtender" runat="server"
                             ConfirmText="Are you sure you want to delete this record?" Enabled="True" TargetControlID="BtnDelete">
                         </cc1:ConfirmButtonExtender>
                         <asp:Button ID="BtnNew" runat="server" CssClass="btn btn-primary" OnClick="BtnNew_Click" Text="New" />
+                        <asp:Button ID="BtnSearch" runat="server" CssClass="btn btn-primary" OnClick="BtnSearch_Click" Text="Search" />
                     </footer>
                 </div>
             </div>

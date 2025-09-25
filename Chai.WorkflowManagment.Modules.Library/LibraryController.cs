@@ -112,7 +112,6 @@ namespace Chai.WorkflowManagment.Modules.Library
         {
             _workspace.Delete<T>(item);
             _workspace.CommitChanges();
-            _workspace.Refresh(item);
         }
         #endregion
     }

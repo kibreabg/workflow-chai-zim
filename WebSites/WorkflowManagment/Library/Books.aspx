@@ -52,7 +52,7 @@
             CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active"
             AlternatingRowStyle-CssClass="" OnRowDataBound="GrvBookList_RowDataBound" Width="100%"
             Style="text-align: left" AllowPaging="True" OnPageIndexChanging="GrvBookList_PageIndexChanging"
-            Visible="True" PageSize="20">
+            OnSelectedIndexChanged="GrvBookList_SelectedIndexChanged" Visible="True" PageSize="20">
             <Columns>
                 <asp:BoundField DataField="Title" HeaderText="Title" />
                 <asp:BoundField DataField="ISBN" HeaderText="ISBN" />
@@ -60,6 +60,7 @@
                 <asp:BoundField DataField="CopiesAvailable" HeaderText="Copies Available" />
                 <asp:BoundField DataField="Author.Name" HeaderText="Author" />
                 <asp:BoundField DataField="Genre.Name" HeaderText="Genre" />
+                <asp:CommandField ShowSelectButton="True" />
             </Columns>
             <PagerStyle CssClass="paginate_button active" HorizontalAlign="Center" />
         </asp:GridView>
