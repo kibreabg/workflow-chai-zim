@@ -78,7 +78,13 @@
     <Compile Include="LibraryController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequestModuleInitializer.cs" />
+    <Compile Include="Views\BookLoanPresenter.cs" />
+    <Compile Include="Views\GenresPresenter.cs" />
+    <Compile Include="Views\AuthorsPresenter.cs" />
     <Compile Include="Views\BooksPresenter.cs" />
+    <Compile Include="Views\IBookLoanView.cs" />
+    <Compile Include="Views\IGenresView.cs" />
+    <Compile Include="Views\IAuthorsView.cs" />
     <Compile Include="Views\IBooksView.cs" />
     <Compile Include="Views\IBookEditView.cs" />
     <Compile Include="Views\BookEditPresenter.cs" />

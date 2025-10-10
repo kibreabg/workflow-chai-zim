@@ -75,6 +75,14 @@ namespace Chai.WorkflowManagment.Modules.Library
         #endregion
 
         #region Author
+        public IList<Author> ListAuthors(string name)
+        {
+            string filterExpression = "SELECT * FROM Authors " +
+                                      "WHERE 1 = CASE WHEN '" + name + "' = '' THEN 1 WHEN Authors.Name LIKE '%" + name + "%' THEN 1 END " +
+                                      "AND Authors.Status = 'Active' " +
+                                      "ORDER BY Authors.Id Desc";
+            return _workspace.SqlQuery<Author>(filterExpression).ToList();
+        }
         public static IList<Author> GetAuthors()
         {
             return WorkspaceFactory.CreateReadOnly().Query<Author>(null).OrderBy(x => x.Name).ToList();
@@ -86,6 +94,14 @@ namespace Chai.WorkflowManagment.Modules.Library
         #endregion
 
         #region Genre
+        public IList<Genre> ListGenres(string name)
+        {
+            string filterExpression = "SELECT * FROM Genres " +
+                                      "WHERE 1 = CASE WHEN '" + name + "' = '' THEN 1 WHEN Genres.Name LIKE '%" + name + "%' THEN 1 END " +
+                                      "AND Genres.Status = 'Active' " +
+                                      "ORDER BY Genres.Id Desc";
+            return _workspace.SqlQuery<Genre>(filterExpression).ToList();
+        }
         public static IList<Genre> GetGenres()
         {
             return WorkspaceFactory.CreateReadOnly().Query<Genre>(null).OrderBy(x => x.Name).ToList();

@@ -74,6 +74,24 @@ namespace Chai.WorkflowManagment.Modules.Library.Views
         {
             _presenter.RedirectPage(string.Format("BookEdit.aspx?BookId={0}&{1}=0", GrvBookList.SelectedDataKey.Value, AppConstants.TABID));
         }
+
+        protected void GrvBookList_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            int bookId = Convert.ToInt32(e.CommandArgument);
+
+            if (e.CommandName == "Loan")
+            {
+                _presenter.RedirectPage(string.Format("BookLoan.aspx?BookId={0}&{1}=0", bookId, AppConstants.TABID));
+            }
+            else if (e.CommandName == "Reserve")
+            {
+                _presenter.RedirectPage(string.Format("BookReserve.aspx?BookId={0}&{1}=0", bookId, AppConstants.TABID));
+            }
+            else if (e.CommandName == "Review")
+            {
+                _presenter.RedirectPage(string.Format("BookReview.aspx?BookId={0}&{1}=0", bookId, AppConstants.TABID));
+            }
+        }
     }
 }
 

@@ -1,4 +1,5 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Books.aspx.cs" Inherits="Chai.WorkflowManagment.Modules.Library.Views.BookList"
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Books.aspx.cs" 
+    Inherits="Chai.WorkflowManagment.Modules.Library.Views.BookList"
     Title="Default" MasterPageFile="~/Shared/ModuleMaster.master" %>
 
 <%@ MasterType TypeName="Chai.WorkflowManagment.Modules.Shell.BaseMaster" %>
@@ -34,14 +35,13 @@
                             <section class="col col-3">
                                 <asp:Label ID="lblSrchTitle" runat="server" Text="Title" CssClass="label"></asp:Label>
                                 <label class="select">
-                                    <asp:textbox ID="txtSrchTitle" runat="server" CssClass="form-control" placeholder="Enter Keyword"></asp:textbox>
+                                    <asp:TextBox ID="txtSrchTitle" runat="server" CssClass="form-control" placeholder="Enter Keyword"></asp:TextBox>
                                 </label>
                             </section>
                         </div>
                     </fieldset>
                     <footer>
                         <asp:Button ID="btnFind" runat="server" Text="Find" CssClass="btn btn-primary" OnClick="BtnFind_Click"></asp:Button>
-                        <asp:Button ID="btnClosepage" runat="server" Text="Close" CssClass="btn btn-primary"></asp:Button>
                     </footer>
                 </div>
             </div>
@@ -52,7 +52,8 @@
             CssClass="table table-striped table-bordered table-hover" PagerStyle-CssClass="paginate_button active"
             AlternatingRowStyle-CssClass="" OnRowDataBound="GrvBookList_RowDataBound" Width="100%"
             Style="text-align: left" AllowPaging="True" OnPageIndexChanging="GrvBookList_PageIndexChanging"
-            OnSelectedIndexChanged="GrvBookList_SelectedIndexChanged" Visible="True" PageSize="20">
+            OnSelectedIndexChanged="GrvBookList_SelectedIndexChanged" OnRowCommand="GrvBookList_RowCommand"
+            Visible="True" PageSize="20">
             <Columns>
                 <asp:BoundField DataField="Title" HeaderText="Title" />
                 <asp:BoundField DataField="ISBN" HeaderText="ISBN" />
@@ -61,7 +62,18 @@
                 <asp:BoundField DataField="Author.Name" HeaderText="Author" />
                 <asp:BoundField DataField="Genre.Name" HeaderText="Genre" />
                 <asp:CommandField ShowSelectButton="True" />
+                <asp:TemplateField>
+                    <ItemTemplate>
+                        <asp:Button runat="server" CommandName="Loan" Text="Loan"
+                            CommandArgument='<%# Eval("Id") %>' CssClass="btn btn-success btn-sm" />
+                        <asp:Button runat="server" CommandName="Reserve" Text="Reserve"
+                            CommandArgument='<%# Eval("Id") %>' CssClass="btn btn-info btn-sm" />
+                        <asp:Button runat="server" CommandName="Review" Text="Review"
+                            CommandArgument='<%# Eval("Id") %>' CssClass="btn btn-warning btn-sm" />
+                    </ItemTemplate>
+                </asp:TemplateField>
             </Columns>
+            <RowStyle CssClass="rowstyle" />
             <PagerStyle CssClass="paginate_button active" HorizontalAlign="Center" />
         </asp:GridView>
     </div>
