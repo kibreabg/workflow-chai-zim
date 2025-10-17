@@ -50,3 +50,41 @@
 .PagerStyle td {
     padding-left: 2px;
 }
+
+.CustomComboBoxStyle {
+    width: 100%;
+    display: block !important;
+}
+
+.ajax__combobox_inputcontainer {
+    width: 100%;
+    height: 35px;
+    display: block !important;
+    border-color: #BDBDBD;
+    font: 13px / 16px 'Open Sans', Helvetica, Arial, sans-serif;
+    top: 0px !important;
+}
+
+    .ajax__combobox_inputcontainer tbody {
+        width: 100%;
+    }
+
+    .ajax__combobox_inputcontainer tr {
+        width: 100%;
+    }
+
+.ajax__combobox_textboxcontainer {
+    width: 100%;
+}
+
+    .ajax__combobox_textboxcontainer input {
+        width: 100%;
+        height: 25px;
+    }
+
+.ajax__combobox_buttoncontainer button {
+}
+
+.ajax__combobox_itemlist {
+    width: 100% !important;
+}

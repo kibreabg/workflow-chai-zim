@@ -31,6 +31,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 //{
                 //    AutoNumber();
                 //}
+
             }
             txtRequestDate.Text = DateTime.Today.Date.ToShortDateString();
             this._presenter.OnViewLoaded();
@@ -107,18 +108,17 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             get { return txtCardNo.Text; }
         }
-
         public string GetVisitingTeam
         {
             get { return txtVisitingTeam.Text; }
         }
         public int GetProjectId
         {
-            get { return Convert.ToInt32(ddlProject.SelectedValue); }
+            get { return Convert.ToInt32(CbProject.SelectedValue); }
         }
         public int GetGrantId
         {
-            get { return Convert.ToInt32(ddlGrant.SelectedValue); }
+            get { return Convert.ToInt32(CbGrant.SelectedValue); }
         }
         #endregion
         private string AutoNumber()
@@ -156,19 +156,19 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         private void PopProjects()
         {
-            ddlProject.DataSource = _presenter.GetProjects();
-            ddlProject.DataBind();
+            CbProject.DataSource = _presenter.GetProjects();
+            CbProject.DataBind();
 
-            ddlProject.Items.Insert(0, new ListItem("---Select Project---", "0"));
-            ddlProject.SelectedIndex = 0;
+            CbProject.Items.Insert(0, new ListItem("---Select Project---", "0"));
+            CbProject.SelectedIndex = 0;
         }
         private void PopGrants(int ProjectId)
         {
-            ddlGrant.DataSource = _presenter.GetGrantbyprojectId(ProjectId);
-            ddlGrant.DataBind();
+            CbGrant.DataSource = _presenter.GetGrantbyprojectId(ProjectId);
+            CbGrant.DataBind();
 
-            ddlGrant.Items.Insert(0, new ListItem("---Select Grant---", "0"));
-            ddlGrant.SelectedIndex = 0;
+            CbGrant.Items.Insert(0, new ListItem("---Select Grant---", "0"));
+            CbGrant.SelectedIndex = 0;
         }
         private void BindTravelAdvanceDetails()
         {
@@ -187,9 +187,9 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 ddlPayMethods.Text = _presenter.CurrentTravelAdvanceRequest.PaymentMethod;
                 txtCardNo.Text = _presenter.CurrentTravelAdvanceRequest.CardNo;
                 txtTotal.Text = _presenter.CurrentTravelAdvanceRequest.TotalTravelAdvance.ToString();
-                ddlProject.SelectedValue = _presenter.CurrentTravelAdvanceRequest.Project.Id.ToString();
-                PopGrants(Convert.ToInt32(ddlProject.SelectedValue));
-                ddlGrant.SelectedValue = _presenter.CurrentTravelAdvanceRequest.Grant.Id.ToString();
+                CbProject.SelectedValue = _presenter.CurrentTravelAdvanceRequest.Project.Id.ToString();
+                PopGrants(Convert.ToInt32(CbProject.SelectedValue));
+                CbGrant.SelectedValue = _presenter.CurrentTravelAdvanceRequest.Grant.Id.ToString();
                 BindTravelAdvanceDetails();
                 BindTravelAdvanceRequests();
 
@@ -289,9 +289,9 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             Response.Redirect("frmTravelAdvanceRequest.aspx");
         }
-        protected void ddlProject_SelectedIndexChanged(object sender, EventArgs e)
+        protected void CbProject_SelectedIndexChanged(object sender, EventArgs e)
         {
-            PopGrants(Convert.ToInt32(ddlProject.SelectedValue));
+            PopGrants(Convert.ToInt32(CbProject.SelectedValue));
         }
         protected void grvTravelAdvanceRequestList_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
@@ -698,7 +698,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 Master.ShowMessage(new AppMessage("Error: Unable to Update Travel Advance Cost " + ex.Message, RMessageType.Error));
             }
         }
-
         protected void ddlPayMethods_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (ddlPayMethods.SelectedValue == "CABS")
