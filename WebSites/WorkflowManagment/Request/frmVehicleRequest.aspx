@@ -12,6 +12,14 @@
                 $('#searchModal').modal('show');
             });
         }
+        function validateCbProject(sender, args) {
+            var hiddenField = document.getElementById('DefaultContent_CbProject_CbProject_HiddenField');
+            args.IsValid = hiddenField && hiddenField.value !== "0" && hiddenField.value !== "";
+        }
+        function validateCbGrant(sender, args) {
+            var hiddenField = document.getElementById('DefaultContent_CbGrant_CbGrant_HiddenField');
+            args.IsValid = hiddenField && hiddenField.value !== "0" && hiddenField.value !== "";
+        }
     </script>
     <div class="jarviswidget" id="wid-id-8" data-widget-editbutton="true" data-widget-custombutton="false">
         <header>
@@ -24,15 +32,6 @@
                 <div class="smart-form">
                     <fieldset>
                         <div class="row">
-                            <%--<section class="col col-6">
-                                <label class="label">Request Number</label>
-                                <label class="input">
-                                    <asp:TextBox ID="txtRequestNo" runat="server" ReadOnly="true"></asp:TextBox>
-                                    <asp:RequiredFieldValidator
-                                        ID="rfvtxtRequestNo" runat="server" ErrorMessage="Request number is required" Display="Dynamic"
-                                        CssClass="validator" ValidationGroup="save" SetFocusOnError="true" ControlToValidate="txtRequestNo"></asp:RequiredFieldValidator>
-                                </label>
-                            </section>--%>
                             <section class="col col-6">
                                 <label class="label">Request Date</label>
                                 <label class="input">
@@ -79,7 +78,7 @@
                                 </label>
                             </section>
                         </div>
-                       
+
                         <div class="row">
                             <section class="col col-6">
                                 <label class="label">Purpose of Travel</label>
@@ -102,28 +101,35 @@
                             </section>
                         </div>
                         <div class="row">
-
                             <section class="col col-6">
                                 <label class="label">Project</label>
-                                <label class="select">
-                                    <asp:DropDownList ID="ddlProject" AutoPostBack="true" runat="server" DataValueField="Id" DataTextField="ProjectCode" OnSelectedIndexChanged="ddlProject_SelectedIndexChanged">
-                                    </asp:DropDownList><i></i>
-                                    <asp:RequiredFieldValidator
-                                        ID="rfvddlProject" runat="server" ErrorMessage="Project is required" Display="Dynamic"
-                                        CssClass="validator" ValidationGroup="saveMain" InitialValue="0"
-                                        SetFocusOnError="true" ControlToValidate="ddlProject"></asp:RequiredFieldValidator>
-                                </label>
+                                <cc1:ComboBox ID="CbProject" AutoPostBack="true" runat="server" Width="100%"
+                                    DataValueField="Id" DataTextField="ProjectCode" CssClass="CustomComboBoxStyle"
+                                    AutoCompleteMode="SuggestAppend" DropDownStyle="DropDownList" OnSelectedIndexChanged="CbProject_SelectedIndexChanged">
+                                </cc1:ComboBox>
+                                <asp:CustomValidator
+                                    ID="CustomValidatorCbProject"
+                                    runat="server"
+                                    ErrorMessage="Project is required"
+                                    ClientValidationFunction="validateCbProject"
+                                    ValidationGroup="save"
+                                    CssClass="validator"
+                                    Display="Dynamic" />
                             </section>
                             <section class="col col-6">
                                 <label class="label">Grant</label>
-                                <label class="select">
-                                    <asp:DropDownList ID="ddlGrant" runat="server" DataValueField="Id" DataTextField="GrantCode">
-                                    </asp:DropDownList><i></i>
-                                    <asp:RequiredFieldValidator
-                                        ID="rfvGrant" runat="server" ErrorMessage="Grant is required" Display="Dynamic"
-                                        CssClass="validator" ValidationGroup="saveMain" InitialValue="0"
-                                        SetFocusOnError="true" ControlToValidate="ddlGrant"></asp:RequiredFieldValidator>
-                                </label>
+                                <cc1:ComboBox ID="CbGrant" AutoPostBack="true" runat="server" Width="100%"
+                                    DataValueField="Id" DataTextField="GrantCode" CssClass="CustomComboBoxStyle"
+                                    AutoCompleteMode="SuggestAppend" DropDownStyle="DropDownList">
+                                </cc1:ComboBox>
+                                <asp:CustomValidator
+                                    ID="CustomValidatorCbGrant"
+                                    runat="server"
+                                    ErrorMessage="Grant is required"
+                                    ClientValidationFunction="validateCbGrant"
+                                    ValidationGroup="save"
+                                    CssClass="validator"
+                                    Display="Dynamic" />
                             </section>
                         </div>
                         <div class="row">
@@ -145,13 +151,10 @@
 
                     <footer>
                         <asp:Button ID="btnSave" runat="server" Text="Request" OnClick="btnSave_Click" CausesValidation="true" ValidationGroup="save" CssClass="btn btn-primary"></asp:Button>
-                        <%--<asp:Button ID="btnSearch" data-toggle="modal" href="#myModal" Text="Search" CssClass="btn btn-primary"></asp:Button>--%>
                         <a data-toggle="modal" runat="server" id="searchLink" href="#searchModal" class="btn btn-primary"><i class="fa fa-circle-arrow-up fa-lg"></i>Search</a>
                         <asp:Button ID="btnDelete" runat="server" CausesValidation="False" CssClass="btn btn-primary" Text="Delete" OnClick="btnDelete_Click"></asp:Button>
-
                         <cc1:ConfirmButtonExtender ID="btnDelete_ConfirmButtonExtender" runat="server"
-                            ConfirmText="Are you sure you want to delete this record?" Enabled="True" TargetControlID="btnDelete">
-                        </cc1:ConfirmButtonExtender>
+                            ConfirmText="Are you sure you want to delete this record?" Enabled="True" TargetControlID="btnDelete"></cc1:ConfirmButtonExtender>
                         <asp:Button ID="btnCancel" runat="server" CssClass="btn btn-primary" OnClick="btnCancel_Click" Text="New" />
                         <asp:Button ID="btnClosepage" runat="server" Text="Close" data-dismiss="modal" CssClass="btn btn-primary" PostBackUrl="../Default.aspx"></asp:Button>
                     </footer>
@@ -159,11 +162,6 @@
             </div>
         </div>
     </div>
-    <%--<cc1:ModalPopupExtender runat="server" DynamicServicePath="" PopupControlID="myModal"
-        Enabled="True" TargetControlID="btnSearch" CancelControlID="btnCancelSearch" BackgroundCssClass="modalBackground"
-        ID="pnlSearch_ModalPopupExtender">
-    </cc1:ModalPopupExtender>--%>
-    <%--<asp:Panel ID="pnlSearch" runat="server">--%>
     <div class="modal fade" id="searchModal" tabindex="-1" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -243,8 +241,6 @@
             </div>
         </div>
     </div>
-    <%-- </asp:Panel>--%>
-
 
     <asp:Panel ID="pnlWarning" Visible="false" Style="position: absolute; top: 55px; left: 108px;" runat="server">
         <div class="modal-dialog">
@@ -273,7 +269,6 @@
                 </div>
             </div>
         </div>
-        <!-- /.modal-content -->
     </asp:Panel>
 
 </asp:Content>

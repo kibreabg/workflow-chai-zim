@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using Chai.WorkflowManagment.CoreDomain.Requests;
-using Chai.WorkflowManagment.CoreDomain.Users;
+﻿using Chai.WorkflowManagment.CoreDomain.Requests;
 using Chai.WorkflowManagment.Enums;
 using Chai.WorkflowManagment.Shared;
 using log4net;
 using log4net.Config;
 using Microsoft.Practices.ObjectBuilder;
+using System;
+using System.Collections.Generic;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 
 namespace Chai.WorkflowManagment.Modules.Request.Views
 {
@@ -113,11 +109,11 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         public int GetProjectId
         {
-            get { return Convert.ToInt32(ddlProject.SelectedValue); }
+            get { return Convert.ToInt32(CbProject.SelectedValue); }
         }
         public int GetGrantId
         {
-            get { return Convert.ToInt32(ddlGrant.SelectedValue); }
+            get { return Convert.ToInt32(CbGrant.SelectedValue); }
         }
         private void PopRequestPersonnels()
         {
@@ -148,19 +144,19 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         private void PopProjects()
         {
-            ddlProject.DataSource = _presenter.GetProjects();
-            ddlProject.DataBind();
+            CbProject.DataSource = _presenter.GetProjects();
+            CbProject.DataBind();
 
-            ddlProject.Items.Insert(0, new ListItem("---Select Project---", "0"));
-            ddlProject.SelectedIndex = 0;
+            CbProject.Items.Insert(0, new ListItem("---Select Project---", "0"));
+            CbProject.SelectedIndex = 0;
         }
         private void PopGrants(int ProjectId)
         {
-            ddlGrant.DataSource = _presenter.GetGrantbyprojectId(ProjectId);
-            ddlGrant.DataBind();
+            CbGrant.DataSource = _presenter.GetGrantbyprojectId(ProjectId);
+            CbGrant.DataBind();
 
-            ddlGrant.Items.Insert(0, new ListItem("---Select Grant---", "0"));
-            ddlGrant.SelectedIndex = 0;
+            CbGrant.Items.Insert(0, new ListItem("---Select Grant---", "0"));
+            CbGrant.SelectedIndex = 0;
         }
         private void ClearFormFields()
         {
@@ -191,9 +187,9 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 txtDestination.Text = _presenter.CurrentVehicleRequest.Destination;
                 txtComment.Text = _presenter.CurrentVehicleRequest.Comment;
                 txtNoOfPassangers.Text = _presenter.CurrentVehicleRequest.NoOfPassengers.ToString();
-                ddlProject.SelectedValue = _presenter.CurrentVehicleRequest.Project.Id.ToString();
-                PopGrants(Convert.ToInt32(ddlProject.SelectedValue));
-                ddlGrant.SelectedValue = _presenter.CurrentVehicleRequest.Grant.Id.ToString();
+                CbProject.SelectedValue = _presenter.CurrentVehicleRequest.Project.Id.ToString();
+                PopGrants(Convert.ToInt32(CbProject.SelectedValue));
+                CbGrant.SelectedValue = _presenter.CurrentVehicleRequest.Grant.Id.ToString();
                 BindVehicleRequests();
             }
         }
@@ -285,12 +281,9 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             Response.Redirect("frmVehicleRequest.aspx");
         }
-        protected void ddlProject_SelectedIndexChanged(object sender, EventArgs e)
+        protected void CbProject_SelectedIndexChanged(object sender, EventArgs e)
         {
-            PopGrants(Convert.ToInt32(ddlProject.SelectedValue));
+            PopGrants(Convert.ToInt32(CbProject.SelectedValue));
         }
-
-
-
     }
 }

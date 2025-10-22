@@ -195,14 +195,12 @@
                                                         </ItemTemplate>
                                                         <EditItemTemplate>
                                                             <asp:TextBox ID="txtEdtAmount" runat="server" CssClass="form-control" Text='<%# DataBinder.Eval(Container.DataItem, "Amount")%>'></asp:TextBox>
-                                                            <cc1:FilteredTextBoxExtender ID="txtEdtAmount_FilteredTextBoxExtender" runat="server" Enabled="True" FilterType="Custom, Numbers" TargetControlID="txtEdtAmount" ValidChars="&quot;.&quot;">
-                                                            </cc1:FilteredTextBoxExtender>
+                                                            <cc1:FilteredTextBoxExtender ID="txtEdtAmount_FilteredTextBoxExtender" runat="server" Enabled="True" FilterType="Custom, Numbers" TargetControlID="txtEdtAmount" ValidChars="&quot;.&quot;"></cc1:FilteredTextBoxExtender>
                                                             <asp:RequiredFieldValidator ID="rfvtxtEdtAmount" runat="server" ControlToValidate="txtEdtAmount" CssClass="validator" Display="Dynamic" ErrorMessage="Amount is required" SetFocusOnError="true" ValidationGroup="edit"></asp:RequiredFieldValidator>
                                                         </EditItemTemplate>
                                                         <FooterTemplate>
                                                             <asp:TextBox ID="txtAmount" runat="server" CssClass="form-control"></asp:TextBox>
-                                                            <cc1:FilteredTextBoxExtender ID="txtAmount_FilteredTextBoxExtender" runat="server" Enabled="True" FilterType="Custom, Numbers" TargetControlID="txtAmount" ValidChars="&quot;.&quot;">
-                                                            </cc1:FilteredTextBoxExtender>
+                                                            <cc1:FilteredTextBoxExtender ID="txtAmount_FilteredTextBoxExtender" runat="server" Enabled="True" FilterType="Custom, Numbers" TargetControlID="txtAmount" ValidChars="&quot;.&quot;"></cc1:FilteredTextBoxExtender>
                                                             <asp:RequiredFieldValidator ID="rfvtxtAmount" runat="server" ControlToValidate="txtAmount" CssClass="validator" Display="Dynamic" ErrorMessage="Amount is required" SetFocusOnError="true" ValidationGroup="save"></asp:RequiredFieldValidator>
                                                         </FooterTemplate>
                                                     </asp:TemplateColumn>
@@ -308,8 +306,7 @@
                         <asp:Button ID="btnDelete" runat="server" CausesValidation="False" class="btn btn-primary"
                             Text="Delete" OnClick="btnDelete_Click" Visible="false"></asp:Button>
                         <cc1:ConfirmButtonExtender ID="btnDelete_ConfirmButtonExtender" runat="server"
-                            ConfirmText="Are you sure you want to delete this record?" Enabled="True" TargetControlID="btnDelete">
-                        </cc1:ConfirmButtonExtender>
+                            ConfirmText="Are you sure you want to delete this record?" Enabled="True" TargetControlID="btnDelete"></cc1:ConfirmButtonExtender>
                         <asp:Button ID="btnCancel" runat="server" CssClass="btn btn-primary" OnClick="btnCancel_Click" Text="New" />
                         <asp:Button ID="btnClosepage" runat="server" Text="Close" data-dismiss="modal" CssClass="btn btn-primary" PostBackUrl="../Default.aspx"></asp:Button>
                     </footer>
