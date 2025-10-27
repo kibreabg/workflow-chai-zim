@@ -7,12 +7,27 @@
 <asp:Content ID="content" ContentPlaceHolderID="DefaultContent" runat="Server">
     <script src="../js/libs/jquery-2.0.2.min.js"></script>
     <script type="text/javascript">
+        function validateCbProject(sender, args) {
+            var hiddenField = document.getElementById('DefaultContent_dgCashPaymentDetail_CbProject_CbProject_HiddenField');
+            args.IsValid = hiddenField && hiddenField.value !== "0" && hiddenField.value !== "";
+        }
+        function validateCbEdtProject(sender, args) {
+            var hiddenField = document.getElementById('DefaultContent_dgCashPaymentDetail_CbEdtProject_0_CbEdtProject_HiddenField_0');
+            args.IsValid = hiddenField && hiddenField.value !== "0" && hiddenField.value !== "";
+        }
+        function validateCbGrant(sender, args) {
+            var hiddenField = document.getElementById('DefaultContent_dgCashPaymentDetail_CbGrant_CbGrant_HiddenField');
+            args.IsValid = hiddenField && hiddenField.value !== "0" && hiddenField.value !== "";
+        }
+        function validateCbEdtGrant(sender, args) {
+            var hiddenField = document.getElementById('DefaultContent_dgCashPaymentDetail_CbEdtGrant_0_CbEdtGrant_HiddenField_0');
+            args.IsValid = hiddenField && hiddenField.value !== "0" && hiddenField.value !== "";
+        }
         function showSearch() {
             $(document).ready(function () {
                 $('#searchModal').modal('show');
             });
         }
-
     </script>
     <div class="jarviswidget" id="wid-id-8" data-widget-editbutton="false" data-widget-custombutton="false">
         <header>
@@ -196,12 +211,14 @@
                                                         <EditItemTemplate>
                                                             <asp:TextBox ID="txtEdtAmount" runat="server" CssClass="form-control" Text='<%# DataBinder.Eval(Container.DataItem, "Amount")%>'></asp:TextBox>
                                                             <cc1:FilteredTextBoxExtender ID="txtEdtAmount_FilteredTextBoxExtender" runat="server" Enabled="True" FilterType="Custom, Numbers" TargetControlID="txtEdtAmount" ValidChars="&quot;.&quot;"></cc1:FilteredTextBoxExtender>
-                                                            <asp:RequiredFieldValidator ID="rfvtxtEdtAmount" runat="server" ControlToValidate="txtEdtAmount" CssClass="validator" Display="Dynamic" ErrorMessage="Amount is required" SetFocusOnError="true" ValidationGroup="edit"></asp:RequiredFieldValidator>
+                                                            <asp:RequiredFieldValidator ID="rfvtxtEdtAmount" runat="server" ControlToValidate="txtEdtAmount" CssClass="validator"
+                                                                Display="Dynamic" ErrorMessage="Amount is required" SetFocusOnError="true" ValidationGroup="edit"></asp:RequiredFieldValidator>
                                                         </EditItemTemplate>
                                                         <FooterTemplate>
                                                             <asp:TextBox ID="txtAmount" runat="server" CssClass="form-control"></asp:TextBox>
                                                             <cc1:FilteredTextBoxExtender ID="txtAmount_FilteredTextBoxExtender" runat="server" Enabled="True" FilterType="Custom, Numbers" TargetControlID="txtAmount" ValidChars="&quot;.&quot;"></cc1:FilteredTextBoxExtender>
-                                                            <asp:RequiredFieldValidator ID="rfvtxtAmount" runat="server" ControlToValidate="txtAmount" CssClass="validator" Display="Dynamic" ErrorMessage="Amount is required" SetFocusOnError="true" ValidationGroup="save"></asp:RequiredFieldValidator>
+                                                            <asp:RequiredFieldValidator ID="rfvtxtAmount" runat="server" ControlToValidate="txtAmount" CssClass="validator"
+                                                                Display="Dynamic" ErrorMessage="Amount is required" SetFocusOnError="true" ValidationGroup="save"></asp:RequiredFieldValidator>
                                                         </FooterTemplate>
                                                     </asp:TemplateColumn>
                                                     <asp:TemplateColumn HeaderText="Project ID">
@@ -209,32 +226,66 @@
                                                             <%# DataBinder.Eval(Container.DataItem, "Project.ProjectCode")%>
                                                         </ItemTemplate>
                                                         <EditItemTemplate>
-                                                            <asp:DropDownList ID="ddlEdtProject" runat="server" AutoPostBack="true" CssClass="form-control" AppendDataBoundItems="true" OnSelectedIndexChanged="ddlEdtProject_SelectedIndexChanged">
-                                                                <asp:ListItem Value="0">Select Project</asp:ListItem>
-                                                            </asp:DropDownList>
-                                                            <i></i>
-                                                            <asp:RequiredFieldValidator ID="rfvddlEdtProject" runat="server" ControlToValidate="ddlEdtProject" CssClass="validator" Display="Dynamic" ErrorMessage="Project must be selected" InitialValue="0" SetFocusOnError="true" ValidationGroup="edit"></asp:RequiredFieldValidator>
+                                                            <cc1:ComboBox ID="CbEdtProject" AutoPostBack="true"
+                                                                runat="server" DataValueField="Id" DataTextField="ProjectCode"
+                                                                CssClass="CustomGridComboBoxStyle" AutoCompleteMode="SuggestAppend"
+                                                                DropDownStyle="DropDownList" OnSelectedIndexChanged="CbEdtProject_SelectedIndexChanged">
+                                                            </cc1:ComboBox>
+                                                            <asp:CustomValidator
+                                                                ID="CustomValidatorCbProject"
+                                                                runat="server"
+                                                                ErrorMessage="Project is required"
+                                                                ClientValidationFunction="validateCbEdtProject"
+                                                                ValidationGroup="edit"
+                                                                CssClass="validator"
+                                                                Display="Dynamic" />
                                                         </EditItemTemplate>
                                                         <FooterTemplate>
-                                                            <asp:DropDownList ID="ddlProject" runat="server" AutoPostBack="true" CssClass="form-control" AppendDataBoundItems="true" OnSelectedIndexChanged="ddlProject_SelectedIndexChanged">
-                                                                <asp:ListItem Value="0">Select Project</asp:ListItem>
-                                                            </asp:DropDownList>
-                                                            <i></i>
-                                                            <asp:RequiredFieldValidator ID="rfvddlProject" runat="server" ControlToValidate="ddlProject" CssClass="validator" Display="Dynamic" ErrorMessage="Project must be selected" InitialValue="0" SetFocusOnError="true" ValidationGroup="save"></asp:RequiredFieldValidator>
+                                                            <cc1:ComboBox ID="CbProject" AutoPostBack="true"
+                                                                runat="server" DataValueField="Id" DataTextField="ProjectCode"
+                                                                CssClass="CustomGridComboBoxStyle" AutoCompleteMode="SuggestAppend"
+                                                                DropDownStyle="DropDownList" OnSelectedIndexChanged="CbProject_SelectedIndexChanged">
+                                                            </cc1:ComboBox>
+                                                            <asp:CustomValidator
+                                                                ID="CustomValidatorCbProject"
+                                                                runat="server"
+                                                                ErrorMessage="Project is required"
+                                                                ClientValidationFunction="validateCbProject"
+                                                                ValidationGroup="save"
+                                                                CssClass="validator"
+                                                                Display="Dynamic" />
                                                         </FooterTemplate>
                                                     </asp:TemplateColumn>
                                                     <asp:TemplateColumn HeaderText="Grant ID">
                                                         <EditItemTemplate>
-                                                            <asp:DropDownList ID="ddlEdtGrant" runat="server" AppendDataBoundItems="True" CssClass="form-control" DataTextField="GrantCode" DataValueField="Id">
-                                                                <asp:ListItem Value="0">Select Grant</asp:ListItem>
-                                                            </asp:DropDownList>
-                                                            <asp:RequiredFieldValidator ID="RfvGrant" runat="server" CssClass="validator" ControlToValidate="ddlEdtGrant" ErrorMessage="Grant is required" InitialValue="0" SetFocusOnError="True" ValidationGroup="edit"></asp:RequiredFieldValidator>
+                                                            <cc1:ComboBox ID="CbEdtGrant"
+                                                                runat="server" DataValueField="Id" DataTextField="GrantCode"
+                                                                CssClass="CustomGridComboBoxStyle" AutoCompleteMode="SuggestAppend"
+                                                                DropDownStyle="DropDownList">
+                                                            </cc1:ComboBox>
+                                                            <asp:CustomValidator
+                                                                ID="CustomValidatorCbEdtGrant"
+                                                                runat="server"
+                                                                ErrorMessage="Grant is required"
+                                                                ClientValidationFunction="validateCbEdtGrant"
+                                                                ValidationGroup="edit"
+                                                                CssClass="validator"
+                                                                Display="Dynamic" />
                                                         </EditItemTemplate>
                                                         <FooterTemplate>
-                                                            <asp:DropDownList ID="ddlGrant" runat="server" AppendDataBoundItems="True" CssClass="form-control" DataTextField="GrantCode" DataValueField="Id" EnableViewState="true">
-                                                                <asp:ListItem Value="0">Select Grant</asp:ListItem>
-                                                            </asp:DropDownList>
-                                                            <asp:RequiredFieldValidator ID="RfvFGrantCode" runat="server" CssClass="validator" ControlToValidate="ddlGrant" Display="Dynamic" ErrorMessage="Grant is required" InitialValue="0" SetFocusOnError="True" ValidationGroup="save"></asp:RequiredFieldValidator>
+                                                            <cc1:ComboBox ID="CbGrant"
+                                                                runat="server" DataValueField="Id" DataTextField="GrantCode"
+                                                                CssClass="CustomGridComboBoxStyle" AutoCompleteMode="SuggestAppend"
+                                                                DropDownStyle="DropDownList">
+                                                            </cc1:ComboBox>
+                                                            <asp:CustomValidator
+                                                                ID="CustomValidatorCbGrant"
+                                                                runat="server"
+                                                                ErrorMessage="Grant is required"
+                                                                ClientValidationFunction="validateCbGrant"
+                                                                ValidationGroup="save"
+                                                                CssClass="validator"
+                                                                Display="Dynamic" />
                                                         </FooterTemplate>
                                                         <ItemTemplate>
                                                             <%# DataBinder.Eval(Container.DataItem, "Grant.GrantCode")%>

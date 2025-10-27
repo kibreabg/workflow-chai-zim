@@ -82,7 +82,7 @@
                             </section>
                             <section class="col col-6">
                                 <label class="label">Grant</label>
-                                <cc1:ComboBox ID="CbGrant" AutoPostBack="true" runat="server" Width="100%"
+                                <cc1:ComboBox ID="CbGrant" runat="server" Width="100%"
                                     DataValueField="Id" DataTextField="GrantCode" CssClass="CustomComboBoxStyle"
                                     AutoCompleteMode="SuggestAppend" DropDownStyle="DropDownList">
                                 </cc1:ComboBox>
