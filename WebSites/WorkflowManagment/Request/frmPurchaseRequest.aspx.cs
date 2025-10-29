@@ -1,20 +1,18 @@
-﻿using Chai.WorkflowManagment.CoreDomain.Requests;
+﻿using AjaxControlToolkit;
+using Chai.WorkflowManagment.CoreDomain.Requests;
 using Chai.WorkflowManagment.CoreDomain.Setting;
 using Chai.WorkflowManagment.CoreDomain.Users;
 using Chai.WorkflowManagment.Enums;
 using Chai.WorkflowManagment.Shared;
 using Chai.WorkflowManagment.Shared.MailSender;
+using log4net;
+using log4net.Config;
 using Microsoft.Practices.ObjectBuilder;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using log4net;
-using System.Reflection;
-using log4net.Config;
 
 namespace Chai.WorkflowManagment.Modules.Request.Views
 {
@@ -267,32 +265,26 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             ddlItemAccount.DataBind();
 
         }
-        private void BindProject(DropDownList ddlProject)
+        private void BindProject(ComboBox cbProject)
         {
-            ddlProject.DataSource = _presenter.GetProjects();
-            ddlProject.DataBind();
+            cbProject.DataSource = _presenter.GetProjects();
+            cbProject.DataValueField = "Id";
+            cbProject.DataTextField = "ProjectCode";
+            cbProject.DataBind();
+
+            cbProject.Items.Insert(0, new ListItem("---Select Project---", "0"));
+            cbProject.SelectedIndex = 0;
 
         }
-        private void BindGrant(DropDownList ddlGrant, int projectId)
+        private void BindGrant(ComboBox cbGrant, int projectId)
         {
-            ddlGrant.Items.Clear();
-            ListItem lst = new ListItem();
-            lst.Text = "Select Grant";
-            lst.Value = "";
-            ddlGrant.Items.Add(lst);
-            ddlGrant.DataSource = _presenter.GetGrantbyprojectId(projectId);
-            ddlGrant.DataBind();
+            cbGrant.DataSource = _presenter.GetGrantbyprojectId(projectId);
+            cbGrant.DataValueField = "Id";
+            cbGrant.DataTextField = "GrantCode";
+            cbGrant.DataBind();
 
-        }
-        private void ClearForm()
-        {
-            //txtRequestNo.Text = "";
-            txtRequestDate.Text = "";
-            txtComment.Text = "";
-            txtDeliverto.Text = "";
-            txtdeliveryDate.Text = "";
-            txtSuggestedSupplier.Text = "";
-
+            cbGrant.Items.Insert(0, new ListItem("---Select Grant---", "0"));
+            cbGrant.SelectedIndex = 0;
 
         }
         protected void btnCancel_Click(object sender, EventArgs e)
@@ -301,9 +293,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         protected void grvPurchaseRequestList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Session["ApprovalLevel"] = true;
-            // ClearForm();
-            //BindLeaveRequest();
             _leaverequestId = Convert.ToInt32(grvPurchaseRequestList.SelectedDataKey[0]);
             _presenter.OnViewLoaded();
             BindPurchaseRequest();
@@ -319,34 +308,17 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         protected void grvPurchaseRequestList_RowDataBound(object sender, GridViewRowEventArgs e)
         {
-            //LeaveRequest leaverequest = e.Row.DataItem as LeaveRequest;
-            //if (leaverequest != null)
-            //{
-            //    if (leaverequest.GetLeaveRequestStatusworkflowLevel(1).ApprovalStatus != null)
-            //    {
-            //        e.Row.Cells[5].Enabled = false;
-            //        e.Row.Cells[6].Enabled = false;
-            //    }
-
-            //}
-            if (e.Row.RowType == DataControlRowType.DataRow)
-            {
-                //LinkButton db = (LinkButton)e.Row.Cells[5].Controls[0];
-                //db.OnClientClick = "return confirm('Are you sure you want to delete this Recieve?');";
-            }
         }
         protected void grvPurchaseRequestList_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             grvPurchaseRequestList.PageIndex = e.NewPageIndex;
             btnFind_Click(sender, e);
             ScriptManager.RegisterStartupScript(this, GetType(), "showSearch", "showSearch();", true);
-            //pnlSearch_ModalPopupExtender.Show();
         }
         protected void btnFind_Click(object sender, EventArgs e)
         {
             BindSearchPurchaseRequestGrid();
             ScriptManager.RegisterStartupScript(this, GetType(), "showSearch", "showSearch();", true);
-            //pnlSearch_ModalPopupExtender.Show();
         }
         private void BindSearchPurchaseRequestGrid()
         {
@@ -449,10 +421,10 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                         //Determine total cost end
                         _presenter.CurrentPurchaseRequest.TotalPrice = _presenter.CurrentPurchaseRequest.TotalPrice + Detail.EstimatedCost;
                         txtTotal.Text = (_presenter.CurrentPurchaseRequest.TotalPrice).ToString();
-                        DropDownList ddlFProject = e.Item.FindControl("ddlFProject") as DropDownList;
-                        Detail.Project = _presenter.GetProject(int.Parse(ddlFProject.SelectedValue));
-                        DropDownList ddlFGrant = e.Item.FindControl("ddlFGrant") as DropDownList;
-                        Detail.Grant = _presenter.GetGrant(int.Parse(ddlFGrant.SelectedValue));
+                        ComboBox CbProject = e.Item.FindControl("CbProject") as ComboBox;
+                        Detail.Project = _presenter.GetProject(int.Parse(CbProject.SelectedValue));
+                        ComboBox CbGrant = e.Item.FindControl("CbGrant") as ComboBox;
+                        Detail.Grant = _presenter.GetGrant(int.Parse(CbGrant.SelectedValue));
                         Detail.PurchaseRequest = _presenter.CurrentPurchaseRequest;
                         _presenter.CurrentPurchaseRequest.PurchaseRequestDetails.Add(Detail);
                         Master.ShowMessage(new AppMessage("Purchase Request Detail added successfully.", RMessageType.Info));
@@ -475,26 +447,19 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         protected void dgPurchaseRequestDetail_ItemDataBound(object sender, DataGridItemEventArgs e)
         {
-
-
             if (e.Item.ItemType == ListItemType.Footer)
             {
                 DropDownList ddlFItemAccount = e.Item.FindControl("ddlFAccount") as DropDownList;
                 BindAccount(ddlFItemAccount);
-                DropDownList ddlFProject = e.Item.FindControl("ddlFProject") as DropDownList;
-                BindProject(ddlFProject);
-                DropDownList ddlFGrant = e.Item.FindControl("ddlFGrant") as DropDownList;
-                BindGrant(ddlFGrant, Convert.ToInt32(ddlFProject.SelectedValue));
-
-
+                ComboBox CbProject = e.Item.FindControl("CbProject") as ComboBox;
+                BindProject(CbProject);
+                ComboBox CbGrant = e.Item.FindControl("CbGrant") as ComboBox;
+                BindGrant(CbGrant, Convert.ToInt32(CbProject.SelectedValue));
             }
             else
             {
-
-
                 if (_presenter.CurrentPurchaseRequest.PurchaseRequestDetails != null)
                 {
-
                     DropDownList ddlItemAccount = e.Item.FindControl("ddlAccount") as DropDownList;
                     if (ddlItemAccount != null)
                     {
@@ -505,40 +470,30 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                             if (liI != null)
                                 liI.Selected = true;
                         }
-
                     }
 
-
-                    DropDownList ddlProject = e.Item.FindControl("ddlProject") as DropDownList;
-
-                    if (ddlProject != null)
+                    ComboBox cbEdtProject = e.Item.FindControl("CbEdtProject") as ComboBox;
+                    if (cbEdtProject != null)
                     {
-                        BindProject(ddlProject);
-
-                        if (_presenter.CurrentPurchaseRequest.PurchaseRequestDetails[e.Item.DataSetIndex].Project != null)
+                        BindProject(cbEdtProject);
+                        int projectId = _presenter.CurrentPurchaseRequest.PurchaseRequestDetails[e.Item.DataSetIndex].Project.Id;
+                        if (projectId != 0)
                         {
-                            ListItem li = ddlProject.Items.FindByValue(_presenter.CurrentPurchaseRequest.PurchaseRequestDetails[e.Item.DataSetIndex].Project.Id.ToString());
-                            if (li != null)
-                                li.Selected = true;
+                            cbEdtProject.SelectedValue = projectId.ToString();
                         }
                     }
-                    DropDownList ddlGrant = e.Item.FindControl("ddlGrant") as DropDownList;
-                    if (ddlGrant != null)
+                    ComboBox cbEdtGrant = e.Item.FindControl("cbEdtGrant") as ComboBox;
+                    if (cbEdtGrant != null)
                     {
-                        BindGrant(ddlGrant, Convert.ToInt32(ddlProject.SelectedValue));
-                        if (_presenter.CurrentPurchaseRequest.PurchaseRequestDetails[e.Item.DataSetIndex].Grant.Id != null)
+                        BindGrant(cbEdtGrant, Convert.ToInt32(cbEdtProject.SelectedValue));
+                        int grantId = _presenter.CurrentPurchaseRequest.PurchaseRequestDetails[e.Item.DataSetIndex].Grant.Id;
+                        if (grantId != 0)
                         {
-                            ListItem liI = ddlGrant.Items.FindByValue(_presenter.CurrentPurchaseRequest.PurchaseRequestDetails[e.Item.DataSetIndex].Grant.Id.ToString());
-                            if (liI != null)
-                                liI.Selected = true;
+                            cbEdtGrant.SelectedValue = grantId.ToString();
                         }
-
                     }
                 }
-
             }
-
-
         }
         protected void dgPurchaseRequestDetail_UpdateCommand(object source, DataGridCommandEventArgs e)
         {
@@ -569,7 +524,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 decimal cost = 0;
                 if (_presenter.CurrentPurchaseRequest.PurchaseRequestDetails.Count > 0)
                 {
-
                     foreach (PurchaseRequestDetail detail in _presenter.CurrentPurchaseRequest.PurchaseRequestDetails)
                     {
                         cost = cost + detail.EstimatedCost;
@@ -579,10 +533,10 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 //Determine total cost end
                 //_presenter.CurrentPurchaseRequest.TotalPrice = _presenter.CurrentPurchaseRequest.TotalPrice + Detail.EstimatedCost;
                 txtTotal.Text = (_presenter.CurrentPurchaseRequest.TotalPrice).ToString();
-                DropDownList ddlProject = e.Item.FindControl("ddlProject") as DropDownList;
-                Detail.Project = _presenter.GetProject(int.Parse(ddlProject.SelectedValue));
-                DropDownList ddlGrant = e.Item.FindControl("ddlGrant") as DropDownList;
-                Detail.Grant = _presenter.GetGrant(int.Parse(ddlGrant.SelectedValue));
+                ComboBox CbEdtProject = e.Item.FindControl("CbEdtProject") as ComboBox;
+                Detail.Project = _presenter.GetProject(int.Parse(CbEdtProject.SelectedValue));
+                ComboBox CbEdtGrant = e.Item.FindControl("CbEdtGrant") as ComboBox;
+                Detail.Grant = _presenter.GetGrant(int.Parse(CbEdtGrant.SelectedValue));
                 Detail.PurchaseRequest = _presenter.CurrentPurchaseRequest;
                 Master.ShowMessage(new AppMessage("Purchase Request Detail  Updated successfully.", RMessageType.Info));
                 dgPurchaseRequestDetail.EditItemIndex = -1;
@@ -594,29 +548,47 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 ExceptionUtility.LogException(ex, ex.Source);
                 ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser().FullName);
             }
-
-
-
-
         }
         #endregion
-        protected void ddlFProject_SelectedIndexChanged(object sender, EventArgs e)
+        protected void CbProject_SelectedIndexChanged(object sender, EventArgs e)
         {
-            DropDownList ddl = (DropDownList)sender;
-            DropDownList ddlFGrant = ddl.FindControl("ddlFGrant") as DropDownList;
-            BindGrant(ddlFGrant, Convert.ToInt32(ddl.SelectedValue));
+            var cbProject = sender as ComboBox;
+            if (cbProject == null) return;
+
+            // DataGridItem that contains this ComboBox
+            var item = cbProject.NamingContainer as DataGridItem;
+            if (item == null) return;
+
+            // find the other combobox (grant) in the same row
+            var cbGrant = item.FindControl("CbGrant") as ComboBox;
+            if (cbGrant == null) return;
+
+            // use selected project value to bind grant combobox
+            int projectId;
+            if (int.TryParse(cbProject.SelectedValue, out projectId))
+            {
+                BindGrant(cbGrant, projectId);
+            }
         }
-        protected void ddlGrant_SelectedIndexChanged(object sender, EventArgs e)
+        protected void CbEdtProject_SelectedIndexChanged(object sender, EventArgs e)
         {
-            DropDownList ddl = (DropDownList)sender;
-            DropDownList ddlGrant = ddl.FindControl("ddlGrant") as DropDownList;
-            BindGrant(ddlGrant, Convert.ToInt32(ddl.SelectedValue));
-        }
-        protected void ddlProject_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            DropDownList ddl = (DropDownList)sender;
-            DropDownList ddlGrant = ddl.FindControl("ddlGrant") as DropDownList;
-            BindGrant(ddlGrant, Convert.ToInt32(ddl.SelectedValue));
+            var cbEdtProject = sender as ComboBox;
+            if (cbEdtProject == null) return;
+
+            // DataGridItem that contains this ComboBox
+            var item = cbEdtProject.NamingContainer as DataGridItem;
+            if (item == null) return;
+
+            // find the other combobox (grant) in the same row
+            var cbEdtGrant = item.FindControl("cbEdtGrant") as ComboBox;
+            if (cbEdtGrant == null) return;
+
+            // use selected project value to bind grant combobox
+            int projectId;
+            if (int.TryParse(cbEdtProject.SelectedValue, out projectId))
+            {
+                BindGrant(cbEdtGrant, projectId);
+            }
         }
         protected void btnRequest_Click(object sender, EventArgs e)
         {

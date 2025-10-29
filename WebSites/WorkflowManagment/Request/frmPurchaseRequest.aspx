@@ -6,6 +6,22 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="DefaultContent" runat="Server">
     <script src="../js/libs/jquery-2.0.2.min.js"></script>
     <script type="text/javascript">
+        function validateCbProject(sender, args) {
+            var hiddenField = document.getElementById('DefaultContent_dgPurchaseRequestDetail_CbProject_CbProject_HiddenField');
+            args.IsValid = hiddenField && hiddenField.value !== "0" && hiddenField.value !== "";
+        }
+        function validateCbEdtProject(sender, args) {
+            var hiddenField = document.getElementById('DefaultContent_dgPurchaseRequestDetail_CbEdtProject_0_CbEdtProject_HiddenField_0');
+            args.IsValid = hiddenField && hiddenField.value !== "0" && hiddenField.value !== "";
+        }
+        function validateCbGrant(sender, args) {
+            var hiddenField = document.getElementById('DefaultContent_dgPurchaseRequestDetail_CbGrant_CbGrant_HiddenField');
+            args.IsValid = hiddenField && hiddenField.value !== "0" && hiddenField.value !== "";
+        }
+        function validateCbEdtGrant(sender, args) {
+            var hiddenField = document.getElementById('DefaultContent_dgPurchaseRequestDetail_CbEdtGrant_0_CbEdtGrant_HiddenField_0');
+            args.IsValid = hiddenField && hiddenField.value !== "0" && hiddenField.value !== "";
+        }
         function showSearch() {
             $(document).ready(function () {
                 $('#searchModal').modal('show');
@@ -235,25 +251,34 @@
                                             </asp:TemplateColumn>
                                             <asp:TemplateColumn HeaderText="Project ID">
                                                 <EditItemTemplate>
-                                                    <asp:DropDownList ID="ddlProject" runat="server" CssClass="form-control"
-                                                        AppendDataBoundItems="True" DataTextField="ProjectCode" DataValueField="Id"
-                                                        ValidationGroup="proedit" AutoPostBack="True" OnSelectedIndexChanged="ddlProject_SelectedIndexChanged">
-                                                        <asp:ListItem Value="0">Select Project</asp:ListItem>
-                                                    </asp:DropDownList>
-                                                    <asp:RequiredFieldValidator ID="RfvProject" runat="server" CssClass="validator"
-                                                        ControlToValidate="ddlProject" ErrorMessage="Project Required"
-                                                        InitialValue="0" SetFocusOnError="True" ValidationGroup="proedit"></asp:RequiredFieldValidator>
+                                                    <cc1:ComboBox ID="CbEdtProject" AutoPostBack="true"
+                                                        runat="server" DataValueField="Id" DataTextField="ProjectCode"
+                                                        CssClass="CustomGridComboBoxStyle" AutoCompleteMode="SuggestAppend"
+                                                        DropDownStyle="DropDownList" OnSelectedIndexChanged="CbEdtProject_SelectedIndexChanged">
+                                                    </cc1:ComboBox>
+                                                    <asp:CustomValidator
+                                                        ID="CustomValidatorCbProject"
+                                                        runat="server"
+                                                        ErrorMessage="Project is required"
+                                                        ClientValidationFunction="validateCbEdtProject"
+                                                        ValidationGroup="proedit"
+                                                        CssClass="validator"
+                                                        Display="Dynamic" />
                                                 </EditItemTemplate>
                                                 <FooterTemplate>
-                                                    <asp:DropDownList ID="ddlFProject" runat="server" CssClass="form-control"
-                                                        AppendDataBoundItems="True" DataTextField="ProjectCode" DataValueField="Id"
-                                                        EnableViewState="true" ValidationGroup="proadd" AutoPostBack="True" OnSelectedIndexChanged="ddlFProject_SelectedIndexChanged">
-                                                        <asp:ListItem Value="0">Select Project</asp:ListItem>
-                                                    </asp:DropDownList>
-                                                    <asp:RequiredFieldValidator ID="RfvFProjectCode" runat="server" CssClass="validator"
-                                                        ControlToValidate="ddlFProject" Display="Dynamic"
-                                                        ErrorMessage="Project Required" InitialValue="0" SetFocusOnError="True"
-                                                        ValidationGroup="proadd"></asp:RequiredFieldValidator>
+                                                    <cc1:ComboBox ID="CbProject" AutoPostBack="true"
+                                                        runat="server" DataValueField="Id" DataTextField="ProjectCode"
+                                                        CssClass="CustomGridComboBoxStyle" AutoCompleteMode="SuggestAppend"
+                                                        DropDownStyle="DropDownList" OnSelectedIndexChanged="CbProject_SelectedIndexChanged">
+                                                    </cc1:ComboBox>
+                                                    <asp:CustomValidator
+                                                        ID="CustomValidatorCbProject"
+                                                        runat="server"
+                                                        ErrorMessage="Project is required"
+                                                        ClientValidationFunction="validateCbProject"
+                                                        ValidationGroup="proadd"
+                                                        CssClass="validator"
+                                                        Display="Dynamic" />
                                                 </FooterTemplate>
                                                 <ItemTemplate>
                                                     <%# DataBinder.Eval(Container.DataItem, "Project.ProjectCode")%>
@@ -261,25 +286,34 @@
                                             </asp:TemplateColumn>
                                             <asp:TemplateColumn HeaderText="Grant ID">
                                                 <EditItemTemplate>
-                                                    <asp:DropDownList ID="ddlGrant" runat="server" CssClass="form-control"
-                                                        AppendDataBoundItems="True" DataTextField="GrantCode" DataValueField="Id"
-                                                        ValidationGroup="proedit" OnSelectedIndexChanged="ddlGrant_SelectedIndexChanged">
-                                                        <asp:ListItem Value="0">Select Grant</asp:ListItem>
-                                                    </asp:DropDownList>
-                                                    <asp:RequiredFieldValidator ID="RfvGrant" runat="server" CssClass="validator"
-                                                        ControlToValidate="ddlGrant" ErrorMessage="Grant Required"
-                                                        InitialValue="0" SetFocusOnError="True" ValidationGroup="proedit"></asp:RequiredFieldValidator>
+                                                    <cc1:ComboBox ID="CbEdtGrant"
+                                                        runat="server" DataValueField="Id" DataTextField="GrantCode"
+                                                        CssClass="CustomGridComboBoxStyle" AutoCompleteMode="SuggestAppend"
+                                                        DropDownStyle="DropDownList">
+                                                    </cc1:ComboBox>
+                                                    <asp:CustomValidator
+                                                        ID="CustomValidatorCbEdtGrant"
+                                                        runat="server"
+                                                        ErrorMessage="Grant is required"
+                                                        ClientValidationFunction="validateCbEdtGrant"
+                                                        ValidationGroup="proedit"
+                                                        CssClass="validator"
+                                                        Display="Dynamic" />
                                                 </EditItemTemplate>
                                                 <FooterTemplate>
-                                                    <asp:DropDownList ID="ddlFGrant" runat="server" CssClass="form-control"
-                                                        AppendDataBoundItems="True" DataTextField="GrantCode" DataValueField="Id"
-                                                        EnableViewState="true" ValidationGroup="proadd">
-                                                        <asp:ListItem Value="0">Select Grant</asp:ListItem>
-                                                    </asp:DropDownList>
-                                                    <asp:RequiredFieldValidator ID="RfvFGrantCode" runat="server" CssClass="validator"
-                                                        ControlToValidate="ddlFGrant" Display="Dynamic"
-                                                        ErrorMessage="Grant Required" InitialValue="0" SetFocusOnError="True"
-                                                        ValidationGroup="proadd"></asp:RequiredFieldValidator>
+                                                    <cc1:ComboBox ID="CbGrant"
+                                                        runat="server" DataValueField="Id" DataTextField="GrantCode"
+                                                        CssClass="CustomGridComboBoxStyle" AutoCompleteMode="SuggestAppend"
+                                                        DropDownStyle="DropDownList">
+                                                    </cc1:ComboBox>
+                                                    <asp:CustomValidator
+                                                        ID="CustomValidatorCbGrant"
+                                                        runat="server"
+                                                        ErrorMessage="Grant is required"
+                                                        ClientValidationFunction="validateCbGrant"
+                                                        ValidationGroup="proadd"
+                                                        CssClass="validator"
+                                                        Display="Dynamic" />
                                                 </FooterTemplate>
                                                 <ItemTemplate>
                                                     <%# DataBinder.Eval(Container.DataItem, "Grant.GrantCode")%>
