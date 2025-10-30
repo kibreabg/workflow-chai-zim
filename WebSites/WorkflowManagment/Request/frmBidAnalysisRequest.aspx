@@ -7,11 +7,18 @@
 <asp:Content ID="Content" ContentPlaceHolderID="DefaultContent" runat="Server">
     <script src="../js/libs/jquery-2.0.2.min.js"></script>
     <script type="text/javascript">
-
         function showSearch() {
             $(document).ready(function () {
                 $('#searchModal').modal('show');
             });
+        }
+        function validateCbProject(sender, args) {
+            var hiddenField = document.getElementById('DefaultContent_CbProject_CbProject_HiddenField');
+            args.IsValid = hiddenField && hiddenField.value !== "0" && hiddenField.value !== "";
+        }
+        function validateCbGrant(sender, args) {
+            var hiddenField = document.getElementById('DefaultContent_CbGrant_CbGrant_HiddenField');
+            args.IsValid = hiddenField && hiddenField.value !== "0" && hiddenField.value !== "";
         }
         function Clickheretoprint(theid) {
             var disp_setting = "toolbar=yes,location=no,directories=yes,menubar=yes,";
@@ -73,32 +80,42 @@
                                 <label class="input">
                                     <i class="icon-append fa fa-calendar"></i>
                                     <asp:TextBox ID="txtAnalyzedDate" runat="server" Visible="true" CssClass="form-control datepicker" data-dateformat="mm/dd/yy" Enabled="False"></asp:TextBox>
-                                    <asp:RequiredFieldValidator ID="RfvAnalyzedDate" runat="server" CssClass="validator" ControlToValidate="txtAnalyzedDate" ErrorMessage="Analyzed Date Required" InitialValue="" SetFocusOnError="True" ValidationGroup="Save"></asp:RequiredFieldValidator>
+                                    <asp:RequiredFieldValidator ID="RfvAnalyzedDate" runat="server" CssClass="validator"
+                                        ControlToValidate="txtAnalyzedDate" ErrorMessage="Analyzed Date Required"
+                                        InitialValue="" SetFocusOnError="True" ValidationGroup="Save"></asp:RequiredFieldValidator>
                                 </label>
                             </section>
                         </div>
                         <div class="row">
                             <section class="col col-6">
                                 <label class="label">Project</label>
-                                <label class="select">
-                                    <asp:DropDownList ID="ddlProject" AutoPostBack="true" runat="server" DataValueField="Id" DataTextField="ProjectCode" OnSelectedIndexChanged="ddlProject_SelectedIndexChanged">
-                                    </asp:DropDownList><i></i>
-                                    <asp:RequiredFieldValidator
-                                        ID="rfvddlProject" runat="server" ErrorMessage="Project is required" Display="Dynamic"
-                                        CssClass="validator" ValidationGroup="saveMain" InitialValue="0"
-                                        SetFocusOnError="true" ControlToValidate="ddlProject"></asp:RequiredFieldValidator>
-                                </label>
+                                <cc1:ComboBox ID="CbProject" AutoPostBack="true" runat="server" Width="100%"
+                                    DataValueField="Id" DataTextField="ProjectCode" CssClass="CustomComboBoxStyle"
+                                    AutoCompleteMode="SuggestAppend" DropDownStyle="DropDownList" OnSelectedIndexChanged="CbProject_SelectedIndexChanged">
+                                </cc1:ComboBox>
+                                <asp:CustomValidator
+                                    ID="CustomValidatorCbProject"
+                                    runat="server"
+                                    ErrorMessage="Project is required"
+                                    ClientValidationFunction="validateCbProject"
+                                    ValidationGroup="Save"
+                                    CssClass="validator"
+                                    Display="Dynamic" />
                             </section>
                             <section class="col col-6">
                                 <label class="label">Grant</label>
-                                <label class="select">
-                                    <asp:DropDownList ID="ddlGrant" runat="server" DataValueField="Id" DataTextField="GrantCode">
-                                    </asp:DropDownList><i></i>
-                                    <asp:RequiredFieldValidator
-                                        ID="rfvGrant" runat="server" ErrorMessage="Grant is required" Display="Dynamic"
-                                        CssClass="validator" ValidationGroup="saveMain" InitialValue="0"
-                                        SetFocusOnError="true" ControlToValidate="ddlGrant"></asp:RequiredFieldValidator>
-                                </label>
+                                <cc1:ComboBox ID="CbGrant" AutoPostBack="true" runat="server" Width="100%"
+                                    DataValueField="Id" DataTextField="GrantCode" CssClass="CustomComboBoxStyle"
+                                    AutoCompleteMode="SuggestAppend" DropDownStyle="DropDownList">
+                                </cc1:ComboBox>
+                                <asp:CustomValidator
+                                    ID="CustomValidatorCbGrant"
+                                    runat="server"
+                                    ErrorMessage="Grant is required"
+                                    ClientValidationFunction="validateCbGrant"
+                                    ValidationGroup="Save"
+                                    CssClass="validator"
+                                    Display="Dynamic" />
                             </section>
                         </div>
                         <div class="row">

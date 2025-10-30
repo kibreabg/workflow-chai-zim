@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using Chai.WorkflowManagment.CoreDomain.Requests;
-using Chai.WorkflowManagment.CoreDomain.Users;
+﻿using Chai.WorkflowManagment.CoreDomain.Requests;
+using Chai.WorkflowManagment.CoreDomain.Setting;
 using Chai.WorkflowManagment.Enums;
 using Chai.WorkflowManagment.Shared;
 using log4net;
 using log4net.Config;
 using Microsoft.Practices.ObjectBuilder;
+using System;
+using System.Collections.Generic;
 using System.IO;
-using Chai.WorkflowManagment.CoreDomain.Request;
-using System.Data;
-using Chai.WorkflowManagment.CoreDomain.Setting;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 
 namespace Chai.WorkflowManagment.Modules.Request.Views
 {
@@ -154,11 +149,11 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         public int GetProjectId
         {
-            get { return Convert.ToInt32(ddlProject.SelectedValue); }
+            get { return Convert.ToInt32(CbProject.SelectedValue); }
         }
         public int GetGrantId
         {
-            get { return Convert.ToInt32(ddlGrant.SelectedValue); }
+            get { return Convert.ToInt32(CbGrant.SelectedValue); }
         }
         public IList<BidAnalysisRequest> BidAnalysisRequests
         {
@@ -382,10 +377,10 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 txtselectionfor.Text = _presenter.CurrentBidAnalysisRequest.ReasonforSelection;
                 txtTotal.Text = Convert.ToDecimal(_presenter.CurrentBidAnalysisRequest.TotalPrice).ToString();
 
-                ddlProject.SelectedValue = _presenter.CurrentBidAnalysisRequest.Project.Id.ToString();
+                CbProject.SelectedValue = _presenter.CurrentBidAnalysisRequest.Project.Id.ToString();
 
-                PopGrants(Convert.ToInt32(ddlProject.SelectedValue));
-                ddlGrant.SelectedValue = _presenter.CurrentBidAnalysisRequest.Grant.Id.ToString();
+                PopGrants(Convert.ToInt32(CbProject.SelectedValue));
+                CbGrant.SelectedValue = _presenter.CurrentBidAnalysisRequest.Grant.Id.ToString();
                 BindBidAnalysisRequests();
                 btnPrintworksheet.Enabled = true;
                 PrintTransaction();
@@ -677,35 +672,33 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 
                 txtAnalyzedDate.Text = DateTime.Now.ToShortDateString();
 
-                ddlProject.SelectedValue = _presenter.CurrentBidAnalysisRequest.PurchaseRequest.PurchaseRequestDetails[0].Project.Id.ToString();
+                CbProject.SelectedValue = _presenter.CurrentBidAnalysisRequest.PurchaseRequest.PurchaseRequestDetails[0].Project.Id.ToString();
                 if (_presenter.CurrentBidAnalysisRequest.TotalPrice != 0)
                 {
                     txtTotal.Text = _presenter.CurrentBidAnalysisRequest.TotalPrice.ToString();
                 }
-                ddlGrant.DataSource = _presenter.GetGrantbyprojectId(Convert.ToInt32(ddlProject.SelectedValue));
-                ddlGrant.DataBind();
-                ddlGrant.SelectedValue = _presenter.CurrentBidAnalysisRequest.PurchaseRequest.PurchaseRequestDetails[0].Grant.Id.ToString();
+                CbGrant.DataSource = _presenter.GetGrantbyprojectId(Convert.ToInt32(CbProject.SelectedValue));
+                CbGrant.DataBind();
+                CbGrant.SelectedValue = _presenter.CurrentBidAnalysisRequest.PurchaseRequest.PurchaseRequestDetails[0].Grant.Id.ToString();
 
-                //    GridView1.DataSource = _presenter.CurrentBidAnalysisRequest.PurchaseRequest.PurchaseRequestDetails;
-                //  GridView1.DataBind();
             }
 
         }
         private void PopProjects()
         {
-            ddlProject.DataSource = _presenter.GetProjects();
-            ddlProject.DataBind();
+            CbProject.DataSource = _presenter.GetProjects();
+            CbProject.DataBind();
 
-            ddlProject.Items.Insert(0, new ListItem("---Select Project---", "0"));
-            ddlProject.SelectedIndex = 0;
+            CbProject.Items.Insert(0, new ListItem("---Select Project---", "0"));
+            CbProject.SelectedIndex = 0;
         }
-        private void PopGrants(int ProjectId)
+        private void PopGrants(int projectId)
         {
-            ddlGrant.DataSource = _presenter.GetGrantbyprojectId(ProjectId);
-            ddlGrant.DataBind();
+            CbGrant.DataSource = _presenter.GetGrantbyprojectId(projectId);
+            CbGrant.DataBind();
 
-            ddlGrant.Items.Insert(0, new ListItem("---Select Grant---", "0"));
-            ddlGrant.SelectedIndex = 0;
+            CbGrant.Items.Insert(0, new ListItem("---Select Grant---", "0"));
+            CbGrant.SelectedIndex = 0;
         }
         protected void dgBidders_ItemDataBound1(object sender, DataGridItemEventArgs e)
         {
@@ -885,7 +878,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 
                                     cost = cost + biddetail.TotalCost;
                                 }
-                            };
+                            }
+                            ;
                         }
                     }
                     _presenter.CurrentBidAnalysisRequest.TotalPrice = cost;
@@ -946,7 +940,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 
                                 cost = cost + biddetail.TotalCost;
                             }
-                        };
+                        }
+                        ;
                     }
                 }
                 _presenter.CurrentBidAnalysisRequest.TotalPrice = cost;
@@ -987,9 +982,9 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 
             BindItemDetails();
         }
-        protected void ddlProject_SelectedIndexChanged(object sender, EventArgs e)
+        protected void CbProject_SelectedIndexChanged(object sender, EventArgs e)
         {
-            PopGrants(Convert.ToInt32(ddlProject.SelectedValue));
+            PopGrants(Convert.ToInt32(CbProject.SelectedValue));
         }
         protected void DataGrid1_ItemDataBound(object sender, DataGridItemEventArgs e)
         {
