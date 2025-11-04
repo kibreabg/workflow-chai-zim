@@ -35,6 +35,37 @@
                 return false;
             return true;
         }
+
+        function validateCbProject(sender, args) {
+            var hiddenField = document.getElementById('DefaultContent_dgExpenseLiquidationDetail_CbProject_CbProject_HiddenField');
+            args.IsValid = hiddenField && hiddenField.value !== "0" && hiddenField.value !== "";
+        }
+        function validateCbEdtProject(sender, args) {
+            // try to get the row index that server set on the validator in the databound event
+            var rowIndex = sender.getAttribute('data-rowindex');
+
+            var hiddenField = null;
+            if (rowIndex) {
+                var idGuess = 'DefaultContent_dgExpenseLiquidationDetail_CbEdtProject_' + rowIndex + '_CbEdtProject_HiddenField_' + rowIndex;
+                hiddenField = document.getElementById(idGuess);
+            }
+            args.IsValid = hiddenField && hiddenField.value !== "0" && hiddenField.value !== "";
+        }
+        function validateCbGrant(sender, args) {
+            var hiddenField = document.getElementById('DefaultContent_dgExpenseLiquidationDetail_CbGrant_CbGrant_HiddenField');
+            args.IsValid = hiddenField && hiddenField.value !== "0" && hiddenField.value !== "";
+        }
+        function validateCbEdtGrant(sender, args) {
+            // try to get the row index that server set on the validator in the databound event
+            var rowIndex = sender.getAttribute('data-rowindex');
+
+            var hiddenField = null;
+            if (rowIndex) {
+                var idGuess = 'DefaultContent_dgExpenseLiquidationDetail_CbEdtGrant_' + rowIndex + '_CbEdtGrant_HiddenField_' + rowIndex;
+                hiddenField = document.getElementById(idGuess);
+            }
+            args.IsValid = hiddenField && hiddenField.value !== "0" && hiddenField.value !== "";
+        }
     </script>
     <div class="jarviswidget" id="wid-id-8" data-widget-editbutton="false" data-widget-custombutton="false">
         <header>
@@ -169,34 +200,34 @@
                                                         </label>
                                                     </section>
                                                 </div>
-                                                 <div class="row">
-                                                 <section class="col col-6">
-                                <label class="label">Payment Methods</label>
-                                <label class="select">
-                                    <asp:DropDownList ID="ddlPayMethods" AutoPostBack="True" AppendDataBoundItems="true" 
-                                        runat="server" DataValueField="Id" DataTextField="Name" CssClass="form-control">
-                                        <asp:ListItem Text="--Select Payment Method--" Value="0"></asp:ListItem>
-                                        <asp:ListItem>RTGs</asp:ListItem>
-                                        <asp:ListItem>USD-Cash</asp:ListItem>
-                                        <asp:ListItem>CABS</asp:ListItem>
-                                         <asp:ListItem>USD-Bank</asp:ListItem>
-                                         <asp:ListItem>NMB</asp:ListItem>
-                                    </asp:DropDownList><i></i>
-                                    <asp:RequiredFieldValidator
-                                        ID="RequiredFieldValidator3" runat="server" ErrorMessage="Payment Method must be selected" Display="Dynamic"
-                                        CssClass="validator" ValidationGroup="saveMain" InitialValue="0"
-                                        SetFocusOnError="true" ControlToValidate="ddlPayMethods"></asp:RequiredFieldValidator>
-                                </label>
-                            </section>
-                              <section class="col col-6">
-                                <label class="label">
-                                    <asp:Label ID="lblCardNo" runat="server" Text="Card Number" Visible="True"></asp:Label></label>
-                                <label class="input">
-                                    <asp:TextBox ID="txtCardNo" runat="server" Visible="True" maxlength="16"></asp:TextBox>
-                                     <cc1:FilteredTextBoxExtender runat="server" Enabled="True" TargetControlID="txtCardNo" ID="txtCardNo_FilteredTextBoxExtender" FilterType="Numbers"></cc1:FilteredTextBoxExtender>
-                                </label>
-                            </section>
-                                                 </div>
+                                                <div class="row">
+                                                    <section class="col col-6">
+                                                        <label class="label">Payment Methods</label>
+                                                        <label class="select">
+                                                            <asp:DropDownList ID="ddlPayMethods" AutoPostBack="True" AppendDataBoundItems="true"
+                                                                runat="server" DataValueField="Id" DataTextField="Name" CssClass="form-control">
+                                                                <asp:ListItem Text="--Select Payment Method--" Value="0"></asp:ListItem>
+                                                                <asp:ListItem>RTGs</asp:ListItem>
+                                                                <asp:ListItem>USD-Cash</asp:ListItem>
+                                                                <asp:ListItem>CABS</asp:ListItem>
+                                                                <asp:ListItem>USD-Bank</asp:ListItem>
+                                                                <asp:ListItem>NMB</asp:ListItem>
+                                                            </asp:DropDownList><i></i>
+                                                            <asp:RequiredFieldValidator
+                                                                ID="RequiredFieldValidator3" runat="server" ErrorMessage="Payment Method must be selected" Display="Dynamic"
+                                                                CssClass="validator" ValidationGroup="saveMain" InitialValue="0"
+                                                                SetFocusOnError="true" ControlToValidate="ddlPayMethods"></asp:RequiredFieldValidator>
+                                                        </label>
+                                                    </section>
+                                                    <section class="col col-6">
+                                                        <label class="label">
+                                                            <asp:Label ID="lblCardNo" runat="server" Text="Card Number" Visible="True"></asp:Label></label>
+                                                        <label class="input">
+                                                            <asp:TextBox ID="txtCardNo" runat="server" Visible="True" MaxLength="16"></asp:TextBox>
+                                                            <cc1:FilteredTextBoxExtender runat="server" Enabled="True" TargetControlID="txtCardNo" ID="txtCardNo_FilteredTextBoxExtender" FilterType="Numbers"></cc1:FilteredTextBoxExtender>
+                                                        </label>
+                                                    </section>
+                                                </div>
                                                 <asp:UpdatePanel ID="upLiquidationDetail" runat="server">
                                                     <ContentTemplate>
                                                         <asp:DataGrid ID="dgExpenseLiquidationDetail" runat="server" AlternatingRowStyle-CssClass="" AutoGenerateColumns="False" CellPadding="0"
@@ -250,34 +281,67 @@
                                                                 </asp:TemplateColumn>
                                                                 <asp:TemplateColumn HeaderText="Project ID">
                                                                     <ItemTemplate>
-                                                                        <asp:DropDownList ID="ddlProject" runat="server" AutoPostBack="true" CssClass="form-control" AppendDataBoundItems="true" OnSelectedIndexChanged="ddlProject_SelectedIndexChanged">
-                                                                            <asp:ListItem Value="0">Select Project</asp:ListItem>
-                                                                        </asp:DropDownList>
-                                                                        <asp:RequiredFieldValidator ID="rfvddlProject" runat="server" ControlToValidate="ddlProject" CssClass="validator" Display="Dynamic" ErrorMessage="Project must be selected" InitialValue="0" SetFocusOnError="true" ValidationGroup="request"></asp:RequiredFieldValidator>
-                                                                        <i></i>
+                                                                        <cc1:ComboBox ID="CbEdtProject" AutoPostBack="true"
+                                                                            runat="server" DataValueField="Id" DataTextField="ProjectCode"
+                                                                            CssClass="CustomGridComboBoxStyle" AutoCompleteMode="SuggestAppend"
+                                                                            DropDownStyle="DropDownList" OnSelectedIndexChanged="CbEdtProject_SelectedIndexChanged">
+                                                                        </cc1:ComboBox>
+                                                                        <asp:CustomValidator
+                                                                            ID="CustomValidatorCbEdtProject"
+                                                                            runat="server"
+                                                                            ErrorMessage="Project is required"
+                                                                            ClientValidationFunction="validateCbEdtProject"
+                                                                            ValidationGroup="request"
+                                                                            CssClass="validator"
+                                                                            Display="Dynamic" />
                                                                     </ItemTemplate>
                                                                     <FooterTemplate>
-                                                                        <asp:DropDownList ID="ddlFProject" runat="server" AutoPostBack="true" CssClass="form-control" AppendDataBoundItems="true" OnSelectedIndexChanged="ddlFProject_SelectedIndexChanged">
-                                                                            <asp:ListItem Value="0">Select Project</asp:ListItem>
-                                                                        </asp:DropDownList>
-                                                                        <asp:RequiredFieldValidator ID="rfvddlFProject" runat="server" ControlToValidate="ddlFProject" CssClass="validator" Display="Dynamic" ErrorMessage="Project must be selected" InitialValue="0" SetFocusOnError="true" ValidationGroup="save"></asp:RequiredFieldValidator>
-                                                                        <i></i>
+                                                                        <cc1:ComboBox ID="CbProject" AutoPostBack="true"
+                                                                            runat="server" DataValueField="Id" DataTextField="ProjectCode"
+                                                                            CssClass="CustomGridComboBoxStyle" AutoCompleteMode="SuggestAppend"
+                                                                            DropDownStyle="DropDownList" OnSelectedIndexChanged="CbProject_SelectedIndexChanged">
+                                                                        </cc1:ComboBox>
+                                                                        <asp:CustomValidator
+                                                                            ID="CustomValidatorCbProject"
+                                                                            runat="server"
+                                                                            ErrorMessage="Project is required"
+                                                                            ClientValidationFunction="validateCbProject"
+                                                                            ValidationGroup="save"
+                                                                            CssClass="validator"
+                                                                            Display="Dynamic" />
                                                                     </FooterTemplate>
                                                                 </asp:TemplateColumn>
                                                                 <asp:TemplateColumn HeaderText="Grant ID">
                                                                     <ItemTemplate>
-                                                                        <asp:DropDownList ID="ddlGrant" runat="server" AppendDataBoundItems="True" CssClass="form-control" DataTextField="GrantCode" DataValueField="Id">
-                                                                            <asp:ListItem Value="0">Select Grant</asp:ListItem>
-                                                                        </asp:DropDownList>
-                                                                        <asp:RequiredFieldValidator ID="RfvGrant" runat="server" CssClass="validator" ControlToValidate="ddlGrant" ErrorMessage="Grant is required" InitialValue="0" SetFocusOnError="True" ValidationGroup="request"></asp:RequiredFieldValidator>
+                                                                        <cc1:ComboBox ID="CbEdtGrant"
+                                                                            runat="server" DataValueField="Id" DataTextField="GrantCode"
+                                                                            CssClass="CustomGridComboBoxStyle" AutoCompleteMode="SuggestAppend"
+                                                                            DropDownStyle="DropDownList">
+                                                                        </cc1:ComboBox>
+                                                                        <asp:CustomValidator
+                                                                            ID="CustomValidatorCbEdtGrant"
+                                                                            runat="server"
+                                                                            ErrorMessage="Grant is required"
+                                                                            ClientValidationFunction="validateCbEdtGrant"
+                                                                            ValidationGroup="request"
+                                                                            CssClass="validator"
+                                                                            Display="Dynamic" />
                                                                     </ItemTemplate>
                                                                     <FooterTemplate>
-                                                                        <asp:DropDownList ID="ddlFGrant" runat="server" AppendDataBoundItems="True" CssClass="form-control" DataTextField="GrantCode" DataValueField="Id" EnableViewState="true">
-                                                                            <asp:ListItem Value="0">Select Grant</asp:ListItem>
-                                                                        </asp:DropDownList>
-                                                                        <asp:RequiredFieldValidator ID="RfvFGrantCode" runat="server" CssClass="validator" ControlToValidate="ddlFGrant" Display="Dynamic" ErrorMessage="Grant is required" InitialValue="0" SetFocusOnError="True" ValidationGroup="save"></asp:RequiredFieldValidator>
+                                                                        <cc1:ComboBox ID="CbGrant"
+                                                                            runat="server" DataValueField="Id" DataTextField="GrantCode"
+                                                                            CssClass="CustomGridComboBoxStyle" AutoCompleteMode="SuggestAppend"
+                                                                            DropDownStyle="DropDownList">
+                                                                        </cc1:ComboBox>
+                                                                        <asp:CustomValidator
+                                                                            ID="CustomValidatorCbGrant"
+                                                                            runat="server"
+                                                                            ErrorMessage="Grant is required"
+                                                                            ClientValidationFunction="validateCbGrant"
+                                                                            ValidationGroup="save"
+                                                                            CssClass="validator"
+                                                                            Display="Dynamic" />
                                                                     </FooterTemplate>
-
                                                                 </asp:TemplateColumn>
                                                                 <asp:TemplateColumn HeaderText="Amount Advanced">
                                                                     <ItemTemplate>
@@ -373,8 +437,7 @@
                         <asp:Button ID="btnDelete" runat="server" CausesValidation="False" class="btn btn-primary"
                             Text="Delete" OnClick="btnDelete_Click" Visible="False"></asp:Button>
                         <cc1:ConfirmButtonExtender ID="btnDelete_ConfirmButtonExtender" runat="server"
-                            ConfirmText="Are you sure" Enabled="True" TargetControlID="btnDelete">
-                        </cc1:ConfirmButtonExtender>
+                            ConfirmText="Are you sure" Enabled="True" TargetControlID="btnDelete"></cc1:ConfirmButtonExtender>
                         <asp:Button ID="btnCancel" runat="server" CssClass="btn btn-primary" OnClick="btnCancel_Click" Text="New" />
                         <asp:Button ID="btnPrint" runat="server" Text="Print" CssClass="btn btn-primary" Enabled="false" OnClientClick="javascript:Clickheretoprint('divprint')"></asp:Button>
                         <asp:Button ID="btnClosepage" runat="server" Text="Close" CssClass="btn btn-primary" PostBackUrl="../Default.aspx"></asp:Button>
@@ -447,7 +510,7 @@
                                             ×
                                         </button>
                                         <i class="fa-fw fa fa-info"></i>
-                                        <strong>Info!</strong> Rejected Expense Liquidations are highlighted in <span style="color:red">Red Color</span>
+                                        <strong>Info!</strong> Rejected Expense Liquidations are highlighted in <span style="color: red">Red Color</span>
                                     </div>
                                 </div>
                             </div>

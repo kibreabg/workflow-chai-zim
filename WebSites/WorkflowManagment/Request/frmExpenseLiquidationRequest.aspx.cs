@@ -1,4 +1,5 @@
-﻿using Chai.WorkflowManagment.CoreDomain.Requests;
+﻿using AjaxControlToolkit;
+using Chai.WorkflowManagment.CoreDomain.Requests;
 using Chai.WorkflowManagment.Enums;
 using Chai.WorkflowManagment.Shared;
 using log4net;
@@ -136,28 +137,30 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 BindExpenseLiquidationRequests();
             }
         }
-        private void BindProject(DropDownList ddlProject)
+        private void BindProject(ComboBox cbProject)
         {
-            ddlProject.DataSource = _presenter.ListProjects();
-            ddlProject.DataValueField = "Id";
-            ddlProject.DataTextField = "ProjectCode";
-            ddlProject.DataBind();
+            cbProject.DataSource = _presenter.ListProjects();
+            cbProject.DataValueField = "Id";
+            cbProject.DataTextField = "ProjectCode";
+            cbProject.DataBind();
+
+            cbProject.Items.Insert(0, new ListItem("---Select Project---", "0"));
+            cbProject.SelectedIndex = 0;
         }
         private void PopExpenseTypes(DropDownList ddlExpenseType)
         {
             ddlExpenseType.DataSource = _presenter.GetExpenseTypes();
             ddlExpenseType.DataBind();
-
-
-            //ddlAccountDescription.Items.Insert(0, new ListItem("---Select Account Description---", "0"));
-            //ddlAccountDescription.SelectedIndex = 0;
         }
-        private void BindGrant(DropDownList ddlGrant, int ProjectId)
+        private void BindGrant(ComboBox cbGrant, int projectId)
         {
-            ddlGrant.DataSource = _presenter.GetGrantbyprojectId(ProjectId);
-            ddlGrant.DataValueField = "Id";
-            ddlGrant.DataTextField = "GrantCode";
-            ddlGrant.DataBind();
+            cbGrant.DataSource = _presenter.GetGrantbyprojectId(projectId);
+            cbGrant.DataValueField = "Id";
+            cbGrant.DataTextField = "GrantCode";
+            cbGrant.DataBind();
+
+            cbGrant.Items.Insert(0, new ListItem("---Select Grant---", "0"));
+            cbGrant.SelectedIndex = 0;
         }
         private void BindAccountDescription(DropDownList ddlAccountDescription)
         {
@@ -215,10 +218,10 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     detail.RefNo = txtFRefNo.Text;
                     DropDownList ddlAccountDescription = dgi.FindControl("ddlAccountDescription") as DropDownList;
                     detail.ItemAccount = _presenter.GetItemAccount(Convert.ToInt32(ddlAccountDescription.SelectedValue));
-                    DropDownList ddlProject = dgi.FindControl("ddlProject") as DropDownList;
-                    detail.Project = _presenter.GetProject(Convert.ToInt32(ddlProject.SelectedValue));
-                    DropDownList ddlGrant = dgi.FindControl("ddlGrant") as DropDownList;
-                    detail.Grant = _presenter.GetGrant(Convert.ToInt32(ddlGrant.SelectedValue));
+                    ComboBox cbEdtProject = dgi.FindControl("CbEdtProject") as ComboBox;
+                    detail.Project = _presenter.GetProject(Convert.ToInt32(cbEdtProject.SelectedValue));
+                    ComboBox CbEdtGrant = dgi.FindControl("CbEdtGrant") as ComboBox;
+                    detail.Grant = _presenter.GetGrant(Convert.ToInt32(CbEdtGrant.SelectedValue));
                     TextBox txtActualExpenditure = dgi.FindControl("txtActualExpenditure") as TextBox;
                     detail.ActualExpenditure = Convert.ToDecimal(txtActualExpenditure.Text);
                     TextBox txtVariance = dgi.FindControl("txtVariance") as TextBox;
@@ -312,65 +315,91 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             if (e.Item.ItemType == ListItemType.Footer)
             {
-                DropDownList ddlProject = e.Item.FindControl("ddlFProject") as DropDownList;
-                BindProject(ddlProject);
-                DropDownList ddlGrant = e.Item.FindControl("ddlFGrant") as DropDownList;
-                BindGrant(ddlGrant, Convert.ToInt32(ddlProject.SelectedValue));
+                ComboBox cbProject = e.Item.FindControl("CbProject") as ComboBox;
+                BindProject(cbProject);
+                ComboBox CbEdtGrant = e.Item.FindControl("CbGrant") as ComboBox;
+                BindGrant(CbEdtGrant, Convert.ToInt32(cbProject.SelectedValue));
                 DropDownList ddlAccountDescription = e.Item.FindControl("ddlFAccountDescription") as DropDownList;
                 BindAccountDescription(ddlAccountDescription);
                 DropDownList ddlExpenseType = e.Item.FindControl("ddlExpenseType") as DropDownList;
                 PopExpenseTypes(ddlExpenseType);
             }
-            else if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            else if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem &&
+                _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestDetails != null)
             {
-                if (_presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestDetails != null)
+                var cvCbEdtGrant = e.Item.FindControl("CustomValidatorCbEdtGrant") as CustomValidator;
+                if (cvCbEdtGrant != null)
                 {
-                    DropDownList ddlProject = e.Item.FindControl("ddlProject") as DropDownList;
-                    BindProject(ddlProject);
-                    if (ddlProject != null)
-                    {
-                        if (_presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestDetails[e.Item.DataSetIndex].Project != null)
-                        {
-                            ListItem liI = ddlProject.Items.FindByValue(_presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestDetails[e.Item.DataSetIndex].Project.Id.ToString());
-                            if (liI != null)
-                                liI.Selected = true;
-                        }
+                    cvCbEdtGrant.Attributes["data-rowindex"] = e.Item.ItemIndex.ToString();
+                }
+                var cvCbEdtProject = e.Item.FindControl("CustomValidatorCbEdtProject") as CustomValidator;
+                if (cvCbEdtProject != null)
+                {
+                    cvCbEdtProject.Attributes["data-rowindex"] = e.Item.ItemIndex.ToString();
+                }
 
-                    }
-                    DropDownList ddlGrant = e.Item.FindControl("ddlGrant") as DropDownList;
-                    if (ddlGrant != null)
-                    {
-                        BindGrant(ddlGrant, Convert.ToInt32(ddlProject.SelectedValue));
-                        if (_presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestDetails[e.Item.DataSetIndex].Grant != null)
-                        {
-                            ListItem liI = ddlGrant.Items.FindByValue(_presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestDetails[e.Item.DataSetIndex].Grant.Id.ToString());
-                            if (liI != null)
-                                liI.Selected = true;
-                        }
+                ComboBox cbEdtProject = e.Item.FindControl("CbEdtProject") as ComboBox;
 
-                    }
-                    DropDownList ddlAccountDescription = e.Item.FindControl("ddlAccountDescription") as DropDownList;
-                    BindAccountDescription(ddlAccountDescription);
-                    if (ddlAccountDescription != null)
+                if (cbEdtProject != null)
+                {
+                    BindProject(cbEdtProject);
+                    int projectId = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestDetails[e.Item.DataSetIndex].Project.Id;
+                    if (projectId != 0)
                     {
-                        if (_presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestDetails[e.Item.DataSetIndex].ItemAccount != null)
+                        // Ensure the project value exists in the combobox before selecting it
+                        ListItem liProject = cbEdtProject.Items.FindByValue(projectId.ToString());
+                        if (liProject != null)
                         {
-                            ListItem liI = ddlAccountDescription.Items.FindByValue(_presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestDetails[e.Item.DataSetIndex].ItemAccount.Id.ToString());
-                            if (liI != null)
-                                liI.Selected = true;
+                            cbEdtProject.SelectedValue = projectId.ToString();
                         }
+                        else
+                        {
+                            if (cbEdtProject.Items.Count > 0)
+                                cbEdtProject.SelectedIndex = 0;
+                        }
+                    }
+                }
+                ComboBox cbEdtGrant = e.Item.FindControl("CbEdtGrant") as ComboBox;
+                if (cbEdtGrant != null)
+                {
+                    BindGrant(cbEdtGrant, Convert.ToInt32(cbEdtProject.SelectedValue));
+                    int grantId = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestDetails[e.Item.DataSetIndex].Grant.Id;
+                    if (grantId != 0)
+                    {
+                        // Ensure the grant value exists in the combobox before selecting it
+                        ListItem liGrant = cbEdtGrant.Items.FindByValue(grantId.ToString());
+                        if (liGrant != null)
+                        {
+                            cbEdtGrant.SelectedValue = grantId.ToString();
+                        }
+                        else
+                        {
+                            if (cbEdtGrant.Items.Count > 0)
+                                cbEdtGrant.SelectedIndex = 0;
+                        }
+                    }
+                }
+                DropDownList ddlAccountDescription = e.Item.FindControl("ddlAccountDescription") as DropDownList;
+                BindAccountDescription(ddlAccountDescription);
+                if (ddlAccountDescription != null)
+                {
+                    if (_presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestDetails[e.Item.DataSetIndex].ItemAccount != null)
+                    {
+                        ListItem liI = ddlAccountDescription.Items.FindByValue(_presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestDetails[e.Item.DataSetIndex].ItemAccount.Id.ToString());
+                        if (liI != null)
+                            liI.Selected = true;
+                    }
 
-                    }
-                    DropDownList ddlEdtExpenseType = e.Item.FindControl("ddlEdtExpenseType") as DropDownList;
-                    if (ddlEdtExpenseType != null)
+                }
+                DropDownList ddlEdtExpenseType = e.Item.FindControl("ddlEdtExpenseType") as DropDownList;
+                if (ddlEdtExpenseType != null)
+                {
+                    PopExpenseTypes(ddlEdtExpenseType);
+                    if (_presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestDetails[e.Item.DataSetIndex].ExpenseType != null)
                     {
-                        PopExpenseTypes(ddlEdtExpenseType);
-                        if (_presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestDetails[e.Item.DataSetIndex].ExpenseType != null)
-                        {
-                            ListItem liI = ddlEdtExpenseType.Items.FindByValue(_presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestDetails[e.Item.DataSetIndex].ExpenseType.Id.ToString());
-                            if (liI != null)
-                                liI.Selected = true;
-                        }
+                        ListItem liI = ddlEdtExpenseType.Items.FindByValue(_presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestDetails[e.Item.DataSetIndex].ExpenseType.Id.ToString());
+                        if (liI != null)
+                            liI.Selected = true;
                     }
                 }
             }
@@ -389,10 +418,10 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     elrd1.ItemAccount = _presenter.GetItemAccount(Convert.ToInt32(ddlFAccountDescription1.SelectedValue));
                     DropDownList ddlExpenseType = e.Item.FindControl("ddlExpenseType") as DropDownList;
                     elrd1.ExpenseType = _presenter.GetExpenseType(Convert.ToInt32(ddlExpenseType.SelectedValue));
-                    DropDownList ddlFProject1 = e.Item.FindControl("ddlFProject") as DropDownList;
-                    elrd1.Project = _presenter.GetProject(Convert.ToInt32(ddlFProject1.SelectedValue));
-                    DropDownList ddlFGrant = e.Item.FindControl("ddlFGrant") as DropDownList;
-                    elrd1.Grant = _presenter.GetGrant(Convert.ToInt32(ddlFGrant.SelectedValue));
+                    ComboBox cbProject = e.Item.FindControl("CbProject") as ComboBox;
+                    elrd1.Project = _presenter.GetProject(Convert.ToInt32(cbProject.SelectedValue));
+                    DropDownList CbGrant = e.Item.FindControl("CbGrant") as DropDownList;
+                    elrd1.Grant = _presenter.GetGrant(Convert.ToInt32(CbGrant.SelectedValue));
                     TextBox txtFAmount1 = e.Item.FindControl("txtFAmount") as TextBox;
                     elrd1.AmountAdvanced = Convert.ToDecimal(txtFAmount1.Text);
                     TextBox txtFActualExpenditure1 = e.Item.FindControl("txtFActualExpenditure") as TextBox;
@@ -546,17 +575,45 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             TextBox txtAccountCode = ddl.FindControl("txtAccountCode") as TextBox;
             txtAccountCode.Text = _presenter.GetItemAccount(Convert.ToInt32(ddl.SelectedValue)).AccountCode;
         }
-        protected void ddlProject_SelectedIndexChanged(object sender, EventArgs e)
+        protected void CbEdtProject_SelectedIndexChanged(object sender, EventArgs e)
         {
-            DropDownList ddl = (DropDownList)sender;
-            DropDownList ddlEdtGrant = ddl.FindControl("ddlGrant") as DropDownList;
-            BindGrant(ddlEdtGrant, Convert.ToInt32(ddl.SelectedValue));
+            var cbEdtProject = sender as ComboBox;
+            if (cbEdtProject == null) return;
+
+            // DataGridItem that contains this ComboBox
+            var item = cbEdtProject.NamingContainer as DataGridItem;
+            if (item == null) return;
+
+            // find the other combobox (grant) in the same row
+            var cbEdtGrant = item.FindControl("cbEdtGrant") as ComboBox;
+            if (cbEdtGrant == null) return;
+
+            // use selected project value to bind grant combobox
+            int projectId;
+            if (int.TryParse(cbEdtProject.SelectedValue, out projectId))
+            {
+                BindGrant(cbEdtGrant, projectId);
+            }
         }
-        protected void ddlFProject_SelectedIndexChanged(object sender, EventArgs e)
+        protected void CbProject_SelectedIndexChanged(object sender, EventArgs e)
         {
-            DropDownList ddl = (DropDownList)sender;
-            DropDownList ddlFGrant = ddl.FindControl("ddlFGrant") as DropDownList;
-            BindGrant(ddlFGrant, Convert.ToInt32(ddl.SelectedValue));
+            var cbProject = sender as ComboBox;
+            if (cbProject == null) return;
+
+            // DataGridItem that contains this ComboBox
+            var item = cbProject.NamingContainer as DataGridItem;
+            if (item == null) return;
+
+            // find the other combobox (grant) in the same row
+            var cbGrant = item.FindControl("CbGrant") as ComboBox;
+            if (cbGrant == null) return;
+
+            // use selected project value to bind grant combobox
+            int projectId;
+            if (int.TryParse(cbProject.SelectedValue, out projectId))
+            {
+                BindGrant(cbGrant, projectId);
+            }
         }
         private void PrintTransaction()
         {
