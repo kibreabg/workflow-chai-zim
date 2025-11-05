@@ -420,7 +420,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     elrd1.ExpenseType = _presenter.GetExpenseType(Convert.ToInt32(ddlExpenseType.SelectedValue));
                     ComboBox cbProject = e.Item.FindControl("CbProject") as ComboBox;
                     elrd1.Project = _presenter.GetProject(Convert.ToInt32(cbProject.SelectedValue));
-                    DropDownList CbGrant = e.Item.FindControl("CbGrant") as DropDownList;
+                    ComboBox CbGrant = e.Item.FindControl("CbGrant") as ComboBox;
                     elrd1.Grant = _presenter.GetGrant(Convert.ToInt32(CbGrant.SelectedValue));
                     TextBox txtFAmount1 = e.Item.FindControl("txtFAmount") as TextBox;
                     elrd1.AmountAdvanced = Convert.ToDecimal(txtFAmount1.Text);

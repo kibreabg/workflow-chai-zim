@@ -15,7 +15,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
     {
         private TravelAdvanceRequestPresenter _presenter;
         private static readonly ILog Log = LogManager.GetLogger("AuditTrailLog");
-        TravelAdvanceRequestDetail tac;
+        TravelAdvanceRequestDetail tarDetail;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!this.IsPostBack)
@@ -27,7 +27,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 PopProjects();
                 BindTravelAdvanceDetails();
                 BindTravelAdvanceRequests();
-                //if (_presenter.CurrentTravelAdvanceRequest.Id <= 0)
+                //if (_presenter.CurrentTravelAdvanceRequest.selectedDetailIndex <= 0)
                 //{
                 //    AutoNumber();
                 //}
@@ -197,8 +197,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         private void BindCostsGrid(TravelAdvanceRequestDetail Tad)
         {
-            tac = Session["tac"] as TravelAdvanceRequestDetail;
-            dgTravelAdvanceRequestCost.DataSource = tac.TravelAdvanceCosts;
+            tarDetail = Session["tarDetail"] as TravelAdvanceRequestDetail;
+            dgTravelAdvanceRequestCost.DataSource = tarDetail.TravelAdvanceCosts;
             dgTravelAdvanceRequestCost.DataBind();
         }
         private void BindTravelAdvanceRequests()
@@ -456,8 +456,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 DropDownList ddlEdtModeOfTravel = e.Item.FindControl("ddlEdtModeOfTravel") as DropDownList;
                 tarDetail.ModeOfTravel = ddlEdtModeOfTravel.SelectedValue;
 
-
-
                 dgTravelAdvanceRequestDetail.EditItemIndex = -1;
                 BindTravelAdvanceDetails();
                 Master.ShowMessage(new AppMessage("Travel Advance Detail Successfully Updated", RMessageType.Info));
@@ -469,27 +467,70 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         protected void dgTravelAdvanceRequestDetail_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int TACId = (int)dgTravelAdvanceRequestDetail.DataKeys[dgTravelAdvanceRequestDetail.SelectedItem.ItemIndex];
-            int Id = dgTravelAdvanceRequestDetail.SelectedItem.ItemIndex;
-
-
-            if (TACId > 0)
-                Session["tac"] = _presenter.CurrentTravelAdvanceRequest.GetTravelAdvanceRequestDetail(TACId);
-            else
-                Session["tac"] = _presenter.CurrentTravelAdvanceRequest.TravelAdvanceRequestDetails[dgTravelAdvanceRequestDetail.SelectedItem.ItemIndex];
-
-
-            int recordId = (int)dgTravelAdvanceRequestDetail.SelectedIndex;
-            if (_presenter.CurrentTravelAdvanceRequest.Id > 0)
+            try
             {
-                hfDetailId.Value = TACId.ToString();
+                var selectedItem = dgTravelAdvanceRequestDetail.SelectedItem;
+                if (selectedItem == null)
+                {
+                    Master.ShowMessage(new AppMessage("No detail is selected.", RMessageType.Error));
+                    return;
+                }
+                int selectedIndex = selectedItem.ItemIndex;
+                int tarDetailId = -1;
+
+                if (dgTravelAdvanceRequestDetail.DataKeys != null &&
+                    dgTravelAdvanceRequestDetail.DataKeys.Count > selectedIndex &&
+                    dgTravelAdvanceRequestDetail.DataKeys[selectedIndex] != null)
+                {
+                    Int32.TryParse(dgTravelAdvanceRequestDetail.DataKeys[selectedIndex].ToString(), out tarDetailId);
+                }
+
+                TravelAdvanceRequestDetail travelAdvanceRequestDetail = null;
+
+                if (tarDetailId > 0)
+                {
+                    travelAdvanceRequestDetail = _presenter.CurrentTravelAdvanceRequest.GetTravelAdvanceRequestDetail(tarDetailId);
+                    if (travelAdvanceRequestDetail == null)
+                    {
+                        Master.ShowMessage(new AppMessage("Selected detail could not be found.", RMessageType.Error));
+                        return;
+                    }
+                }
+                else
+                {
+                    var details = _presenter.CurrentTravelAdvanceRequest.TravelAdvanceRequestDetails;
+                    if (details != null && selectedIndex >= 0 && selectedIndex < details.Count)
+                    {
+                        travelAdvanceRequestDetail = details[selectedIndex];
+                    }
+                    else
+                    {
+                        Master.ShowMessage(new AppMessage("Selected detail index is out of range.", RMessageType.Error));
+                        return;
+                    }
+                }
+                Session["tarDetail"] = travelAdvanceRequestDetail;
+                tarDetail = travelAdvanceRequestDetail;
+
+                if (_presenter.CurrentTravelAdvanceRequest.Id > 0)
+                {
+                    hfDetailId.Value = tarDetailId.ToString();
+                }
+                else
+                {
+                    hfDetailId.Value = selectedIndex.ToString();
+                }
+                BindCostsGrid(tarDetail);
+                pnlTACost_ModalPopupExtender.Show();
             }
-            else
+            catch (ArgumentOutOfRangeException)
             {
-                hfDetailId.Value = dgTravelAdvanceRequestDetail.SelectedItem.ItemIndex.ToString();
+                Master.ShowMessage(new AppMessage("Selected detail index is invalid.", RMessageType.Error));
             }
-            BindCostsGrid(tac);
-            pnlTACost_ModalPopupExtender.Show();
+            catch (Exception ex)
+            {
+                Master.ShowMessage(new AppMessage("Error: Unable to process selected detail. " + ex.Message, RMessageType.Error));
+            }
         }
         protected void dgTravelAdvanceRequestCost_CancelCommand(object source, DataGridCommandEventArgs e)
         {
@@ -497,7 +538,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         protected void dgTravelAdvanceRequestCost_DeleteCommand(object source, DataGridCommandEventArgs e)
         {
-            tac = Session["tac"] as TravelAdvanceRequestDetail;
+            tarDetail = Session["tarDetail"] as TravelAdvanceRequestDetail;
             int id = (int)dgTravelAdvanceRequestCost.DataKeys[e.Item.ItemIndex];
             int TACId = (int)dgTravelAdvanceRequestCost.DataKeys[e.Item.ItemIndex];
             TravelAdvanceCost taco;
@@ -505,7 +546,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             if (TACId > 0)
                 taco = _presenter.GetTravelAdvanceCost(TACId);
             else
-                taco = (TravelAdvanceCost)tac.TravelAdvanceCosts[e.Item.ItemIndex];
+                taco = (TravelAdvanceCost)tarDetail.TravelAdvanceCosts[e.Item.ItemIndex];
 
             try
             {
@@ -536,7 +577,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         protected void dgTravelAdvanceRequestCost_EditCommand(object source, DataGridCommandEventArgs e)
         {
-            tac = Session["tac"] as TravelAdvanceRequestDetail;
+            tarDetail = Session["tarDetail"] as TravelAdvanceRequestDetail;
             this.dgTravelAdvanceRequestCost.EditItemIndex = e.Item.ItemIndex;
             int TACId = (int)dgTravelAdvanceRequestCost.DataKeys[e.Item.ItemIndex];
             TravelAdvanceCost taco;
@@ -544,19 +585,19 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             if (TACId > 0)
                 taco = _presenter.GetTravelAdvanceCost(TACId);
             else
-                taco = (TravelAdvanceCost)tac.TravelAdvanceCosts[e.Item.ItemIndex];
+                taco = (TravelAdvanceCost)tarDetail.TravelAdvanceCosts[e.Item.ItemIndex];
             BindCostsGrid(taco.TravelAdvanceRequestDetail);
             pnlTACost_ModalPopupExtender.Show();
         }
         protected void dgTravelAdvanceRequestCost_ItemCommand(object source, DataGridCommandEventArgs e)
         {
-            tac = Session["tac"] as TravelAdvanceRequestDetail;
+            tarDetail = Session["tarDetail"] as TravelAdvanceRequestDetail;
             if (e.CommandName == "AddNew")
             {
                 try
                 {
                     TravelAdvanceCost taCost = new TravelAdvanceCost();
-                    taCost.TravelAdvanceRequestDetail = tac;
+                    taCost.TravelAdvanceRequestDetail = tarDetail;
                     DropDownList ddlAccountDescription = e.Item.FindControl("ddlAccountDescription") as DropDownList;
                     ItemAccount itemAccount = _presenter.GetItemAccount(Convert.ToInt32(ddlAccountDescription.SelectedValue));
                     taCost.ItemAccount = itemAccount;
@@ -591,7 +632,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         protected void dgTravelAdvanceRequestCost_ItemDataBound(object sender, DataGridItemEventArgs e)
         {
-            tac = Session["tac"] as TravelAdvanceRequestDetail;
+            tarDetail = Session["tarDetail"] as TravelAdvanceRequestDetail;
             if (e.Item.ItemType == ListItemType.Footer)
             {
                 DropDownList ddlAccountDescription = e.Item.FindControl("ddlAccountDescription") as DropDownList;
@@ -601,15 +642,15 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             }
             else
             {
-                if (tac.TravelAdvanceCosts != null)
+                if (tarDetail.TravelAdvanceCosts != null)
                 {
                     DropDownList ddlEdtAccountDescription = e.Item.FindControl("ddlEdtAccountDescription") as DropDownList;
                     if (ddlEdtAccountDescription != null)
                     {
                         PopItemAccounts(ddlEdtAccountDescription);
-                        //if (_presenter.CurrentTravelAdvanceRequest.GetTravelAdvanceRequestDetail(Convert.ToInt32(hfDetailId.Value)).TravelAdvanceCosts[e.Item.DataSetIndex].ItemAccount.Id != 0)
+                        //if (_presenter.CurrentTravelAdvanceRequest.GetTravelAdvanceRequestDetail(Convert.ToInt32(hfDetailId.Value)).TravelAdvanceCosts[e.Item.DataSetIndex].ItemAccount.selectedDetailIndex != 0)
                         //{
-                        //    ListItem liI = ddlEdtAccountDescription.Items.FindByValue(_presenter.CurrentTravelAdvanceRequest.GetTravelAdvanceRequestDetail(Convert.ToInt32(hfDetailId.Value)).TravelAdvanceCosts[e.Item.DataSetIndex].ItemAccount.Id.ToString());
+                        //    ListItem liI = ddlEdtAccountDescription.Items.FindByValue(_presenter.CurrentTravelAdvanceRequest.GetTravelAdvanceRequestDetail(Convert.ToInt32(hfDetailId.Value)).TravelAdvanceCosts[e.Item.DataSetIndex].ItemAccount.selectedDetailIndex.ToString());
                         //    if (liI != null)
                         //        liI.Selected = true;
                         //}
@@ -656,15 +697,15 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         protected void dgTravelAdvanceRequestCost_UpdateCommand(object source, DataGridCommandEventArgs e)
         {
-            tac = Session["tac"] as TravelAdvanceRequestDetail;
+            tarDetail = Session["tarDetail"] as TravelAdvanceRequestDetail;
             int id = (int)dgTravelAdvanceRequestCost.DataKeys[e.Item.ItemIndex];
             TravelAdvanceCost taCost;
             decimal pretacost = 0;
             if (id > 0)
-                taCost = tac.GetTravelAdvanceCost(id);
+                taCost = tarDetail.GetTravelAdvanceCost(id);
             else
 
-                taCost = tac.TravelAdvanceCosts[e.Item.ItemIndex];
+                taCost = tarDetail.TravelAdvanceCosts[e.Item.ItemIndex];
 
             try
             {
