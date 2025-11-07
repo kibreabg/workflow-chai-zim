@@ -1,5 +1,6 @@
 ﻿using AjaxControlToolkit;
 using Chai.WorkflowManagment.CoreDomain.Requests;
+using Chai.WorkflowManagment.CoreDomain.Setting;
 using Chai.WorkflowManagment.Enums;
 using Chai.WorkflowManagment.Shared;
 using log4net;
@@ -185,15 +186,32 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             CbProject.Items.Insert(0, new ListItem("---Select Project---", "0"));
             CbProject.SelectedIndex = 0;
         }
-        private void BindGrant(ComboBox CbGrant, int ProjectId)
+        private void BindGrant(ComboBox cbGrant, int projectId)
         {
-            CbGrant.DataSource = _presenter.GetGrantbyprojectId(ProjectId);
-            CbGrant.DataValueField = "Id";
-            CbGrant.DataTextField = "GrantCode";
-            CbGrant.DataBind();
+            // Clear any existing items before binding
+            cbGrant.Items.Clear();
 
-            CbGrant.Items.Insert(0, new ListItem("---Select Grant---", "0"));
-            CbGrant.SelectedIndex = 0;
+            // Get grants safely (presenter may return null or empty)
+            var grants = _presenter.GetGrantbyprojectId(projectId) ?? new List<Grant>();
+
+            if (grants.Count > 0)
+            {
+                cbGrant.DataSource = grants;
+                cbGrant.DataValueField = "Id";
+                cbGrant.DataTextField = "GrantCode";
+                cbGrant.DataBind();
+
+                // Insert a default prompt at top and select it
+                cbGrant.Items.Insert(0, new ListItem("---Select Grant---", "0"));
+                if (cbGrant.Items.Count > 0)
+                    cbGrant.SelectedIndex = 0;
+            }
+            else
+            {
+                // No grants: just add the default prompt and select it
+                cbGrant.Items.Add(new ListItem("---Select Grant---", "0"));
+                cbGrant.SelectedIndex = 0;
+            }
         }
         private void BindAccountDescription(DropDownList ddlAccountDescription)
         {
@@ -380,7 +398,17 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                         int projectId = _presenter.CurrentCashPaymentRequest.CashPaymentRequestDetails[e.Item.DataSetIndex].Project.Id;
                         if (projectId != 0)
                         {
-                            cbEdtProject.SelectedValue = projectId.ToString();
+                            // Ensure the project value exists in the combobox before selecting it
+                            ListItem liProject = cbEdtProject.Items.FindByValue(projectId.ToString());
+                            if (liProject != null)
+                            {
+                                cbEdtProject.SelectedValue = projectId.ToString();
+                            }
+                            else
+                            {
+                                if (cbEdtProject.Items.Count > 0)
+                                    cbEdtProject.SelectedIndex = 0;
+                            }
                         }
                     }
                     ComboBox cbEdtGrant = e.Item.FindControl("cbEdtGrant") as ComboBox;
@@ -390,7 +418,17 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                         int grantId = _presenter.CurrentCashPaymentRequest.CashPaymentRequestDetails[e.Item.DataSetIndex].Grant.Id;
                         if (grantId != 0)
                         {
-                            cbEdtGrant.SelectedValue = grantId.ToString();
+                            // Ensure the grant value exists in the combobox before selecting it
+                            ListItem liGrant = cbEdtGrant.Items.FindByValue(grantId.ToString());
+                            if (liGrant != null)
+                            {
+                                cbEdtGrant.SelectedValue = grantId.ToString();
+                            }
+                            else
+                            {
+                                if (cbEdtGrant.Items.Count > 0)
+                                    cbEdtGrant.SelectedIndex = 0;
+                            }
                         }
 
                     }
@@ -610,7 +648,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             if (item == null) return;
 
             // find the other combobox (grant) in the same row
-            var cbGrant = item.FindControl("CbGrant") as ComboBox;
+            var cbGrant = item.FindControl("cbGrant") as ComboBox;
             if (cbGrant == null) return;
 
             // use selected project value to bind grant combobox
