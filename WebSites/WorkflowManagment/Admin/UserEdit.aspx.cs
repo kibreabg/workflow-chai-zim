@@ -1,18 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Web.UI.WebControls;
-using Microsoft.Practices.ObjectBuilder;
+﻿using Chai.WorkflowManagment.CoreDomain.Users;
+using Chai.WorkflowManagment.Enums;
 using Chai.WorkflowManagment.Shared;
 using Chai.WorkflowManagment.Shared.Settings;
-using Chai.WorkflowManagment.CoreDomain.Users;
-using Chai.WorkflowManagment.Enums;
+using Microsoft.Practices.ObjectBuilder;
+using System;
+using System.Collections.Generic;
+using System.Web.UI.WebControls;
 
 namespace Chai.WorkflowManagment.Modules.Admin.Views
 {
     public partial class UserEdit : Microsoft.Practices.CompositeWeb.Web.UI.Page, IUserEditView
     {
         private UserEditPresenter _presenter;
-        
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!this.IsPostBack)
@@ -50,7 +50,7 @@ namespace Chai.WorkflowManagment.Modules.Admin.Views
             ddlSuperviser.DataSource = _presenter.GetUsers();
             ddlSuperviser.DataBind();
         }
-       
+
         private void PopEmployeePostion()
         {
 
@@ -59,7 +59,7 @@ namespace Chai.WorkflowManagment.Modules.Admin.Views
         }
         private void BindUserControls()
         {
-            if (_presenter.CurrentUser.Id >0)
+            if (_presenter.CurrentUser.Id > 0)
             {
                 this.txtUsername.Visible = false;
                 this.lblUsername.Text = _presenter.CurrentUser.UserName;
@@ -77,8 +77,8 @@ namespace Chai.WorkflowManagment.Modules.Admin.Views
             this.txtLastname.Text = _presenter.CurrentUser.LastName;
             this.txtEmployeeNo.Text = _presenter.CurrentUser.EmployeeNo;
             this.txtEmail.Text = _presenter.CurrentUser.Email;
-            this.ddlEmployeePostion.SelectedValue = _presenter.CurrentUser.EmployeePosition != null ? _presenter.CurrentUser.EmployeePosition.Id.ToString():"0";
-           
+            this.ddlEmployeePostion.SelectedValue = _presenter.CurrentUser.EmployeePosition != null ? _presenter.CurrentUser.EmployeePosition.Id.ToString() : "0";
+
             this.ddlSuperviser.SelectedValue = _presenter.CurrentUser.Superviser.ToString();
             this.chkActive.Checked = _presenter.CurrentUser.IsActive;
             this.btnDelete.Visible = (_presenter.CurrentUser.Id > 0);
@@ -110,29 +110,29 @@ namespace Chai.WorkflowManagment.Modules.Admin.Views
         private void SetRoles()
         {
             _presenter.RemoveUserRoles();
-            
+
             foreach (RepeaterItem ri in rptRoles.Items)
             {
                 CheckBox chkRole = (CheckBox)ri.FindControl("chkRole");
                 if (chkRole.Checked)
                 {
-                    
+
                     int roleId = (int)this.ViewState[ri.UniqueID];
-                    
+
                     Role role = _presenter.GetRoleById(roleId);
                     AppUserRole urole = new AppUserRole()
                     {
                         AppUser = _presenter.CurrentUser,
                         Role = role
                     };
-                    
+
                     _presenter.CurrentUser.AppUserRoles.Add(urole);
                 }
             }
 
             string adminRole = UserSettings.GetAdministratorRole;
             if (_presenter.CurrentUser.UserName == UserSettings.GetSuperUser
-                && ! _presenter.CurrentUser.IsInRole(adminRole))
+                && !_presenter.CurrentUser.IsInRole(adminRole))
             {
                 throw new Exception(String.Format("The user '{0}' has to have the '{1}' role."
                     , _presenter.CurrentUser.UserName, adminRole));
@@ -144,25 +144,27 @@ namespace Chai.WorkflowManagment.Modules.Admin.Views
         {
             if (Page.IsValid)
             {
-                //try
-                //{
+                try
+                {
                     SetRoles();
                     if (_presenter.CurrentUser.Id == 0)
                     {
                         _presenter.SaveOrUpdateUser();
-                        Master.TransferMessage(new AppMessage("User created successfully", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                        Master.TransferMessage(new AppMessage("User created successfully", RMessageType.Info));
                         _presenter.RedirectPage(String.Format("~/Admin/UserEdit.aspx?{0}=0&{1}={2}", AppConstants.TABID, AppConstants.USERID, _presenter.CurrentUser.Id));
                     }
                     else
                     {
                         _presenter.SaveOrUpdateUser();
-                        Master.ShowMessage(new AppMessage("User saved", Chai.WorkflowManagment.Enums.RMessageType.Info));
+                        Master.ShowMessage(new AppMessage("User saved", RMessageType.Info));
                     }
-                //}
-                //catch (Exception ex)
-                //{
-                //    Master.ShowMessage(new AppMessage("Error: " + ex.Message, Chai.WorkflowManagment.Enums.RMessageType.Error));
-                //}
+                }
+                catch (Exception ex)
+                {
+                    Master.ShowMessage(new AppMessage("Error: " + ex.Message, RMessageType.Error));
+                    ExceptionUtility.LogException(ex, ex.Source);
+                    ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser.FullName);
+                }
             }
         }
 
@@ -170,9 +172,9 @@ namespace Chai.WorkflowManagment.Modules.Admin.Views
 
         public string GetUserId
         {
-            get { return Request.QueryString[AppConstants.USERID];}
+            get { return Request.QueryString[AppConstants.USERID]; }
         }
-     
+
         public string GetUserName
         {
             get { return this.txtUsername.Text; }
@@ -198,16 +200,17 @@ namespace Chai.WorkflowManagment.Modules.Admin.Views
 
         public bool GetIsActive
         {
-            get { 
-                return this.chkActive.Checked; 
+            get
+            {
+                return this.chkActive.Checked;
             }
         }
 
         public string GetPassword
         {
-            get 
+            get
             {
-                return this.txtPassword1.Text; 
+                return this.txtPassword1.Text;
             }
         }
         public CoreDomain.Setting.EmployeePosition EmployeePosition
@@ -219,7 +222,7 @@ namespace Chai.WorkflowManagment.Modules.Admin.Views
 
         }
 
-       
+
         public int Superviser
         {
             get { return int.Parse(ddlSuperviser.SelectedValue); }
@@ -238,7 +241,7 @@ namespace Chai.WorkflowManagment.Modules.Admin.Views
                 this.ViewState[e.Item.UniqueID] = role.Id;
             }
         }
-                
+
         protected void btnCancel_Click(object sender, EventArgs e)
         {
             _presenter.CancelPage();
@@ -260,7 +263,7 @@ namespace Chai.WorkflowManagment.Modules.Admin.Views
         }
 
 
-        
+
     }
 }
 

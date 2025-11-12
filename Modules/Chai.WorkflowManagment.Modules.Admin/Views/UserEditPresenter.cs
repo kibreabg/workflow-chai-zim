@@ -1,43 +1,38 @@
-﻿using System;
-using System.Text;
-using System.Collections;
-using System.Collections.Generic;
-using Microsoft.Practices.CompositeWeb;
-using Microsoft.Practices.CompositeWeb.Web;
-using Microsoft.Practices.CompositeWeb.Interfaces;
-using Microsoft.Practices.ObjectBuilder;
-
+﻿using Chai.WorkflowManagment.CoreDomain.Setting;
 using Chai.WorkflowManagment.CoreDomain.Users;
 using Chai.WorkflowManagment.Shared;
-using Chai.WorkflowManagment.CoreDomain.Setting;
+using Microsoft.Practices.CompositeWeb;
+using Microsoft.Practices.ObjectBuilder;
+using System;
+using System.Collections.Generic;
 
 namespace Chai.WorkflowManagment.Modules.Admin.Views
 {
     public class UserEditPresenter : Presenter<IUserEditView>
     {
         private AdminController _controller;
-        
+
         private AppUser _user;
 
         public UserEditPresenter([CreateNew] AdminController controller)
         {
             _controller = controller;
-          
+
         }
 
         public override void OnViewLoaded()
         {
-            
+
         }
 
         public override void OnViewInitialized()
         {
-           
+
         }
 
         public AppUser CurrentUser
         {
-            get 
+            get
             {
                 if (_user == null)
                 {
@@ -47,9 +42,9 @@ namespace Chai.WorkflowManagment.Modules.Admin.Views
                     else
                         _user = new AppUser();
                 }
-                return _user; }
+                return _user;
+            }
         }
-
         public Role GetRoleById(int roleid)
         {
             return _controller.GetRoleById(roleid);
@@ -58,14 +53,13 @@ namespace Chai.WorkflowManagment.Modules.Admin.Views
         {
             return _controller.GetRoles;
         }
-
-        public void SaveOrUpdateUser()       
+        public void SaveOrUpdateUser()
         {
             AppUser user = CurrentUser;
 
             if (user.Id <= 0)
                 user.UserName = View.GetUserName;
-            
+
             user.FirstName = View.GetFirstName;
             user.LastName = View.GetLastName;
             user.EmployeeNo = View.GetEmployeeNo;
@@ -91,7 +85,6 @@ namespace Chai.WorkflowManagment.Modules.Admin.Views
 
             _controller.SaveOrUpdateUser(user);
         }
-
         public void RemoveUserRoles()
         {
             if (CurrentUser.AppUserRoles.Count > 0)
@@ -102,13 +95,11 @@ namespace Chai.WorkflowManagment.Modules.Admin.Views
                 _controller.RemoveListOfObjects<AppUserRole>(uroles);
             }
         }
-
         public void DeleteUser()
         {
-            if (CurrentUser.Id >0)
-               _controller.DeleteEntity<AppUser>(CurrentUser);
+            if (CurrentUser.Id > 0)
+                _controller.DeleteEntity<AppUser>(CurrentUser);
         }
-
         public void CancelPage()
         {
             _controller.Navigate(String.Format("~/Admin/Users.aspx?{0}=0", AppConstants.TABID));
@@ -116,13 +107,10 @@ namespace Chai.WorkflowManagment.Modules.Admin.Views
         public void RedirectPage(string url)
         {
             _controller.Navigate(url);
-
         }
         public IList<AppUser> GetUsers()
         {
-
             return _controller.GetUsers();
-
         }
         public AppUser GetUser(int userid)
         {
