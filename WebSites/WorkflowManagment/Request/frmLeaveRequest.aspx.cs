@@ -119,9 +119,8 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             {
                 _presenter.CurrentLeaveRequest.Requester = CurrentUser.Id;
                 _presenter.CurrentLeaveRequest.EmployeeNo = txtEmployeeNo.Text;
-                _presenter.CurrentLeaveRequest.RequestedDate = Convert.ToDateTime(txtRequestDate.Text);
+                _presenter.CurrentLeaveRequest.RequestedDate = DateTime.Now;
                 _presenter.CurrentLeaveRequest.RequestNo = AutoNumber();
-                _presenter.CurrentLeaveRequest.RequestedDate = Convert.ToDateTime(txtRequestDate.Text);
                 _presenter.CurrentLeaveRequest.LeaveType = _presenter.GetLeaveType(int.Parse(ddlLeaveType.SelectedValue));
                 _presenter.CurrentLeaveRequest.DateFrom = Convert.ToDateTime(txtDateFrom.Text);
                 _presenter.CurrentLeaveRequest.DateTo = Convert.ToDateTime(txtDateTo.Text);
