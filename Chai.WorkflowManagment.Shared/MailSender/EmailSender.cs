@@ -3,6 +3,7 @@ using System.Configuration;
 using System.Net;
 using System.Net.Configuration;
 using System.Net.Mail;
+using System.Text;
 
 namespace Chai.WorkflowManagment.Shared.MailSender
 {
@@ -74,7 +75,7 @@ namespace Chai.WorkflowManagment.Shared.MailSender
             mail.To.Add(to);
 
             //set the content
-            mail.Subject = subject;
+            mail.Subject = SanitizeSubject(subject);
             mail.Body = body;
             mail.IsBodyHtml = true;
 
@@ -97,6 +98,32 @@ namespace Chai.WorkflowManagment.Shared.MailSender
             }
 
             return false;
+        }
+
+        private static string SanitizeSubject(string subject)
+        {
+            if (string.IsNullOrWhiteSpace(subject))
+                return "Application Exception";
+
+            var sb = new StringBuilder(subject.Length);
+            foreach (char c in subject)
+            {
+                // replace CR/LF with space; drop other control characters
+                if (c == '\r' || c == '\n')
+                    sb.Append(' ');
+                else if (!char.IsControl(c))
+                    sb.Append(c);
+            }
+
+            var result = sb.ToString().Trim();
+            if (result.Length == 0)
+                result = "Application Exception";
+
+            const int MaxSubjectLength = 255;
+            if (result.Length > MaxSubjectLength)
+                result = result.Substring(0, MaxSubjectLength);
+
+            return result;
         }
     }
 }
