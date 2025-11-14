@@ -11,7 +11,14 @@
             args.IsValid = hiddenField && hiddenField.value !== "0" && hiddenField.value !== "";
         }
         function validateCbEdtProject(sender, args) {
-            var hiddenField = document.getElementById('DefaultContent_dgPurchaseRequestDetail_CbEdtProject_0_CbEdtProject_HiddenField_0');
+            // try to get the row index that server set on the validator in the databound event
+            var rowIndex = sender.getAttribute('data-rowindex');
+
+            var hiddenField = null;
+            if (rowIndex) {
+                var idGuess = 'DefaultContent_dgPurchaseRequestDetail_CbEdtProject_' + rowIndex + '_CbEdtProject_HiddenField_' + rowIndex;
+                hiddenField = document.getElementById(idGuess);
+            }
             args.IsValid = hiddenField && hiddenField.value !== "0" && hiddenField.value !== "";
         }
         function validateCbGrant(sender, args) {
@@ -19,7 +26,14 @@
             args.IsValid = hiddenField && hiddenField.value !== "0" && hiddenField.value !== "";
         }
         function validateCbEdtGrant(sender, args) {
-            var hiddenField = document.getElementById('DefaultContent_dgPurchaseRequestDetail_CbEdtGrant_0_CbEdtGrant_HiddenField_0');
+            // try to get the row index that server set on the validator in the databound event
+            var rowIndex = sender.getAttribute('data-rowindex');
+
+            var hiddenField = null;
+            if (rowIndex) {
+                var idGuess = 'DefaultContent_dgPurchaseRequestDetail_CbEdtGrant_' + rowIndex + '_CbEdtGrant_HiddenField_' + rowIndex;
+                hiddenField = document.getElementById(idGuess);
+            }
             args.IsValid = hiddenField && hiddenField.value !== "0" && hiddenField.value !== "";
         }
         function showSearch() {
@@ -257,7 +271,7 @@
                                                         DropDownStyle="DropDownList" OnSelectedIndexChanged="CbEdtProject_SelectedIndexChanged">
                                                     </cc1:ComboBox>
                                                     <asp:CustomValidator
-                                                        ID="CustomValidatorCbProject"
+                                                        ID="CustomValidatorCbEdtProject"
                                                         runat="server"
                                                         ErrorMessage="Project is required"
                                                         ClientValidationFunction="validateCbEdtProject"

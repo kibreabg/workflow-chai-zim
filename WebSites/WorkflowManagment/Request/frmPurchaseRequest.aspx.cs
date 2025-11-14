@@ -9,6 +9,7 @@ using log4net;
 using log4net.Config;
 using Microsoft.Practices.ObjectBuilder;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web.UI;
@@ -278,13 +279,30 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         private void BindGrant(ComboBox cbGrant, int projectId)
         {
-            cbGrant.DataSource = _presenter.GetGrantbyprojectId(projectId);
-            cbGrant.DataValueField = "Id";
-            cbGrant.DataTextField = "GrantCode";
-            cbGrant.DataBind();
+            // Clear any existing items before binding
+            cbGrant.Items.Clear();
 
-            cbGrant.Items.Insert(0, new ListItem("---Select Grant---", "0"));
-            cbGrant.SelectedIndex = 0;
+            // Get grants safely (presenter may return null or empty)
+            var grants = _presenter.GetGrantbyprojectId(projectId) ?? new List<Grant>();
+
+            if (grants.Count > 0)
+            {
+                cbGrant.DataSource = grants;
+                cbGrant.DataValueField = "Id";
+                cbGrant.DataTextField = "GrantCode";
+                cbGrant.DataBind();
+
+                // Insert a default prompt at top and select it
+                cbGrant.Items.Insert(0, new ListItem("---Select Grant---", "0"));
+                if (cbGrant.Items.Count > 0)
+                    cbGrant.SelectedIndex = 0;
+            }
+            else
+            {
+                // No grants: just add the default prompt and select it
+                cbGrant.Items.Add(new ListItem("---Select Grant---", "0"));
+                cbGrant.SelectedIndex = 0;
+            }
 
         }
         protected void btnCancel_Click(object sender, EventArgs e)
@@ -460,18 +478,28 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             {
                 if (_presenter.CurrentPurchaseRequest.PurchaseRequestDetails != null)
                 {
+                    var cvCbEdtGrant = e.Item.FindControl("CustomValidatorCbEdtGrant") as CustomValidator;
+                    if (cvCbEdtGrant != null)
+                    {
+                        cvCbEdtGrant.Attributes["data-rowindex"] = e.Item.ItemIndex.ToString();
+                    }
+                    var cvCbEdtProject = e.Item.FindControl("CustomValidatorCbEdtProject") as CustomValidator;
+                    if (cvCbEdtProject != null)
+                    {
+                        cvCbEdtProject.Attributes["data-rowindex"] = e.Item.ItemIndex.ToString();
+                    }
+
                     DropDownList ddlItemAccount = e.Item.FindControl("ddlAccount") as DropDownList;
                     if (ddlItemAccount != null)
                     {
                         BindAccount(ddlItemAccount);
-                        if (_presenter.CurrentPurchaseRequest.PurchaseRequestDetails[e.Item.DataSetIndex].ItemAccount.Id != null)
+                        if (_presenter.CurrentPurchaseRequest.PurchaseRequestDetails[e.Item.DataSetIndex].ItemAccount != null)
                         {
                             ListItem liI = ddlItemAccount.Items.FindByValue(_presenter.CurrentPurchaseRequest.PurchaseRequestDetails[e.Item.DataSetIndex].ItemAccount.Id.ToString());
                             if (liI != null)
                                 liI.Selected = true;
                         }
                     }
-
                     ComboBox cbEdtProject = e.Item.FindControl("CbEdtProject") as ComboBox;
                     if (cbEdtProject != null)
                     {
@@ -479,17 +507,37 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                         int projectId = _presenter.CurrentPurchaseRequest.PurchaseRequestDetails[e.Item.DataSetIndex].Project.Id;
                         if (projectId != 0)
                         {
-                            cbEdtProject.SelectedValue = projectId.ToString();
+                            // Ensure the project value exists in the combobox before selecting it
+                            ListItem liProject = cbEdtProject.Items.FindByValue(projectId.ToString());
+                            if (liProject != null)
+                            {
+                                cbEdtProject.SelectedValue = projectId.ToString();
+                            }
+                            else
+                            {
+                                if (cbEdtProject.Items.Count > 0)
+                                    cbEdtProject.SelectedIndex = 0;
+                            }
                         }
                     }
-                    ComboBox cbEdtGrant = e.Item.FindControl("cbEdtGrant") as ComboBox;
+                    ComboBox cbEdtGrant = e.Item.FindControl("CbEdtGrant") as ComboBox;
                     if (cbEdtGrant != null)
                     {
                         BindGrant(cbEdtGrant, Convert.ToInt32(cbEdtProject.SelectedValue));
                         int grantId = _presenter.CurrentPurchaseRequest.PurchaseRequestDetails[e.Item.DataSetIndex].Grant.Id;
                         if (grantId != 0)
                         {
-                            cbEdtGrant.SelectedValue = grantId.ToString();
+                            // Ensure the grant value exists in the combobox before selecting it
+                            ListItem liGrant = cbEdtGrant.Items.FindByValue(grantId.ToString());
+                            if (liGrant != null)
+                            {
+                                cbEdtGrant.SelectedValue = grantId.ToString();
+                            }
+                            else
+                            {
+                                if (cbEdtGrant.Items.Count > 0)
+                                    cbEdtGrant.SelectedIndex = 0;
+                            }
                         }
                     }
                 }
