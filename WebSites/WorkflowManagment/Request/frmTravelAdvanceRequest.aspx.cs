@@ -6,6 +6,7 @@ using log4net;
 using log4net.Config;
 using Microsoft.Practices.ObjectBuilder;
 using System;
+using System.Collections.Generic;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -162,13 +163,32 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             CbProject.Items.Insert(0, new ListItem("---Select Project---", "0"));
             CbProject.SelectedIndex = 0;
         }
-        private void PopGrants(int ProjectId)
+        private void PopGrants(int projectId)
         {
-            CbGrant.DataSource = _presenter.GetGrantbyprojectId(ProjectId);
-            CbGrant.DataBind();
+            // Clear any existing items before binding
+            CbGrant.Items.Clear();
 
-            CbGrant.Items.Insert(0, new ListItem("---Select Grant---", "0"));
-            CbGrant.SelectedIndex = 0;
+            // Get grants safely (presenter may return null or empty)
+            var grants = _presenter.GetGrantbyprojectId(projectId) ?? new List<Grant>();
+
+            if (grants.Count > 0)
+            {
+                CbGrant.DataSource = grants;
+                CbGrant.DataValueField = "Id";
+                CbGrant.DataTextField = "GrantCode";
+                CbGrant.DataBind();
+
+                // Insert a default prompt at top and select it
+                CbGrant.Items.Insert(0, new ListItem("---Select Grant---", "0"));
+                if (CbGrant.Items.Count > 0)
+                    CbGrant.SelectedIndex = 0;
+            }
+            else
+            {
+                // No grants: just add the default prompt and select it
+                CbGrant.Items.Add(new ListItem("---Select Grant---", "0"));
+                CbGrant.SelectedIndex = 0;
+            }
         }
         private void BindTravelAdvanceDetails()
         {
@@ -660,7 +680,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     {
                         PopExpenseTypes(ddlEdtExpenseType);
 
-
                         if (_presenter.CurrentTravelAdvanceRequest.Id > 0)
                         {
                             if (_presenter.CurrentTravelAdvanceRequest.GetTravelAdvanceRequestDetail(Convert.ToInt32(hfDetailId.Value)).TravelAdvanceCosts[e.Item.DataSetIndex] != null)
@@ -685,11 +704,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                                 }
                             }
                         }
-
-
-
-
-
                     }
 
                 }

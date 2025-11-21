@@ -628,7 +628,7 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             if (item == null) return;
 
             // find the other combobox (grant) in the same row
-            var cbEdtGrant = item.FindControl("cbEdtGrant") as ComboBox;
+            var cbEdtGrant = item.FindControl("CbEdtGrant") as ComboBox;
             if (cbEdtGrant == null) return;
 
             // use selected project value to bind grant combobox

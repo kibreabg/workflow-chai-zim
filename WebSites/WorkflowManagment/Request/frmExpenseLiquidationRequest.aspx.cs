@@ -1,5 +1,6 @@
 ﻿using AjaxControlToolkit;
 using Chai.WorkflowManagment.CoreDomain.Requests;
+using Chai.WorkflowManagment.CoreDomain.Setting;
 using Chai.WorkflowManagment.Enums;
 using Chai.WorkflowManagment.Shared;
 using log4net;
@@ -154,13 +155,30 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         private void BindGrant(ComboBox cbGrant, int projectId)
         {
-            cbGrant.DataSource = _presenter.GetGrantbyprojectId(projectId);
-            cbGrant.DataValueField = "Id";
-            cbGrant.DataTextField = "GrantCode";
-            cbGrant.DataBind();
+            // Clear any existing items before binding
+            cbGrant.Items.Clear();
 
-            cbGrant.Items.Insert(0, new ListItem("---Select Grant---", "0"));
-            cbGrant.SelectedIndex = 0;
+            // Get grants safely (presenter may return null or empty)
+            var grants = _presenter.GetGrantbyprojectId(projectId) ?? new List<Grant>();
+
+            if (grants.Count > 0)
+            {
+                cbGrant.DataSource = grants;
+                cbGrant.DataValueField = "Id";
+                cbGrant.DataTextField = "GrantCode";
+                cbGrant.DataBind();
+
+                // Insert a default prompt at top and select it
+                cbGrant.Items.Insert(0, new ListItem("---Select Grant---", "0"));
+                if (cbGrant.Items.Count > 0)
+                    cbGrant.SelectedIndex = 0;
+            }
+            else
+            {
+                // No grants: just add the default prompt and select it
+                cbGrant.Items.Add(new ListItem("---Select Grant---", "0"));
+                cbGrant.SelectedIndex = 0;
+            }
         }
         private void BindAccountDescription(DropDownList ddlAccountDescription)
         {

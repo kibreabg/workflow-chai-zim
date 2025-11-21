@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
+﻿using AjaxControlToolkit;
 using Chai.WorkflowManagment.CoreDomain.Requests;
 using Chai.WorkflowManagment.CoreDomain.Setting;
 using Chai.WorkflowManagment.Enums;
@@ -13,6 +6,11 @@ using Chai.WorkflowManagment.Shared;
 using log4net;
 using log4net.Config;
 using Microsoft.Practices.ObjectBuilder;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 
 namespace Chai.WorkflowManagment.Modules.Request.Views
 {
@@ -301,21 +299,46 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
 
             }
         }
-        private void BindProject(DropDownList ddlProject)
-        {
-            ddlProject.DataSource = _presenter.ListProjects();
-            ddlProject.DataValueField = "Id";
-            ddlProject.DataTextField = "ProjectCode";
-            ddlProject.DataBind();
-        }
-        private void BindGrant(DropDownList ddlGrant, int ProjectId)
-        {
-            ddlGrant.DataSource = _presenter.GetGrantbyprojectId(ProjectId);
-            ddlGrant.DataValueField = "Id";
-            ddlGrant.DataTextField = "GrantCode";
-            ddlGrant.DataBind();
-        }
-        private void BindAccountDescription(DropDownList ddlAccountDescription)
+		private void BindProject(ComboBox cbProject)
+		{
+			cbProject.DataSource = _presenter.ListProjects();
+			cbProject.DataValueField = "Id";
+			cbProject.DataTextField = "ProjectCode";
+			cbProject.DataBind();
+
+			cbProject.Items.Insert(0, new ListItem("---Select Project---", "0"));
+			cbProject.SelectedIndex = 0;
+
+		}
+		private void BindGrant(ComboBox cbGrant, int projectId)
+		{
+			// Clear any existing items before binding
+			cbGrant.Items.Clear();
+
+			// Get grants safely (presenter may return null or empty)
+			var grants = _presenter.GetGrantbyprojectId(projectId) ?? new List<Grant>();
+
+			if (grants.Count > 0)
+			{
+				cbGrant.DataSource = grants;
+				cbGrant.DataValueField = "Id";
+				cbGrant.DataTextField = "GrantCode";
+				cbGrant.DataBind();
+
+				// Insert a default prompt at top and select it
+				cbGrant.Items.Insert(0, new ListItem("---Select Grant---", "0"));
+				if (cbGrant.Items.Count > 0)
+					cbGrant.SelectedIndex = 0;
+			}
+			else
+			{
+				// No grants: just add the default prompt and select it
+				cbGrant.Items.Add(new ListItem("---Select Grant---", "0"));
+				cbGrant.SelectedIndex = 0;
+			}
+
+		}
+		private void BindAccountDescription(DropDownList ddlAccountDescription)
         {
             ddlAccountDescription.DataSource = _presenter.ListItemAccounts();
             ddlAccountDescription.DataValueField = "Id";
@@ -372,10 +395,10 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                     cprd.AccountCode = txtAccountCode.Text;
                     DropDownList ddlAccountDescription = e.Item.FindControl("ddlAccountDescription") as DropDownList;
                     cprd.ItemAccount = _presenter.GetItemAccount(Convert.ToInt32(ddlAccountDescription.SelectedValue));
-                    DropDownList ddlProject = e.Item.FindControl("ddlProject") as DropDownList;
-                    cprd.Project = _presenter.GetProject(Convert.ToInt32(ddlProject.SelectedValue));
-                    DropDownList ddlGrant = e.Item.FindControl("ddlGrant") as DropDownList;
-                    cprd.Grant = _presenter.GetGrant(int.Parse(ddlGrant.SelectedValue));
+                    ComboBox cbProject = e.Item.FindControl("CbProject") as ComboBox;
+                    cprd.Project = _presenter.GetProject(Convert.ToInt32(cbProject.SelectedValue));
+					ComboBox cbGrant = e.Item.FindControl("CbGrant") as ComboBox;
+                    cprd.Grant = _presenter.GetGrant(int.Parse(cbGrant.SelectedValue));
                     _presenter.CurrentOperationalControlRequest.TotalAmount += cprd.Amount;
 
                     _presenter.CurrentOperationalControlRequest.OperationalControlRequestDetails.Add(cprd);
@@ -418,10 +441,10 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 cprd.AccountCode = txtEdtAccountCode.Text;
                 DropDownList ddlAccountDescription = e.Item.FindControl("ddlEdtAccountDescription") as DropDownList;
                 cprd.ItemAccount = _presenter.GetItemAccount(Convert.ToInt32(ddlAccountDescription.SelectedValue));
-                DropDownList ddlProject = e.Item.FindControl("ddlEdtProject") as DropDownList;
-                cprd.Project = _presenter.GetProject(Convert.ToInt32(ddlProject.SelectedValue));
-                DropDownList ddlGrant = e.Item.FindControl("ddlEdtGrant") as DropDownList;
-                cprd.Grant = _presenter.GetGrant(int.Parse(ddlGrant.SelectedValue));
+				ComboBox cbEdtProject = e.Item.FindControl("CbEdtProject") as ComboBox;
+                cprd.Project = _presenter.GetProject(Convert.ToInt32(cbEdtProject.SelectedValue));
+				ComboBox cbEdtGrant = e.Item.FindControl("CbEdtGrant") as ComboBox;
+                cprd.Grant = _presenter.GetGrant(int.Parse(cbEdtGrant.SelectedValue));
                 //  _presenter.CurrentOperationalControlRequest.OperationalControlRequestDetails.Add(cprd);
 
                 dgOperationalControlDetail.EditItemIndex = -1;
@@ -439,10 +462,10 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         {
             if (e.Item.ItemType == ListItemType.Footer)
             {
-                DropDownList ddlProject = e.Item.FindControl("ddlProject") as DropDownList;
-                BindProject(ddlProject);
-                DropDownList ddlGrant = e.Item.FindControl("ddlGrant") as DropDownList;
-                BindGrant(ddlGrant, Convert.ToInt32(ddlProject.SelectedValue));
+				ComboBox cbProject = e.Item.FindControl("CbProject") as ComboBox;
+                BindProject(cbProject);
+				ComboBox cbGrant = e.Item.FindControl("CbGrant") as ComboBox;
+                BindGrant(cbGrant, Convert.ToInt32(cbProject.SelectedValue));
                 DropDownList ddlAccountDescription = e.Item.FindControl("ddlAccountDescription") as DropDownList;
                 BindAccountDescription(ddlAccountDescription);
             }
@@ -450,18 +473,58 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             {
                 if (_presenter.CurrentOperationalControlRequest.OperationalControlRequestDetails != null)
                 {
-                    DropDownList ddlProject = e.Item.FindControl("ddlEdtProject") as DropDownList;
-                    if (ddlProject != null)
-                    {
-                        BindProject(ddlProject);
-                        if (_presenter.CurrentOperationalControlRequest.OperationalControlRequestDetails[e.Item.DataSetIndex].Project.Id != 0)
-                        {
-                            ListItem liI = ddlProject.Items.FindByValue(_presenter.CurrentOperationalControlRequest.OperationalControlRequestDetails[e.Item.DataSetIndex].Project.Id.ToString());
-                            if (liI != null)
-                                liI.Selected = true;
-                        }
-                    }
-                    DropDownList ddlAccountDescription = e.Item.FindControl("ddlEdtAccountDescription") as DropDownList;
+					var cvCbEdtGrant = e.Item.FindControl("CustomValidatorCbEdtGrant") as CustomValidator;
+					if (cvCbEdtGrant != null)
+					{
+						cvCbEdtGrant.Attributes["data-rowindex"] = e.Item.ItemIndex.ToString();
+					}
+					var cvCbEdtProject = e.Item.FindControl("CustomValidatorCbEdtProject") as CustomValidator;
+					if (cvCbEdtProject != null)
+					{
+						cvCbEdtProject.Attributes["data-rowindex"] = e.Item.ItemIndex.ToString();
+					}
+
+					ComboBox cbEdtProject = e.Item.FindControl("CbEdtProject") as ComboBox;
+					if (cbEdtProject != null)
+					{
+						BindProject(cbEdtProject);
+						int projectId = _presenter.CurrentOperationalControlRequest.OperationalControlRequestDetails[e.Item.DataSetIndex].Project.Id;
+						if (projectId != 0)
+						{
+							// Ensure the project value exists in the combobox before selecting it
+							ListItem liProject = cbEdtProject.Items.FindByValue(projectId.ToString());
+							if (liProject != null)
+							{
+								cbEdtProject.SelectedValue = projectId.ToString();
+							}
+							else
+							{
+								if (cbEdtProject.Items.Count > 0)
+									cbEdtProject.SelectedIndex = 0;
+							}
+						}
+					}
+					ComboBox cbEdtGrant = e.Item.FindControl("CbEdtGrant") as ComboBox;
+					if (cbEdtGrant != null)
+					{
+						BindGrant(cbEdtGrant, Convert.ToInt32(cbEdtProject.SelectedValue));
+						int grantId = _presenter.CurrentOperationalControlRequest.OperationalControlRequestDetails[e.Item.DataSetIndex].Grant.Id;
+						if (grantId != 0)
+						{
+							// Ensure the grant value exists in the combobox before selecting it
+							ListItem liGrant = cbEdtGrant.Items.FindByValue(grantId.ToString());
+							if (liGrant != null)
+							{
+								cbEdtGrant.SelectedValue = grantId.ToString();
+							}
+							else
+							{
+								if (cbEdtGrant.Items.Count > 0)
+									cbEdtGrant.SelectedIndex = 0;
+							}
+						}
+					}
+					DropDownList ddlAccountDescription = e.Item.FindControl("ddlEdtAccountDescription") as DropDownList;
                     if (ddlAccountDescription != null)
                     {
                         BindAccountDescription(ddlAccountDescription);
@@ -471,18 +534,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                             if (liI != null)
                                 liI.Selected = true;
                         }
-                    }
-                    DropDownList ddlEdtGrant = e.Item.FindControl("ddlEdtGrant") as DropDownList;
-                    if (ddlEdtGrant != null)
-                    {
-                        BindGrant(ddlEdtGrant, Convert.ToInt32(ddlProject.SelectedValue));
-                        if (_presenter.CurrentOperationalControlRequest.OperationalControlRequestDetails[e.Item.DataSetIndex].Grant.Id != null)
-                        {
-                            ListItem liI = ddlEdtGrant.Items.FindByValue(_presenter.CurrentOperationalControlRequest.OperationalControlRequestDetails[e.Item.DataSetIndex].Grant.Id.ToString());
-                            if (liI != null)
-                                liI.Selected = true;
-                        }
-
                     }
                 }
             }
@@ -582,19 +633,47 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             TextBox txtAccountCode = ddl.FindControl("txtAccountCode") as TextBox;
             txtAccountCode.Text = _presenter.GetItemAccount(Convert.ToInt32(ddl.SelectedValue)).AccountCode;
         }
-        protected void ddlEdtProject_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            DropDownList ddl = (DropDownList)sender;
-            DropDownList ddlEdtGrant = ddl.FindControl("ddlEdtGrant") as DropDownList;
-            BindGrant(ddlEdtGrant, Convert.ToInt32(ddl.SelectedValue));
-        }
-        protected void ddlProject_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            DropDownList ddl = (DropDownList)sender;
-            DropDownList ddlFGrant = ddl.FindControl("ddlGrant") as DropDownList;
-            BindGrant(ddlFGrant, Convert.ToInt32(ddl.SelectedValue));
-        }
-        protected void ddlBankAccount_SelectedIndexChanged(object sender, EventArgs e)
+		protected void CbProject_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			var cbProject = sender as ComboBox;
+			if (cbProject == null) return;
+
+			// DataGridItem that contains this ComboBox
+			var item = cbProject.NamingContainer as DataGridItem;
+			if (item == null) return;
+
+			// find the other combobox (grant) in the same row
+			var cbGrant = item.FindControl("CbGrant") as ComboBox;
+			if (cbGrant == null) return;
+
+			// use selected project value to bind grant combobox
+			int projectId;
+			if (int.TryParse(cbProject.SelectedValue, out projectId))
+			{
+				BindGrant(cbGrant, projectId);
+			}
+		}
+		protected void CbEdtProject_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			var cbEdtProject = sender as ComboBox;
+			if (cbEdtProject == null) return;
+
+			// DataGridItem that contains this ComboBox
+			var item = cbEdtProject.NamingContainer as DataGridItem;
+			if (item == null) return;
+
+			// find the other combobox (grant) in the same row
+			var cbEdtGrant = item.FindControl("CbEdtGrant") as ComboBox;
+			if (cbEdtGrant == null) return;
+
+			// use selected project value to bind grant combobox
+			int projectId;
+			if (int.TryParse(cbEdtProject.SelectedValue, out projectId))
+			{
+				BindGrant(cbEdtGrant, projectId);
+			}
+		}
+		protected void ddlBankAccount_SelectedIndexChanged(object sender, EventArgs e)
         {
             DropDownList ddlAccount = (DropDownList)sender;
             if (Convert.ToInt32(ddlAccount.SelectedValue) != 0)

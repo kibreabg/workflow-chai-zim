@@ -430,7 +430,6 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                                     cbEdtGrant.SelectedIndex = 0;
                             }
                         }
-
                     }
                     DropDownList ddlEdtAccountDescription = e.Item.FindControl("ddlEdtAccountDescription") as DropDownList;
                     if (ddlEdtAccountDescription != null)
