@@ -186,8 +186,14 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         private void GetCurrentApprover()
         {
-            if (!(ddlLeaveType.SelectedItem.Text == "Annual Leave" && int.Parse(txtbalance.Text) <= 0))
-            {
+			// safely parse balance (treat invalid/missing input as 0)
+			int balance = 0;
+			int.TryParse((txtbalance.Text ?? string.Empty).Trim(), out balance);
+
+			string leaveTypeText = ddlLeaveType.SelectedItem != null ? ddlLeaveType.SelectedItem.Text : string.Empty;
+
+			if (!(leaveTypeText == "Annual Leave" && balance <= 0))
+			{
                 foreach (LeaveRequestStatus LRS in _presenter.CurrentLeaveRequest.LeaveRequestStatuses)
                 {
                     if (LRS.ApprovalStatus == null)

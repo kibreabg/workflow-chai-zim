@@ -644,7 +644,6 @@ namespace Chai.WorkflowManagment.Modules.Request
         {
             _workspace.Delete<T>(item);
             _workspace.CommitChanges();
-            //_workspace.Refresh(item);
         }
 
         public void Commit()

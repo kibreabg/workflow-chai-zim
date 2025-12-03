@@ -512,7 +512,6 @@ namespace Chai.WorkflowManagment.Modules.Approval
         {
             _workspace.Delete<T>(item);
             _workspace.CommitChanges();
-            _workspace.Refresh(item);
         }
 
         public void Commit()

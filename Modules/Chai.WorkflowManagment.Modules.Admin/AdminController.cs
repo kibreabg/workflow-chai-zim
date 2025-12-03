@@ -231,7 +231,6 @@ namespace Chai.WorkflowManagment.Modules.Admin
         {
             _workspace.Delete<T>(item);
             _workspace.CommitChanges();
-            _workspace.Refresh(item);
         }
         #endregion
 
