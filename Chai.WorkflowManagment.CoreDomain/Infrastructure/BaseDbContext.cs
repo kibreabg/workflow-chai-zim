@@ -1,72 +1,69 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
-using System.Data.Objects;
 using System.Linq;
-using System.Text;
 
 namespace Chai.WorkflowManagment.CoreDomain.Infrastructure
 {
-    public class BaseDbContext : DbContext
-    {
-        public BaseDbContext(string name)
-            : base(name)
-        {
+	public class BaseDbContext : DbContext
+	{
+		public BaseDbContext(string name)
+			: base(name)
+		{
 
-        }
+		}
 
-        public IQueryable<T> ReadOnly<T>() where T : class
-        {
-            ObjectSet<T> result = ObjContext().CreateObjectSet<T>();
-            result.MergeOption = MergeOption.NoTracking;
-            return result;
-        }
+		public IQueryable<T> ReadOnly<T>() where T : class
+		{
+			ObjectSet<T> result = ObjContext().CreateObjectSet<T>();
+			result.MergeOption = MergeOption.NoTracking;
+			return result;
+		}
 
-        public IQueryable<T> Trackable<T>() where T : class
-        {
-            return ObjContext().CreateObjectSet<T>();
-        }
+		public IQueryable<T> Trackable<T>() where T : class
+		{
+			return ObjContext().CreateObjectSet<T>();
+		}
 
-        public void Refresh(IEnumerable collection)
-        {
-            ObjContext().Refresh(RefreshMode.StoreWins, collection);
-        }
+		public void Refresh(IEnumerable collection)
+		{
+			ObjContext().Refresh(RefreshMode.StoreWins, collection);
+		}
 
-        public void Refresh(object item)
-        {
-            ObjContext().Refresh(RefreshMode.StoreWins, item);
-        }
+		public void Refresh(object item)
+		{
+			ObjContext().Refresh(RefreshMode.StoreWins, item);
+		}
 
-        public void Detach(object item)
-        {
-            ObjContext().Detach(item);
-        }
+		public void Detach(object item)
+		{
+			ObjContext().Detach(item);
+		}
 
-        public void LoadProperty(object item, string propertyName)
-        {
-            ObjContext().LoadProperty(item, propertyName);
-        }
+		public void LoadProperty(object item, string propertyName)
+		{
+			ObjContext().LoadProperty(item, propertyName);
+		}
 
-        public void Close()
-        {
-            ObjContext().Connection.Close();
-        }
+		public void Close()
+		{
+			ObjContext().Connection.Close();
+		}
 
-        public ObjectContext ObjContext()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext;
-        }
+		public ObjectContext ObjContext()
+		{
+			return ((IObjectContextAdapter)this).ObjectContext;
+		}
 
-        public void AcceptAllChanges()
-        {
-            ObjContext().AcceptAllChanges();
-        }
+		public void AcceptAllChanges()
+		{
+			ObjContext().AcceptAllChanges();
+		}
 
-        public int ExecuteFunction(string functionName, params ObjectParameter[] parameters)
-        {
-            return ObjContext().ExecuteFunction(functionName, parameters);
-        }
-    }
+		public int ExecuteFunction(string functionName, params ObjectParameter[] parameters)
+		{
+			return ObjContext().ExecuteFunction(functionName, parameters);
+		}
+	}
 }

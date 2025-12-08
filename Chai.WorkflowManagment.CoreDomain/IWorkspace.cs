@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Objects;
 using System.Linq.Expressions;
-using System.Data.Objects;
-
-using Chai.WorkflowManagment.CoreDomain.Infrastructure;
 
 namespace Chai.WorkflowManagment.CoreDomain
 {

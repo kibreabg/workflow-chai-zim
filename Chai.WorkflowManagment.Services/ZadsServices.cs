@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-
-using Chai.WorkflowManagment.CoreDomain;
-using Chai.WorkflowManagment.CoreDomain.Users;
-using Chai.WorkflowManagment.CoreDomain.Admins;
+﻿using Chai.WorkflowManagment.CoreDomain;
 using Chai.WorkflowManagment.CoreDomain.DataAccess;
-using Chai.WorkflowManagment.CoreDomain.Infrastructure;
 
 namespace Chai.WorkflowManagment.Services
 {

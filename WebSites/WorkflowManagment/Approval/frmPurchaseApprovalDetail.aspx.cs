@@ -229,7 +229,9 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     PRRS.ApprovalStatus = ddlApprovalStatus.SelectedValue;
                     PRRS.RejectedReason = txtRejectedReason.Text;
                     PRRS.ApprovalDate = Convert.ToDateTime(DateTime.Today.ToShortDateString());
-                    if (PRRS.ApprovalStatus != ApprovalStatus.Rejected.ToString())
+					PRRS.AssignedBy = _presenter.GetAssignedJobbycurrentuser(PRRS.Approver) != null ? _presenter.GetAssignedJobbycurrentuser(PRRS.Approver).AppUser.FullName : "";
+
+					if (PRRS.ApprovalStatus != ApprovalStatus.Rejected.ToString())
                     {
                         _presenter.CurrentPurchaseRequest.ProgressStatus = ProgressStatus.Completed.ToString();
                         GetNextApprover();

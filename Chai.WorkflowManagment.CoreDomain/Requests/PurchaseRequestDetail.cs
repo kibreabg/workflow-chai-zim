@@ -1,5 +1,5 @@
 ﻿using Chai.WorkflowManagment.CoreDomain.Setting;
-using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Chai.WorkflowManagment.CoreDomain.Requests
 {

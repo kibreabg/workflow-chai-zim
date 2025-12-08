@@ -1,12 +1,10 @@
 
+using Chai.WorkflowManagment.CoreDomain.Users;
+using Chai.WorkflowManagment.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Principal;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel;
-
-using Chai.WorkflowManagment.Enums;
-using Chai.WorkflowManagment.CoreDomain.Users;
 
 namespace Chai.WorkflowManagment.CoreDomain.Admins
 {

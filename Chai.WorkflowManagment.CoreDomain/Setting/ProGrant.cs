@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Chai.WorkflowManagment.CoreDomain.Setting
 {
@@ -16,8 +13,6 @@ namespace Chai.WorkflowManagment.CoreDomain.Setting
         public int Id { get; set; }
         public Grant Grant { get; set; }
         public Project Project { get; set; }
-        public Nullable<DateTime> GrantDate { get; set; }
-      
-       
+        public Nullable<DateTime> GrantDate { get; set; }     
     }
 }

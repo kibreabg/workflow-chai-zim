@@ -1,14 +1,13 @@
 
+using Chai.WorkflowManagment.CoreDomain.Admins;
+using Chai.WorkflowManagment.CoreDomain.Setting;
+using Chai.WorkflowManagment.Enums;
+using Chai.WorkflowManagment.Shared;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Principal;
-using Chai.WorkflowManagment.Enums;
-using Chai.WorkflowManagment.Shared;
-using Chai.WorkflowManagment.CoreDomain.Admins;
-using Chai.WorkflowManagment.CoreDomain.Setting;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel;
 
 namespace Chai.WorkflowManagment.CoreDomain.Users
 {
@@ -29,8 +28,7 @@ namespace Chai.WorkflowManagment.CoreDomain.Users
         public string Email { get; set; }
         public string EmployeeNo { get; set; }
         public Nullable<int> Superviser { get; set; }
-        public virtual EmployeePosition EmployeePosition { get; set; }
-       
+        public virtual EmployeePosition EmployeePosition { get; set; }       
         public Nullable<bool> IsAssignedJob { get; set; }
         public bool IsActive { get; set; }
         public Nullable<System.DateTime> LastLogin { get; set; }
