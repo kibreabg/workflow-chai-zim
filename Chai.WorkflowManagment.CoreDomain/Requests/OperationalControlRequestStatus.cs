@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using Chai.WorkflowManagment.CoreDomain.Setting;
+﻿using Chai.WorkflowManagment.CoreDomain.Setting;
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Chai.WorkflowManagment.CoreDomain.Requests
 {

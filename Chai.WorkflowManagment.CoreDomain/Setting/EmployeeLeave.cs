@@ -1,14 +1,6 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Security.Principal;
-using Chai.WorkflowManagment.Enums;
-using Chai.WorkflowManagment.Shared;
-using Chai.WorkflowManagment.CoreDomain.Admins;
-using Chai.WorkflowManagment.CoreDomain.Setting;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel;
 using Chai.WorkflowManagment.CoreDomain.Users;
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Chai.WorkflowManagment.CoreDomain.Setting
 {
@@ -27,9 +19,7 @@ namespace Chai.WorkflowManagment.CoreDomain.Setting
         public decimal LeaveTaken { get; set; }
         public decimal BeginingBalance { get; set; }
         public bool Status { get; set; }
-
         public decimal Rate { get; set; }
-
     }
 
 }

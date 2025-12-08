@@ -1,7 +1,6 @@
 ﻿using Chai.WorkflowManagment.CoreDomain.DataAccess;
 using Chai.WorkflowManagment.CoreDomain.Requests;
 using Chai.WorkflowManagment.Shared;
-using Chai.WorkflowManagment.Shared.MailSender;
 using Quartz;
 using System;
 using System.Collections.Generic;
@@ -26,8 +25,8 @@ namespace Chai.WorkflowManagment.Modules.Request
                         {
                             if (notExpensedTravelAdvance.AppUser != null && notExpensedTravelAdvance.Project != null)
                             {
-                                EmailSender.Send(notExpensedTravelAdvance.AppUser.Email, "Please Liquidate your Travel Advance", "Your Travel Advance with Travel Advance No. " + notExpensedTravelAdvance.TravelAdvanceNo + " is still not yet liquidated!");
-                                EmailSender.Send(notExpensedTravelAdvance.Project.AppUser.Email, "Travel Advance not yet Liquidated", "The Travel Advance requested by " + notExpensedTravelAdvance.AppUser.FullName + " with Travel Advance No. " + notExpensedTravelAdvance.TravelAdvanceNo + " is still not yet liquidated!");
+                                //EmailSender.Send(notExpensedTravelAdvance.AppUser.Email, "Please Liquidate your Travel Advance", "Your Travel Advance with Travel Advance No. " + notExpensedTravelAdvance.TravelAdvanceNo + " is still not yet liquidated!");
+                                //EmailSender.Send(notExpensedTravelAdvance.Project.AppUser.Email, "Travel Advance not yet Liquidated", "The Travel Advance requested by " + notExpensedTravelAdvance.AppUser.FullName + " with Travel Advance No. " + notExpensedTravelAdvance.TravelAdvanceNo + " is still not yet liquidated!");
                             }
                         }
                     }
