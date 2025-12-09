@@ -24,7 +24,7 @@ namespace Chai.WorkflowManagment.Modules.Request
 		public RequestController([ServiceDependency] IHttpContextLocatorService httpContextLocatorService, [ServiceDependency] INavigationService navigationService)
 			: base(httpContextLocatorService, navigationService)
 		{
-			_workspace = ZadsServices.Workspace;
+			_workspace = WorkflowManagmentServices.Workspace;
 		}
 		public AppUser GetSuperviser(int superviser)
 		{

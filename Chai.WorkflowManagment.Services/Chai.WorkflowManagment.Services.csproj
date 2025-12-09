@@ -90,7 +90,7 @@
     <Compile Include="ChaiException.cs" />
     <Compile Include="ControllerBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ZadsServices.cs" />
+    <Compile Include="WorkflowManagmentServices.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Chai.WorkflowManagment.CoreDomain\Chai.WorkflowManagment.CoreDomain.csproj">

@@ -23,7 +23,7 @@ namespace Chai.WorkflowManagment.Modules.Admin
         public AdminController([ServiceDependency] IHttpContextLocatorService httpContextLocatorService, [ServiceDependency] INavigationService navigationService)
             : base(httpContextLocatorService, navigationService)
         {
-            _workspace = ZadsServices.Workspace;
+            _workspace = WorkflowManagmentServices.Workspace;
         }
 
         #region Security And Administration
@@ -48,7 +48,7 @@ namespace Chai.WorkflowManagment.Modules.Admin
         }
         public IList<AppUser> SearchUsers(string username)
         {
-            return ZadsServices.AdminServices.SearchUsers(username).ToList();
+            return WorkflowManagmentServices.AdminServices.SearchUsers(username).ToList();
         }
         public void SaveOrUpdateUser(AppUser user)
         {
@@ -111,32 +111,32 @@ namespace Chai.WorkflowManagment.Modules.Admin
         }
         public void MoveTabUp(Tab tab)
         {
-            ZadsServices.AdminServices.MoveTabUp(tab);
+            WorkflowManagmentServices.AdminServices.MoveTabUp(tab);
             _workspace.Refresh(tab);
         }
         public void MoveTabDown(Tab tab)
         {
-            ZadsServices.AdminServices.MoveTabDown(tab);
+            WorkflowManagmentServices.AdminServices.MoveTabDown(tab);
         }
         public void MoveUpTaskPan(int panid)
         {
-            ZadsServices.AdminServices.MoveUpTaskPan(panid);
+            WorkflowManagmentServices.AdminServices.MoveUpTaskPan(panid);
         }
         public void MoveDownTaskPan(int panid)
         {
-            ZadsServices.AdminServices.MoveDownTaskPan(panid);
+            WorkflowManagmentServices.AdminServices.MoveDownTaskPan(panid);
         }
         public void MoveUpPanNode(int id)
         {
-            ZadsServices.AdminServices.MoveUpPanNode(id);
+            WorkflowManagmentServices.AdminServices.MoveUpPanNode(id);
         }
         public void MoveDownPanNode(int id)
         {
-            ZadsServices.AdminServices.MoveDownPanNode(id);
+            WorkflowManagmentServices.AdminServices.MoveDownPanNode(id);
         }
         public int GetMaxTabPosition()
         {
-            return ZadsServices.AdminServices.GetMaxTabPosition();
+            return WorkflowManagmentServices.AdminServices.GetMaxTabPosition();
         }
 
 

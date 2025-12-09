@@ -28,7 +28,7 @@ namespace Chai.WorkflowManagment.Services
 
         public Node ActiveNode(string pageid)
         {
-            return ZadsServices.AdminServices.ActiveNode(pageid);
+            return WorkflowManagmentServices.AdminServices.ActiveNode(pageid);
         }
 
         public IHttpContext GetCurrentContext()

@@ -20,7 +20,7 @@ namespace Chai.WorkflowManagment.Modules.Setting
         public SettingController([ServiceDependency] IHttpContextLocatorService httpContextLocatorService, [ServiceDependency] INavigationService navigationService)
             : base(httpContextLocatorService, navigationService)
         {
-            _workspace = ZadsServices.Workspace;
+            _workspace = WorkflowManagmentServices.Workspace;
         }
         public object CurrentObject
         {

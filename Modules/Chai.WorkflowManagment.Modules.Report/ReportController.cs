@@ -21,7 +21,7 @@ namespace Chai.WorkflowManagment.Modules.Report
         public ReportController([ServiceDependency] IHttpContextLocatorService httpContextLocatorService, [ServiceDependency] INavigationService navigationService)
             : base(httpContextLocatorService, navigationService)
         {
-            _workspace = ZadsServices.Workspace;
+            _workspace = WorkflowManagmentServices.Workspace;
         }
         #region Objectreport
         public IList<LeaveReport> GetLeaveReporto(string DateFrom, string DateTo)

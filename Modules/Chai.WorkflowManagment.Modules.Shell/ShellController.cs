@@ -24,7 +24,7 @@ namespace Chai.WorkflowManagment.Modules.Shell
            [ServiceDependency] INavigationService navigationService)
             : base(httpContextLocatorService, navigationService)
         {
-            _workspace = ZadsServices.Workspace;
+            _workspace = WorkflowManagmentServices.Workspace;
         }
         public int GetAssignedUserbycurrentuser()
         {
