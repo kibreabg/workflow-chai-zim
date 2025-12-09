@@ -2,11 +2,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Core.Objects;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Transactions;
@@ -31,19 +28,6 @@ namespace Chai.WorkflowManagment.CoreDomain.Infrastructure
                 {
                     _context.SaveChanges();
                     scope.Complete();
-                }
-                catch (DbUpdateException ex)
-                {
-                    ExceptionUtility.LogException(ex, ex.Source);
-                    ExceptionUtility.NotifySystemOps(ex, ex.Source);
-                    UpdateException updateException = (UpdateException)ex.InnerException;
-                    SqlException sqlException = (SqlException)updateException.InnerException;
-
-
-                    foreach (SqlError error in sqlException.Errors)
-                    {
-                        // TODO: Do something with your errors
-                    }
                 }
                 catch (Exception ex)
                 {
