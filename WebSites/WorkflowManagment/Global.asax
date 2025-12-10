@@ -45,21 +45,4 @@
 		Server.ClearError();
 	}
 
-	protected void Application_EndRequest(object sender, EventArgs e)
-	{
-		var ctx = HttpContext.Current;
-		if (ctx == null) return;
-
-		const string key = "WorkflowManagmentServices.Workspace";
-		if (ctx.Items.Contains(key))
-		{
-			var ws = ctx.Items[key] as IDisposable;
-			if (ws != null)
-			{
-				try { ws.Dispose(); }
-				catch { /* swallow - nothing we can do here */ }
-			}
-			ctx.Items.Remove(key);
-		}
-	}
 </script>
