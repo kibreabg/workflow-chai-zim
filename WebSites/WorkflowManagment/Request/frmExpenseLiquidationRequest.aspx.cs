@@ -361,14 +361,14 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 if (cbEdtProject != null)
                 {
                     BindProject(cbEdtProject);
-                    int projectId = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestDetails[e.Item.DataSetIndex].Project.Id;
-                    if (projectId != 0)
+                    Project project = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestDetails[e.Item.DataSetIndex].Project;
+                    if (project != null)
                     {
                         // Ensure the project value exists in the combobox before selecting it
-                        ListItem liProject = cbEdtProject.Items.FindByValue(projectId.ToString());
+                        ListItem liProject = cbEdtProject.Items.FindByValue(project.Id.ToString());
                         if (liProject != null)
                         {
-                            cbEdtProject.SelectedValue = projectId.ToString();
+                            cbEdtProject.SelectedValue = project.Id.ToString();
                         }
                         else
                         {
@@ -381,14 +381,14 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 if (cbEdtGrant != null)
                 {
                     BindGrant(cbEdtGrant, Convert.ToInt32(cbEdtProject.SelectedValue));
-                    int grantId = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestDetails[e.Item.DataSetIndex].Grant.Id;
-                    if (grantId != 0)
+                    Grant grant = _presenter.CurrentTravelAdvanceRequest.ExpenseLiquidationRequest.ExpenseLiquidationRequestDetails[e.Item.DataSetIndex].Grant;
+                    if (grant != null)
                     {
                         // Ensure the grant value exists in the combobox before selecting it
-                        ListItem liGrant = cbEdtGrant.Items.FindByValue(grantId.ToString());
+                        ListItem liGrant = cbEdtGrant.Items.FindByValue(grant.Id.ToString());
                         if (liGrant != null)
                         {
-                            cbEdtGrant.SelectedValue = grantId.ToString();
+                            cbEdtGrant.SelectedValue = grant.Id.ToString();
                         }
                         else
                         {
