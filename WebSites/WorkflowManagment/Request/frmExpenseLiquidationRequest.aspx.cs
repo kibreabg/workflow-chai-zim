@@ -478,8 +478,23 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             TextBox txtFAmount = txt.FindControl("txtFAmount") as TextBox;
             TextBox txtFActualExpenditure = txt.FindControl("txtFActualExpenditure") as TextBox;
             TextBox txtFVariance = txt.FindControl("txtFVariance") as TextBox;
-            txtFVariance.Text = ((Convert.ToDecimal(txtFAmount.Text) - Convert.ToDecimal(txtFActualExpenditure.Text))).ToString();
 
+			decimal amount;
+			decimal actualExpenditure;
+
+			// Safe parse to avoid FormatException. If parsing fails, treat as zero.
+			if (!decimal.TryParse(txtFAmount.Text, out amount))
+			{
+				amount = 0m;
+			}
+
+			if (!decimal.TryParse(txtFActualExpenditure.Text, out actualExpenditure))
+			{
+				actualExpenditure = 0m;
+				txtFActualExpenditure.Text = "0";
+			}
+
+			txtFVariance.Text = (amount - actualExpenditure).ToString();
         }
         protected void btnUpload_Click(object sender, EventArgs e)
         {

@@ -136,28 +136,28 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         public void SaveOrUpdateTARequest()
         {
-            TravelAdvanceRequest TravelAdvanceRequest = CurrentTravelAdvanceRequest;
-            TravelAdvanceRequest.TravelAdvanceNo = View.GetRequestNo;
-            TravelAdvanceRequest.RequestDate = View.GetRequestDate;
-            TravelAdvanceRequest.VisitingTeam = View.GetVisitingTeam;
-            TravelAdvanceRequest.PurposeOfTravel = View.GetPurposeOfTravel;
-            TravelAdvanceRequest.Comments = View.GetComments;
-            TravelAdvanceRequest.PaymentMethod = View.GetPaymentMethod;
-            TravelAdvanceRequest.CardNo = View.GetCardNo;
-            TravelAdvanceRequest.ProgressStatus = ProgressStatus.InProgress.ToString();
-            TravelAdvanceRequest.ExportStatus = "Not Exported";
-            TravelAdvanceRequest.AppUser = _adminController.GetUser(CurrentUser().Id);
+            TravelAdvanceRequest travelAdvanceRequest = CurrentTravelAdvanceRequest;
+            travelAdvanceRequest.TravelAdvanceNo = View.GetRequestNo;
+            travelAdvanceRequest.RequestDate = View.GetRequestDate;
+            travelAdvanceRequest.VisitingTeam = View.GetVisitingTeam;
+            travelAdvanceRequest.PurposeOfTravel = View.GetPurposeOfTravel;
+            travelAdvanceRequest.Comments = View.GetComments;
+            travelAdvanceRequest.PaymentMethod = View.GetPaymentMethod;
+            travelAdvanceRequest.CardNo = View.GetCardNo;
+            travelAdvanceRequest.ProgressStatus = ProgressStatus.InProgress.ToString();
+            travelAdvanceRequest.ExportStatus = "Not Exported";
+            travelAdvanceRequest.AppUser = _adminController.GetUser(CurrentUser().Id);
 
             if (View.GetProjectId != 0)
-                TravelAdvanceRequest.Project = _settingController.GetProject(View.GetProjectId);
+                travelAdvanceRequest.Project = _settingController.GetProject(View.GetProjectId);
             if (View.GetGrantId != 0)
-                TravelAdvanceRequest.Grant = _settingController.GetGrant(View.GetGrantId);
+                travelAdvanceRequest.Grant = _settingController.GetGrant(View.GetGrantId);
 
             if (CurrentTravelAdvanceRequest.TravelAdvanceRequestStatuses.Count == 0)
                 SaveTravelAdvanceRequestStatus();
             GetCurrentApprover();
 
-            _controller.SaveOrUpdateEntity(TravelAdvanceRequest);
+            _controller.SaveOrUpdateEntity(travelAdvanceRequest);
             _controller.CurrentObject = null;
         }
         public void SaveOrUpdateTARequest(TravelAdvanceRequest TravelAdvanceRequest)

@@ -626,6 +626,7 @@ namespace Chai.WorkflowManagment.Modules.Request
 			{
 				ExceptionUtility.LogException(ex, ex.Source);
 				ExceptionUtility.NotifySystemOps(ex, ex.Source);
+				throw; // Rethrow so callers can observe the failure and handle/abort appropriately
 			}
 
 		}
