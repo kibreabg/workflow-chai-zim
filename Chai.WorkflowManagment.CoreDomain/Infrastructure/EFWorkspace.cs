@@ -1,13 +1,13 @@
-﻿using Chai.WorkflowManagment.Shared;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Transactions;
-
+using Chai.WorkflowManagment.Shared;
 
 namespace Chai.WorkflowManagment.CoreDomain.Infrastructure
 {
@@ -31,12 +31,49 @@ namespace Chai.WorkflowManagment.CoreDomain.Infrastructure
                 }
                 catch (Exception ex)
                 {
+                    ClearFailedEntries();
+
                     ExceptionUtility.LogException(ex, ex.Source);
                     ExceptionUtility.NotifySystemOps(ex, ex.Source);
                     throw; // Rethrow so callers can observe the failure and handle/abort appropriately
                 }
+                finally
+                {
+                    // Prevent stale tracked entities from being saved later
+                    foreach (var entry in _context.ChangeTracker.Entries().ToList())
+                    {
+                        entry.State = EntityState.Detached;
+                    }
+                }
             }
+        }
 
+        private void ClearFailedEntries()
+        {
+            var failedEntries = _context
+                .ChangeTracker.Entries()
+                .Where(e =>
+                    e.State == EntityState.Added
+                    || e.State == EntityState.Modified
+                    || e.State == EntityState.Deleted
+                )
+                .ToList();
+
+            foreach (var entry in failedEntries)
+            {
+                switch (entry.State)
+                {
+                    case EntityState.Added:
+                        entry.State = EntityState.Detached;
+                        break;
+                    case EntityState.Modified:
+                        entry.Reload();
+                        break;
+                    case EntityState.Deleted:
+                        entry.State = EntityState.Unchanged;
+                        break;
+                }
+            }
         }
 
         public void Refresh(IEnumerable collection)
@@ -54,80 +91,102 @@ namespace Chai.WorkflowManagment.CoreDomain.Infrastructure
             _context.Refresh(item);
         }
 
-        public void Delete<T>(Expression<Func<T, bool>> expression) where T : class
+        public void Delete<T>(Expression<Func<T, bool>> expression)
+            where T : class
         {
             foreach (var item in _context.Set<T>().Where(expression))
                 Delete(item);
         }
 
-        public void Delete<T>(T item) where T : class
+        public void Delete<T>(T item)
+            where T : class
         {
             _context.Set<T>().Remove(item);
         }
 
-        public void DeleteAll<T>() where T : class
+        public void DeleteAll<T>()
+            where T : class
         {
             foreach (var item in _context.Set<T>())
                 Delete(item);
         }
 
-        public T Single<T>(Expression<Func<T, bool>> expression) where T : class
+        public T Single<T>(Expression<Func<T, bool>> expression)
+            where T : class
         {
             return _context.Set<T>().SingleOrDefault(expression);
         }
 
-        public T Single<T>(Expression<Func<T, bool>> expression, params Expression<Func<T, object>>[] includes) where T : class
+        public T Single<T>(
+            Expression<Func<T, bool>> expression,
+            params Expression<Func<T, object>>[] includes
+        )
+            where T : class
         {
             if (includes == null || includes.Length < 1)
                 return _context.Trackable<T>().Where(expression).SingleOrDefault();
-            var result = includes.Aggregate(_context.Trackable<T>(), (current, include) => current.Include(include)).Where(expression);
+            var result = includes
+                .Aggregate(_context.Trackable<T>(), (current, include) => current.Include(include))
+                .Where(expression);
             return result.SingleOrDefault();
         }
 
-        public T Last<T>() where T : class, IEntity
+        public T Last<T>()
+            where T : class, IEntity
         {
             return _context.Set<T>().OrderByDescending(x => x.Id).FirstOrDefault();
         }
 
-        public IEnumerable<T> All<T>() where T : class
+        public IEnumerable<T> All<T>()
+            where T : class
         {
             return _context.Set<T>().ToList();
         }
 
-        public IEnumerable<T> All<T>(params Expression<Func<T, object>>[] includes) where T : class
+        public IEnumerable<T> All<T>(params Expression<Func<T, object>>[] includes)
+            where T : class
         {
-            return includes.Aggregate(_context.Trackable<T>(), (current, include) => current.Include(include));
+            return includes.Aggregate(
+                _context.Trackable<T>(),
+                (current, include) => current.Include(include)
+            );
         }
 
-        public IEnumerable<T> All<T>(Expression<Func<T, bool>> expression) where T : class
+        public IEnumerable<T> All<T>(Expression<Func<T, bool>> expression)
+            where T : class
         {
             return _context.Set<T>().Where(expression);
         }
 
-        public IEnumerable<T> SqlQuery<T>(string sqlquery) where T : class
+        public IEnumerable<T> SqlQuery<T>(string sqlquery)
+            where T : class
         {
             return _context.Set<T>().SqlQuery(sqlquery);
         }
 
-        public void Add<T>(T item) where T : class
+        public void Add<T>(T item)
+            where T : class
         {
             _context.Set<T>().Add(item);
         }
 
-        public void Add<T>(IEnumerable<T> items) where T : class
+        public void Add<T>(IEnumerable<T> items)
+            where T : class
         {
             foreach (var item in items)
                 Add(item);
         }
 
-        public void Update<T>(T item) where T : class
+        public void Update<T>(T item)
+            where T : class
         {
             var idf = item as IEntity;
             if (idf != null && idf.Id == 0)
                 Add(item);
         }
 
-        public int Count<T>() where T : class
+        public int Count<T>()
+            where T : class
         {
             return _context.Set<T>().Count();
         }
