@@ -306,7 +306,10 @@ namespace Chai.WorkflowManagment.Modules.Request
 
         public PaymentReimbursementRequest GetPaymentReimbursementRequest(int RequestId)
         {
-            return _workspace.Single<PaymentReimbursementRequest>(x => x.Id == RequestId);
+            return _workspace.Single<PaymentReimbursementRequest>(
+                x => x.Id == RequestId,
+                x => x.CashPaymentRequest.AppUser
+            );
         }
 
         public IList<PaymentReimbursementRequest> GetPaymentReimbursementRequests()
@@ -324,7 +327,12 @@ namespace Chai.WorkflowManagment.Modules.Request
         #region Bank Payment
         public BankPaymentRequest GetBankPaymentRequest(int RequestId)
         {
-            return _workspace.Single<BankPaymentRequest>(x => x.Id == RequestId);
+            return _workspace.Single<BankPaymentRequest>(
+                x => x.Id == RequestId,
+                x => x.AppUser,
+                x => x.BankPaymentRequestDetails,
+                x => x.BankPaymentRequestStatuses
+            );
         }
 
         public IList<BankPaymentRequest> GetBankPaymentRequests()
@@ -543,7 +551,13 @@ namespace Chai.WorkflowManagment.Modules.Request
 
         public ExpenseLiquidationRequest GetExpenseLiquidationRequest(int RequestId)
         {
-            return _workspace.Single<ExpenseLiquidationRequest>(x => x.Id == RequestId);
+            return _workspace.Single<ExpenseLiquidationRequest>(
+                x => x.Id == RequestId,
+                x => x.TravelAdvanceRequest.AppUser,
+                x => x.ExpenseLiquidationRequestDetails.Select(z => z.Project),
+                x => x.ExpenseLiquidationRequestDetails.Select(y => y.ItemAccount),
+                x => x.ExpenseLiquidationRequestStatuses
+            );
         }
 
         public IList<ExpenseLiquidationRequest> GetExpenseLiquidationRequests()
@@ -811,7 +825,13 @@ namespace Chai.WorkflowManagment.Modules.Request
 
         public SoleVendorRequest GetSoleVendorRequest(int id)
         {
-            return _workspace.Single<SoleVendorRequest>(x => x.Id == id);
+            return _workspace.Single<SoleVendorRequest>(
+                x => x.Id == id,
+                x => x.AppUser,
+                x => x.Supplier,
+                x => x.SoleVendorRequestStatuses,
+                x => x.SoleVendorRequestDetails
+            );
         }
 
         public IList<SoleVendorRequest> ListSoleVendorRequests(string RequestNo, string RequestDate)
@@ -860,7 +880,12 @@ namespace Chai.WorkflowManagment.Modules.Request
 
         public BidAnalysisRequest GetBidAnalysisRequest(int id)
         {
-            return _workspace.Single<BidAnalysisRequest>(x => x.Id == id);
+            return _workspace.Single<BidAnalysisRequest>(
+                x => x.Id == id,
+                x => x.AppUser,
+                x => x.Bidders.Select(y => y.Supplier),
+                x => x.BidAnalysisRequestStatuses
+            );
         }
 
         public BidderItemDetail GetBiderItem(int id)
