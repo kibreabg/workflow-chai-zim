@@ -37,14 +37,6 @@ namespace Chai.WorkflowManagment.CoreDomain.Infrastructure
                     ExceptionUtility.NotifySystemOps(ex, ex.Source);
                     throw; // Rethrow so callers can observe the failure and handle/abort appropriately
                 }
-                finally
-                {
-                    // Prevent stale tracked entities from being saved later
-                    foreach (var entry in _context.ChangeTracker.Entries().ToList())
-                    {
-                        entry.State = EntityState.Detached;
-                    }
-                }
             }
         }
 

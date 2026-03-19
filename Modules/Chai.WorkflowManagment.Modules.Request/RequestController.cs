@@ -88,15 +88,7 @@ namespace Chai.WorkflowManagment.Modules.Request
 
         public VehicleRequest GetVehicleRequest(int id)
         {
-            return _workspace.Single<VehicleRequest>(
-                x => x.Id == id,
-                x => x.Project,
-                x => x.Grant,
-                x => x.AppUser,
-                x => x.VehicleRequestStatuses,
-                x => x.VehicleRequestDetails.Select(y => y.AppUser),
-                x => x.VehicleRequestDetails.Select(y => y.CarRental)
-            );
+            return _workspace.Single<VehicleRequest>(x => x.Id == id);
         }
 
         public IList<VehicleRequest> ListVehicleRequests(string RequestNo, string RequestDate)
@@ -139,15 +131,7 @@ namespace Chai.WorkflowManagment.Modules.Request
         #region Cash Payment
         public CashPaymentRequest GetCashPaymentRequest(int RequestId)
         {
-            return _workspace.Single<CashPaymentRequest>(
-                x => x.Id == RequestId,
-                x => x.AppUser,
-                x => x.Supplier,
-                x => x.CashPaymentRequestStatuses,
-                x => x.CashPaymentRequestDetails.Select(y => y.ItemAccount),
-                x => x.CashPaymentRequestDetails.Select(z => z.Project),
-                x => x.CashPaymentRequestDetails.Select(z => z.Grant)
-            );
+            return _workspace.Single<CashPaymentRequest>(x => x.Id == RequestId);
         }
 
         public IList<CashPaymentRequest> ListCashPaymentRequests(
@@ -216,14 +200,7 @@ namespace Chai.WorkflowManagment.Modules.Request
         #region Cost Sharing
         public CostSharingRequest GetCostSharingRequest(int RequestId)
         {
-            return _workspace.Single<CostSharingRequest>(
-                x => x.Id == RequestId,
-                x => x.AppUser,
-                x => x.ItemAccount,
-                x => x.CostSharingRequestStatuses,
-                x => x.CostSharingRequestDetails.Select(y => y.Project),
-                x => x.CostSharingRequestDetails.Select(z => z.Grant)
-            );
+            return _workspace.Single<CostSharingRequest>(x => x.Id == RequestId);
         }
 
         public IList<CostSharingRequest> ListCostSharingRequests(
@@ -306,10 +283,7 @@ namespace Chai.WorkflowManagment.Modules.Request
 
         public PaymentReimbursementRequest GetPaymentReimbursementRequest(int RequestId)
         {
-            return _workspace.Single<PaymentReimbursementRequest>(
-                x => x.Id == RequestId,
-                x => x.CashPaymentRequest.AppUser
-            );
+            return _workspace.Single<PaymentReimbursementRequest>(x => x.Id == RequestId);
         }
 
         public IList<PaymentReimbursementRequest> GetPaymentReimbursementRequests()
@@ -327,12 +301,7 @@ namespace Chai.WorkflowManagment.Modules.Request
         #region Bank Payment
         public BankPaymentRequest GetBankPaymentRequest(int RequestId)
         {
-            return _workspace.Single<BankPaymentRequest>(
-                x => x.Id == RequestId,
-                x => x.AppUser,
-                x => x.BankPaymentRequestDetails,
-                x => x.BankPaymentRequestStatuses
-            );
+            return _workspace.Single<BankPaymentRequest>(x => x.Id == RequestId);
         }
 
         public IList<BankPaymentRequest> GetBankPaymentRequests()
@@ -381,14 +350,7 @@ namespace Chai.WorkflowManagment.Modules.Request
         #region Operational Control
         public OperationalControlRequest GetOperationalControlRequest(int RequestId)
         {
-            return _workspace.Single<OperationalControlRequest>(
-                x => x.Id == RequestId,
-                x => x.AppUser,
-                x => x.Supplier,
-                x => x.OperationalControlRequestDetails.Select(y => y.Project),
-                x => x.OperationalControlRequestDetails.Select(z => z.ItemAccount),
-                x => x.OperationalControlRequestStatuses
-            );
+            return _workspace.Single<OperationalControlRequest>(x => x.Id == RequestId);
         }
 
         public IList<OperationalControlRequest> ListOperationalControlRequests(
@@ -452,14 +414,7 @@ namespace Chai.WorkflowManagment.Modules.Request
         #region Travel Advance Request
         public TravelAdvanceRequest GetTravelAdvanceRequest(int TravelAdvanceRequestId)
         {
-            return _workspace.Single<TravelAdvanceRequest>(
-                x => x.Id == TravelAdvanceRequestId,
-                x => x.Project,
-                x => x.Grant,
-                x => x.AppUser,
-                x => x.TravelAdvanceRequestDetails.Select(y => y.TravelAdvanceCosts),
-                x => x.TravelAdvanceRequestStatuses
-            );
+            return _workspace.Single<TravelAdvanceRequest>(x => x.Id == TravelAdvanceRequestId);
         }
 
         public IList<TravelAdvanceRequest> GetTravelAdvanceRequests()
@@ -551,13 +506,7 @@ namespace Chai.WorkflowManagment.Modules.Request
 
         public ExpenseLiquidationRequest GetExpenseLiquidationRequest(int RequestId)
         {
-            return _workspace.Single<ExpenseLiquidationRequest>(
-                x => x.Id == RequestId,
-                x => x.TravelAdvanceRequest.AppUser,
-                x => x.ExpenseLiquidationRequestDetails.Select(z => z.Project),
-                x => x.ExpenseLiquidationRequestDetails.Select(y => y.ItemAccount),
-                x => x.ExpenseLiquidationRequestStatuses
-            );
+            return _workspace.Single<ExpenseLiquidationRequest>(x => x.Id == RequestId);
         }
 
         public IList<ExpenseLiquidationRequest> GetExpenseLiquidationRequests()
@@ -673,11 +622,7 @@ namespace Chai.WorkflowManagment.Modules.Request
 
         public PurchaseRequest GetPurchaseRequest(int PurchaseRequestId)
         {
-            return _workspace.Single<PurchaseRequest>(
-                x => x.Id == PurchaseRequestId,
-                x => x.PurchaseRequestDetails.Select(y => y.ItemAccount),
-                x => x.PurchaseRequestDetails.Select(z => z.Project)
-            );
+            return _workspace.Single<PurchaseRequest>(x => x.Id == PurchaseRequestId);
         }
 
         public PurchaseRequestDetail GetPurchaseRequestDetail(int PurchaseRequestDetailId)
@@ -772,10 +717,7 @@ namespace Chai.WorkflowManagment.Modules.Request
         #region Inventory Request
         public InventoryRequest GetInventoryRequest(int InventoryRequestId)
         {
-            return _workspace.Single<InventoryRequest>(
-                x => x.Id == InventoryRequestId,
-                x => x.InventoryRequestDetails.Select(y => y.Inventory)
-            );
+            return _workspace.Single<InventoryRequest>(x => x.Id == InventoryRequestId);
         }
 
         public IList<InventoryRequest> GetInventoryRequests()
@@ -825,13 +767,7 @@ namespace Chai.WorkflowManagment.Modules.Request
 
         public SoleVendorRequest GetSoleVendorRequest(int id)
         {
-            return _workspace.Single<SoleVendorRequest>(
-                x => x.Id == id,
-                x => x.AppUser,
-                x => x.Supplier,
-                x => x.SoleVendorRequestStatuses,
-                x => x.SoleVendorRequestDetails
-            );
+            return _workspace.Single<SoleVendorRequest>(x => x.Id == id);
         }
 
         public IList<SoleVendorRequest> ListSoleVendorRequests(string RequestNo, string RequestDate)
@@ -880,12 +816,7 @@ namespace Chai.WorkflowManagment.Modules.Request
 
         public BidAnalysisRequest GetBidAnalysisRequest(int id)
         {
-            return _workspace.Single<BidAnalysisRequest>(
-                x => x.Id == id,
-                x => x.AppUser,
-                x => x.Bidders.Select(y => y.Supplier),
-                x => x.BidAnalysisRequestStatuses
-            );
+            return _workspace.Single<BidAnalysisRequest>(x => x.Id == id);
         }
 
         public BidderItemDetail GetBiderItem(int id)
@@ -938,10 +869,7 @@ namespace Chai.WorkflowManagment.Modules.Request
 
         public FuelCardRequest GetFuelCardRequest(int FuelCardRequestId)
         {
-            return _workspace.Single<FuelCardRequest>(
-                x => x.Id == FuelCardRequestId,
-                x => x.FuelCardRequestDetails.Select(y => y.Project)
-            );
+            return _workspace.Single<FuelCardRequest>(x => x.Id == FuelCardRequestId);
         }
 
         public FuelCardRequestDetail GetFuelCardRequestDetail(int FuelCardRequestDetailId)
