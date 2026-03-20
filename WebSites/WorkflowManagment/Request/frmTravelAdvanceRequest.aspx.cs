@@ -118,10 +118,9 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         #endregion
         private string AutoNumber()
         {
-            // Use a combination of current user ID, timestamp, and a random number to ensure uniqueness
-            string timestamp = DateTime.Now.ToString("HHmmssfff"); //time in hhmmssfff
-            string random = Guid.NewGuid().ToString().Substring(0, 3); // Take first 3 characters of GUID
-            return "TR-" + _presenter.CurrentUser().Id.ToString() + "-" + timestamp + "-" + random;
+            // Use a combination of current user ID, timestamp
+            string timestamp = DateTime.Now.ToString("HHmmssfff"); // time in hhmmssfff
+            return "TR" + _presenter.CurrentUser().Id.ToString() + "-" + timestamp;
         }
 
         private void CheckApprovalSettings()
