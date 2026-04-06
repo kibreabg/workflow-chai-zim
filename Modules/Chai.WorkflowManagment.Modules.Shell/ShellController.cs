@@ -123,13 +123,17 @@ namespace Chai.WorkflowManagment.Modules.Shell
         }
         public int GetCashPaymentRequestTasks()
         {
-            currentUser = GetCurrentUser().Id;
+            var user = GetCurrentUser();
+            if (user == null || user.EmployeePosition == null)
+                return 0;
+
+            currentUser = user.Id;
             string filterExpression = " SELECT * FROM CashPaymentRequests " +
                                       " LEFT JOIN AppUsers on AppUsers.Id = CashPaymentRequests.CurrentApprover " +
                                       " LEFT JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 " +
                                       " WHERE CashPaymentRequests.ProgressStatus = 'InProgress'" +
                                         " AND ((CashPaymentRequests.CurrentApprover = '" + currentUser + "')" +
-                                        " OR (CashPaymentRequests.CurrentApproverPosition = '" + GetCurrentUser().EmployeePosition.Id + "')" +
+                                        " OR (CashPaymentRequests.CurrentApproverPosition = '" + user.EmployeePosition.Id + "')" +
                                         " OR (AssignJobs.AssignedTo = '" + GetAssignedUserbycurrentuser() + "'))" +
                                         " ORDER BY CashPaymentRequests.Id";
             return _workspace.SqlQuery<CashPaymentRequest>(filterExpression).Count();
