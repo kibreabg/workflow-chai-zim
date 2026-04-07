@@ -571,7 +571,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             grvAttachments.DataSource = _presenter.CurrentExpenseLiquidationRequest.ELRAttachments;
             grvAttachments.DataBind();
             BindExpenseLiquidationRequestStatus();
-            pnlApproval_ModalPopupExtender.Show();
+            ScriptManager.RegisterStartupScript(this, GetType(), "showApprovalModal", "showApprovalModal();", true);
         }
 
         protected void grvExpenseLiquidationRequestList_RowDataBound(
@@ -718,7 +718,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 lblRejectedReason.Visible = false;
                 txtRejectedReason.Visible = false;
             }
-            pnlApproval_ModalPopupExtender.Show();
+            ScriptManager.RegisterStartupScript(this, GetType(), "showApprovalModal", "showApprovalModal();", true);
         }
 
         protected void ddlEdtAccountDescription_SelectedIndexChanged(object sender, EventArgs e)
@@ -769,7 +769,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                     }
                     btnApprove.Enabled = false;
                     BindSearchExpenseLiquidationRequestGrid();
-                    pnlApproval_ModalPopupExtender.Show();
+                    ScriptManager.RegisterStartupScript(this, GetType(), "showApprovalModal", "showApprovalModal();", true);
                     PrintTransaction();
                 }
             }
@@ -780,14 +780,8 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             }
         }
 
-        protected void btnCancelPopup_Click(object sender, EventArgs e)
-        {
-            pnlApproval_ModalPopupExtender.Hide();
-        }
-
         private void PrintTransaction()
         {
-            //pnlApproval_ModalPopupExtender.Hide();
             TravelAdvanceRequest taRequest = _presenter.GetTravelAdvanceRequest(
                 _presenter.CurrentExpenseLiquidationRequest.Id
             );
@@ -1132,7 +1126,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 ExceptionUtility.LogException(ex, ex.Source);
                 ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser().FullName);
             }
-            pnlApproval_ModalPopupExtender.Show();
+            ScriptManager.RegisterStartupScript(this, GetType(), "showApprovalModal", "showApprovalModal();", true);
         }
     }
 }
