@@ -337,24 +337,36 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
 
         private void SendEmailRejected(ExpenseLiquidationRequestStatus ELRS)
         {
+            ExpenseLiquidationRequest request = _presenter.CurrentExpenseLiquidationRequest;     
+            TravelAdvanceRequest travelAdvanceRequest = request.TravelAdvanceRequest;
+            AppUser requesterIdentity = travelAdvanceRequest.AppUser;
+            if (requesterIdentity == null)
+            {
+                Log.Error(
+                    "Unable to send expense liquidation rejection email because the requester identity is null."
+                );
+                return;
+            }
+
+            AppUser requester = _presenter.GetUser(requesterIdentity.Id);
+            AppUser currentUser = _presenter.CurrentUser();
+            string rejectedBy = currentUser != null ? currentUser.FullName : "Unknown user";
+            string travelAdvanceNo = (
+                travelAdvanceRequest.TravelAdvanceNo ?? string.Empty
+            ).ToUpper();
+            string rejectedReason = string.IsNullOrWhiteSpace(ELRS.RejectedReason)
+                ? "NO REJECTION REASON WAS PROVIDED"
+                : ELRS.RejectedReason.ToUpper();
+
             EmailSender.Send(
-                _presenter
-                    .GetUser(
-                        _presenter.CurrentExpenseLiquidationRequest.TravelAdvanceRequest.AppUser.Id
-                    )
-                    .Email,
+                requester.Email,
                 "Expense Liquidation Request Rejection",
                 "Your Liquidation Request for Travel Advance No. '"
-                    + (
-                        _presenter
-                            .CurrentExpenseLiquidationRequest
-                            .TravelAdvanceRequest
-                            .TravelAdvanceNo
-                    ).ToUpper()
+                    + travelAdvanceNo
                     + "' was Rejected by "
-                    + _presenter.CurrentUser().FullName
+                    + rejectedBy
                     + " for this reason '"
-                    + (ELRS.RejectedReason).ToUpper()
+                    + rejectedReason
                     + "'"
             );
 
@@ -362,39 +374,29 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             {
                 for (int i = 0; i + 1 < ELRS.WorkflowLevel; i++)
                 {
+                    ExpenseLiquidationRequestStatus previousStatus =
+                        request.ExpenseLiquidationRequestStatuses[i];
+                    AppUser previousApprover = _presenter.GetUser(previousStatus.Approver);
+
+                    if (previousApprover == null)
+                    {
+                        Log.Error(
+                            "Unable to send expense liquidation rejection email to a previous approver because the user record was not found. Approver Id: "
+                                + previousStatus.Approver
+                        );
+                        continue;
+                    }
                     EmailSender.Send(
-                        _presenter
-                            .GetUser(
-                                _presenter
-                                    .CurrentExpenseLiquidationRequest
-                                    .ExpenseLiquidationRequestStatuses[i]
-                                    .Approver
-                            )
-                            .Email,
+                        previousApprover.Email,
                         "Expense Liquidation Request Rejection",
                         "Expense Liquidation Request made by "
-                            + (
-                                _presenter
-                                    .GetUser(
-                                        _presenter
-                                            .CurrentExpenseLiquidationRequest
-                                            .TravelAdvanceRequest
-                                            .AppUser
-                                            .Id
-                                    )
-                                    .FullName
-                            ).ToUpper()
+                            + (requester.FullName ?? string.Empty).ToUpper()
                             + " for Travel Advance No. '"
-                            + (
-                                _presenter
-                                    .CurrentExpenseLiquidationRequest
-                                    .TravelAdvanceRequest
-                                    .TravelAdvanceNo
-                            ).ToUpper()
+                            + travelAdvanceNo
                             + "' was Rejected by "
-                            + _presenter.CurrentUser().FullName
+                            + rejectedBy
                             + " for this reason - '"
-                            + (ELRS.RejectedReason).ToUpper()
+                            + rejectedReason
                             + "'"
                     );
                 }
