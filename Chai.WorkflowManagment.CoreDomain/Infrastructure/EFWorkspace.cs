@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Transactions;
@@ -28,6 +29,18 @@ namespace Chai.WorkflowManagment.CoreDomain.Infrastructure
                 {
                     _context.SaveChanges();
                     scope.Complete();
+                }
+                catch (DbEntityValidationException dbEx)
+                {
+                    ClearFailedEntries();
+
+                    var validationErrors = string.Join("; ", dbEx.EntityValidationErrors
+                        .SelectMany(eve => eve.ValidationErrors.Select(ve => $"Entity: {eve.Entry.Entity.GetType().Name}, Property: {ve.PropertyName}, Error: {ve.ErrorMessage}")));
+                    var message = $"Entity validation failed: {validationErrors}";
+
+                    ExceptionUtility.LogException(dbEx, message);
+                    ExceptionUtility.NotifySystemOps(dbEx, message);
+                    throw;
                 }
                 catch (Exception ex)
                 {

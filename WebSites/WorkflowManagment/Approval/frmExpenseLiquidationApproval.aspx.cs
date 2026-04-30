@@ -339,15 +339,14 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             ExpenseLiquidationRequest request = _presenter.CurrentExpenseLiquidationRequest;     
             TravelAdvanceRequest travelAdvanceRequest = request.TravelAdvanceRequest;
-            AppUser requesterIdentity = travelAdvanceRequest.AppUser;
-            if (requesterIdentity == null)
-            {
-                Log.Error(
-                    "Unable to send expense liquidation rejection email because the requester identity is null."
-                );
-                return;
-            }
-
+			if (travelAdvanceRequest == null)
+			{
+				Log.Error(
+					"Unable to send expense liquidation rejection email because the travel advance request is null."
+				);
+				return;
+			}
+			AppUser requesterIdentity = travelAdvanceRequest.AppUser;    
             AppUser requester = _presenter.GetUser(requesterIdentity.Id);
             AppUser currentUser = _presenter.CurrentUser();
             string rejectedBy = currentUser != null ? currentUser.FullName : "Unknown user";

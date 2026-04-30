@@ -140,7 +140,6 @@ namespace Chai.WorkflowManagment.Modules.Setting.Views
                 }
             }
         }
-
         private void SaveSupplier(Chai.WorkflowManagment.CoreDomain.Setting.Supplier Supplier)
         {
             try
@@ -216,11 +215,47 @@ namespace Chai.WorkflowManagment.Modules.Setting.Views
             }
         }
 
-
         public string SupplierName
         {
             get { return txtSupplierName.Text; }
         }
 
+        protected void btnExport_Click(object sender, EventArgs e)
+        {
+            var suppliers = _presenter.ListSuppliers(txtSupplierName.Text).ToList();
+            var dt = new System.Data.DataTable();
+            dt.Columns.Add("Supplier Type");
+            dt.Columns.Add("Supplier Name");
+            dt.Columns.Add("Supplier Address");
+            dt.Columns.Add("Supplier Contact");
+            dt.Columns.Add("Contact Phone");
+            dt.Columns.Add("Email");
+            dt.Columns.Add("Status");
+
+            foreach (var s in suppliers)
+            {
+                var row = dt.NewRow();
+                row["Supplier Type"] = s.SupplierType != null ? s.SupplierType.SupplierTypeName : string.Empty;
+                row["Supplier Name"] = s.SupplierName ?? string.Empty;
+                row["Supplier Address"] = s.SupplierAddress ?? string.Empty;
+                row["Supplier Contact"] = s.SupplierContact ?? string.Empty;
+                row["Contact Phone"] = s.ContactPhone ?? string.Empty;
+                row["Email"] = s.Email ?? string.Empty;
+                row["Status"] = s.Status ?? string.Empty;
+                dt.Rows.Add(row);
+            }
+
+            using (var pck = new OfficeOpenXml.ExcelPackage())
+            {
+                var ws = pck.Workbook.Worksheets.Add("Suppliers");
+                ws.Cells["A1"].LoadFromDataTable(dt, true);
+
+                Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                Response.AddHeader("content-disposition", "attachment; filename=Suppliers.xlsx");
+                Response.BinaryWrite(pck.GetAsByteArray());
+                Response.Flush();
+                Response.End();
+            }
+        }
     }
 }
