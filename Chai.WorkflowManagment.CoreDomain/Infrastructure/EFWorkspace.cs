@@ -34,8 +34,14 @@ namespace Chai.WorkflowManagment.CoreDomain.Infrastructure
                 {
                     ClearFailedEntries();
 
-                    var validationErrors = string.Join("; ", dbEx.EntityValidationErrors
-                        .SelectMany(eve => eve.ValidationErrors.Select(ve => $"Entity: {eve.Entry.Entity.GetType().Name}, Property: {ve.PropertyName}, Error: {ve.ErrorMessage}")));
+                    var validationErrors = string.Join(
+                        "; ",
+                        dbEx.EntityValidationErrors.SelectMany(eve =>
+                            eve.ValidationErrors.Select(ve =>
+                                $"Entity: {eve.Entry.Entity.GetType().Name}, Property: {ve.PropertyName}, Error: {ve.ErrorMessage}"
+                            )
+                        )
+                    );
                     var message = $"Entity validation failed: {validationErrors}";
 
                     ExceptionUtility.LogException(dbEx, message);
@@ -55,29 +61,39 @@ namespace Chai.WorkflowManagment.CoreDomain.Infrastructure
 
         private void ClearFailedEntries()
         {
-            var failedEntries = _context
-                .ChangeTracker.Entries()
-                .Where(e =>
-                    e.State == EntityState.Added
-                    || e.State == EntityState.Modified
-                    || e.State == EntityState.Deleted
-                )
-                .ToList();
+            if (_context == null || _context.ChangeTracker == null)
+                return;
 
-            foreach (var entry in failedEntries)
+            try
             {
-                switch (entry.State)
+                var failedEntries = _context
+                    .ChangeTracker.Entries()
+                    .Where(e =>
+                        e.State == EntityState.Added
+                        || e.State == EntityState.Modified
+                        || e.State == EntityState.Deleted
+                    )
+                    .ToList();
+
+                foreach (var entry in failedEntries)
                 {
-                    case EntityState.Added:
-                        entry.State = EntityState.Detached;
-                        break;
-                    case EntityState.Modified:
-                        entry.Reload();
-                        break;
-                    case EntityState.Deleted:
-                        entry.State = EntityState.Unchanged;
-                        break;
+                    switch (entry.State)
+                    {
+                        case EntityState.Added:
+                            entry.State = EntityState.Detached;
+                            break;
+                        case EntityState.Modified:
+                            entry.Reload();
+                            break;
+                        case EntityState.Deleted:
+                            entry.State = EntityState.Unchanged;
+                            break;
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                ExceptionUtility.LogException(ex, "Failed while clearing failed EF entries.");
             }
         }
 
