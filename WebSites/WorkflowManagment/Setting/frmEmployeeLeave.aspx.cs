@@ -144,6 +144,13 @@ namespace Chai.WorkflowManagment.Modules.Setting.Views
        {
            try
            {
+           int selectedUserId = Convert.ToInt32(TrvEmployeeList.SelectedNode.Value);
+           EmployeeLeave existingActive = _presenter.GetActiveEmployeeLeave(selectedUserId, true);
+           if (existingActive != null)
+           {
+               Master.ShowMessage(new AppMessage("Error: This employee already has an active contract. Please renew or terminate the existing contract before adding a new one.", Chai.WorkflowManagment.Enums.RMessageType.Error));
+               return;
+           }
            EmployeeLeave EL = new EmployeeLeave();
            EL.StartDate = Convert.ToDateTime(txtStartDate.Text);
            EL.EndDate = Convert.ToDateTime(txtEndDate.Text);
@@ -151,7 +158,7 @@ namespace Chai.WorkflowManagment.Modules.Setting.Views
            EL.BeginingBalance = txtBeginingBalance.Text != "" ? Convert.ToDecimal(txtBeginingBalance.Text) : 0;
            EL.LeaveTaken = txtLeaveTaken.Text != "" ? Convert.ToDecimal(txtLeaveTaken.Text) : 0;
            EL.Status = true;
-           EL.AppUser = _presenter.GetUser(Convert.ToInt32(TrvEmployeeList.SelectedNode.Value));
+           EL.AppUser = _presenter.GetUser(selectedUserId);
            _presenter.SaveOrUpdateEmployeeleave(EL);
            ShowButtons();
            Master.ShowMessage(new AppMessage("Employee Contract Created. ", Chai.WorkflowManagment.Enums.RMessageType.Info));
