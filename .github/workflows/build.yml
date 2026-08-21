@@ -1,0 +1,71 @@
+# CI Build for WorkflowManagment (ASP.NET Web Forms, .NET Framework 4.8)
+#
+# Builds the solution's class libraries and publishes the website
+# (precompiled, updateable markup) from website.publishproj.
+#
+# All third-party dependencies are vendored in the repository
+# (Library/, packages/, WebSites/WorkflowManagment/Bin), so no NuGet
+# restore step is required - the build is fully self-contained.
+#
+# The deployable artifact ("WorkflowManagment-publish-<sha>") is a zip of
+# the publish output, ready to be synced to IIS in a future CD pipeline.
+
+name: CI Build
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build & Publish (Release)
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Build libraries & publish website (precompiled)
+        shell: cmd
+        run: >
+          msbuild WebSites\WorkflowManagment\website.publishproj
+          /t:WebPublish
+          /p:Configuration=Release
+          /p:WebPublishMethod=FileSystem
+          /p:publishUrl=${{ github.workspace }}\publish
+          /p:DeleteExistingFiles=True
+          /p:PrecompileBeforePublish=true
+          /p:EnableUpdateable=true
+          /m /v:m /nologo
+
+      - name: Verify publish output
+        shell: pwsh
+        run: |
+          $bin = Join-Path $env:GITHUB_WORKSPACE 'publish\Bin'
+          if (!(Test-Path $bin)) { throw "Publish output Bin folder not found" }
+          $appCode = Join-Path $bin 'App_Code.dll'
+          if (!(Test-Path $appCode)) { throw "App_Code.dll missing - website precompilation did not run" }
+          $chai = (Get-ChildItem $bin -Filter 'Chai.*.dll').Count
+          if ($chai -lt 11) { throw "Expected 11 project assemblies in publish\Bin, found $chai" }
+          Write-Host "Publish output OK: $chai project assemblies, precompilation confirmed."
+
+      - name: Archive publish output
+        shell: pwsh
+        run: Compress-Archive -Path "$env:GITHUB_WORKSPACE\publish\*" -DestinationPath "$env:GITHUB_WORKSPACE\WorkflowManagment-publish.zip" -Force
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: WorkflowManagment-publish-${{ github.sha }}
+          path: WorkflowManagment-publish.zip
+          retention-days: 14
