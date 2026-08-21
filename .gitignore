@@ -41,3 +41,18 @@ $tf*/
 /.vs/config/applicationhost.config
 .vs/
 /PrecompiledWeb
+
+# --- Local-only leftovers (intentionally untracked) ---
+# Redundant NuGet cache folders: the assemblies CI needs from these are
+# already vendored in WebSites/WorkflowManagment/Bin (and packages/*/lib).
+/packages/ClosedXML.0.95.2/
+/packages/ExcelNumberFormat.1.0.10/
+/packages/LumenWorks.Framework.IO.3.8.0/
+/packages/Microsoft.ReportViewer.Runtime.Common.12.0.2402.15/
+/packages/Microsoft.SqlServer.Types.12.0.4100.1/
+/packages/Quartz.2.2.4/content/
+# Package metadata files (only lib/ assemblies are vendored)
+*.nupkg
+.signature.p7s
+# Runtime data file
+/WebSites/WorkflowManagment/Fuel.xlsx
