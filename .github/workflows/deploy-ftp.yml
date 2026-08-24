@@ -1,0 +1,91 @@
+# Deploy to IIS over FTPS
+#
+# Builds the website on a GitHub-hosted Windows runner (reusing the same
+# publish command as CI Build), then uploads the publish output to your
+# IIS server over FTPS (FTP over SSL) using scripts/deploy-ftps.ps1.
+#
+# The script handles the app_offline.htm dance so IIS releases file locks
+# before the upload, then brings the site back online.
+#
+# Required GitHub Secrets (Settings -> Secrets and variables -> Actions):
+#   FTP_HOST     - e.g. ftp.example.com (no scheme)
+#   FTP_USERNAME - FTPS user with write access to the site root
+#   FTP_PASSWORD - FTPS password
+#
+# Optional: set FTP_REMOTE_ROOT if the site root is not the FTP user's
+# home directory (e.g. "/WorkflowManagment").
+
+name: Deploy to IIS (FTPS)
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target environment'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+          - production
+          - staging
+  workflow_run:
+    workflows: ["CI Build"]
+    types: [completed]
+    branches: [master]
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Build & Deploy via FTPS
+    runs-on: windows-latest
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Build libraries & publish website (precompiled)
+        shell: cmd
+        run: >
+          msbuild WebSites\WorkflowManagment\website.publishproj
+          /t:WebPublish
+          /p:Configuration=Release
+          /p:WebPublishMethod=FileSystem
+          /p:publishUrl=${{ github.workspace }}\publish
+          /p:DeleteExistingFiles=True
+          /p:PrecompileBeforePublish=true
+          /p:EnableUpdateable=true
+          /m /v:m /nologo
+
+      - name: Verify publish output
+        shell: pwsh
+        run: |
+          $bin = Join-Path $env:GITHUB_WORKSPACE 'publish\Bin'
+          if (!(Test-Path $bin)) { throw "Publish output Bin folder not found" }
+          $appCode = Join-Path $bin 'App_Code.dll'
+          if (!(Test-Path $appCode)) { throw "App_Code.dll missing - website precompilation did not run" }
+          Write-Host "Publish output verified."
+
+      - name: Deploy to IIS over FTPS
+        shell: pwsh
+        env:
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          FTP_REMOTE_ROOT: ${{ secrets.FTP_REMOTE_ROOT }}
+        run: |
+          $remoteRoot = if ($env:FTP_REMOTE_ROOT) { $env:FTP_REMOTE_ROOT } else { "/" }
+          & "$env:GITHUB_WORKSPACE\scripts\deploy-ftps.ps1" `
+            -LocalPath "$env:GITHUB_WORKSPACE\publish" `
+            -FtpHost $env:FTP_HOST `
+            -FtpUser $env:FTP_USERNAME `
+            -FtpPass $env:FTP_PASSWORD `
+            -RemoteRoot $remoteRoot `
+            -ExcludeFolders @("SVUploads","BAUploads","CSUploads") `
+            -ExcludeFiles @("web.config")
