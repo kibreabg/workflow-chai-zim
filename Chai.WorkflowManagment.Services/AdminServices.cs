@@ -1,9 +1,11 @@
 ﻿using Chai.WorkflowManagment.CoreDomain.Admins;
 using Chai.WorkflowManagment.CoreDomain.DataAccess;
 using Chai.WorkflowManagment.CoreDomain.Users;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity.Core.Objects;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace Chai.WorkflowManagment.Services
 {
@@ -23,8 +25,27 @@ namespace Chai.WorkflowManagment.Services
                 
         public IEnumerable<AppUser> SearchUsers(string username)
         {
-            
             return Dao.Query<AppUser>(x => x.UserName.StartsWith(username));
+        }
+
+        public IEnumerable<AppUser> SearchUsers(string username, string firstname, string lastname)
+        {
+            Expression<Func<AppUser, bool>> predicate = null;
+
+            if (!string.IsNullOrEmpty(username))
+                predicate = x => x.UserName.StartsWith(username);
+
+            if (!string.IsNullOrEmpty(firstname))
+                predicate = (predicate == null)
+                    ? x => x.FirstName.StartsWith(firstname)
+                    : predicate.And(x => x.FirstName.StartsWith(firstname));
+
+            if (!string.IsNullOrEmpty(lastname))
+                predicate = (predicate == null)
+                    ? x => x.LastName.StartsWith(lastname)
+                    : predicate.And(x => x.LastName.StartsWith(lastname));
+
+            return Dao.Query<AppUser>(predicate);
         }
 
         private IEnumerable<Node> _nodes;

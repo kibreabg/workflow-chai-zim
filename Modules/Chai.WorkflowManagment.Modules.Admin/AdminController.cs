@@ -46,9 +46,9 @@ namespace Chai.WorkflowManagment.Modules.Admin
 		{
 			return _workspace.Single<AppUser>(x => x.Id == userid, x => x.AppUserRoles.Select(y => y.Role));
 		}
-		public IList<AppUser> SearchUsers(string username)
+		public IList<AppUser> SearchUsers(string username, string firstname, string lastname)
 		{
-			return WorkflowManagmentServices.AdminServices.SearchUsers(username).ToList();
+			return WorkflowManagmentServices.AdminServices.SearchUsers(username, firstname, lastname).ToList();
 		}
 		public void SaveOrUpdateUser(AppUser user)
 		{

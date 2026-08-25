@@ -41,7 +41,7 @@ namespace Chai.WorkflowManagment.Modules.Admin.Views
 
 		public void BindUsers()
 		{
-			this.grvUser.DataSource = _presenter.SearchUser(txtUsername.Text.Trim());
+			this.grvUser.DataSource = _presenter.SearchUser(txtUsername.Text.Trim(), txtFirstname.Text.Trim(), txtLastname.Text.Trim());
 			this.grvUser.DataBind();
 		}
 
@@ -67,7 +67,7 @@ namespace Chai.WorkflowManagment.Modules.Admin.Views
 			dt.Columns.Add("LastIp");
 			dt.Columns.Add("Status");
 
-			var users = _presenter.SearchUser(txtUsername.Text.Trim()).ToList();
+			var users = _presenter.SearchUser(txtUsername.Text.Trim(), txtFirstname.Text.Trim(), txtLastname.Text.Trim()).ToList();
 			foreach (var u in users)
 			{
 				string supervisorName = string.Empty;
@@ -150,4 +150,3 @@ namespace Chai.WorkflowManagment.Modules.Admin.Views
 
 	}
 }
-

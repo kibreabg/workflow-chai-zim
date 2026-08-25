@@ -15,10 +15,20 @@
 				<div class="smart-form">
 					<fieldset>
 						<div class="row">
-							<section class="col col-6">
+							<section class="col col-4">
 								<label class="label">Username</label>
 								<label class="input">
 									<asp:TextBox ID="txtUsername" runat="server"></asp:TextBox></label>
+							</section>
+							<section class="col col-4">
+								<label class="label">First name</label>
+								<label class="input">
+									<asp:TextBox ID="txtFirstname" runat="server"></asp:TextBox></label>
+							</section>
+							<section class="col col-4">
+								<label class="label">Last name</label>
+								<label class="input">
+									<asp:TextBox ID="txtLastname" runat="server"></asp:TextBox></label>
 							</section>
 						</div>
 					</fieldset>

@@ -36,13 +36,9 @@ namespace Chai.WorkflowManagment.Modules.Admin.Views
             _controller.Navigate(url);
         }
 
-        public IList<AppUser> SearchUser(string username)
+        public IList<AppUser> SearchUser(string username, string firstname, string lastname)
         {
-            return _controller.SearchUsers(username);
+            return _controller.SearchUsers(username, firstname, lastname);
         }
     }
 }
-
-
-
-
