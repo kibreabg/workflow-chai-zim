@@ -7,6 +7,7 @@ using log4net;
 using log4net.Config;
 using Microsoft.Practices.ObjectBuilder;
 using System;
+using System.Web.UI;
 using System.Web.UI.WebControls;
 
 namespace Chai.WorkflowManagment.Modules.Approval.Views
@@ -279,7 +280,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
 
                     btnApprove.Enabled = false;
                     BindSearchLeaveRequestGrid();
-                    pnlApproval_ModalPopupExtender.Show();
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "showApprovalModal", "showApprovalModal();", true);
                 }
                 BindLeaveRequestforprint();
             }
@@ -312,7 +313,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             _presenter.OnViewLoaded();
             PopApprovalStatus();
-            pnlApproval_ModalPopupExtender.Show();
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "showApprovalModal", "showApprovalModal();", true);
             txtRejectedReason.Visible = false;
             rfvRejectedReason.Enabled = false;
             btnApprove.Enabled = true;
@@ -410,11 +411,6 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             Response.Redirect("../Default.aspx");
         }
-        protected void btnCancelPopup_Click(object sender, EventArgs e)
-        {
-            pnlApproval.Visible = false;
-            pnlApproval_ModalPopupExtender.Hide();
-        }
         protected void ddlApprovalStatus_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (ddlApprovalStatus.SelectedValue == "Rejected")
@@ -423,7 +419,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 txtRejectedReason.Visible = true;
                 rfvRejectedReason.Enabled = true;
             }
-            pnlApproval_ModalPopupExtender.Show();
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "showApprovalModal", "showApprovalModal();", true);
         }
         private void BindLeaveRequestforprint()
         {

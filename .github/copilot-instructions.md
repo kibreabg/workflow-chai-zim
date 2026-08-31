@@ -51,6 +51,13 @@
   2. Build `WorkflowManagment.sln` in Visual Studio 2022 (solution format indicates VS 17).
 - Web project is a website mapped to `http://localhost:61090` in solution metadata.
 - There are no dedicated test projects currently in solution; validate via focused manual checks for changed pages/features.
+- This project is a legacy ASP.NET Web Site on .NET Framework 4.8. Do not use `dotnet build` as the primary validation path; it is not the correct toolchain for this solution.
+- Use Visual Studio's MSBuild from the terminal when building from VS Code:
+  - Find VS MSBuild: `& "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -requires Microsoft.Component.MSBuild -products * -property installationPath`
+  - Then invoke: `& "C:\Program Files\Microsoft Visual Studio\<version>\Community\MSBuild\Current\Bin\MSBuild.exe" "WorkflowManagment.sln" /t:Build /p:Configuration=Debug`
+- In this repo, the web site build is a compile step for the website project and can fail on ASPX/markup issues even when the class libraries build successfully. Treat the website project as the final gate for validation.
+- If a build fails in the web app, check the ASPX markup first for duplicate control IDs, nested content issues, or invalid server controls before changing business logic.
+- For local debugging/run, use the solution in Visual Studio 2022 or IIS Express, not a generic .NET CLI run profile.
 
 ## Security And Secrets Handling (Critical)
 - Repository currently contains sensitive values (database and SMTP credentials) in config/code.
