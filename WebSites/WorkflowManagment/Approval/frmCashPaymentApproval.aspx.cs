@@ -476,6 +476,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         protected void btnFind_Click(object sender, EventArgs e)
         {
             BindSearchCashPaymentRequestGrid();
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "hideLoading", "hideLoading();", true);
         }
         protected void btnApprove_Click(object sender, EventArgs e)
         {

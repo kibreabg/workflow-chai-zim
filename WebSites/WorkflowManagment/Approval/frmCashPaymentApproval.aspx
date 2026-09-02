@@ -5,6 +5,40 @@
 <%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit" %>
 <asp:Content ID="Content2" ContentPlaceHolderID="DefaultContent" runat="Server">
     <script src="../js/libs/jquery-2.0.2.min.js"></script>
+    <style>
+        .loading-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.7);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .loading-overlay .jarviswidget-loader {
+            font-size: 2em;
+            color: #333;
+            display: block;
+        }
+
+        .jarviswidget {
+            position: relative;
+        }
+
+        .loading-container.loading .loading-overlay {
+            display: flex;
+        }
+    </style>
     <script type="text/javascript">
         function Clickheretoprint(theid) {
             var disp_setting = "toolbar=yes,location=no,directories=yes,menubar=yes,";
@@ -26,99 +60,115 @@
                 $('#approvalModal').modal('show');
             });
         }
+
+        function showLoading() {
+            var $container = $('.loading-container');
+            $container.addClass('loading');
+        }
+
+        function hideLoading() {
+            var $container = $('.loading-container');
+            $container.removeClass('loading');
+        }
     </script>
     <div class="jarviswidget" data-widget-editbutton="false" data-widget-custombutton="false">
         <header>
             <span class="widget-icon"><i class="fa fa-edit"></i></span>
             <h2>Search Payment Requests</h2>
         </header>
-        <div>
-            <div class="jarviswidget-editbox"></div>
-            <div class="widget-body no-padding">
-                <div class="smart-form">
-                    <fieldset>
-                        <div class="row">
-                            <section class="col col-3">
-                                <asp:Label ID="lblSrchRequestNo" runat="server" Text="Request No" CssClass="label"></asp:Label>
-                                <label class="input">
-                                    <asp:TextBox ID="txtSrchRequestNo" runat="server" Visible="true"></asp:TextBox>
-                                </label>
-                            </section>
-                            <section class="col col-3">
-                                <asp:Label ID="lblSrchRequestDate" runat="server" Text="Request Date" CssClass="label"></asp:Label>
-                                <label class="input">
-                                    <i class="icon-append fa fa-calendar"></i>
-                                    <asp:TextBox ID="txtSrchRequestDate" CssClass="form-control datepicker" data-dateformat="mm/dd/yy" runat="server" Visible="true"></asp:TextBox>
-                                </label>
-                            </section>
-                            <section class="col col-3">
-                                <asp:Label ID="lblSrchSupplier" runat="server" Text="Supplier" CssClass="label"></asp:Label>
-                                <label class="select">
-                                    <asp:DropDownList ID="ddlSrchSupplier" AppendDataBoundItems="true" DataValueField="Id" DataTextField="SupplierName" runat="server">
-                                        <asp:ListItem Value=" ">Select Supplier</asp:ListItem>
-                                    </asp:DropDownList><i></i>
-                                </label>
-                            </section>
-                            <section class="col col-3">
-                                <asp:Label ID="lblSrchProgressStatus" runat="server" Text="Status" CssClass="label"></asp:Label>
-                                <label class="select">
-                                    <asp:DropDownList ID="ddlSrchProgressStatus" runat="server">                                        
-                                    </asp:DropDownList><i></i>
-                                </label>
-                            </section>
-                        </div>
-                    </fieldset>
-                    <footer>
-                        <asp:Button ID="btnPop" runat="server" />
-                        <asp:Button ID="btnPop2" runat="server" />
-                        <asp:Button ID="btnPop3" runat="server" />
-                        <asp:Button ID="btnFind" runat="server" Text="Find" CssClass="btn btn-primary" OnClick="btnFind_Click"></asp:Button>
-                        <asp:Button ID="btnClosepage" runat="server" Text="Close" data-dismiss="modal" CssClass="btn btn-primary" PostBackUrl="../Default.aspx"></asp:Button>
-                    </footer>
+        <div class="loading-container">
+            <div class="loading-overlay">
+                <span class="jarviswidget-loader"><i class="fa fa-spinner fa-spin"></i></span>
+            </div>
+            <div>
+                <div class="jarviswidget-editbox"></div>
+                <div class="widget-body no-padding">
+                    <div class="smart-form">
+                        <fieldset>
+                            <div class="row">
+                                <section class="col col-3">
+                                    <asp:Label ID="lblSrchRequestNo" runat="server" Text="Request No" CssClass="label"></asp:Label>
+                                    <label class="input">
+                                        <asp:TextBox ID="txtSrchRequestNo" runat="server" Visible="true"></asp:TextBox>
+                                    </label>
+                                </section>
+                                <section class="col col-3">
+                                    <asp:Label ID="lblSrchRequestDate" runat="server" Text="Request Date" CssClass="label"></asp:Label>
+                                    <label class="input">
+                                        <i class="icon-append fa fa-calendar"></i>
+                                        <asp:TextBox ID="txtSrchRequestDate" CssClass="form-control datepicker" data-dateformat="mm/dd/yy" runat="server" Visible="true"></asp:TextBox>
+                                    </label>
+                                </section>
+                                <section class="col col-3">
+                                    <asp:Label ID="lblSrchSupplier" runat="server" Text="Supplier" CssClass="label"></asp:Label>
+                                    <label class="select">
+                                        <asp:DropDownList ID="ddlSrchSupplier" AppendDataBoundItems="true" DataValueField="Id" DataTextField="SupplierName" runat="server">
+                                            <asp:ListItem Value=" ">Select Supplier</asp:ListItem>
+                                        </asp:DropDownList><i></i>
+                                    </label>
+                                </section>
+                                <section class="col col-3">
+                                    <asp:Label ID="lblSrchProgressStatus" runat="server" Text="Status" CssClass="label"></asp:Label>
+                                    <label class="select">
+                                        <asp:DropDownList ID="ddlSrchProgressStatus" runat="server">
+                                        </asp:DropDownList><i></i>
+                                    </label>
+                                </section>
+                            </div>
+                        </fieldset>
+                        <footer>
+                            <asp:Button ID="btnPop" runat="server" />
+                            <asp:Button ID="btnPop2" runat="server" />
+                            <asp:Button ID="btnPop3" runat="server" />
+                            <asp:Button ID="btnFind" runat="server" Text="Find" CssClass="btn btn-primary" OnClientClick="javascript:showLoading();" OnClick="btnFind_Click"></asp:Button>
+                            <asp:Button ID="btnClosepage" runat="server" Text="Close" data-dismiss="modal" CssClass="btn btn-primary" PostBackUrl="../Default.aspx"></asp:Button>
+                        </footer>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="table-responsive" style="overflow: auto;">
-            <asp:GridView ID="grvCashPaymentRequestList"
-                runat="server" AutoGenerateColumns="False" DataKeyNames="Id" OnRowCommand="grvCashPaymentRequestList_RowCommand"
-                OnRowDataBound="grvCashPaymentRequestList_RowDataBound" OnSelectedIndexChanged="grvCashPaymentRequestList_SelectedIndexChanged"
-                AllowPaging="True" OnPageIndexChanging="grvCashPaymentRequestList_PageIndexChanging"
-                CssClass="table table-striped table-bordered table-hover" PageSize="30" PagerStyle-CssClass="paginate_button active">
-                <RowStyle CssClass="rowstyle" />
-                <Columns>
+            <div class="table-responsive" style="overflow: auto;">
+                <asp:GridView ID="grvCashPaymentRequestList"
+                    runat="server" AutoGenerateColumns="False" DataKeyNames="Id" OnRowCommand="grvCashPaymentRequestList_RowCommand"
+                    OnRowDataBound="grvCashPaymentRequestList_RowDataBound" OnSelectedIndexChanged="grvCashPaymentRequestList_SelectedIndexChanged"
+                    AllowPaging="True" OnPageIndexChanging="grvCashPaymentRequestList_PageIndexChanging"
+                    CssClass="table table-striped table-bordered table-hover" PageSize="30" PagerStyle-CssClass="paginate_button active">
+                    <RowStyle CssClass="rowstyle" />
+                    <Columns>
 
-                    <asp:BoundField DataField="VoucherNo" HeaderText="Voucher No" SortExpression="VoucherNo" />
-                    <asp:BoundField DataField="AppUser.FullName" HeaderText="Requester" SortExpression="AppUser.FullName" />
-                    <asp:TemplateField HeaderText="Request Date">
-                        <ItemTemplate>
-                            <asp:Label ID="lblDate" runat="server" Text='<%# Eval("RequestDate", "{0:dd/MM/yyyy}")%>'></asp:Label>
-                        </ItemTemplate>
-                    </asp:TemplateField>
-                    <asp:BoundField DataField="Supplier.SupplierName" HeaderText="Supplier" SortExpression="Supplier.SupplierName" />
-                    <asp:BoundField DataField="Description" HeaderText="Description" SortExpression="Description" />
-                    <asp:BoundField DataField="TaxClearances" HeaderText="Tax Clearances" SortExpression="TaxClearances" />
-                    <asp:BoundField DataField="TotalAmount" HeaderText="Total Amount" SortExpression="TotalAmount" />
+                        <asp:BoundField DataField="VoucherNo" HeaderText="Voucher No" SortExpression="VoucherNo" />
+                        <asp:BoundField DataField="AppUser.FullName" HeaderText="Requester" SortExpression="AppUser.FullName" />
+                        <asp:TemplateField HeaderText="Request Date">
+                            <ItemTemplate>
+                                <asp:Label ID="lblDate" runat="server" Text='<%# Eval("RequestDate", "{0:dd/MM/yyyy}")%>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:BoundField DataField="Supplier.SupplierName" HeaderText="Supplier" SortExpression="Supplier.SupplierName" />
+                        <asp:BoundField DataField="Description" HeaderText="Description" SortExpression="Description" />
+                        <asp:BoundField DataField="TaxClearances" HeaderText="Tax Clearances" SortExpression="TaxClearances" />
+                        <asp:BoundField DataField="TotalAmount" HeaderText="Total Amount" SortExpression="TotalAmount" />
 
-                    <asp:ButtonField ButtonType="Button" CommandName="ViewItem" Text="View Item Detail" />
-                    <asp:CommandField ButtonType="Button" SelectText="Process Request" ShowSelectButton="True" />
-                    <%--<asp:ButtonField ButtonType="Button" CommandName="Retire" Text="Retire" />--%>
-                    <asp:TemplateField>
-                        <ItemTemplate>
-                            <asp:Button runat="server" ID="btnStatus" Enabled="false" Text="" BorderStyle="None" />
-                        </ItemTemplate>
-                    </asp:TemplateField>
-                </Columns>
-                <FooterStyle CssClass="FooterStyle" />
-                <HeaderStyle CssClass="headerstyle" />
-                <PagerStyle CssClass="PagerStyle" />
-                <RowStyle CssClass="rowstyle" />
-            </asp:GridView>
+                        <asp:ButtonField ButtonType="Button" CommandName="ViewItem" Text="View Item Detail" />
+                        <asp:CommandField ButtonType="Button" SelectText="Process Request" ShowSelectButton="True" />
+                        <%--<asp:ButtonField ButtonType="Button" CommandName="Retire" Text="Retire" />--%>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:Button runat="server" ID="btnStatus" Enabled="false" Text="" BorderStyle="None" />
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                    </Columns>
+                    <FooterStyle CssClass="FooterStyle" />
+                    <HeaderStyle CssClass="headerstyle" />
+                    <PagerStyle CssClass="PagerStyle" />
+                    <RowStyle CssClass="rowstyle" />
+                </asp:GridView>
+            </div>
+            <div>
+                <asp:Button runat="server" ID="btnInProgress" Text="" Enabled="false" BorderStyle="None" BackColor="#FFFF6C" /><b>In Progress</b><br />
+                <asp:Button runat="server" ID="btnComplete" Text="" Enabled="false" BorderStyle="None" BackColor="#FF7251" />
+                <b>Completed</b>
+            </div>
         </div>
-        <div>
-            <asp:Button runat="server" ID="btnInProgress" Text="" Enabled="false" BorderStyle="None" BackColor="#FFFF6C" /><b>In Progress</b><br />
-            <asp:Button runat="server" ID="btnComplete" Text="" Enabled="false" BorderStyle="None" BackColor="#FF7251" />
-            <b>Completed</b>
-        </div>
+
         <br />
     </div>
     <div class="modal fade" id="approvalModal" tabindex="-1" role="dialog">
@@ -271,8 +321,7 @@
                                                             </ItemTemplate>
                                                             <EditItemTemplate>
                                                                 <asp:TextBox ID="txtEdtActualExpendture" runat="server" CssClass="form-control" Text='<%# DataBinder.Eval(Container.DataItem, "ActualExpendture")%>'></asp:TextBox>
-                                                                <cc1:FilteredTextBoxExtender ID="txtEdtActualExpendture_FilteredTextBoxExtender" runat="server" Enabled="True" FilterType="Custom, Numbers" TargetControlID="txtEdtActualExpendture" ValidChars="&quot;.&quot;">
-                                                                </cc1:FilteredTextBoxExtender>
+                                                                <cc1:FilteredTextBoxExtender ID="txtEdtActualExpendture_FilteredTextBoxExtender" runat="server" Enabled="True" FilterType="Custom, Numbers" TargetControlID="txtEdtActualExpendture" ValidChars="&quot;.&quot;"></cc1:FilteredTextBoxExtender>
                                                                 <asp:RequiredFieldValidator ID="rfvEdtActualExpenditure" CssClass="validator" runat="server" ValidationGroup="edit" ErrorMessage="Actual Expenditure Required" InitialValue="" ControlToValidate="txtEdtActualExpendture"></asp:RequiredFieldValidator>
                                                             </EditItemTemplate>
                                                         </asp:TemplateColumn>
