@@ -166,11 +166,7 @@ namespace Chai.WorkflowManagment.Modules.Approval
             {
                 filterExpression =
                     " SELECT * FROM CashPaymentRequests "
-                    + " INNER JOIN AppUsers ON (AppUsers.Id = CashPaymentRequests.CurrentApprover) OR (AppUsers.EmployeePosition_Id = CashPaymentRequests.CurrentApproverPosition AND AppUsers.Id = '"
-                    + CurrentUser().Id
-                    + "') "
                     + " INNER JOIN CashPaymentRequestStatuses ON CashPaymentRequestStatuses.CashPaymentRequest_Id = CashPaymentRequests.Id "
-                    + " LEFT JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 "
                     + " LEFT JOIN Suppliers ON CashPaymentRequests.Supplier_Id = Suppliers.Id "
                     + " WHERE 1 = CASE WHEN '"
                     + RequestNo
@@ -194,8 +190,6 @@ namespace Chai.WorkflowManagment.Modules.Approval
                     + CurrentUser().Id
                     + "') OR (CashPaymentRequestStatuses.ApproverPosition = '"
                     + CurrentUser().EmployeePosition.Id
-                    + "') OR (AssignJobs.AssignedTo = '"
-                    + GetAssignedUserbycurrentuser()
                     + "')) "
                     + " ORDER BY CashPaymentRequests.Id DESC ";
             }
@@ -285,11 +279,7 @@ namespace Chai.WorkflowManagment.Modules.Approval
             {
                 filterExpression =
                     " SELECT * FROM CostSharingRequests "
-                    + " INNER JOIN AppUsers ON (AppUsers.Id = CostSharingRequests.CurrentApprover) OR (AppUsers.EmployeePosition_Id = CostSharingRequests.CurrentApproverPosition AND AppUsers.Id = '"
-                    + CurrentUser().Id
-                    + "') "
                     + " INNER JOIN CostSharingRequestStatuses ON CostSharingRequestStatuses.CostSharingRequest_Id = CostSharingRequests.Id "
-                    + " LEFT JOIN AssignJobs ON AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 "
                     + " WHERE 1 = Case when '"
                     + RequestNo
                     + "' = '' Then 1 When CostSharingRequests.VoucherNo = '"
@@ -312,8 +302,6 @@ namespace Chai.WorkflowManagment.Modules.Approval
                     + CurrentUser().Id
                     + "') OR (CostSharingRequestStatuses.ApproverPosition = '"
                     + CurrentUser().EmployeePosition.Id
-                    + "') OR (AssignJobs.AssignedTo = '"
-                    + GetAssignedUserbycurrentuser()
                     + "')) "
                     + " ORDER BY CostSharingRequests.Id DESC";
             }
@@ -434,8 +422,6 @@ namespace Chai.WorkflowManagment.Modules.Approval
             {
                 filterExpression =
                     " SELECT * FROM OperationalControlRequests "
-                    + " LEFT JOIN AppUsers ON AppUsers.Id = OperationalControlRequests.CurrentApprover "
-                    + " LEFT JOIN AssignJobs ON AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 "
                     + " WHERE 1 = Case when '"
                     + RequestNo
                     + "' = '' Then 1 When OperationalControlRequests.VoucherNo = '"
@@ -459,9 +445,6 @@ namespace Chai.WorkflowManagment.Modules.Approval
                     + "') "
                     + " OR (OperationalControlRequests.CurrentApproverPosition = '"
                     + CurrentUser().EmployeePosition.Id
-                    + "') "
-                    + " OR (AssignJobs.AssignedTo = '"
-                    + GetAssignedUserbycurrentuser()
                     + "')) "
                     + " ORDER BY OperationalControlRequests.Id DESC ";
             }
@@ -541,11 +524,7 @@ namespace Chai.WorkflowManagment.Modules.Approval
             {
                 filterExpression =
                     " SELECT * FROM TravelAdvanceRequests "
-                    + " INNER JOIN AppUsers ON (AppUsers.Id = TravelAdvanceRequests.CurrentApprover) OR (AppUsers.EmployeePosition_Id = TravelAdvanceRequests.CurrentApproverPosition AND AppUsers.Id = '"
-                    + CurrentUser().Id
-                    + "') "
                     + " INNER JOIN TravelAdvanceRequestStatuses ON TravelAdvanceRequestStatuses.TravelAdvanceRequest_Id = TravelAdvanceRequests.Id "
-                    + " LEFT JOIN AssignJobs ON AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 "
                     + " WHERE 1 = CASE WHEN '"
                     + RequestNo
                     + "' = '' THEN 1 WHEN TravelAdvanceRequests.TravelAdvanceNo = '"
@@ -568,8 +547,6 @@ namespace Chai.WorkflowManagment.Modules.Approval
                     + CurrentUser().Id
                     + "') OR (TravelAdvanceRequestStatuses.ApproverPosition = '"
                     + CurrentUser().EmployeePosition.Id
-                    + "') OR (AssignJobs.AssignedTo = '"
-                    + GetAssignedUserbycurrentuser()
                     + "')) "
                     + " ORDER BY TravelAdvanceRequests.Id Desc ";
             }
@@ -658,7 +635,7 @@ namespace Chai.WorkflowManagment.Modules.Approval
             else
             {
                 filterExpression =
-                    " SELECT  *  FROM LeaveRequests INNER JOIN AppUsers on AppUsers.Id=LeaveRequests.CurrentApprover INNER JOIN LeaveRequestStatuses on LeaveRequestStatuses.LeaveRequest_Id = LeaveRequests.Id Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where 1 = Case when '"
+                    " SELECT  *  FROM LeaveRequests INNER JOIN LeaveRequestStatuses on LeaveRequestStatuses.LeaveRequest_Id = LeaveRequests.Id Where 1 = Case when '"
                     + RequestNo
                     + "' = '' Then 1 When LeaveRequests.RequestNo = '"
                     + RequestNo
@@ -671,8 +648,6 @@ namespace Chai.WorkflowManagment.Modules.Approval
                     + "'  "
                     + " AND  ( LeaveRequestStatuses.ApprovalStatus Is not null AND (LeaveRequestStatuses.Approver = '"
                     + CurrentUser().Id
-                    + "') or (AssignJobs.AssignedTo = '"
-                    + GetAssignedUserbycurrentuser()
                     + "')) order by LeaveRequests.Id DESC ";
             }
 
@@ -774,7 +749,7 @@ namespace Chai.WorkflowManagment.Modules.Approval
             else
             {
                 filterExpression =
-                    " SELECT  *  FROM BidAnalysisRequests INNER JOIN AppUsers on AppUsers.Id=BidAnalysisRequests.CurrentApprover INNER JOIN BidAnalysisRequestStatuses on BidAnalysisRequestStatuses.BidAnalysisRequest_Id = BidAnalysisRequests.Id Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where 1 = Case when '"
+                    " SELECT  *  FROM BidAnalysisRequests INNER JOIN BidAnalysisRequestStatuses on BidAnalysisRequestStatuses.BidAnalysisRequest_Id = BidAnalysisRequests.Id Where 1 = Case when '"
                     + RequestNo
                     + "' = '' Then 1 When BidAnalysisRequests.RequestNo = '"
                     + RequestNo
@@ -787,8 +762,6 @@ namespace Chai.WorkflowManagment.Modules.Approval
                     + "' AND "
                     + "   (BidAnalysisRequestStatuses.ApprovalStatus Is not null AND (BidAnalysisRequestStatuses.Approver = '"
                     + CurrentUser().Id
-                    + "') or (AssignJobs.AssignedTo = '"
-                    + GetAssignedUserbycurrentuser()
                     + "')) order by BidAnalysisRequests.Id DESC ";
             }
             return _workspace.SqlQuery<BidAnalysisRequest>(filterExpression).ToList();
@@ -848,7 +821,7 @@ namespace Chai.WorkflowManagment.Modules.Approval
             else
             {
                 filterExpression =
-                    " SELECT  *  FROM PurchaseRequests INNER JOIN AppUsers on AppUsers.Id=PurchaseRequests.CurrentApprover INNER JOIN PurchaseRequestStatuses on PurchaseRequestStatuses.PurchaseRequest_Id = PurchaseRequests.Id Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where 1 = Case when '"
+                    " SELECT  *  FROM PurchaseRequests INNER JOIN PurchaseRequestStatuses on PurchaseRequestStatuses.PurchaseRequest_Id = PurchaseRequests.Id Where 1 = Case when '"
                     + RequestNo
                     + "' = '' Then 1 When PurchaseRequests.RequestNo = '"
                     + RequestNo
@@ -861,8 +834,6 @@ namespace Chai.WorkflowManagment.Modules.Approval
                     + "' AND "
                     + "   (PurchaseRequestStatuses.ApprovalStatus Is not null AND (PurchaseRequestStatuses.Approver = '"
                     + CurrentUser().Id
-                    + "') or (AssignJobs.AssignedTo = '"
-                    + GetAssignedUserbycurrentuser()
                     + "')) order by PurchaseRequests.Id DESC ";
             }
             return _workspace.SqlQuery<PurchaseRequest>(filterExpression).ToList();
@@ -905,7 +876,7 @@ namespace Chai.WorkflowManagment.Modules.Approval
             else
             {
                 filterExpression =
-                    " SELECT  *  FROM SoleVendorRequests INNER JOIN AppUsers on AppUsers.Id=SoleVendorRequests.CurrentApprover INNER JOIN SoleVendorRequestStatuses on SoleVendorRequestStatuses.SoleVendorRequest_Id = SoleVendorRequests.Id Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where 1 = Case when '"
+                    " SELECT  *  FROM SoleVendorRequests INNER JOIN SoleVendorRequestStatuses on SoleVendorRequestStatuses.SoleVendorRequest_Id = SoleVendorRequests.Id Where 1 = Case when '"
                     + RequestNo
                     + "' = '' Then 1 When SoleVendorRequests.RequestNo = '"
                     + RequestNo
@@ -918,8 +889,6 @@ namespace Chai.WorkflowManagment.Modules.Approval
                     + "'  "
                     + " AND  ( SoleVendorRequestStatuses.ApprovalStatus Is not null AND (SoleVendorRequestStatuses.Approver = '"
                     + CurrentUser().Id
-                    + "') or (AssignJobs.AssignedTo = '"
-                    + GetAssignedUserbycurrentuser()
                     + "')) order by SoleVendorRequests.Id DESC ";
             }
 
@@ -982,9 +951,7 @@ namespace Chai.WorkflowManagment.Modules.Approval
             {
                 filterExpression =
                     " SELECT  *  FROM InventoryRequests "
-                    + " INNER JOIN AppUsers on AppUsers.Id = InventoryRequests.CurrentApprover "
                     + " INNER JOIN InventoryRequestStatuses on InventoryRequestStatuses.InventoryRequest_Id = InventoryRequests.Id "
-                    + " LEFT JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 "
                     + " WHERE 1 = Case when '"
                     + RequestNo
                     + "' = '' Then 1 When InventoryRequests.RequestNo = '"
@@ -1001,8 +968,6 @@ namespace Chai.WorkflowManagment.Modules.Approval
                     + " (InventoryRequestStatuses.ApprovalStatus IS NOT NULL AND "
                     + " (InventoryRequestStatuses.Approver = '"
                     + CurrentUser().Id
-                    + "') OR (AssignJobs.AssignedTo = '"
-                    + GetAssignedUserbycurrentuser()
                     + "')) "
                     + " ORDER BY InventoryRequests.Id DESC ";
             }
@@ -1048,7 +1013,7 @@ namespace Chai.WorkflowManagment.Modules.Approval
             else
             {
                 filterExpression =
-                    " SELECT  *  FROM FuelCardRequests INNER JOIN AppUsers on AppUsers.Id=FuelCardRequests.CurrentApprover INNER JOIN FuelCardRequestStatuses on FuelCardRequestStatuses.FuelCardRequest_Id = FuelCardRequests.Id Left JOIN AssignJobs on AssignJobs.AppUser_Id = AppUsers.Id AND AssignJobs.Status = 1 Where 1 = Case when '"
+                    " SELECT  *  FROM FuelCardRequests INNER JOIN FuelCardRequestStatuses on FuelCardRequestStatuses.FuelCardRequest_Id = FuelCardRequests.Id Where 1 = Case when '"
                     + RequestNo
                     + "' = '' Then 1 When FuelCardRequests.RequestNo = '"
                     + RequestNo
@@ -1061,8 +1026,6 @@ namespace Chai.WorkflowManagment.Modules.Approval
                     + "'  "
                     + " AND  (FuelCardRequestStatuses.ApprovalStatus Is not null AND (FuelCardRequestStatuses.Approver = '"
                     + CurrentUser().Id
-                    + "') or (AssignJobs.AssignedTo = '"
-                    + GetAssignedUserbycurrentuser()
                     + "')) order by FuelCardRequests.Id DESC ";
             }
 

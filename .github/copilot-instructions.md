@@ -59,6 +59,30 @@
 - If a build fails in the web app, check the ASPX markup first for duplicate control IDs, nested content issues, or invalid server controls before changing business logic.
 - For local debugging/run, use the solution in Visual Studio 2022 or IIS Express, not a generic .NET CLI run profile.
 
+## Build Verification Process (Critical)
+When verifying builds from VS Code terminal, follow this exact pattern to avoid confusion:
+
+1. **Run build with exit code check** - always check `$LASTEXITCODE` after build:
+```powershell
+& "C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\MSBuild.exe" "c:\Users\user\Documents\Repos\workflowmanagment2.0\WorkflowManagment.sln" /t:Build /p:Configuration=Debug /v:minimal
+if ($LASTEXITCODE -eq 0) { Write-Host "BUILD SUCCEEDED" } else { Write-Host "BUILD FAILED with exit code $LASTEXITCODE" }
+```
+
+2. **Understanding build output**:
+   - MSBuild output is written to terminal directly (not a separate file by default)
+   - If output is large, it may be truncated - check the final lines for "BUILD SUCCEEDED" or "BUILD FAILED"
+   - Only `error CS` lines indicate actual problems; `warning CS` are pre-existing and not blockers
+
+3. **Common pitfalls to avoid**:
+   - Do NOT use `dotnet build` - wrong toolchain for this .NET Framework solution
+   - Do NOT assume build succeeded without checking exit code
+   - Pre-existing warnings (CS0169, CS0414, CS0472) are normal for this legacy codebase
+   - If build output is very large (>20KB), output is saved to temp file - look for "BUILD SUCCEEDED" at the end
+
+4. **Finding build artifacts**:
+   - DLLs are in project `bin\Debug\` folders
+   - The Approval module DLL: `Modules\Chai.WorkflowManagment.Modules.Approval\bin\Debug\Chai.WorkflowManagment.Modules.Approval.dll`
+
 ## Security And Secrets Handling (Critical)
 - Repository currently contains sensitive values (database and SMTP credentials) in config/code.
 - Never add new secrets to source files.
