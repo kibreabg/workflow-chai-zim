@@ -1,0 +1,59 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Debug: build and start IIS Express",
+            "dependsOn": [
+                "build",
+                "IIS Express: start"
+            ],
+            "dependsOrder": "sequence",
+            "problemMatcher": []
+        },
+        {
+            "label": "IIS Express: start",
+            "type": "process",
+            "command": "C:\\Program Files\\IIS Express\\iisexpress.exe",
+            "args": [
+                "/path:${workspaceFolder}\\WebSites\\WorkflowManagment",
+                "/port:61090",
+                "/clr:v4.0",
+                "/systray:false"
+            ],
+            "isBackground": true,
+            "problemMatcher": {
+                "owner": "iisexpress",
+                "pattern": {
+                    "regexp": "^$"
+                },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": ".*",
+                    "endsPattern": "Successfully registered URL"
+                }
+            }
+        },
+        {
+            "label": "build",
+            "type": "process",
+            "command": "powershell.exe",
+            "args": [
+                "-NoProfile",
+                "-Command",
+                "$installationPath = & \"${env:ProgramFiles(x86)}\\Microsoft Visual Studio\\Installer\\vswhere.exe\" -latest -requires Microsoft.Component.MSBuild -products * -property installationPath; & \"$installationPath\\MSBuild\\Current\\Bin\\MSBuild.exe\" \"${workspaceFolder}\\WorkflowManagment.sln\" /t:Build /p:Configuration=Debug /v:minimal; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "restore-packages",
+            "type": "process",
+            "command": "powershell.exe",
+            "args": [
+                "-NoProfile",
+                "-Command",
+                "$installationPath = & \"${env:ProgramFiles(x86)}\\Microsoft Visual Studio\\Installer\\vswhere.exe\" -latest -requires Microsoft.Component.MSBuild -products * -property installationPath; & \"$installationPath\\MSBuild\\Current\\Bin\\MSBuild.exe\" \"${workspaceFolder}\\WorkflowManagment.sln\" /t:Restore /p:Configuration=Debug /v:minimal; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }"
+            ],
+            "problemMatcher": "$msCompile"
+        }
+    ]
+}

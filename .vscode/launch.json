@@ -1,0 +1,21 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug ASP.NET Web Site",
+            "type": "clr",
+            "request": "attach",
+            "processId": "${command:pickProcess}",
+            "justMyCode": false,
+            "requireExactSource": false,
+            "preLaunchTask": "Debug: build and start IIS Express"
+        },
+        {
+            "name": "Open Running ASP.NET Web Site",
+            "type": "chrome",
+            "request": "launch",
+            "url": "http://localhost:61090/",
+            "webRoot": "${workspaceFolder}/WebSites/WorkflowManagment"
+        }
+    ]
+}
