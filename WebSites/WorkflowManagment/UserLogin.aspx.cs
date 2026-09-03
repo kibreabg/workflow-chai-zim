@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Practices.ObjectBuilder;
 using System.Net.Mail;
+using System.Web.UI;
 using Chai.WorkflowManagment.CoreDomain.Users;
 using Chai.WorkflowManagment.Shared;
 
@@ -58,18 +59,21 @@ namespace Chai.WorkflowManagment.Modules.Shell.Views
                     {
                         this.lblLoginError.Text = "User name or password incorrect";
                         this.lblLoginError.Visible = true;
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "hideLoading", "hideLoading();", true);
                     }
                 }
                 catch (Exception ex)
                 {
                     this.lblLoginError.Text = ex.Message + " The user may be not active user";
                     this.lblLoginError.Visible = true;
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "hideLoading", "hideLoading();", true);
                 }
             }
             else
             {
                 this.lblLoginError.Text = "Please enter both a username and password";
                 this.lblLoginError.Visible = true;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "hideLoading", "hideLoading();", true);
             }
 
         }
