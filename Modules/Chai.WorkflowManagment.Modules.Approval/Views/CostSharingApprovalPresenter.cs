@@ -30,7 +30,7 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         {
             if (View.GetCostSharingRequestId > 0)
             {
-                _controller.CurrentObject = _requestController.GetCashPaymentRequest(View.GetCostSharingRequestId);
+                _controller.CurrentObject = _requestController.GetCostSharingRequest(View.GetCostSharingRequestId);
             }
             CurrentCostSharingRequest = _controller.CurrentObject as CostSharingRequest;
         }
