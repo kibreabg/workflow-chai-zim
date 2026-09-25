@@ -102,11 +102,14 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
 
             for (int i = 0; i < s.Length; i++)
             {
-                if (GetWillStatus().Substring(0, 3) == s[i].Substring(0, 3))
+                string willStatus = GetWillStatus();
+                if (!string.IsNullOrEmpty(willStatus) && willStatus.Length >= 3 && s[i].Length >= 3)
                 {
-                    ddlApprovalStatus.Items.Add(new ListItem(s[i].Replace('_', ' '), s[i].Replace('_', ' ')));
+                    if (willStatus.Substring(0, 3) == s[i].Substring(0, 3))
+                    {
+                        ddlApprovalStatus.Items.Add(new ListItem(s[i].Replace('_', ' '), s[i].Replace('_', ' ')));
+                    }
                 }
-
             }
 
             ddlApprovalStatus.Items.Add(new ListItem(ApprovalStatus.Rejected.ToString().Replace('_', ' '), ApprovalStatus.Rejected.ToString().Replace('_', ' ')));

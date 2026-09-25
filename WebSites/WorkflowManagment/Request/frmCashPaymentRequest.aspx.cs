@@ -188,8 +188,11 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         private void BindGrant(ComboBox cbGrant, int projectId)
         {
-            // Clear any existing items before binding
+            // Reset the control before rebinding so any previously selected index cannot
+            // survive into a different data source and trigger a SelectedIndexOutOfRange.
             cbGrant.Items.Clear();
+            cbGrant.DataSource = null;
+            cbGrant.SelectedIndex = -1;
 
             // Get grants safely (presenter may return null or empty)
             var grants = _presenter.GetGrantbyprojectId(projectId) ?? new List<Grant>();
@@ -200,18 +203,11 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 cbGrant.DataValueField = "Id";
                 cbGrant.DataTextField = "GrantCode";
                 cbGrant.DataBind();
+            }
 
-                // Insert a default prompt at top and select it
-                cbGrant.Items.Insert(0, new ListItem("---Select Grant---", "0"));
-                if (cbGrant.Items.Count > 0)
-                    cbGrant.SelectedIndex = 0;
-            }
-            else
-            {
-                // No grants: just add the default prompt and select it
-                cbGrant.Items.Add(new ListItem("---Select Grant---", "0"));
+            cbGrant.Items.Insert(0, new ListItem("---Select Grant---", "0"));
+            if (cbGrant.Items.Count > 0)
                 cbGrant.SelectedIndex = 0;
-            }
         }
         private void BindAccountDescription(DropDownList ddlAccountDescription)
         {

@@ -1084,7 +1084,10 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
         }
         protected void dgBidders_SelectedIndexChanged1(object sender, EventArgs e)
         {
-
+            if (dgBidders.SelectedItem == null || dgBidders.SelectedItem.ItemIndex < 0)
+            {
+                return;
+            }
 
             int BidderId = (int)dgBidders.DataKeys[dgBidders.SelectedItem.ItemIndex];
             int Id = dgBidders.SelectedItem.ItemIndex;
@@ -1094,7 +1097,12 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 Session["bidd"] = _presenter.CurrentBidAnalysisRequest.GetBidder(BidderId);
 
             else
-                Session["bidd"] = _presenter.CurrentBidAnalysisRequest.Bidders[dgBidders.SelectedItem.ItemIndex];
+            {
+                if (dgBidders.SelectedItem.ItemIndex >= 0 && dgBidders.SelectedItem.ItemIndex < _presenter.CurrentBidAnalysisRequest.Bidders.Count)
+                    Session["bidd"] = _presenter.CurrentBidAnalysisRequest.Bidders[dgBidders.SelectedItem.ItemIndex];
+                else
+                    Session["bidd"] = null;
+            }
 
 
             int recordId = (int)dgBidders.SelectedIndex;
@@ -1108,8 +1116,12 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
             }
 
 
-            BindBidItem(bidd);
-            pnlBidItem_ModalPopupExtender.Show();
+            bidd = Session["bidd"] as Bidder;
+            if (bidd != null)
+            {
+                BindBidItem(bidd);
+                pnlBidItem_ModalPopupExtender.Show();
+            }
         }
         protected void btncancelCost_Click(object sender, EventArgs e)
         {

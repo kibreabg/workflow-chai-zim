@@ -725,10 +725,29 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
         protected void ddlEdtAccountDescription_SelectedIndexChanged(object sender, EventArgs e)
         {
             DropDownList ddl = (DropDownList)sender;
-            TextBox txtAccountCode = ddl.FindControl("txtEdtAccountCode") as TextBox;
-            txtAccountCode.Text = _presenter
-                .GetItemAccount(Convert.ToInt32(ddl.SelectedValue))
-                .AccountCode;
+            if (ddl == null)
+                return;
+
+            TextBox txtAccountCode = ddl.NamingContainer != null
+                ? ((Control)ddl.NamingContainer).FindControl("txtEdtAccountCode") as TextBox
+                : null;
+
+            if (txtAccountCode == null)
+                return;
+
+            int itemAccountId;
+            if (
+                string.IsNullOrWhiteSpace(ddl.SelectedValue)
+                || ddl.SelectedValue == "0"
+                || !int.TryParse(ddl.SelectedValue, out itemAccountId)
+            )
+            {
+                txtAccountCode.Text = string.Empty;
+                return;
+            }
+
+            ItemAccount itemAccount = _presenter.GetItemAccount(itemAccountId);
+            txtAccountCode.Text = itemAccount != null ? itemAccount.AccountCode : string.Empty;
         }
 
         protected void btnFind_Click(object sender, EventArgs e)
@@ -903,21 +922,13 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 if (ddlProject != null)
                 {
                     BindProject(ddlProject);
-                    if (
-                        _presenter
-                            .CurrentExpenseLiquidationRequest
-                            .ExpenseLiquidationRequestDetails[e.Item.DataSetIndex]
-                            .Project
-                            .Id != 0
-                    )
+                    ExpenseLiquidationRequestDetail detail =
+                        _presenter.CurrentExpenseLiquidationRequest.ExpenseLiquidationRequestDetails[
+                            e.Item.DataSetIndex
+                        ];
+                    if (detail != null && detail.Project != null && detail.Project.Id != 0)
                     {
-                        ListItem liI = ddlProject.Items.FindByValue(
-                            _presenter
-                                .CurrentExpenseLiquidationRequest.ExpenseLiquidationRequestDetails[
-                                    e.Item.DataSetIndex
-                                ]
-                                .Project.Id.ToString()
-                        );
+                        ListItem liI = ddlProject.Items.FindByValue(detail.Project.Id.ToString());
                         if (liI != null)
                             liI.Selected = true;
                     }
@@ -927,20 +938,14 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
                 if (ddlAccountDescription != null)
                 {
                     BindAccountDescription(ddlAccountDescription);
-                    if (
-                        _presenter
-                            .CurrentExpenseLiquidationRequest
-                            .ExpenseLiquidationRequestDetails[e.Item.DataSetIndex]
-                            .ItemAccount
-                            .Id != 0
-                    )
+                    ExpenseLiquidationRequestDetail detail =
+                        _presenter.CurrentExpenseLiquidationRequest.ExpenseLiquidationRequestDetails[
+                            e.Item.DataSetIndex
+                        ];
+                    if (detail != null && detail.ItemAccount != null && detail.ItemAccount.Id != 0)
                     {
                         ListItem liI = ddlAccountDescription.Items.FindByValue(
-                            _presenter
-                                .CurrentExpenseLiquidationRequest.ExpenseLiquidationRequestDetails[
-                                    e.Item.DataSetIndex
-                                ]
-                                .ItemAccount.Id.ToString()
+                            detail.ItemAccount.Id.ToString()
                         );
                         if (liI != null)
                             liI.Selected = true;
@@ -1040,13 +1045,55 @@ namespace Chai.WorkflowManagment.Modules.Approval.Views
             try
             {
                 cprd.ExpenseLiquidationRequest = _presenter.CurrentExpenseLiquidationRequest;
+
                 DropDownList ddlAccountDescription =
                     e.Item.FindControl("ddlEdtAccountDescription") as DropDownList;
-                cprd.ItemAccount = _presenter.GetItemAccount(
-                    Convert.ToInt32(ddlAccountDescription.SelectedValue)
-                );
+                if (ddlAccountDescription == null || string.IsNullOrWhiteSpace(ddlAccountDescription.SelectedValue) || ddlAccountDescription.SelectedValue == "0")
+                {
+                    Master.ShowMessage(
+                        new AppMessage(
+                            "Error: Please select a valid account description before updating the detail.",
+                            RMessageType.Error
+                        )
+                    );
+                    return;
+                }
+                int accountId;
+                if (!int.TryParse(ddlAccountDescription.SelectedValue, out accountId) || accountId <= 0)
+                {
+                    Master.ShowMessage(
+                        new AppMessage(
+                            "Error: Invalid account description selected.",
+                            RMessageType.Error
+                        )
+                    );
+                    return;
+                }
+                cprd.ItemAccount = _presenter.GetItemAccount(accountId);
+
                 DropDownList ddlProject = e.Item.FindControl("ddlEdtProject") as DropDownList;
-                cprd.Project = _presenter.GetProject(Convert.ToInt32(ddlProject.SelectedValue));
+                if (ddlProject == null || string.IsNullOrWhiteSpace(ddlProject.SelectedValue) || ddlProject.SelectedValue == "0")
+                {
+                    Master.ShowMessage(
+                        new AppMessage(
+                            "Error: Please select a valid project before updating the detail.",
+                            RMessageType.Error
+                        )
+                    );
+                    return;
+                }
+                int projectId;
+                if (!int.TryParse(ddlProject.SelectedValue, out projectId) || projectId <= 0)
+                {
+                    Master.ShowMessage(
+                        new AppMessage(
+                            "Error: Invalid project selected.",
+                            RMessageType.Error
+                        )
+                    );
+                    return;
+                }
+                cprd.Project = _presenter.GetProject(projectId);
 
                 dgLiquidationRequestDetail.EditItemIndex = -1;
                 dgLiquidationRequestDetail.DataSource = _presenter
