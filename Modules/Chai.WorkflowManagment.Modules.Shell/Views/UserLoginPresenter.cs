@@ -5,6 +5,8 @@ using Microsoft.Practices.ObjectBuilder;
 using Microsoft.Practices.CompositeWeb;
 using Chai.WorkflowManagment.CoreDomain;
 using Chai.WorkflowManagment.CoreDomain.Users;
+using Chai.WorkflowManagment.Services;
+using Chai.WorkflowManagment.Shared;
 
 namespace Chai.WorkflowManagment.Modules.Shell.Views
 {

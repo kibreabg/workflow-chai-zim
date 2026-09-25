@@ -13,6 +13,8 @@ using Chai.WorkflowManagment.Shared.Navigation;
 using Microsoft.Practices.CompositeWeb;
 using Microsoft.Practices.CompositeWeb.Interfaces;
 using Microsoft.Practices.ObjectBuilder;
+using Microsoft.Practices.CompositeWeb.Services;
+using Microsoft.Practices.CompositeWeb.Configuration;
 
 namespace Chai.WorkflowManagment.Modules.Request
 {

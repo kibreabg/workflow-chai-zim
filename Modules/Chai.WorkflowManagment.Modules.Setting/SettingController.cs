@@ -9,6 +9,8 @@ using Microsoft.Practices.CompositeWeb.Interfaces;
 using Microsoft.Practices.ObjectBuilder;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Practices.CompositeWeb.Services;
+using Microsoft.Practices.CompositeWeb.Configuration;
 
 namespace Chai.WorkflowManagment.Modules.Setting
 {

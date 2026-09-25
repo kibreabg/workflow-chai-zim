@@ -11,6 +11,8 @@ using Microsoft.Practices.ObjectBuilder;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Practices.CompositeWeb.Services;
+using Microsoft.Practices.CompositeWeb.Configuration;
 
 
 namespace Chai.WorkflowManagment.Modules.Admin

@@ -139,6 +139,9 @@
     <Compile Include="Views\MessagesPresenter.cs" />
     <Compile Include="Views\UserInfoPresenter.cs" />
     <Compile Include="Views\UserLoginPresenter.cs" />
+    <Compile Include="Impersonation\ImpersonationController.cs" />
+    <Compile Include="Impersonation\ImpersonationManager.cs" />
+    <Compile Include="Impersonation\ImpersonationModuleInitializer.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

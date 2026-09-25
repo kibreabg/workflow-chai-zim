@@ -6,9 +6,9 @@ using Microsoft.Practices.CompositeWeb.Interfaces;
 using Microsoft.Practices.CompositeWeb.Services;
 using Microsoft.Practices.CompositeWeb.Configuration;
 using Microsoft.Practices.CompositeWeb.EnterpriseLibrary.Services;
-using Chai.POC.Shared.Navigation;
+using Chai.WorkflowManagment.Shared.Navigation;
 
-namespace Chai.POC.Services
+namespace Chai.WorkflowManagment.Services
 {
     public class ServicesModuleInitializer : ModuleInitializer
     {

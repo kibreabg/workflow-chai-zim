@@ -10,6 +10,8 @@ using Microsoft.Practices.ObjectBuilder;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using Microsoft.Practices.CompositeWeb.Services;
+using Microsoft.Practices.CompositeWeb.Configuration;
 
 namespace Chai.WorkflowManagment.Modules.Report
 {

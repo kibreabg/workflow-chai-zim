@@ -3,6 +3,8 @@ using Chai.WorkflowManagment.CoreDomain.Users;
 using Chai.WorkflowManagment.CoreDomain.Util;
 using Chai.WorkflowManagment.Shared.Navigation;
 using Microsoft.Practices.CompositeWeb.Interfaces;
+using Microsoft.Practices.CompositeWeb.Services;
+using Microsoft.Practices.CompositeWeb.Configuration;
 
 namespace Chai.WorkflowManagment.Services
 {
