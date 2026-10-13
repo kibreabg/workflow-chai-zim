@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Microsoft.Practices.ObjectBuilder;
 using Microsoft.Practices.CompositeWeb;
+using Chai.WorkflowManagment.CoreDomain.DataAccess;
+using Chai.WorkflowManagment.CoreDomain.Request;
 using Chai.WorkflowManagment.CoreDomain.Setting;
 using Chai.WorkflowManagment.Shared;
 using Chai.WorkflowManagment.CoreDomain.Users;
@@ -52,7 +55,19 @@ namespace Chai.WorkflowManagment.Modules.Setting.Views
         {
             return _controller.GetActiveEmployeeLeave(UserId, Status);
         }
-      
+
+        public IList<LeaveRequest> GetAnnualLeaveRequestsByRequester(int requesterId)
+        {
+            return WorkspaceFactory
+                .CreateReadOnly()
+                .Query<LeaveRequest>(x =>
+                    x.Requester == requesterId
+                    && x.LeaveType != null
+                    && x.LeaveType.LeaveTypeName.Contains("Annual")
+                    && x.RequestedDate.Year == DateTime.Today.Year
+                    && x.CurrentStatus == "Issued")
+                .ToList();
+        }
 
         public void SaveOrUpdateEmployeeleave(EmployeeLeave EmployeeLeave)
         {
