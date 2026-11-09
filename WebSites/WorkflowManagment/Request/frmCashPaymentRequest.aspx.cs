@@ -530,12 +530,14 @@ namespace Chai.WorkflowManagment.Modules.Request.Views
                 {
                     item.Cells[5].Visible = false;
                 }
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "hideLoading", "hideLoading();", true);
             }
             catch (Exception ex)
             {
                 Master.ShowMessage(new AppMessage(ex.Message, RMessageType.Error));
                 ExceptionUtility.LogException(ex, ex.Source);
                 ExceptionUtility.NotifySystemOps(ex, _presenter.CurrentUser().FullName);
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "hideLoading", "hideLoading();", true);
             }
 
         }

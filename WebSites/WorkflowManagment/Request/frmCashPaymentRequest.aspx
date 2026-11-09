@@ -6,7 +6,49 @@
 
 <asp:Content ID="content" ContentPlaceHolderID="DefaultContent" runat="Server">
     <script src="../js/libs/jquery-2.0.2.min.js"></script>
+    <style>
+        .loading-container {
+            position: relative;
+        }
+
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.7);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .loading-overlay .jarviswidget-loader {
+                font-size: 2em;
+                color: #333;
+                display: block;
+            }
+        
+        .jarviswidget {
+            position: relative;
+        }
+
+        .loading-container.loading .loading-overlay {
+            display: flex;
+        }
+    </style>
     <script type="text/javascript">
+        function showLoading() {
+            var $container = $('.loading-container');
+            $container.addClass('loading');
+        }
+
+        function hideLoading() {
+            var $container = $('.loading-container');
+            $container.removeClass('loading');
+        }
+
         function validateCbProject(sender, args) {
             var hiddenField = document.getElementById('DefaultContent_dgCashPaymentDetail_CbProject_CbProject_HiddenField');
             args.IsValid = hiddenField && hiddenField.value !== "0" && hiddenField.value !== "";
@@ -38,7 +80,11 @@
             <div class="jarviswidget-editbox"></div>
             <div class="widget-body no-padding">
                 <div class="smart-form">
-                    <fieldset>
+                    <div class="loading-container">
+                        <div class="loading-overlay">
+                            <span class="jarviswidget-loader"><i class="fa fa-spinner fa-spin"></i></span>
+                        </div>
+                        <fieldset>
                         <div class="row">
                             <section class="col col-6">
                                 <div class="smart-form">
@@ -351,7 +397,7 @@
 
                     </div>
                     <footer>
-                        <asp:Button ID="btnSave" runat="server" Text="Request" OnClick="btnSave_Click" class="btn btn-primary" ValidationGroup="request"></asp:Button>
+                        <asp:Button ID="btnSave" runat="server" Text="Request" OnClick="btnSave_Click" class="btn btn-primary" ValidationGroup="request" OnClientClick="if (!Page_ClientValidate('request')) return false; showLoading();"></asp:Button>
                         <%--<asp:Button ID="btnSearch" runat="server" Text="Search" class="btn btn-primary" />--%>
                         <a data-toggle="modal" runat="server" id="searchLink" href="#searchModal" class="btn btn-primary"><i class="fa fa-circle-arrow-up fa-lg"></i>Search</a>
                         <asp:Button ID="btnDelete" runat="server" CausesValidation="False" class="btn btn-primary"
@@ -361,6 +407,7 @@
                         <asp:Button ID="btnCancel" runat="server" CssClass="btn btn-primary" OnClick="btnCancel_Click" Text="New" />
                         <asp:Button ID="btnClosepage" runat="server" Text="Close" data-dismiss="modal" CssClass="btn btn-primary" PostBackUrl="../Default.aspx"></asp:Button>
                     </footer>
+                    </div>
                 </div>
             </div>
         </div>
